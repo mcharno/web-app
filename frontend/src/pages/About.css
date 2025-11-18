@@ -1,0 +1,32 @@
+.about-page h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+}
+
+.about-page p {
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.about-page ul {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.about-page li {
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.about-page a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.about-page a:hover {
+  text-decoration: underline;
+}
