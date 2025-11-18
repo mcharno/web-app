@@ -46,7 +46,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "yarn install && yarn dev"
 
   # Backend with Mock Database (Development)
   backend-mock:
@@ -62,7 +62,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
-    command: sh -c "npm install && npm run dev"
+    command: sh -c "yarn install && yarn dev"
     profiles:
       - mock
 
@@ -81,7 +81,7 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    command: sh -c "yarn install && yarn dev -- --host 0.0.0.0"
 
   # Frontend with Mock API (Development)
   frontend-mock:
@@ -95,7 +95,7 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    command: sh -c "yarn install && yarn dev -- --host 0.0.0.0"
     profiles:
       - mock
 

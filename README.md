@@ -68,7 +68,7 @@ web-app/
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18+ and yarn
 - PostgreSQL 12+
 - Git
 
@@ -97,7 +97,7 @@ web-app/
    cd backend
    cp .env.example .env
    # Edit .env with your database credentials
-   npm install
+   yarn install
    ```
 
 4. **Configure the frontend**
@@ -105,7 +105,7 @@ web-app/
    cd ../frontend
    cp .env.example .env
    # Edit .env if needed (API URL)
-   npm install
+   yarn install
    ```
 
 ### Running the Application
@@ -115,14 +115,14 @@ web-app/
 1. **Start the backend server**
    ```bash
    cd backend
-   npm run dev
+   yarn dev
    ```
    Backend will run on http://localhost:5000
 
 2. **Start the frontend dev server** (in a new terminal)
    ```bash
    cd frontend
-   npm run dev
+   yarn dev
    ```
    Frontend will run on http://localhost:5173
 
@@ -131,13 +131,13 @@ web-app/
 1. **Build the frontend**
    ```bash
    cd frontend
-   npm run build
+   yarn build
    ```
 
 2. **Start the backend**
    ```bash
    cd backend
-   npm start
+   yarn start
    ```
 
 ## Features
