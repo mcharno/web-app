@@ -1,0 +1,189 @@
+.cricket-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.cricket-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 2rem 0;
+  border-bottom: 2px solid #2c5f2d;
+}
+
+.cricket-ball-left,
+.cricket-ball-right {
+  width: 64px;
+  height: 64px;
+}
+
+.cricket-title-container {
+  text-align: center;
+  flex: 1;
+}
+
+.cricket-main-title {
+  font-family: 'Bookman Old Style', 'Times New Roman', serif;
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin: 0 0 0.5rem 0;
+  text-decoration: underline;
+  text-decoration-color: #2c5f2d;
+}
+
+.cricket-subtitle {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1.5rem;
+  color: #2c5f2d;
+  margin: 0 0 0.5rem 0;
+  font-weight: bold;
+}
+
+.cricket-description {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.cricket-intro {
+  background-color: #f9f9f9;
+  border-left: 4px solid #2c5f2d;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.cricket-intro p {
+  margin: 0 0 1rem 0;
+}
+
+.cricket-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.cricket-content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .cricket-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cricket-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cricket-main-title {
+    font-size: 1.8rem;
+  }
+
+  .cricket-subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+.cricket-section {
+  background: white;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.cricket-section h3 {
+  color: #2c5f2d;
+  border-bottom: 2px solid #2c5f2d;
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.cricket-seasons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.season-links {
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.season-links h4 {
+  color: #1a1a1a;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.season-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.season-links li {
+  margin: 0.5rem 0;
+}
+
+.season-links a,
+.cricket-info-links a {
+  color: #0066cc;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.season-links a:hover,
+.cricket-info-links a:hover {
+  text-decoration: underline;
+  color: #004499;
+}
+
+.season-links a::before {
+  content: '🏏';
+  font-size: 0.9rem;
+}
+
+.cricket-info-links {
+  list-style: none;
+  padding: 0;
+}
+
+.cricket-info-links li {
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+  border-left: 3px solid #2c5f2d;
+}
+
+.cricket-info-links a::before {
+  content: '📋';
+  font-size: 1rem;
+}
+
+.cricket-footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 2px solid #2c5f2d;
+  margin-top: 2rem;
+}
+
+.disclaimer {
+  font-style: italic;
+  color: #666;
+  font-size: 0.9rem;
+}

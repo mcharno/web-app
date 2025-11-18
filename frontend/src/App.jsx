@@ -8,6 +8,7 @@ import Papers from './pages/Papers';
 import Photos from './pages/Photos';
 import Blog from './pages/Blog';
 import CV from './pages/CV';
+import Cricket from './pages/Cricket';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="papers" element={<Papers />} />
             <Route path="photos" element={<Photos />} />
             <Route path="blog" element={<Blog />} />
+            <Route path="cricket" element={<Cricket />} />
             <Route path="cv" element={<CV />} />
           </Route>
         </Routes>

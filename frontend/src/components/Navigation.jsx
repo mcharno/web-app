@@ -23,6 +23,7 @@ const Navigation = () => {
         <Link to="/papers">{t('menu.papers')}</Link>
         <Link to="/photos">{t('menu.photos')}</Link>
         <Link to="/blog">{t('menu.blog')}</Link>
+        <Link to="/cricket">Cricket</Link>
         <Link to="/cv">{t('menu.cv')}</Link>
       </div>
     </nav>
