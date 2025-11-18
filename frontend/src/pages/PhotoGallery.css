@@ -1,0 +1,37 @@
+.photo-gallery-page h2 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
+.placeholder-message {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.placeholder-content {
+  padding: 3rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow);
+  text-align: center;
+}
+
+.placeholder-content h3 {
+  color: var(--accent-primary);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.placeholder-content p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto;
+}

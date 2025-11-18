@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { projectsAPI } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
 import './Projects.css';
@@ -30,11 +31,9 @@ const Projects = () => {
       <h2>Projects</h2>
       <div className="projects-grid">
         {projects.map((project) => (
-          <a
+          <Link
             key={project.id}
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
+            to={`/projects/${project.id}`}
             className="project-card"
           >
             <h3>{project.title}</h3>
@@ -42,7 +41,7 @@ const Projects = () => {
             {project.content && (
               <div dangerouslySetInnerHTML={{ __html: project.content }} />
             )}
-          </a>
+          </Link>
         ))}
       </div>
     </div>

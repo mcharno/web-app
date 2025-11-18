@@ -11,7 +11,7 @@ const Navigation = () => {
         <Link to="/">{t('menu.about')}</Link>
         <Link to="/projects">{t('menu.projects')}</Link>
         <Link to="/papers">{t('menu.papers')}</Link>
-        <Link to="/presentations">{t('menu.presentations') || 'Presentations'}</Link>
+        <Link to="/presentations">Presentations</Link>
         <Link to="/photos">{t('menu.photos')}</Link>
         <Link to="/cricket">cricket</Link>
         <Link to="/cv">{t('menu.cv')}</Link>

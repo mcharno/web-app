@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { photosAPI } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -44,12 +45,16 @@ const Photos = () => {
           <h3>{category}</h3>
           <div className="galleries-grid">
             {items.map((gallery) => (
-              <div key={gallery.gallery_name} className="gallery-card">
+              <Link
+                key={gallery.gallery_name}
+                to={`/photos/${encodeURIComponent(gallery.gallery_name)}`}
+                className="gallery-card"
+              >
                 <h4>{gallery.gallery_name}</h4>
                 {gallery.gallery_description && (
                   <p>{gallery.gallery_description}</p>
                 )}
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -17,12 +17,6 @@
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px var(--shadow);
-  transition: all 0.3s ease;
-}
-
-.cv-section:hover {
-  box-shadow: 0 6px 16px var(--shadow);
-  border-color: var(--accent-primary);
 }
 
 .cv-section:last-child {
@@ -43,12 +37,6 @@
   padding: 1.5rem;
   background: var(--bg-tertiary);
   border-left: 3px solid var(--accent-primary);
-  transition: all 0.3s ease;
-}
-
-.cv-item:hover {
-  transform: translateX(4px);
-  border-left-width: 5px;
 }
 
 .cv-item:last-child {
@@ -93,11 +81,6 @@
 
 .cv-item li {
   margin-bottom: 0.75rem;
-  transition: color 0.3s ease;
-}
-
-.cv-item li:hover {
-  color: var(--text-primary);
 }
 
 @media (max-width: 768px) {
