@@ -1,0 +1,108 @@
+# Docker Compose for Local Development
+# Hot-reload enabled for rapid development
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: charno-postgres-dev
+    environment:
+      POSTGRES_DB: charno_web
+      POSTGRES_USER: charno_user
+      POSTGRES_PASSWORD: charno_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./backend/src/config/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./backend/src/config/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U charno_user -d charno_web"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend (Development mode with hot-reload)
+  backend:
+    image: node:20-alpine
+    container_name: charno-backend-dev
+    working_dir: /app
+    environment:
+      PORT: 5000
+      NODE_ENV: development
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: charno_web
+      DB_USER: charno_user
+      DB_PASSWORD: charno_password
+      USE_MOCK_DB: "false"
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+
+  # Backend with Mock Database (Development)
+  backend-mock:
+    image: node:20-alpine
+    container_name: charno-backend-mock-dev
+    working_dir: /app
+    environment:
+      PORT: 5000
+      NODE_ENV: development
+      USE_MOCK_DB: "true"
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+    profiles:
+      - mock
+
+  # Frontend (Development mode with hot-reload)
+  frontend:
+    image: node:20-alpine
+    container_name: charno-frontend-dev
+    working_dir: /app
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+      VITE_USE_MOCK_API: "false"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+
+  # Frontend with Mock API (Development)
+  frontend-mock:
+    image: node:20-alpine
+    container_name: charno-frontend-mock-dev
+    working_dir: /app
+    environment:
+      VITE_USE_MOCK_API: "true"
+    ports:
+      - "5174:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    profiles:
+      - mock
+
+volumes:
+  postgres_dev_data:
+    driver: local
+
+networks:
+  default:
+    name: charno-dev-network
