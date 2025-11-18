@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: charno-web
+  labels:
+    app: charno-web
+    environment: production

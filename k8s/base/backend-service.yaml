@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: charno-backend
+  namespace: charno-web
+  labels:
+    app: charno-backend
+    component: backend
+spec:
+  type: ClusterIP
+  selector:
+    app: charno-backend
+  ports:
+  - name: http
+    port: 5000
+    targetPort: 5000
+    protocol: TCP
+  sessionAffinity: None

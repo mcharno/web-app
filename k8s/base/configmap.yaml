@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: charno-config
+  namespace: charno-web
+  labels:
+    app: charno-web
+data:
+  # Database configuration
+  db_host: "postgres.charno-web.svc.cluster.local"
+  db_port: "5432"
+  db_name: "charno_web"
+
+  # API URL for frontend (update with your domain)
+  api_url: "http://charno-backend.charno-web.svc.cluster.local:5000"

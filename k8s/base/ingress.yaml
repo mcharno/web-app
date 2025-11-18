@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: charno-ingress
+  namespace: charno-web
+  labels:
+    app: charno-web
+  annotations:
+    # Uncomment if using cert-manager for TLS
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+    # Traefik specific annotations (k3s default ingress controller)
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+    # Nginx specific annotations (if using nginx-ingress)
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  # Uncomment for TLS
+  # tls:
+  # - hosts:
+  #   - charno.yourdomain.com
+  #   secretName: charno-tls
+
+  rules:
+  - host: charno.yourdomain.com  # REPLACE with your domain
+    http:
+      paths:
+      # Backend API routes
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-backend
+            port:
+              number: 5000
+      # Frontend routes (catch-all)
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-frontend
+            port:
+              number: 8080

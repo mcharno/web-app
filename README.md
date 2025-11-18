@@ -32,6 +32,7 @@ web-app/
 │   │   ├── routes/      # API route definitions
 │   │   ├── middleware/  # Custom middleware
 │   │   └── server.js    # Main server file
+│   ├── Dockerfile       # Backend container image
 │   ├── package.json
 │   └── .env.example
 │
@@ -44,8 +45,22 @@ web-app/
 │   │   ├── services/    # API service layer
 │   │   ├── i18n/        # Internationalization configs
 │   │   └── App.jsx      # Main App component
+│   ├── Dockerfile       # Frontend container image
+│   ├── nginx.conf       # Nginx configuration
 │   ├── package.json
 │   └── .env.example
+│
+├── k8s/                 # Kubernetes manifests
+│   └── base/            # Base manifests for k3s deployment
+│       ├── namespace.yaml
+│       ├── *-deployment.yaml
+│       ├── *-service.yaml
+│       ├── ingress.yaml
+│       └── configmap.yaml
+│
+└── .github/
+│   └── workflows/
+│       └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
 │
 └── README.md
 
@@ -185,6 +200,40 @@ The application uses PostgreSQL with the following main tables:
 - `cv_sections` - CV information
 
 See `backend/src/config/schema.sql` for the complete schema.
+
+## Deployment
+
+This application includes a CI/CD pipeline for k3s deployment using GitHub Actions and ArgoCD.
+
+### CI/CD Pipeline
+
+**GitHub Actions** (in this repo):
+- Builds Docker images on push to main
+- Runs tests and linters
+- Pushes images to GitHub Container Registry (GHCR)
+- Updates image tags in k8s manifests
+
+**ArgoCD** (configured in k8s-infra repo):
+- Monitors this repository for manifest changes
+- Automatically syncs to k3s cluster
+- Provides GitOps-based deployment
+
+**Workflow:**
+```
+Code Push → GitHub Actions → Build & Test → Push to GHCR → Update k8s Manifests
+                                                                      ↓
+                                                          ArgoCD Auto-Sync → k3s Cluster
+```
+
+### Container Images
+
+Images are built and pushed to GitHub Container Registry:
+- `ghcr.io/YOUR_USERNAME/charno-backend:latest`
+- `ghcr.io/YOUR_USERNAME/charno-frontend:latest`
+
+### Infrastructure Setup
+
+For ArgoCD installation, secrets configuration, and cluster setup, see the **k8s-infra** repository.
 
 ## Development
 
