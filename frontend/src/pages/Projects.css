@@ -48,6 +48,7 @@
   transform: translateY(-6px);
   box-shadow: 0 8px 24px var(--shadow);
   border-color: var(--accent-primary);
+  text-decoration: none;
 }
 
 .project-card h3 {

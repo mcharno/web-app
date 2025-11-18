@@ -39,12 +39,16 @@
   box-shadow: 0 4px 12px var(--shadow);
   cursor: pointer;
   transition: all 0.3s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .gallery-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 20px var(--shadow);
   border-color: var(--accent-primary);
+  text-decoration: none;
 }
 
 .gallery-card h4 {
