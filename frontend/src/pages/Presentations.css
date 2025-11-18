@@ -1,4 +1,4 @@
-.papers-page h2 {
+.presentations-page h2 {
   font-size: 2.4rem;
   color: var(--text-primary);
   margin-bottom: 2rem;
@@ -7,20 +7,20 @@
   padding-bottom: 0.5rem;
 }
 
-.papers-intro {
+.presentations-intro {
   color: var(--text-secondary);
   margin-bottom: 2rem;
   font-style: italic;
   font-size: 1.1rem;
 }
 
-.papers-list {
+.presentations-list {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
-.paper-card {
+.presentation-card {
   padding: 2rem;
   background: var(--bg-secondary);
   border-left: 4px solid var(--accent-primary);
@@ -33,25 +33,29 @@
   cursor: pointer;
 }
 
-.paper-card:hover {
+.presentation-card:hover {
   transform: translateX(4px);
   box-shadow: 0 6px 16px var(--shadow);
   border-left-width: 6px;
 }
 
-.paper-card h3 {
+.presentation-card h3 {
   color: var(--text-primary);
   margin-bottom: 1rem;
   font-weight: 600;
   font-size: 1.4rem;
 }
 
-.paper-meta {
+.presentation-meta {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
+}
+
+.conference {
+  font-style: italic;
 }
 
 .year {
@@ -67,13 +71,7 @@
   margin: 1rem 0;
 }
 
-.keywords {
-  margin: 1rem 0;
-  color: var(--text-tertiary);
-  font-size: 0.9rem;
-}
-
-.pdf-link-indicator {
+.slides-link-indicator {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
   background: var(--accent-primary);
@@ -85,11 +83,11 @@
 }
 
 @media (max-width: 768px) {
-  .papers-page h2 {
+  .presentations-page h2 {
     font-size: 1.8rem;
   }
 
-  .paper-card {
+  .presentation-card {
     padding: 1.5rem;
   }
 }

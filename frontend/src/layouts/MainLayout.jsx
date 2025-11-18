@@ -1,8 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import Navigation from '../components/Navigation';
+import { useLanguage } from '../contexts/LanguageContext';
 import './MainLayout.css';
 
 const MainLayout = () => {
+  const { switchToEnglish, switchToGreek } = useLanguage();
+
   return (
     <div className="main-layout">
       <header>
@@ -13,7 +16,17 @@ const MainLayout = () => {
         <Outlet />
       </main>
       <footer>
-        <p>&copy; {new Date().getFullYear()} Michael Charno</p>
+        <div className="footer-content">
+          <p>&copy; {new Date().getFullYear()} Michael Charno</p>
+          <div className="language-switcher">
+            <button onClick={switchToEnglish} className="lang-btn">
+              <img src="/images/en.jpg" alt="English" />
+            </button>
+            <button onClick={switchToGreek} className="lang-btn">
+              <img src="/images/gr.jpg" alt="Greek" />
+            </button>
+          </div>
+        </div>
       </footer>
     </div>
   );

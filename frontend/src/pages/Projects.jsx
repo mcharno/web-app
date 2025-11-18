@@ -30,13 +30,19 @@ const Projects = () => {
       <h2>Projects</h2>
       <div className="projects-grid">
         {projects.map((project) => (
-          <div key={project.id} className="project-card">
+          <a
+            key={project.id}
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-card"
+          >
             <h3>{project.title}</h3>
             <p>{project.description}</p>
             {project.content && (
               <div dangerouslySetInnerHTML={{ __html: project.content }} />
             )}
-          </div>
+          </a>
         ))}
       </div>
     </div>

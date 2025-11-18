@@ -38,15 +38,54 @@ header {
 footer {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
-  text-align: center;
   padding: 2rem 1.5rem;
   margin-top: 3rem;
   border-top: 1px solid var(--border-color);
 }
 
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 footer p {
   margin: 0;
   font-size: 0.9rem;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.lang-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px var(--shadow);
+}
+
+.lang-btn img {
+  width: 24px;
+  height: 16px;
+  display: block;
+}
+
+.lang-btn:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.lang-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px var(--shadow);
 }
 
 @media (max-width: 768px) {
@@ -61,5 +100,10 @@ footer p {
 
   footer {
     padding: 1.5rem 1rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 1rem;
   }
 }

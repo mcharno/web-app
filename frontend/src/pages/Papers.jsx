@@ -34,7 +34,13 @@ const Papers = () => {
 
       <div className="papers-list">
         {papers.map((paper) => (
-          <div key={paper.id} className="paper-card">
+          <a
+            key={paper.id}
+            href={paper.pdf_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="paper-card"
+          >
             <h3>{paper.title}</h3>
             <div className="paper-meta">
               <span className="authors">{paper.authors}</span>
@@ -46,12 +52,10 @@ const Papers = () => {
                 <strong>Keywords:</strong> {paper.keywords}
               </div>
             )}
-            {paper.pdf_url && (
-              <a href={paper.pdf_url} target="_blank" rel="noopener noreferrer" className="pdf-link">
-                View PDF
-              </a>
-            )}
-          </div>
+            <div className="pdf-link-indicator">
+              View PDF →
+            </div>
+          </a>
         ))}
       </div>
     </div>
