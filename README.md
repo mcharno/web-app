@@ -32,6 +32,7 @@ web-app/
 │   │   ├── routes/      # API route definitions
 │   │   ├── middleware/  # Custom middleware
 │   │   └── server.js    # Main server file
+│   ├── Dockerfile       # Backend container image
 │   ├── package.json
 │   └── .env.example
 │
@@ -44,9 +45,30 @@ web-app/
 │   │   ├── services/    # API service layer
 │   │   ├── i18n/        # Internationalization configs
 │   │   └── App.jsx      # Main App component
+│   ├── Dockerfile       # Frontend container image
+│   ├── nginx.conf       # Nginx configuration
 │   ├── package.json
 │   └── .env.example
 │
+├── k8s/                 # Kubernetes manifests
+│   └── base/            # Base manifests for k3s deployment
+│       ├── namespace.yaml
+│       ├── *-deployment.yaml
+│       ├── *-service.yaml
+│       ├── ingress.yaml
+│       └── configmap.yaml
+│
+├── argocd/              # ArgoCD GitOps configuration
+│   ├── application.yaml        # ArgoCD app definition
+│   ├── install-argocd.sh       # ArgoCD installation script
+│   └── *.sh                    # Helper setup scripts
+│
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
+│
+├── DEPLOYMENT.md        # Detailed deployment guide
+├── QUICKSTART.md        # Quick deployment guide
 └── README.md
 
 ```
@@ -185,6 +207,39 @@ The application uses PostgreSQL with the following main tables:
 - `cv_sections` - CV information
 
 See `backend/src/config/schema.sql` for the complete schema.
+
+## Deployment
+
+This application includes a complete CI/CD pipeline for deploying to a k3s Kubernetes cluster using GitHub Actions and ArgoCD.
+
+### Quick Deployment to k3s
+
+For detailed instructions, see [QUICKSTART.md](./QUICKSTART.md) or [DEPLOYMENT.md](./DEPLOYMENT.md).
+
+**Quick overview:**
+1. Install ArgoCD: `./argocd/install-argocd.sh`
+2. Set up secrets: `./argocd/setup-ghcr-secret.sh` and `./argocd/setup-database-secret.sh`
+3. Update configuration files with your GitHub username
+4. Deploy: `./argocd/deploy-application.sh`
+5. Push to GitHub: `git push origin main`
+
+### CI/CD Pipeline
+
+The pipeline uses:
+- **GitHub Actions** - Builds Docker images, runs tests, pushes to GitHub Container Registry (GHCR)
+- **ArgoCD** - Monitors Git repo and automatically deploys to k3s cluster
+- **GHCR** - Free private container registry for Docker images
+
+**Workflow:**
+```
+Code Push → GitHub Actions → Build & Test → Push to GHCR → Update Manifests → ArgoCD Sync → Deploy to k3s
+```
+
+### Container Images
+
+Images are automatically built and pushed to GitHub Container Registry:
+- `ghcr.io/YOUR_USERNAME/charno-backend:latest`
+- `ghcr.io/YOUR_USERNAME/charno-frontend:latest`
 
 ## Development
 
