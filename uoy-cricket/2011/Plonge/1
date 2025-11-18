@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../boxscore.xsl"?>
+<boxscore>
+  <batting>
+    <player>
+      <surname>Atwell</surname>
+      <runs>48</runs>
+      <wicket>0</wicket>
+    </player>
+    <player>
+      <surname>Maltravers</surname>
+      <runs>21</runs>
+      <wicket>1</wicket>
+    </player>
+    <player>
+      <surname>Waites</surname>
+      <runs>24</runs>
+      <wicket>1</wicket>
+    </player>
+  </batting>
+  <bowling>
+    <player>
+      <surname>Allen</surname>
+      <wickets>4</wickets>
+      <runs>26</runs>
+    </player>
+  </bowling>
+</boxscore>

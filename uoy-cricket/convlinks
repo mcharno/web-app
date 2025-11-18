@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+# quick script to change various links - needs backup in backups2/ to work
+
+while ($conv = $ARGV[0]) {
+	shift;
+	
+	print "Converting: $conv";
+	
+	if (! open IFD,"backups2/$conv") { print " no backup found\n"; next; }
+	open OFD,">$conv";
+	
+	while (<IFD>) {
+		s/\/icons/graphics/;  # new place for icons
+		s/<a href="\/">S020 Home Page<\/a>/Physical Wrecks Website/; # S020 page
+		s/"mailto:www\@kipper.york.ac.uk"/"mailto:phys-wrecks\@york.ac.uk"/; # S020 mail link
+		s/<a href="\/disclaimer.html">Disclaimer<\/a>//; # S020 page
+		print OFD;
+	}
+	print ".\n";
+
+	close IFD;
+	close OFD;		
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="../boxscore.xsl"?>
+<boxscore>
+  <batting>
+    <player>
+      <surname>Prendergast</surname>
+      <runs>52</runs>
+      <wicket>1</wicket>
+    </player>
+    <player>
+      <surname>Simpson</surname>
+      <runs>15</runs>
+      <wicket>1</wicket>
+    </player>
+  </batting>
+  <bowling>
+    <player>
+      <surname>Moreland</surname>
+      <wickets>2</wickets>
+      <runs>16</runs>
+      <overs></overs>
+      <maidens></maidens>
+    </player>
+  </bowling>
+</boxscore>
