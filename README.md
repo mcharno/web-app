@@ -31,18 +31,22 @@ web-app/
 │   │   ├── controllers/ # Request handlers
 │   │   ├── routes/      # API route definitions
 │   │   ├── middleware/  # Custom middleware
+│   │   ├── mocks/       # Mock data for local development
 │   │   └── server.js    # Main server file
 │   ├── Dockerfile       # Backend container image
 │   ├── package.json
 │   └── .env.example
 │
 ├── frontend/            # React application
+│   ├── public/
+│   │   └── cricket/     # Cricket league archives (1997-2012)
 │   ├── src/
 │   │   ├── components/  # Reusable React components
-│   │   ├── pages/       # Page components
+│   │   ├── pages/       # Page components (including Cricket)
 │   │   ├── layouts/     # Layout components
 │   │   ├── contexts/    # React contexts
 │   │   ├── services/    # API service layer
+│   │   ├── mocks/       # Mock API for local development
 │   │   ├── i18n/        # Internationalization configs
 │   │   └── App.jsx      # Main App component
 │   ├── Dockerfile       # Frontend container image
@@ -50,18 +54,25 @@ web-app/
 │   ├── package.json
 │   └── .env.example
 │
-├── k8s/                 # Kubernetes manifests
-│   └── base/            # Base manifests for k3s deployment
-│       ├── namespace.yaml
-│       ├── *-deployment.yaml
-│       ├── *-service.yaml
-│       ├── ingress.yaml
-│       └── configmap.yaml
+├── infra/               # Infrastructure as Code
+│   └── k8s/             # Kubernetes manifests
+│       ├── base/        # Base manifests for k3s deployment
+│       │   ├── namespace.yaml
+│       │   ├── *-deployment.yaml
+│       │   ├── *-service.yaml
+│       │   ├── ingress.yaml
+│       │   └── configmap.yaml
+│       └── overlays/    # Environment-specific overlays
 │
-└── .github/
+├── .github/
 │   └── workflows/
 │       └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
 │
+├── docker-compose.yml      # Production Docker Compose
+├── docker-compose.dev.yml  # Development Docker Compose
+├── TESTING.md             # Testing documentation
+├── MOCKING.md             # Mock framework documentation
+├── DOCKER.md              # Docker usage guide
 └── README.md
 
 ```
@@ -152,9 +163,21 @@ web-app/
 - **Papers** - Academic publications with abstracts and metadata
 - **Photos** - Photo galleries organized by category (places, events, things)
 - **Blog** - Blog/wiki functionality for content management
+- **Cricket Archives** - Complete archive of University of York Inter-Departmental Cricket League (1997-2012)
+  - 15 seasons of fixtures, results, and league tables
+  - Historical records, rules, and umpiring guides
+  - Team photos and match reports
 - **CV** - Curriculum vitae
 - **Multilingual** - English and Greek language support
 - **Responsive Design** - Mobile-friendly layout
+
+### Development Features
+
+- **Comprehensive Testing** - 75% code coverage with Jest (backend) and Vitest (frontend)
+- **Mock Framework** - Runtime-toggleable mocks for database and API (see [MOCKING.md](MOCKING.md))
+- **Docker Support** - Full Docker Compose setup for local development (see [DOCKER.md](DOCKER.md))
+- **CI/CD Pipeline** - Automated testing, building, and deployment via GitHub Actions
+- **GitOps Deployment** - ArgoCD-based continuous deployment to k3s
 
 ### Planned Features
 
@@ -201,37 +224,57 @@ The application uses PostgreSQL with the following main tables:
 
 See `backend/src/config/schema.sql` for the complete schema.
 
+## Infrastructure
+
+All infrastructure-as-code is organized in the `infra/` directory for better separation of concerns:
+
+```
+infra/
+└── k8s/                 # Kubernetes manifests
+    ├── base/            # Base configurations
+    └── overlays/        # Environment-specific overlays
+```
+
+This structure allows for future addition of other infrastructure components (Terraform, Ansible, etc.) in a well-organized manner.
+
 ## Deployment
 
-This application includes a CI/CD pipeline for k3s deployment using GitHub Actions and ArgoCD.
+This application includes a comprehensive CI/CD pipeline for k3s deployment using GitHub Actions and ArgoCD.
 
 ### CI/CD Pipeline
 
-**GitHub Actions** (in this repo):
+**GitHub Actions** (in this repo - `.github/workflows/ci-cd.yaml`):
+- Runs comprehensive test suite with 75% coverage enforcement
 - Builds Docker images on push to main
-- Runs tests and linters
+- Runs linters and code quality checks
 - Pushes images to GitHub Container Registry (GHCR)
-- Updates image tags in k8s manifests
+- Updates image tags in `infra/k8s/base` manifests
 
 **ArgoCD** (configured in k8s-infra repo):
-- Monitors this repository for manifest changes
+- Monitors this repository for manifest changes in `infra/k8s/`
 - Automatically syncs to k3s cluster
-- Provides GitOps-based deployment
+- Provides GitOps-based deployment with auto-healing
 
 **Workflow:**
 ```
-Code Push → GitHub Actions → Build & Test → Push to GHCR → Update k8s Manifests
-                                                                      ↓
-                                                          ArgoCD Auto-Sync → k3s Cluster
+Code Push → GitHub Actions → Test (75% coverage) → Build → Push to GHCR
+                                                                ↓
+                                                    Update infra/k8s/base manifests
+                                                                ↓
+                                                    ArgoCD Auto-Sync → k3s Cluster
 ```
 
 ### Container Images
 
 Images are built and pushed to GitHub Container Registry:
-- `ghcr.io/YOUR_USERNAME/charno-backend:latest`
-- `ghcr.io/YOUR_USERNAME/charno-frontend:latest`
+- `ghcr.io/mcharno/charno-backend:latest`
+- `ghcr.io/mcharno/charno-frontend:latest`
 
 ### Infrastructure Setup
+
+The `infra/k8s/` directory contains:
+- **base/**: Core Kubernetes manifests (deployments, services, ingress, configmaps)
+- **overlays/**: Environment-specific configurations (dev, staging, production)
 
 For ArgoCD installation, secrets configuration, and cluster setup, see the **k8s-infra** repository.
 
