@@ -1,5 +1,9 @@
 import pg from 'pg';
+import dotenv from 'dotenv';
 import MockDatabase from '../mocks/mockDatabase.js';
+
+// Load environment variables before checking them
+dotenv.config();
 
 const { Pool } = pg;
 
