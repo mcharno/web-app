@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './Navigation.css';
 
@@ -8,13 +8,13 @@ const Navigation = () => {
   return (
     <nav className="navigation">
       <div className="menu">
-        <Link to="/">{t('menu.about')}</Link>
-        <Link to="/projects">{t('menu.projects')}</Link>
-        <Link to="/papers">{t('menu.papers')}</Link>
-        <Link to="/presentations">Presentations</Link>
-        <Link to="/photos">{t('menu.photos')}</Link>
-        <Link to="/cricket">cricket</Link>
-        <Link to="/cv">{t('menu.cv')}</Link>
+        <NavLink to="/">{t('menu.about')}</NavLink>
+        <NavLink to="/projects">{t('menu.projects')}</NavLink>
+        <NavLink to="/papers">{t('menu.papers')}</NavLink>
+        <NavLink to="/presentations">presentations</NavLink>
+        <NavLink to="/photos">{t('menu.photos')}</NavLink>
+        <NavLink to="/cricket">cricket</NavLink>
+        <NavLink to="/cv">{t('menu.cv')}</NavLink>
       </div>
     </nav>
   );

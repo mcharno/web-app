@@ -67,22 +67,14 @@ const Cricket = () => {
                 <h4>{season.label} Season</h4>
                 <ul>
                   <li>
-                    <a
-                      href={`/cricket/results${season.year.slice(-2)}.html`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <Link to={`/cricket/results${season.year.slice(-2)}.html`}>
                       Fixtures & Results
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
-                      href={`/cricket/league${season.year.slice(-2)}.html`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
+                    <Link to={`/cricket/league${season.year.slice(-2)}.html`}>
                       League Table
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -94,58 +86,34 @@ const Cricket = () => {
           <h3>League Information</h3>
           <ul className="cricket-info-links">
             <li>
-              <a
-                href="/cricket/history.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/cricket/history.html">
                 League History
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/cricket/leaguehist.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/cricket/leaguehist.html">
                 Champions 1983-2010
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/cricket/records.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/cricket/records.html">
                 League Records
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/cricket/rules.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/cricket/rules.html">
                 League Rules
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/cricket/ump.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/cricket/ump.html">
                 Notes for Umpires
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/cricket/letters.html"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <Link to="/cricket/letters.html">
                 Letters to Organizers
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

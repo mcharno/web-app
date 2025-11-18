@@ -45,6 +45,14 @@
   width: 80%;
 }
 
+.menu a.active {
+  color: var(--accent-primary);
+}
+
+.menu a.active::before {
+  width: 80%;
+}
+
 .menu a:active {
   transform: translateY(1px);
 }
