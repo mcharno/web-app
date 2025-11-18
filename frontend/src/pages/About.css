@@ -1,32 +1,63 @@
+.about-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 .about-page h2 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 1.5rem;
-  font-weight: 400;
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
 }
 
 .about-page p {
   line-height: 1.8;
-  color: #555;
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
+  font-size: 1.05rem;
 }
 
 .about-page ul {
   margin: 1.5rem 0;
   padding-left: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem 1.5rem 1.5rem 3rem;
+  border-left: 3px solid var(--accent-primary);
 }
 
 .about-page li {
   line-height: 1.8;
-  color: #555;
-  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.about-page li:hover {
+  color: var(--text-primary);
+  transform: translateX(4px);
 }
 
 .about-page a {
-  color: #0066cc;
+  color: var(--accent-primary);
   text-decoration: none;
+  border-bottom: 1px dotted var(--accent-primary);
+  transition: all 0.3s ease;
 }
 
 .about-page a:hover {
-  text-decoration: underline;
+  color: var(--accent-hover);
+  border-bottom-style: solid;
+}
+
+@media (max-width: 768px) {
+  .about-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .about-page ul {
+    padding: 1rem 1rem 1rem 2.5rem;
+  }
 }
