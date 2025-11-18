@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: 2rem;
   font-family: 'Times New Roman', Times, serif;
+  background: white;
+  color: #000;
 }
 
 .cricket-header {
@@ -55,6 +57,7 @@
   padding: 1.5rem;
   margin-bottom: 2rem;
   line-height: 1.6;
+  color: #333;
 }
 
 .cricket-intro p {
@@ -92,9 +95,9 @@
 }
 
 .cricket-section {
-  background: var(--bg-secondary);
+  background: #f5f5f5;
   padding: 1.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid #ddd;
 }
 
 .cricket-section h3 {
@@ -113,9 +116,9 @@
 }
 
 .season-links {
-  background: var(--bg-tertiary);
+  background: #fff;
   padding: 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid #e0e0e0;
 }
 
 .season-links h4 {
@@ -163,7 +166,7 @@
 .cricket-info-links li {
   margin: 1rem 0;
   padding: 0.75rem;
-  background: var(--bg-tertiary);
+  background: #fff;
   border-left: 3px solid #2c5f2d;
 }
 
