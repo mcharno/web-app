@@ -59,8 +59,10 @@ web-app/
 │       └── configmap.yaml
 │
 └── .github/
-    └── workflows/
-        └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
+│   └── workflows/
+│       └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
+│
+└── README.md
 
 ```
 
