@@ -1,60 +1,122 @@
 .cv-page h2 {
-  font-size: 2rem;
-  color: #333;
+  font-size: 2.4rem;
+  color: var(--text-primary);
   margin-bottom: 2rem;
-  font-weight: 400;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
 }
 
 .cv-content {
-  max-width: 800px;
+  max-width: 900px;
 }
 
 .cv-section {
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.cv-section:hover {
+  box-shadow: 0 6px 16px var(--shadow);
+  border-color: var(--accent-primary);
 }
 
 .cv-section:last-child {
-  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .cv-section h3 {
-  font-size: 1.5rem;
-  color: #0066cc;
+  font-size: 1.8rem;
+  color: var(--accent-primary);
   margin-bottom: 1.5rem;
-  font-weight: 500;
+  font-weight: 600;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .cv-item {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-tertiary);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-primary);
+  transition: all 0.3s ease;
+}
+
+.cv-item:hover {
+  transform: translateX(4px);
+  border-left-width: 5px;
+}
+
+.cv-item:last-child {
+  margin-bottom: 0;
 }
 
 .cv-item h4 {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .cv-meta {
-  color: #666;
+  color: var(--text-secondary);
   font-style: italic;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.cv-meta span {
+  background-color: var(--bg-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 500;
 }
 
 .cv-item p {
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.8;
+  margin-bottom: 0.75rem;
 }
 
 .cv-item ul {
   list-style: disc;
   padding-left: 2rem;
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.8;
 }
 
 .cv-item li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: color 0.3s ease;
+}
+
+.cv-item li:hover {
+  color: var(--text-primary);
+}
+
+@media (max-width: 768px) {
+  .cv-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .cv-section {
+    padding: 1.5rem;
+  }
+
+  .cv-item {
+    padding: 1rem;
+  }
+
+  .cv-section h3 {
+    font-size: 1.5rem;
+  }
 }

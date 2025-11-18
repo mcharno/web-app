@@ -1,51 +1,116 @@
 .navigation {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .language-switcher {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 0.75rem 2rem;
+  background-color: var(--bg-primary);
 }
 
 .lang-btn {
   background: none;
-  border: none;
+  border: 2px solid var(--border-color);
   cursor: pointer;
   padding: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px var(--shadow);
 }
 
 .lang-btn img {
-  width: 30px;
-  height: 20px;
-  border: 1px solid #ccc;
+  width: 32px;
+  height: 22px;
+  display: block;
 }
 
-.lang-btn:hover img {
-  border-color: #666;
+.lang-btn:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.lang-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px var(--shadow);
 }
 
 .menu {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 0.5rem;
   padding: 1rem 2rem;
-  background-color: #f5f5f5;
-  border-top: 2px solid #333;
-  border-bottom: 2px solid #333;
+  background-color: var(--bg-tertiary);
+  border-top: 1px solid var(--border-color);
+  justify-content: center;
 }
 
 .menu a {
   text-decoration: none;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 500;
-  text-transform: lowercase;
-  transition: color 0.3s;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.menu a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent-primary);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
 
 .menu a:hover {
-  color: #0066cc;
+  color: var(--accent-primary);
+  background-color: var(--bg-secondary);
+  text-decoration: none;
+}
+
+.menu a:hover::before {
+  width: 80%;
+}
+
+.menu a:active {
+  transform: translateY(1px);
+}
+
+@media (max-width: 768px) {
+  .language-switcher {
+    padding: 0.5rem 1rem;
+    justify-content: center;
+  }
+
+  .menu {
+    padding: 0.75rem 1rem;
+    gap: 0.25rem;
+  }
+
+  .menu a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .menu a {
+    text-align: center;
+  }
 }

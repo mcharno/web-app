@@ -1,14 +1,17 @@
 .photos-page h2 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 1rem;
-  font-weight: 400;
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
 }
 
 .photos-intro {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 2rem;
   font-style: italic;
+  font-size: 1.1rem;
 }
 
 .photo-category {
@@ -16,11 +19,11 @@
 }
 
 .photo-category h3 {
-  font-size: 1.5rem;
-  color: #0066cc;
+  font-size: 1.8rem;
+  color: var(--accent-primary);
   margin-bottom: 1.5rem;
   text-transform: capitalize;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .galleries-grid {
@@ -31,27 +34,40 @@
 
 .gallery-card {
   padding: 1.5rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
 }
 
 .gallery-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px var(--shadow);
+  border-color: var(--accent-primary);
 }
 
 .gallery-card h4 {
-  color: #333;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
   text-transform: capitalize;
+  font-size: 1.2rem;
 }
 
 .gallery-card p {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .photos-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .galleries-grid {
+    grid-template-columns: 1fr;
+  }
 }
