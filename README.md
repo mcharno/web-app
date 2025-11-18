@@ -58,18 +58,9 @@ web-app/
 │       ├── ingress.yaml
 │       └── configmap.yaml
 │
-├── argocd/              # ArgoCD GitOps configuration
-│   ├── application.yaml        # ArgoCD app definition
-│   ├── install-argocd.sh       # ArgoCD installation script
-│   └── *.sh                    # Helper setup scripts
-│
-├── .github/
-│   └── workflows/
-│       └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
-│
-├── DEPLOYMENT.md        # Detailed deployment guide
-├── QUICKSTART.md        # Quick deployment guide
-└── README.md
+└── .github/
+    └── workflows/
+        └── ci-cd.yaml   # GitHub Actions CI/CD pipeline
 
 ```
 
@@ -210,36 +201,37 @@ See `backend/src/config/schema.sql` for the complete schema.
 
 ## Deployment
 
-This application includes a complete CI/CD pipeline for deploying to a k3s Kubernetes cluster using GitHub Actions and ArgoCD.
-
-### Quick Deployment to k3s
-
-For detailed instructions, see [QUICKSTART.md](./QUICKSTART.md) or [DEPLOYMENT.md](./DEPLOYMENT.md).
-
-**Quick overview:**
-1. Install ArgoCD: `./argocd/install-argocd.sh`
-2. Set up secrets: `./argocd/setup-ghcr-secret.sh` and `./argocd/setup-database-secret.sh`
-3. Update configuration files with your GitHub username
-4. Deploy: `./argocd/deploy-application.sh`
-5. Push to GitHub: `git push origin main`
+This application includes a CI/CD pipeline for k3s deployment using GitHub Actions and ArgoCD.
 
 ### CI/CD Pipeline
 
-The pipeline uses:
-- **GitHub Actions** - Builds Docker images, runs tests, pushes to GitHub Container Registry (GHCR)
-- **ArgoCD** - Monitors Git repo and automatically deploys to k3s cluster
-- **GHCR** - Free private container registry for Docker images
+**GitHub Actions** (in this repo):
+- Builds Docker images on push to main
+- Runs tests and linters
+- Pushes images to GitHub Container Registry (GHCR)
+- Updates image tags in k8s manifests
+
+**ArgoCD** (configured in k8s-infra repo):
+- Monitors this repository for manifest changes
+- Automatically syncs to k3s cluster
+- Provides GitOps-based deployment
 
 **Workflow:**
 ```
-Code Push → GitHub Actions → Build & Test → Push to GHCR → Update Manifests → ArgoCD Sync → Deploy to k3s
+Code Push → GitHub Actions → Build & Test → Push to GHCR → Update k8s Manifests
+                                                                      ↓
+                                                          ArgoCD Auto-Sync → k3s Cluster
 ```
 
 ### Container Images
 
-Images are automatically built and pushed to GitHub Container Registry:
+Images are built and pushed to GitHub Container Registry:
 - `ghcr.io/YOUR_USERNAME/charno-backend:latest`
 - `ghcr.io/YOUR_USERNAME/charno-frontend:latest`
+
+### Infrastructure Setup
+
+For ArgoCD installation, secrets configuration, and cluster setup, see the **k8s-infra** repository.
 
 ## Development
 
