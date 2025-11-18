@@ -4,10 +4,10 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN yarn install --frozen-lockfile --production
 
 # Copy application source
 COPY src ./src
@@ -20,7 +20,7 @@ WORKDIR /app
 # Copy dependencies and source from builder
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/src ./src
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \

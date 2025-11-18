@@ -32,21 +32,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
+          cache: 'yarn'
+          cache-dependency-path: backend/yarn.lock
 
       - name: Install dependencies
         working-directory: ./backend
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Run linter
         working-directory: ./backend
-        run: npm run lint || echo "Linter not configured, skipping..."
+        run: yarn lint || echo "Linter not configured, skipping..."
         continue-on-error: true
 
       - name: Run tests with coverage
         working-directory: ./backend
-        run: npm run test:ci
+        run: yarn test:ci
 
       - name: Upload backend coverage report
         uses: actions/upload-artifact@v3
@@ -101,21 +101,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          cache: 'yarn'
+          cache-dependency-path: frontend/yarn.lock
 
       - name: Install dependencies
         working-directory: ./frontend
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Run linter
         working-directory: ./frontend
-        run: npm run lint || echo "Linter not configured, skipping..."
+        run: yarn lint || echo "Linter not configured, skipping..."
         continue-on-error: true
 
       - name: Run tests with coverage
         working-directory: ./frontend
-        run: npm run test:ci
+        run: yarn test:ci
 
       - name: Upload frontend coverage report
         uses: actions/upload-artifact@v3
@@ -126,7 +126,7 @@ jobs:
 
       - name: Build application
         working-directory: ./frontend
-        run: npm run build
+        run: yarn build
 
       - name: Log in to GitHub Container Registry
         if: github.event_name != 'pull_request'

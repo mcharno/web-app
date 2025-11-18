@@ -54,7 +54,7 @@ VITE_USE_MOCK_API=true
 EOF
 
 # Start frontend
-npm run dev
+yarn dev
 ```
 
 ✅ Frontend will use mock API responses - **no backend needed!**
@@ -74,7 +74,7 @@ USE_MOCK_DB=true
 EOF
 
 # Start backend
-npm run dev
+yarn dev
 ```
 
 ✅ Backend will use mock database - **no PostgreSQL needed!**
@@ -87,12 +87,12 @@ Both frontend and backend using mocks:
 # Terminal 1 - Backend with mock database
 cd backend
 echo "USE_MOCK_DB=true" > .env
-npm run dev
+yarn dev
 
 # Terminal 2 - Frontend with real backend
 cd frontend
 echo "VITE_USE_MOCK_API=false" > .env
-npm run dev
+yarn dev
 ```
 
 ✅ Full stack running - **no PostgreSQL needed!**
@@ -112,12 +112,12 @@ DB_USER=postgres
 DB_PASSWORD=postgres
 USE_MOCK_DB=false
 EOF
-npm run dev
+yarn dev
 
 # Terminal 2 - Frontend with real backend
 cd frontend
 echo "VITE_USE_MOCK_API=false" > .env
-npm run dev
+yarn dev
 ```
 
 ✅ Full stack with real database
@@ -250,7 +250,7 @@ You're working on UI/UX and don't want to run the backend.
 ```bash
 cd frontend
 echo "VITE_USE_MOCK_API=true" > .env
-npm run dev
+yarn dev
 ```
 
 **Benefits:**
@@ -266,7 +266,7 @@ You're working on backend logic and don't want to set up PostgreSQL.
 ```bash
 cd backend
 echo "USE_MOCK_DB=true" > .env
-npm run dev
+yarn dev
 ```
 
 **Benefits:**
@@ -283,13 +283,13 @@ You're testing full stack integration.
 # Terminal 1
 cd backend
 echo "USE_MOCK_DB=true" > .env
-npm run dev
+yarn dev
 
 # Terminal 2
 cd frontend
 echo "VITE_USE_MOCK_API=false" > .env
 echo "VITE_API_URL=http://localhost:5000/api" >> .env
-npm run dev
+yarn dev
 ```
 
 **Benefits:**
@@ -305,7 +305,7 @@ You're modifying the database schema and need to test with real PostgreSQL.
 cd backend
 echo "USE_MOCK_DB=false" > .env
 # Set DB credentials...
-npm run dev
+yarn dev
 ```
 
 **Benefits:**
@@ -398,10 +398,10 @@ export const mockProjects = [
 
 ```bash
 # Start with mocks for fast development
-USE_MOCK_DB=true npm run dev
+USE_MOCK_DB=true yarn dev
 
 # Switch to real DB when ready to test integration
-USE_MOCK_DB=false npm run dev
+USE_MOCK_DB=false yarn dev
 ```
 
 ### 3. Document Your Mock Data
@@ -462,7 +462,7 @@ echo "VITE_USE_MOCK_API=true" > .env
 # Option 2: Start backend
 cd backend
 echo "USE_MOCK_DB=true" > .env
-npm run dev
+yarn dev
 ```
 
 ### Backend Shows "Database Connection Error"
@@ -474,7 +474,7 @@ npm run dev
 # Use mock database
 cd backend
 echo "USE_MOCK_DB=true" > .env
-npm run dev
+yarn dev
 ```
 
 ### Mock Data Not Updating
@@ -484,8 +484,8 @@ npm run dev
 **Solution:**
 ```bash
 # Restart the server
-# Backend: Ctrl+C then npm run dev
-# Frontend: Ctrl+C then npm run dev
+# Backend: Ctrl+C then yarn dev
+# Frontend: Ctrl+C then yarn dev
 
 # Or use watch mode (nodemon/vite auto-restart)
 ```
@@ -525,10 +525,10 @@ You can use both together:
 
 ```bash
 # Run unit tests (uses test mocks)
-npm test
+yarn test
 
 # Run app in development (uses runtime mocks)
-USE_MOCK_DB=true npm run dev
+USE_MOCK_DB=true yarn dev
 ```
 
 ## Summary

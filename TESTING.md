@@ -24,13 +24,13 @@ The application uses comprehensive unit testing with a minimum of 75% code cover
 cd backend
 
 # Run tests once with coverage
-npm test
+yarn test
 
 # Run tests in watch mode
-npm run test:watch
+yarn test:watch
 
 # Run tests for CI (with coverage report)
-npm run test:ci
+yarn test:ci
 ```
 
 ### Test Structure
@@ -113,13 +113,13 @@ describe('Content Controller', () => {
 cd frontend
 
 # Run tests once with coverage
-npm test
+yarn test
 
 # Run tests in watch mode
-npm run test:watch
+yarn test:watch
 
 # Run tests for CI (with coverage report)
-npm run test:ci
+yarn test:ci
 ```
 
 ### Test Structure
@@ -193,7 +193,7 @@ Tests run automatically on:
 
 ### Pipeline Behavior
 
-1. **Install Dependencies**: `npm ci` for both backend and frontend
+1. **Install Dependencies**: `yarn install --frozen-lockfile` for both backend and frontend
 2. **Run Linter**: Code quality checks (non-blocking)
 3. **Run Tests**: Execute all tests with coverage
 4. **Coverage Check**: **Pipeline fails if coverage < 75%**
@@ -217,10 +217,10 @@ Run tests to see current coverage:
 
 ```bash
 # Backend
-cd backend && npm test
+cd backend && yarn test
 
 # Frontend
-cd frontend && npm test
+cd frontend && yarn test
 ```
 
 ### Coverage Requirements
@@ -276,10 +276,10 @@ cd frontend && npm test
 
 ```bash
 # Run specific test file
-npm test -- contentController.test.js
+yarn test contentController.test.js
 
 # Run tests matching pattern
-npm test -- --testNamePattern="should return content"
+yarn test --testNamePattern="should return content"
 
 # Debug with Node inspector
 node --inspect-brk node_modules/.bin/jest --runInBand
@@ -289,13 +289,13 @@ node --inspect-brk node_modules/.bin/jest --runInBand
 
 ```bash
 # Run specific test file
-npm test -- Navigation.test.jsx
+yarn test Navigation.test.jsx
 
 # Run tests matching pattern
-npm test -- --grep="should render"
+yarn test --grep="should render"
 
 # UI mode for interactive debugging
-npm run test:watch
+yarn test:watch
 ```
 
 ## Troubleshooting

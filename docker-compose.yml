@@ -43,7 +43,7 @@ services:
         condition: service_healthy
     volumes:
       - ./backend/src:/app/src:ro
-    command: npm run dev
+    command: yarn dev
 
   # Backend with Mock Database (no PostgreSQL needed)
   backend-mock:
@@ -59,7 +59,7 @@ services:
       - "5001:5000"
     volumes:
       - ./backend/src:/app/src:ro
-    command: npm run dev
+    command: yarn dev
     profiles:
       - mock
 

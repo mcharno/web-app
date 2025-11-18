@@ -141,9 +141,9 @@ docker-compose exec backend sh
 # Access PostgreSQL
 docker-compose exec postgres psql -U charno_user -d charno_web
 
-# Run npm commands
-docker-compose exec backend npm test
-docker-compose exec frontend npm run build
+# Run yarn commands
+docker-compose exec backend yarn test
+docker-compose exec frontend yarn build
 ```
 
 ## Database Management
@@ -217,7 +217,7 @@ DB_USER=charno_user
 DB_PASSWORD=charno_password
 USE_MOCK_DB=false
 EOF
-npm run dev
+yarn dev
 ```
 
 ## Troubleshooting
