@@ -44,10 +44,16 @@ jobs:
         run: npm run lint || echo "Linter not configured, skipping..."
         continue-on-error: true
 
-      - name: Run tests
+      - name: Run tests with coverage
         working-directory: ./backend
-        run: npm test || echo "Tests not configured, skipping..."
-        continue-on-error: true
+        run: npm run test:ci
+
+      - name: Upload backend coverage report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: backend-coverage
+          path: backend/coverage/
 
       - name: Log in to GitHub Container Registry
         if: github.event_name != 'pull_request'
@@ -107,10 +113,16 @@ jobs:
         run: npm run lint || echo "Linter not configured, skipping..."
         continue-on-error: true
 
-      - name: Run tests
+      - name: Run tests with coverage
         working-directory: ./frontend
-        run: npm test || echo "Tests not configured, skipping..."
-        continue-on-error: true
+        run: npm run test:ci
+
+      - name: Upload frontend coverage report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: frontend-coverage
+          path: frontend/coverage/
 
       - name: Build application
         working-directory: ./frontend

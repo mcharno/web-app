@@ -1,0 +1,24 @@
+{
+  "transform": {},
+  "testEnvironment": "node",
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "src/**/*.js",
+    "!src/server.js",
+    "!src/config/database.js"
+  ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 75,
+      "functions": 75,
+      "lines": 75,
+      "statements": 75
+    }
+  },
+  "testMatch": [
+    "**/__tests__/**/*.test.js",
+    "**/?(*.)+(spec|test).js"
+  ],
+  "moduleFileExtensions": ["js"],
+  "verbose": true
+}
