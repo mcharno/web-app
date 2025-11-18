@@ -1,0 +1,30 @@
+.home-page {
+  text-align: center;
+}
+
+.home-page h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.time-zones {
+  margin: 2rem 0;
+}
+
+.time-zones p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.avatar-container {
+  margin-top: 3rem;
+}
+
+.avatar-container img {
+  max-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}

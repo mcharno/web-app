@@ -1,0 +1,51 @@
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.language-switcher {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.lang-btn img {
+  width: 30px;
+  height: 20px;
+  border: 1px solid #ccc;
+}
+
+.lang-btn:hover img {
+  border-color: #666;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  background-color: #f5f5f5;
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  text-transform: lowercase;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #0066cc;
+}

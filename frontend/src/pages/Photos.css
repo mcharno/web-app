@@ -1,0 +1,57 @@
+.photos-page h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.photos-intro {
+  color: #666;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.photo-category {
+  margin-bottom: 3rem;
+}
+
+.photo-category h3 {
+  font-size: 1.5rem;
+  color: #0066cc;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.galleries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.gallery-card {
+  padding: 1.5rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.gallery-card h4 {
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.gallery-card p {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}

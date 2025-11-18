@@ -1,0 +1,73 @@
+.papers-page h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.papers-intro {
+  color: #666;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.papers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.paper-card {
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #0066cc;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.paper-card h3 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+
+.paper-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.year {
+  font-weight: 600;
+  color: #0066cc;
+}
+
+.abstract {
+  line-height: 1.8;
+  color: #555;
+  margin: 1rem 0;
+}
+
+.keywords {
+  margin: 1rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.pdf-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #0066cc;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.pdf-link:hover {
+  background: #0052a3;
+}

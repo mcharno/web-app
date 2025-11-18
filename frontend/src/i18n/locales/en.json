@@ -1,0 +1,40 @@
+{
+  "menu": {
+    "about": "about",
+    "projects": "projects",
+    "papers": "papers",
+    "photos": "photos",
+    "blog": "blog",
+    "docs": "docs",
+    "cv": "cv"
+  },
+  "home": {
+    "title": "This is the new home of charno.net",
+    "time": "The current time in {{city}} is {{time}}"
+  },
+  "about": {
+    "main": "This website served as a portal into my academic life at the University of York. It is very much a work in progress with some critical structural updates necessary for the code and content. Those are as follows:",
+    "listItem1": "Update the main menu to be a bit more dynamic",
+    "listItem2": "Create a consistent and sensible submenu template for each section",
+    "listItem3": "Add mapping elements to the Photos section and other random places",
+    "listItem4": "Properly integrate the JSPWiki engine into the blog section",
+    "listItem5": "Create a dedicated Sikyon Survey Project section with web mapping and database interfaces",
+    "listItem6": "Allow Brent Truell's vision for my webpage to be a reality",
+    "content1": "My arrival into this world was marked by the eruption of Mt. St. Helens in 1980. I like to think of it as the earth rejoicing my birth, however, others (particularly geologists) may disagree. I am currently a Graduate Student at the University of York in the Archaeological Information Systems program. My educational and professional background are in mathematics and computers (general Information Technologies) with additional experience in Greek archaeology and surveying. Originally from the lovely Portland, Oregon, I now make my home within of the medieval city walls of York.",
+    "content2": "The scope of my courses for the fall covered Electronic Publishing & Digital Archiving, Internet Resources and Information Management & Retrieval. In addition to the course topics I worked on a placement with English Heritage working on the rectification and interpretation of a site in the Yorkshire Wolds.",
+    "content3": "For the spring term I will be discovering the wonders of Data Mapping & CAD, Geospatial Data, and Graphics & Visualization. I will also be working on a placement with the North Yorkshire County Council and a Phd student from York mapping fieldwork related to the Wharram Research project. At this time I will also be formulating my disertation topic, which is to be completed next September.",
+    "content4": "This website is simply providing a platform for my University related pursuits. I have brought over many items from my personal website, such as my <a href=\"/cv\">CV</a> and pictures from my travels as well as home. Most of you probably came to this site from my personal websites URL which is forwarded to the University of York servers. This is the begining of the synthesis of the websites to create my super, or if you will, uber website chronicling my personal and professional pursuits."
+  },
+  "papers": {
+    "main": "The following papers are from various parts of my academic career and ordered in chronological order",
+    "titleHeader": "Title",
+    "abstractHeader": "Abstract",
+    "detailsHeader": "Details"
+  },
+  "photos": {
+    "main": "These are mostly pictures taken by me unless otherwise noted."
+  },
+  "common": {
+    "welcome": "Welcome"
+  }
+}
