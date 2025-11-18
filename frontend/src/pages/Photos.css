@@ -14,18 +14,6 @@
   font-size: 1.1rem;
 }
 
-.photo-category {
-  margin-bottom: 3rem;
-}
-
-.photo-category h3 {
-  font-size: 1.8rem;
-  color: var(--accent-primary);
-  margin-bottom: 1.5rem;
-  text-transform: capitalize;
-  font-weight: 600;
-}
-
 .galleries-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -39,7 +27,8 @@
   box-shadow: 0 4px 12px var(--shadow);
   cursor: pointer;
   transition: all 0.3s ease;
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
 }
@@ -59,10 +48,33 @@
   font-size: 1.2rem;
 }
 
-.gallery-card p {
+.gallery-card .gallery-description {
   color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.gallery-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--accent-primary);
+  background: rgba(222, 255, 0, 0.1);
+  border: 1px solid var(--accent-primary);
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  background: rgba(222, 255, 0, 0.2);
 }
 
 @media (max-width: 768px) {

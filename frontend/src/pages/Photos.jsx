@@ -28,37 +28,32 @@ const Photos = () => {
 
   if (loading) return <div>Loading...</div>;
 
-  const categorizedGalleries = galleries.reduce((acc, gallery) => {
-    const category = gallery.gallery_category || 'other';
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(gallery);
-    return acc;
-  }, {});
-
   return (
     <div className="photos-page">
       <h2>Photos</h2>
       <p className="photos-intro">{t('photos.main')}</p>
 
-      {Object.entries(categorizedGalleries).map(([category, items]) => (
-        <div key={category} className="photo-category">
-          <h3>{category}</h3>
-          <div className="galleries-grid">
-            {items.map((gallery) => (
-              <Link
-                key={gallery.gallery_name}
-                to={`/photos/${encodeURIComponent(gallery.gallery_name)}`}
-                className="gallery-card"
-              >
-                <h4>{gallery.gallery_name}</h4>
-                {gallery.gallery_description && (
-                  <p>{gallery.gallery_description}</p>
-                )}
-              </Link>
-            ))}
-          </div>
-        </div>
-      ))}
+      <div className="galleries-grid">
+        {galleries.map((gallery) => (
+          <Link
+            key={gallery.gallery_name}
+            to={`/photos/${encodeURIComponent(gallery.gallery_name)}`}
+            className="gallery-card"
+          >
+            <h4>{gallery.gallery_name}</h4>
+            {gallery.gallery_description && (
+              <p className="gallery-description">{gallery.gallery_description}</p>
+            )}
+            {gallery.gallery_tags && gallery.gallery_tags.length > 0 && (
+              <div className="gallery-tags">
+                {gallery.gallery_tags.map((tag) => (
+                  <span key={tag} className="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
