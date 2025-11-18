@@ -15,7 +15,6 @@
   margin-bottom: 3rem;
   padding: 2rem;
   background: var(--bg-secondary);
-  border-radius: 12px;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px var(--shadow);
   transition: all 0.3s ease;
@@ -43,7 +42,6 @@
   margin-bottom: 2rem;
   padding: 1.5rem;
   background: var(--bg-tertiary);
-  border-radius: 8px;
   border-left: 3px solid var(--accent-primary);
   transition: all 0.3s ease;
 }
@@ -77,7 +75,6 @@
 .cv-meta span {
   background-color: var(--bg-primary);
   padding: 0.25rem 0.75rem;
-  border-radius: 4px;
   font-weight: 500;
 }
 
