@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="../templates/template.xhtml">
+
+            <ui:define name="head">
+                <script>
+                    $(document).ready(function(){
+                        $('.fade').hover(function() {
+                            $(this).find("img:last").fadeToggle();
+                        });
+                    });
+                </script>
+            </ui:define>
+            <ui:define name="title">
+                projects
+            </ui:define>
+
+            <ui:define name="content">
+                <table id="projects-menu">
+                    <tr>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="pretty:sikyon">
+                                <h:graphicImage url="/resources/images/tiles/sikyon.png" />
+                                <h:graphicImage url="/resources/images/tiles/sikyon-hover.png" />
+                            </h:link>
+                        </td>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="pretty:lod">
+                                <h:graphicImage url="/resources/images/tiles/lod.png" />
+                                <h:graphicImage url="/resources/images/tiles/lod-hover.png" />
+                            </h:link>
+                        </td>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="pretty:ios">
+                                <h:graphicImage url="/resources/images/tiles/ios.png" />
+                                <h:graphicImage url="/resources/images/tiles/ios-hover.png" />
+                            </h:link>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="/projects/era">
+                                <h:graphicImage url="/resources/images/tiles/era.png" />
+                                <h:graphicImage url="/resources/images/tiles/era-hover.png" />
+                            </h:link>
+                        </td>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="/projects/datacite">
+                                <h:graphicImage url="/resources/images/tiles/datacite.png" />
+                                <h:graphicImage url="/resources/images/tiles/datacite-hover.png" />
+                            </h:link>
+                        </td>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="/projects/cms">
+                                <h:graphicImage url="/resources/images/tiles/cms.png" />
+                                <h:graphicImage url="/resources/images/tiles/cms-hover.png" />
+                            </h:link>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="/projects/stansted">
+                                <h:graphicImage url="/resources/images/tiles/stansted.png" />
+                                <h:graphicImage url="/resources/images/tiles/stansted-hover.png" />
+                            </h:link>
+                        </td>
+                        <td class="project-tile">
+                            <h:link styleClass="fade" outcome="/projects/oai">
+                                <h:graphicImage url="/resources/images/tiles/oai.png" />
+                                <h:graphicImage url="/resources/images/tiles/oai-hover.png" />
+                            </h:link>
+                        </td>
+                    </tr>
+                </table>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,25 @@
+/* 
+    Document   : wiki
+    Created on : Nov 9, 2013, 11:20:48 AM
+    Author     : charno
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.wikitable {
+	margin:0.5em 0.25em;
+}
+.wikitable tr {
+	vertical-align:top;
+}
+.wikitable * th {
+	border:1px solid #ddd;
+	background-color:#303030;
+	vertical-align:top;
+}
+.wikitable * td {
+	border:1px solid #ddd;
+	vertical-align:top;
+	text-align:left;
+	/*word-wrap:break-word;*/
+}

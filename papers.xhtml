@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./templates/template.xhtml">
+
+            <ui:define name="head">
+                
+            </ui:define>
+            <ui:define name="title">
+                papers
+            </ui:define>
+
+            <ui:define name="content">
+                <p>
+                    <h:outputText value="#{content.papersMain}" />
+                </p>
+                <table id="papers">
+                    <tr>
+                        <th class="title">
+                            <h:outputText value="#{content.papersTitleHeader}" />
+                        </th>
+                        <th class="desc">
+                            <h:outputText value="#{content.papersAbstractHeader}" />
+                        </th>
+                        <th class="details">
+                            <h:outputText value="#{content.papersDetailsHeader}" />
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="title">
+                            <h:graphicImage url="./resources/images/papers/sikyon.png" />
+                            <span><h:outputText value="#{content.papers2Title}" /></span>
+                        </td>
+                        <td class="desc">
+                            <h:outputText value="#{content.papers2Abstract}" />
+                            <span><h:outputText value="#{content.papers2Keywords}" /></span>
+                        </td>
+                        <td class="details">
+                            <ul>
+                                <li><h:outputText value="#{content.papers2Year}" /></li>
+                                <li><h:outputText value="#{content.papers2Authors}" /></li>
+                                <li><a href="http://intarch.ac.uk/">Internet Archaeology</a></li>
+                                <li><a href="http://dx.doi.org/10.11141/ia.23.5">[doi:10.11141/ia.23.5]</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title">
+                            <span><h:outputText value="#{content.papers1Title}" /></span>
+                            <h:graphicImage url="./resources/images/papers/caa12.png" />
+                        </td>
+                        <td class="desc">
+                            <h:outputText value="#{content.papers1Abstract}" /> 
+                            <span><h:outputText value="#{content.papers1Keywords}" /></span>
+                        </td>
+                        <td class="details">
+                            <ul>
+                                <li><h:outputText value="#{content.papers1Year}" /></li>
+                                <li><h:outputText value="#{content.papers2Authors}" /></li>
+                                <li><a href="http://caaconference.org/proceedings/">CAA 2012</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

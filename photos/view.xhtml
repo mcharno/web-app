@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="../templates/template.xhtml">
+
+            <f:metadata>
+                <f:viewParam name="id" value="#{photoBean.id}" />
+            </f:metadata>
+
+            <ui:define name="head">
+                <script src="#{initParam['context']}/resources/openlayers/OpenLayers.js"></script>
+                <script defer="defer" src="#{initParam['context']}/resources/js/maps.js"></script>
+                <script src="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"></script>
+            </ui:define>
+            <ui:define name="title">
+                photos | #{photoBean.title}
+            </ui:define>
+
+            <ui:define name="content">
+                <h2>
+                    <h:outputText value="#{photoBean.title}" />
+                </h2>
+                <div id="photo">
+                    <a href="#{photoBean.photo}"><img src="#{photoBean.preview}" alt="#{photoBean.title}" /></a>
+                </div>
+
+                <div id="photo-sidebar">
+                    <div id="photo-details">
+                        <table>
+                            <tr>
+                                <td id="photo-caption" colspan="2">
+                                    <h:outputText value="#{photoBean.caption}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="header">
+                                    photographer
+                                </td>
+                                <td>
+                                    <h:outputText value="#{photoBean.photographer}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="header">
+                                    camera
+                                </td>
+                                <td>
+                                    <h:outputText value="#{photoBean.camera}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="header">
+                                    date
+                                </td>
+                                <td>
+                                    <h:outputText value="#{photoBean.date}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="header">
+                                    copyright
+                                </td>
+                                <td>
+                                    <h:outputText value="#{photoBean.copyright}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="header">
+                                    lat/lon
+                                </td>
+                                <td>
+                                    <h:outputText value="#{photoBean.lat},#{photoBean.lon}" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="photo-map">
+                        <div id="spotmap" style="width:250px; height:175px;"></div>
+                        <script defer="defer" type="text/javascript">
+                            var spotmap = new OpenLayers.Map({
+                                div: "spotmap",
+                                projection: "EPSG:900913",
+                                displayProjection: "EPSG:4326"
+                            });
+                            // create Google Mercator layers
+                            var gphy = new OpenLayers.Layer.Google(
+                                    "Google Physical",
+                                    {type: google.maps.MapTypeId.TERRAIN}
+                            );
+                            var marker = new OpenLayers.Layer.Markers("Marker");
+                            var size = new OpenLayers.Size(32, 32);
+                            var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
+                            var icon = new OpenLayers.Icon('#{initParam['context']}/resources/images/marker.png', size, offset);
+
+                            spotmap.addLayers([
+                                gphy, marker
+                            ]);
+                            var point = new OpenLayers.LonLat(#{photoBean.lat},#{photoBean.lon}).transform(new OpenLayers.Projection("EPSG:4326"), spotmap.getProjectionObject());
+                            marker.addMarker(new OpenLayers.Marker(point, icon));
+
+                            spotmap.setCenter(point, 5);
+                        </script>
+                    </div>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+

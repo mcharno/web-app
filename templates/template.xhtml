@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <f:view locale="#{userBean.locale}">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link href="#{initParam['context']}/resources/css/default.css" rel="stylesheet" type="text/css" />
+            <link href="#{initParam['context']}/resources/css/layout.css" rel="stylesheet" type="text/css" />
+<!--            <script src="#{initParam['context']}/resources/js/modernizr.js" type="text/javascript"></script>-->
+<!--            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" type="text/javascript"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>-->
+            <script src="#{initParam['context']}/resources/js/jquery.js" type="text/javascript"></script>
+            <script src="#{initParam['context']}/resources/js/jquery-ui.min.js" type="text/javascript"></script>
+            <ui:insert name="head">Head</ui:insert>
+            <title>
+                charno.net | <ui:insert name="title">Title</ui:insert>
+            </title>
+        </h:head>
+
+        <h:body>
+            <h:form id="user-menu">
+                <span id="login">
+                    <h:outputText style="color:graytext;" value="#{userBean.username}" />
+                    <h:commandLink value="[#{userBean.linkValue}]" action="#{userBean.loginLink}" />
+                </span>
+                <h:commandLink action="#{userBean.switchToEnglish}">
+                    <img src="#{initParam['context']}/resources/images/en.jpg" />
+                </h:commandLink>
+                <h:commandLink action="#{userBean.switchToGreek}">
+                    <img src="#{initParam['context']}/resources/images/gr.jpg" />
+                </h:commandLink>
+            </h:form>
+            <div id="menu">
+                <ui:include src="menu.xhtml"/>
+            </div>
+            <div id="content" class="left_content">
+                <div id="content">
+                    <ui:insert name="content">Content</ui:insert>
+                </div>
+            </div>
+
+        </h:body>
+    </f:view>
+
+</html>

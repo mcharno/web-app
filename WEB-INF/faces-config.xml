@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+    version="2.0">
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>gr</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>net.charno.web.content</base-name>
+            <var>content</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>net.charno.web.project</base-name>
+            <var>project</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>net.charno.web.photos</base-name>
+            <var>photos</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>net.charno.web.cv</base-name>
+            <var>cv</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>net.charno.web.wiki</base-name>
+            <var>wiki</var>
+        </resource-bundle>
+        <navigation-rule>
+            <navigation-case>
+                <from-outcome>login</from-outcome>
+                <to-view-id>/login.xhtml</to-view-id>
+            </navigation-case>
+        </navigation-rule>
+        <navigation-rule>
+            <navigation-case>
+                <from-view-id>/login.xhtml</from-view-id>
+                <from-outcome>success</from-outcome>
+                <to-view-id>/secure/user.xhtml</to-view-id>
+                <redirect />
+            </navigation-case>
+        </navigation-rule>
+    </application>
+    
+    <lifecycle>
+        <phase-listener>
+           net.charno.web.listeners.FrontControllerPhaseListener
+        </phase-listener>
+    </lifecycle>
+</faces-config>

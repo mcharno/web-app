@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="templates/template.xhtml">
+
+            <ui:define name="head">
+                
+            </ui:define>
+            <ui:define name="title">
+                cv
+            </ui:define>
+
+            <ui:define name="content">
+                <div id="cv">
+                    <hr />
+                    <h1 class="headers">
+                        <h:outputText value="#{cv.education}" />
+                    </h1>
+                    <hr />
+                    <h4>
+                        <h:outputText value="#{cv.ugradName}" />
+                    </h4>
+                    <p class="location">
+                        <h:outputText value="#{cv.ugradLocation}" />
+                    </p>
+
+                    <h4>
+                        <h:outputText value="#{cv.pgradName}" />
+                    </h4>
+                    <p class="location">
+                        <h:outputText value="#{cv.pgradLocation}" />
+                    </p>
+                    <hr />
+                    <h1>
+                        <h:outputText value="#{cv.experience}" />
+                    </h1>
+                    <hr />
+                    <h3>
+                        <h:outputText value="#{cv.job3Org}" />
+                    </h3>
+                    <p class="location">
+                        <h:outputText value="#{cv.job3Location}" />
+                    </p>
+                    
+                    <h3>
+                        <h:outputText value="#{cv.job1Org}" />
+                    </h3>
+                    <p class="location">
+                        <h:outputText value="#{cv.job1Location}" />
+                    </p>
+                    
+                    <h3>
+                        <h:outputText value="#{cv.job2Org}" />
+                    </h3>
+                    <p class="location">
+                        <h:outputText value="#{cv.job2Location}" />
+                    </p>
+                    
+                    <h3>
+                        <h:outputText value="#{cv.job4Org}" />
+                    </h3>
+                    <p class="location">
+                        <h:outputText value="#{cv.job4Location}" />
+                    </p>
+                    
+                    <h3>
+                        <h:outputText value="#{cv.job5Org}" />
+                    </h3>
+                    <p class="location">
+                        <h:outputText value="#{cv.job5Location}" />
+                    </p>
+                </div>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
