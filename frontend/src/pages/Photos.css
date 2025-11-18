@@ -36,7 +36,6 @@
   padding: 1.5rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
   box-shadow: 0 4px 12px var(--shadow);
   cursor: pointer;
   transition: all 0.3s ease;

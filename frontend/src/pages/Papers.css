@@ -23,7 +23,6 @@
 .paper-card {
   padding: 2rem;
   background: var(--bg-secondary);
-  border-radius: 12px;
   border-left: 4px solid var(--accent-primary);
   box-shadow: 0 4px 12px var(--shadow);
   border: 1px solid var(--border-color);
@@ -56,7 +55,6 @@
   color: var(--accent-primary);
   background-color: var(--bg-tertiary);
   padding: 0.25rem 0.75rem;
-  border-radius: 4px;
 }
 
 .abstract {
@@ -76,12 +74,12 @@
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
   background: var(--accent-primary);
-  color: white;
+  color: var(--bg-primary);
   text-decoration: none;
-  border-radius: 8px;
   transition: all 0.3s ease;
   font-weight: 500;
   box-shadow: 0 2px 8px var(--shadow);
+  border: 1px solid var(--accent-primary);
 }
 
 .pdf-link:hover {

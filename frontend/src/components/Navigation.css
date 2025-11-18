@@ -16,7 +16,6 @@
   border: 2px solid var(--border-color);
   cursor: pointer;
   padding: 0;
-  border-radius: 4px;
   overflow: hidden;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px var(--shadow);
@@ -55,7 +54,6 @@
   font-weight: 500;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
