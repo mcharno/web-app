@@ -87,7 +87,7 @@
   left: 0;
   width: 3px;
   height: 100%;
-  background: linear-gradient(180deg, var(--accent-primary), var(--accent-hover));
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent-primary));
   transform: scaleY(0);
   transition: transform 0.3s ease;
 }
@@ -160,7 +160,7 @@
 .link-indicator {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+  background: var(--accent-primary);
   color: var(--bg-primary);
   font-weight: 600;
   text-align: center;
@@ -170,7 +170,7 @@
 }
 
 .publishing-card:hover .link-indicator {
-  background: linear-gradient(135deg, var(--accent-hover), var(--accent-primary));
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
 }
 
 @media (max-width: 768px) {
