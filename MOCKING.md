@@ -1,16 +1,39 @@
 # Mock Framework Documentation
 
-This document describes how to use the mock framework for local development without database or backend dependencies.
+This document describes how to use the mock framework for local development.
+
+## Important Update: File-Based Content System
+
+**As of the latest version, the backend serves content from files (JSON and Markdown) instead of a database!**
+
+This means:
+- ✅ **No PostgreSQL required** for basic operation
+- ✅ **No database mocking needed** for backend development
+- ✅ Content is stored in `backend/content/` directory
+- ✅ All content is version-controlled and editable in Git
+- ✅ Default setup works out of the box - just run `yarn dev`!
+
+### When to Use Mocks Now
+
+**Frontend Mock API** - Still useful for:
+- **Frontend-only development** without running the backend
+- **Quick UI prototyping** without any backend
+- **Testing UI changes** in isolation
+
+**Backend Database Mocking** - Only needed for:
+- **Testing future database features** (user auth, etc.)
+- **Development of new database-dependent features**
+
+For normal development, **just use the file-based backend** - it's simpler!
 
 ## Overview
 
-The mock framework allows you to run the application locally using in-memory mock data instead of real database or API connections. This is perfect for:
+The mock framework allows you to run parts of the application in isolation:
 
-- **Frontend development** without running the backend
-- **Backend development** without setting up PostgreSQL
+- **Frontend development** without running the backend (using mock API)
+- **Backend development** with file-based content (no database needed)
 - **Quick prototyping** and UI development
 - **Demo purposes** without infrastructure setup
-- **Testing changes** without affecting real data
 
 ## Architecture
 
@@ -29,16 +52,38 @@ The mock framework allows you to run the application locally using in-memory moc
 │  (Node/Express) │
 └────────┬────────┘
          │
-         │ USE_MOCK_DB=true → Mock Database (in-memory)
-         │ USE_MOCK_DB=false → PostgreSQL (real DB)
+         │ ➡️ File-Based Content (backend/content/) - DEFAULT
+         │ (Optional: USE_MOCK_DB for testing future DB features)
          │
          ▼
-   ┌──────────┐
-   │   Data   │
-   └──────────┘
+   ┌──────────────┐
+   │ File Content │  ← JSON & Markdown files
+   └──────────────┘
 ```
 
 ## Quick Start
+
+### Recommended: Full Stack with File-Based Content (DEFAULT)
+
+**This is the recommended approach for most development:**
+
+```bash
+# Terminal 1 - Backend with file-based content
+cd backend
+cp .env.example .env  # Default config works!
+yarn install
+yarn dev
+
+# Terminal 2 - Frontend with real backend
+cd frontend
+cp .env.example .env  # Default config works!
+yarn install
+yarn dev
+```
+
+✅ Full stack running with **no database required!**
+✅ Content served from `backend/content/` directory
+✅ All content is editable and version-controlled
 
 ### Frontend Only (No Backend)
 
@@ -49,7 +94,7 @@ cd frontend
 
 # Create .env file
 cat > .env << EOF
-VITE_API_URL=http://localhost:5000/api
+VITE_API_URL=http://localhost:3080/api
 VITE_USE_MOCK_API=true
 EOF
 
@@ -59,69 +104,6 @@ yarn dev
 
 ✅ Frontend will use mock API responses - **no backend needed!**
 
-### Backend with Mock Database
-
-Perfect for backend development without PostgreSQL:
-
-```bash
-cd backend
-
-# Create .env file
-cat > .env << EOF
-PORT=5000
-NODE_ENV=development
-USE_MOCK_DB=true
-EOF
-
-# Start backend
-yarn dev
-```
-
-✅ Backend will use mock database - **no PostgreSQL needed!**
-
-### Full Stack with Mocks
-
-Both frontend and backend using mocks:
-
-```bash
-# Terminal 1 - Backend with mock database
-cd backend
-echo "USE_MOCK_DB=true" > .env
-yarn dev
-
-# Terminal 2 - Frontend with real backend
-cd frontend
-echo "VITE_USE_MOCK_API=false" > .env
-yarn dev
-```
-
-✅ Full stack running - **no PostgreSQL needed!**
-
-### Full Stack with Real Data
-
-Production-like setup:
-
-```bash
-# Terminal 1 - Backend with PostgreSQL
-cd backend
-cat > .env << EOF
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=charno_web
-DB_USER=postgres
-DB_PASSWORD=postgres
-USE_MOCK_DB=false
-EOF
-yarn dev
-
-# Terminal 2 - Frontend with real backend
-cd frontend
-echo "VITE_USE_MOCK_API=false" > .env
-yarn dev
-```
-
-✅ Full stack with real database
-
 ## Configuration
 
 ### Backend Environment Variables
@@ -129,27 +111,34 @@ yarn dev
 **File:** `backend/.env`
 
 ```bash
-# Use mock database instead of PostgreSQL
-USE_MOCK_DB=true   # or false for real database
+# Server port (default: 3080)
+PORT=3080
+NODE_ENV=development
 
-# PostgreSQL config (only needed if USE_MOCK_DB=false)
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=charno_web
-DB_USER=postgres
-DB_PASSWORD=postgres
+# Frontend URL for CORS
+FRONTEND_URL=http://localhost:5173
+
+# Database config - OPTIONAL (not needed for file-based content)
+# Only uncomment if you're developing future database features
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=charno_web
+# DB_USER=postgres
+# DB_PASSWORD=postgres
 ```
+
+**Note:** The backend automatically serves content from `backend/content/` files. No database configuration needed!
 
 ### Frontend Environment Variables
 
 **File:** `frontend/.env`
 
 ```bash
-# Use mock API instead of real backend
-VITE_USE_MOCK_API=true   # or false for real API
+# Backend API URL (default port: 3080)
+VITE_API_URL=http://localhost:3080/api
 
-# Backend API URL (only needed if VITE_USE_MOCK_API=false)
-VITE_API_URL=http://localhost:5000/api
+# Use mock API instead of real backend
+VITE_USE_MOCK_API=false   # Set to true for frontend-only development
 ```
 
 ## Mock Data
