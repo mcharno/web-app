@@ -36,6 +36,7 @@
 .paper-card:hover {
   transform: translateX(4px);
   box-shadow: 0 6px 16px var(--shadow);
+  border-left-color: var(--accent-hover);
   border-left-width: 6px;
   text-decoration: none;
 }
