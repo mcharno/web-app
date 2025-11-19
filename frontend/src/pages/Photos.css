@@ -68,13 +68,13 @@
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--accent-primary);
-  background: rgba(222, 255, 0, 0.1);
+  background: rgba(255, 184, 0, 0.1);
   border: 1px solid var(--accent-primary);
   transition: all 0.2s ease;
 }
 
 .tag:hover {
-  background: rgba(222, 255, 0, 0.2);
+  background: rgba(255, 184, 0, 0.2);
 }
 
 @media (max-width: 768px) {

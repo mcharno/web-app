@@ -9,7 +9,12 @@ const MainLayout = () => {
   return (
     <div className="main-layout">
       <header>
-        <h1 className="site-title">charno.net</h1>
+        <div className="header-top">
+          <div className="header-icon">
+            <img src="/images/header_icon.png" alt="Site Icon" />
+          </div>
+          <h1 className="site-title">charno.net</h1>
+        </div>
         <Navigation />
       </header>
       <main className="content">
