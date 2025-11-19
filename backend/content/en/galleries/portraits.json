@@ -1,0 +1,24 @@
+{
+  "name": "Portraits",
+  "category": "people",
+  "description": "Portrait photography and candid shots",
+  "tags": ["people", "portraits", "candid"],
+  "photos": [
+    {
+      "id": "profile-portrait",
+      "filename": "avatar.gif",
+      "caption": "Profile portrait",
+      "location": "Studio",
+      "taken_date": "2023-05-01",
+      "display_order": 1
+    },
+    {
+      "id": "team-portrait",
+      "filename": "cricket-2005.jpg",
+      "caption": "Team portrait session",
+      "location": "York, UK",
+      "taken_date": "2023-05-15",
+      "display_order": 2
+    }
+  ]
+}

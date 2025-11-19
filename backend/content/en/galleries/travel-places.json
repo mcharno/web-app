@@ -1,0 +1,32 @@
+{
+  "name": "Travel & Places",
+  "category": "travel",
+  "description": "Beautiful locations from around the world",
+  "tags": ["travel", "landscapes", "architecture", "places"],
+  "photos": [
+    {
+      "id": "mountain-view",
+      "filename": "sample1.jpg",
+      "caption": "Scenic mountain view",
+      "location": "Various",
+      "taken_date": "2023-06-10",
+      "display_order": 1
+    },
+    {
+      "id": "urban-architecture",
+      "filename": "sample2.jpg",
+      "caption": "Urban architecture",
+      "location": "Various",
+      "taken_date": "2023-06-12",
+      "display_order": 2
+    },
+    {
+      "id": "coastal-scenery",
+      "filename": "sample5.jpg",
+      "caption": "Coastal scenery",
+      "location": "Various",
+      "taken_date": "2023-06-15",
+      "display_order": 3
+    }
+  ]
+}

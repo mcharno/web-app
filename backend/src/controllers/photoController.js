@@ -1,13 +1,10 @@
-import pool from '../config/database.js';
+import { loadAllGalleries, loadGallery } from '../utils/contentLoader.js';
 
 export const getAllGalleries = async (req, res) => {
   try {
     const { language = 'en' } = req.query;
-    const result = await pool.query(
-      'SELECT DISTINCT gallery_name, gallery_category, gallery_description FROM photos WHERE language = $1 ORDER BY gallery_name',
-      [language]
-    );
-    res.json(result.rows);
+    const galleries = await loadAllGalleries(language);
+    res.json(galleries);
   } catch (error) {
     console.error('Error fetching galleries:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -18,13 +15,36 @@ export const getPhotosByGallery = async (req, res) => {
   try {
     const { name } = req.params;
     const { language = 'en' } = req.query;
-    const result = await pool.query(
-      'SELECT * FROM photos WHERE gallery_name = $1 AND language = $2 ORDER BY display_order',
-      [name, language]
-    );
-    res.json(result.rows);
+
+    // Convert gallery name to kebab-case for file lookup
+    const galleryFileName = name.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '');
+    const gallery = await loadGallery(language, galleryFileName);
+
+    if (!gallery) {
+      return res.status(404).json({ error: 'Gallery not found' });
+    }
+
+    // Return photos sorted by display_order
+    const sortedPhotos = gallery.photos.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
+
+    // Add gallery metadata to each photo for compatibility
+    const photosWithMetadata = sortedPhotos.map(photo => ({
+      ...photo,
+      gallery_name: gallery.name,
+      gallery_category: gallery.category,
+      gallery_description: gallery.description,
+      gallery_tags: gallery.tags,
+      language
+    }));
+
+    res.json(photosWithMetadata);
   } catch (error) {
     console.error('Error fetching photos:', error);
+
+    if (error.message.includes('not found')) {
+      return res.status(404).json({ error: 'Gallery not found' });
+    }
+
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -32,16 +52,28 @@ export const getPhotosByGallery = async (req, res) => {
 export const getPhotoById = async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query(
-      'SELECT * FROM photos WHERE id = $1',
-      [id]
-    );
+    const { language = 'en' } = req.query;
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Photo not found' });
+    // Load all galleries and search for the photo
+    const galleries = await loadAllGalleries(language);
+
+    for (const galleryMeta of galleries) {
+      const gallery = await loadGallery(language, galleryMeta.gallery_name);
+      const photo = gallery.photos.find(p => p.id === id);
+
+      if (photo) {
+        return res.json({
+          ...photo,
+          gallery_name: gallery.name,
+          gallery_category: gallery.category,
+          gallery_description: gallery.description,
+          gallery_tags: gallery.tags,
+          language
+        });
+      }
     }
 
-    res.json(result.rows[0]);
+    res.status(404).json({ error: 'Photo not found' });
   } catch (error) {
     console.error('Error fetching photo:', error);
     res.status(500).json({ error: 'Internal server error' });
