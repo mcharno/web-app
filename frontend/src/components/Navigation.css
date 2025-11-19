@@ -21,7 +21,8 @@
 .menu a {
   text-decoration: none;
   color: var(--text-primary);
-  font-family: "Major Mono Display", monospace;
+  font-family: "Ubuntu Sans Mono", monospace;
+  font-optical-sizing: auto;
   font-weight: 400;
   font-size: 1rem;
   padding: 0.5rem 1rem;
