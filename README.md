@@ -10,7 +10,8 @@ This is a personal website showcasing academic work, projects, publications, pho
 
 ### Backend
 - **Node.js** with **Express.js** - RESTful API server
-- **PostgreSQL** - Database for content storage
+- **File-based content system** - JSON and Markdown files for content (no database required)
+- **PostgreSQL support** - Optional database for future features
 - **Modern ES6 modules** - Clean, modern JavaScript
 
 ### Frontend
@@ -26,12 +27,16 @@ This is a personal website showcasing academic work, projects, publications, pho
 ```
 web-app/
 ├── backend/              # Express.js API server
+│   ├── content/         # File-based content storage
+│   │   ├── en/          # English content (JSON, Markdown)
+│   │   └── gr/          # Greek content (JSON, Markdown)
 │   ├── src/
-│   │   ├── config/      # Database config and schemas
+│   │   ├── config/      # Database config and schemas (optional)
 │   │   ├── controllers/ # Request handlers
 │   │   ├── routes/      # API route definitions
 │   │   ├── middleware/  # Custom middleware
-│   │   ├── mocks/       # Mock data for local development
+│   │   ├── utils/       # Utilities (contentLoader, etc.)
+│   │   ├── mocks/       # Mock data for testing
 │   │   └── server.js    # Main server file
 │   ├── Dockerfile       # Backend container image
 │   ├── package.json
@@ -81,9 +86,10 @@ web-app/
 
 ### Prerequisites
 
-- Node.js 18+ and yarn
-- PostgreSQL 12+
+- Node.js 18+ and yarn (or npm)
 - Git
+
+**Note:** PostgreSQL is no longer required for basic operation! The backend now serves content from files stored in `backend/content/`.
 
 ### Installation
 
@@ -93,33 +99,23 @@ web-app/
    cd web-app
    ```
 
-2. **Set up the database**
-   ```bash
-   # Create PostgreSQL database
-   createdb charno_web
-
-   # Run schema
-   psql charno_web < backend/src/config/schema.sql
-
-   # (Optional) Seed initial data
-   psql charno_web < backend/src/config/seed.sql
-   ```
-
-3. **Configure the backend**
+2. **Configure the backend**
    ```bash
    cd backend
    cp .env.example .env
-   # Edit .env with your database credentials
+   # Default configuration works out of the box - no editing needed!
    yarn install
    ```
 
-4. **Configure the frontend**
+3. **Configure the frontend**
    ```bash
    cd ../frontend
    cp .env.example .env
-   # Edit .env if needed (API URL)
+   # Default configuration works out of the box - no editing needed!
    yarn install
    ```
+
+That's it! No database setup required. All content is stored in versioned files.
 
 ### Running the Application
 
@@ -130,7 +126,7 @@ web-app/
    cd backend
    yarn dev
    ```
-   Backend will run on http://localhost:5000
+   Backend will run on http://localhost:3080
 
 2. **Start the frontend dev server** (in a new terminal)
    ```bash
@@ -138,6 +134,8 @@ web-app/
    yarn dev
    ```
    Frontend will run on http://localhost:5173
+
+The frontend will automatically connect to the backend. No mocking or database required!
 
 #### Production Mode
 
@@ -173,8 +171,9 @@ web-app/
 
 ### Development Features
 
+- **File-Based Content** - No database required! All content stored in Git-friendly files
 - **Comprehensive Testing** - 75% code coverage with Jest (backend) and Vitest (frontend)
-- **Mock Framework** - Runtime-toggleable mocks for database and API (see [MOCKING.md](MOCKING.md))
+- **Mock Framework** - Runtime-toggleable mocks for API development (see [MOCKING.md](MOCKING.md))
 - **Docker Support** - Full Docker Compose setup for local development (see [DOCKER.md](DOCKER.md))
 - **CI/CD Pipeline** - Automated testing, building, and deployment via GitHub Actions
 - **GitOps Deployment** - ArgoCD-based continuous deployment to k3s
@@ -211,18 +210,36 @@ web-app/
 - `GET /api/blog?language=en` - Get all blog posts
 - `GET /api/blog/:page?language=en` - Get blog post by page name
 
-## Database Schema
+## Content Management
 
-The application uses PostgreSQL with the following main tables:
+The application uses a **file-based content system** with no database required:
 
-- `content` - Internationalized content strings
-- `projects` - Project information
-- `papers` - Academic publications
-- `photos` - Photo gallery data
-- `blog_posts` - Blog/wiki content
-- `cv_sections` - CV information
+### Content Structure
 
-See `backend/src/config/schema.sql` for the complete schema.
+```
+backend/content/
+├── en/                          # English content
+│   ├── projects.json            # Project listings
+│   ├── papers.json              # Academic papers
+│   ├── content.json             # i18n strings/labels
+│   ├── blog/                    # Markdown blog posts
+│   │   └── *.md                 # Posts with frontmatter
+│   └── galleries/               # Photo gallery definitions
+│       └── *.json               # Gallery metadata and photos
+└── gr/                          # Greek content (same structure)
+```
+
+### Content Types
+
+- **JSON files** - Structured data (projects, papers, galleries, i18n)
+- **Markdown files** - Blog posts with YAML frontmatter
+- **Gallery files** - Photo metadata organized by gallery
+
+All content is version-controlled and can be edited directly in GitHub!
+
+### Database Support (Optional)
+
+PostgreSQL support is available for future features. See `backend/src/config/schema.sql` for the database schema if needed.
 
 ## Infrastructure
 
@@ -309,8 +326,9 @@ This project was migrated from a JSF/JSP application to a modern stack:
 ### What's different:
 - Modern React instead of JSF Facelets
 - RESTful API instead of Java servlets
-- PostgreSQL instead of flat file storage (for wiki)
+- File-based content system (JSON/Markdown) instead of database or flat files
 - Vite build system instead of Maven/WAR deployment
+- No database required for basic operation
 
 ## License
 
