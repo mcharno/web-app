@@ -1,0 +1,196 @@
+.publishings-page h2 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  flex-wrap: wrap;
+}
+
+.filter-control,
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.controls label {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.controls select {
+  padding: 0.5rem 1rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.controls select:hover {
+  border-color: var(--accent-primary);
+}
+
+.controls select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.publishings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.publishing-card {
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--accent-primary);
+  box-shadow: 0 4px 12px var(--shadow);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  position: relative;
+}
+
+.publishing-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 16px var(--shadow);
+  border-left-color: var(--accent-hover);
+  border-left-width: 6px;
+  text-decoration: none;
+}
+
+.type-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.75rem;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.publishing-card h3 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 1.4rem;
+  padding-right: 6rem;
+}
+
+.publishing-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.meta-info {
+  flex: 1;
+}
+
+.year {
+  font-weight: 600;
+  color: var(--accent-primary);
+  background-color: var(--bg-tertiary);
+  padding: 0.25rem 0.75rem;
+  white-space: nowrap;
+}
+
+.abstract {
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin: 1rem 0;
+}
+
+.keywords {
+  margin: 1rem 0;
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+}
+
+.link-indicator {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.publishing-card:hover .link-indicator {
+  background: var(--accent-hover);
+}
+
+@media (max-width: 768px) {
+  .publishings-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filter-control,
+  .sort-control {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .controls select {
+    width: 100%;
+  }
+
+  .publishing-card {
+    padding: 1.5rem;
+  }
+
+  .publishing-card h3 {
+    padding-right: 0;
+    margin-top: 2rem;
+  }
+
+  .type-badge {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}

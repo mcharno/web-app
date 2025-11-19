@@ -14,21 +14,20 @@ const About = () => {
     const updateTimes = () => {
       const now = new Date();
 
-      // Get times in specific timezones
-      const yorkTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }));
-      const portlandTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
-      const vasilikoTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Athens' }));
-
-      const formatTime = (date) => {
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-        return `${hours}:${minutes}`;
+      // Format time for specific timezone using Intl.DateTimeFormat
+      const formatTimeInZone = (timeZone) => {
+        return new Intl.DateTimeFormat('en-US', {
+          timeZone,
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        }).format(now);
       };
 
       setTimes({
-        york: formatTime(yorkTime),
-        portland: formatTime(portlandTime),
-        vasiliko: formatTime(vasilikoTime)
+        york: formatTimeInZone('Europe/London'),
+        portland: formatTimeInZone('America/Los_Angeles'),
+        vasiliko: formatTimeInZone('Europe/Athens')
       });
     };
 
