@@ -141,7 +141,7 @@ const Publishings = () => {
               </div>
             )}
             <div className="link-indicator">
-              {item.type === 'talk' ? 'View Slides →' : 'View PDF →'}
+              {item.link_text || (item.type === 'talk' ? 'View Slides →' : 'View PDF →')}
             </div>
           </a>
         ))}
