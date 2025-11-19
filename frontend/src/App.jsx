@@ -5,8 +5,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
-import Papers from './pages/Papers';
-import Presentations from './pages/Presentations';
+import Publishings from './pages/Publishings';
 import Photos from './pages/Photos';
 import PhotoGallery from './pages/PhotoGallery';
 import CV from './pages/CV';
@@ -24,8 +23,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="projects" element={<Projects />} />
             <Route path="projects/:id" element={<ProjectDetail />} />
-            <Route path="papers" element={<Papers />} />
-            <Route path="presentations" element={<Presentations />} />
+            <Route path="publishings" element={<Publishings />} />
             <Route path="photos" element={<Photos />} />
             <Route path="photos/:galleryName" element={<PhotoGallery />} />
             <Route path="cricket" element={<Cricket />} />
