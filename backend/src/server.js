@@ -12,7 +12,7 @@ import blogRoutes from './routes/blogRoutes.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3080;
 
 // Middleware
 app.use(helmet());

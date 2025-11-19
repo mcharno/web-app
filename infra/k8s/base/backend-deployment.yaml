@@ -29,14 +29,14 @@ spec:
         image: ghcr.io/GITHUB_USERNAME/charno-backend:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 5000
+        - containerPort: 3080
           name: http
           protocol: TCP
         env:
         - name: NODE_ENV
           value: "production"
         - name: PORT
-          value: "5000"
+          value: "3080"
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
@@ -72,7 +72,7 @@ spec:
         livenessProbe:
           httpGet:
             path: /api/health
-            port: 5000
+            port: 3080
           initialDelaySeconds: 10
           periodSeconds: 30
           timeoutSeconds: 5
@@ -80,7 +80,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /api/health
-            port: 5000
+            port: 3080
           initialDelaySeconds: 5
           periodSeconds: 10
           timeoutSeconds: 3

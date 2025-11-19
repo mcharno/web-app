@@ -12,7 +12,7 @@ spec:
     app: charno-backend
   ports:
   - name: http
-    port: 5000
-    targetPort: 5000
+    port: 3080
+    targetPort: 3080
     protocol: TCP
   sessionAffinity: None

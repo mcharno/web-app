@@ -65,13 +65,13 @@
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--accent-primary);
-  background: rgba(255, 184, 0, 0.1);
+  background: rgba(228, 236, 24, 0.1);
   border: 1px solid var(--accent-primary);
   transition: all 0.2s ease;
 }
 
 .gallery-header-tags .tag:hover {
-  background: rgba(255, 184, 0, 0.2);
+  background: rgba(228, 236, 24, 0.2);
 }
 
 .photo-grid {
@@ -93,7 +93,7 @@
 
 .photo-thumbnail:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 184, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(228, 236, 24, 0.2);
   border-color: var(--accent-primary);
 }
 
