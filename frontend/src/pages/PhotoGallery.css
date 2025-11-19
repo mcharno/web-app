@@ -105,7 +105,7 @@
   aspect-ratio: 4/3;
   overflow: hidden;
   background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  border: 3px solid var(--accent-primary);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -179,6 +179,18 @@
   --yarl__color_button: var(--accent-primary);
   --yarl__color_button_active: var(--accent-hover);
   --yarl__thumbnails_thumbnail_border: var(--accent-primary);
+}
+
+/* Minimize arrow movement on hover */
+.yarl__button.yarl__navigation_prev,
+.yarl__button.yarl__navigation_next {
+  transition: transform 0.15s ease, opacity 0.15s ease !important;
+}
+
+.yarl__button.yarl__navigation_prev:hover,
+.yarl__button.yarl__navigation_next:hover {
+  transform: scale(1.05) !important;
+  opacity: 1 !important;
 }
 
 /* Mobile responsiveness */
