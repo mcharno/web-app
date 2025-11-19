@@ -105,14 +105,14 @@
   aspect-ratio: 4/3;
   overflow: hidden;
   background: var(--bg-secondary);
-  border: 2px solid rgba(228, 236, 24, 0.4);
+  border: 2px solid rgba(228, 236, 24, 0.66);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .photo-thumbnail:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(228, 236, 24, 0.3);
+  box-shadow: 0 8px 24px rgba(255, 140, 0, 0.6);
   border-color: var(--accent-primary);
 }
 
