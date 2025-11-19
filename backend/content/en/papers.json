@@ -1,0 +1,26 @@
+[
+  {
+    "id": "digital-methods-2023",
+    "title": "Digital Methods in Archaeological Research",
+    "abstract": "This paper explores the application of digital technologies in modern archaeological research...",
+    "authors": "Michael Charno, Jane Doe",
+    "year": 2023,
+    "journal": "Journal of Digital Archaeology",
+    "pdf_url": "https://example.com/paper1",
+    "keywords": "archaeology, digital methods, GIS",
+    "created_at": "2023-05-10",
+    "updated_at": "2023-05-10"
+  },
+  {
+    "id": "web-data-management-2022",
+    "title": "Web-based Archaeological Data Management Systems",
+    "abstract": "An analysis of web-based systems for managing archaeological excavation data...",
+    "authors": "Michael Charno",
+    "year": 2022,
+    "journal": "International Journal of Heritage Studies",
+    "pdf_url": "https://example.com/paper2",
+    "keywords": "web development, databases, archaeology",
+    "created_at": "2022-11-15",
+    "updated_at": "2022-11-15"
+  }
+]

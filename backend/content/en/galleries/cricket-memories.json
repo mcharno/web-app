@@ -1,0 +1,32 @@
+{
+  "name": "Cricket Memories",
+  "category": "sports",
+  "description": "Highlights from cricket matches and team celebrations",
+  "tags": ["cricket", "sports", "team", "memories"],
+  "photos": [
+    {
+      "id": "cricket-team-2023",
+      "filename": "cricket-team.jpg",
+      "caption": "Team photo from the 2023 season",
+      "location": "York, UK",
+      "taken_date": "2023-08-15",
+      "display_order": 1
+    },
+    {
+      "id": "cricket-2005",
+      "filename": "cricket-2005.jpg",
+      "caption": "Championship winning team 2005",
+      "location": "York, UK",
+      "taken_date": "2005-09-20",
+      "display_order": 2
+    },
+    {
+      "id": "trophy",
+      "filename": "trophy.jpg",
+      "caption": "Trophy presentation ceremony",
+      "location": "York, UK",
+      "taken_date": "2005-09-20",
+      "display_order": 3
+    }
+  ]
+}
