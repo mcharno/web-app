@@ -34,6 +34,19 @@ header {
   object-fit: contain;
 }
 
+.site-title {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  margin: 0;
+  font-size: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  color: var(--accent-primary);
+  z-index: 10;
+  letter-spacing: 0.05em;
+}
+
 .content {
   flex: 1;
   max-width: 1200px;
@@ -75,30 +88,23 @@ footer p {
   padding: 0;
   overflow: hidden;
   transition: opacity 0.3s ease;
-}
-
-.lang-btn img {
-  width: 20px;
-  height: 20px;
-  display: block;
-  object-fit: cover;
-}
-
-.lang-btn:hover {
-  opacity: 0.7;
-}
-
 @media (max-width: 768px) {
   header {
     height: 120px;
   }
 
   .header-icon {
-    left: 1rem;
+    left: 0;
   }
 
   .header-icon img {
     height: 120px;
+  }
+
+  .site-title {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.2rem;
   }
 
   .content {

@@ -16,14 +16,14 @@ const Home = () => {
       const now = new Date();
 
       setTimes({
-        york: format(now, 'HH:mm:ss', { timeZone: 'Europe/London' }),
-        portland: format(now, 'HH:mm:ss', { timeZone: 'America/Los_Angeles' }),
-        vasiliko: format(now, 'HH:mm:ss', { timeZone: 'Europe/Athens' })
+        york: format(now, 'HH:mm'),
+        portland: format(now, 'HH:mm'),
+        vasiliko: format(now, 'HH:mm')
       });
     };
 
     updateTimes();
-    const interval = setInterval(updateTimes, 1000);
+    const interval = setInterval(updateTimes, 60000); // Update every minute instead of every second
 
     return () => clearInterval(interval);
   }, []);

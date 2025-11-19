@@ -12,11 +12,43 @@
   padding-bottom: 0.5rem;
 }
 
+.about-content {
+  margin-bottom: 3rem;
+}
+
+.about-content p {
+  line-height: 1.8;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
 .about-page p {
   line-height: 1.8;
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
   font-size: 1.05rem;
+}
+
+.time-zones {
+  margin-top: 3rem;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.time-zones p {
+  font-size: 0.85rem;
+  margin: 0;
+  color: var(--text-secondary);
+  font-family: 'Courier New', monospace;
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-tertiary);
+  border-left: 2px solid var(--accent-primary);
 }
 
 .about-page ul {
