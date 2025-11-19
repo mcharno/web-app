@@ -77,6 +77,23 @@
   color: inherit;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
+}
+
+.publishing-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-hover));
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.publishing-card:hover::before {
+  transform: scaleY(1);
 }
 
 .publishing-card:hover {
@@ -143,16 +160,17 @@
 .link-indicator {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
   color: var(--bg-primary);
   font-weight: 600;
   text-align: center;
   display: inline-block;
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .publishing-card:hover .link-indicator {
-  background: var(--accent-hover);
+  background: linear-gradient(135deg, var(--accent-hover), var(--accent-primary));
 }
 
 @media (max-width: 768px) {
