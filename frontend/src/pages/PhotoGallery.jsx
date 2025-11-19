@@ -22,7 +22,7 @@ const PhotoGallery = () => {
   useEffect(() => {
     const fetchGalleryPhotos = async () => {
       try {
-        const response = await photosAPI.getGalleryPhotos(
+        const response = await photosAPI.getByGallery(
           decodeURIComponent(galleryName),
           language
         );
