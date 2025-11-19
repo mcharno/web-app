@@ -7,9 +7,10 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem;
   background-color: var(--bg-tertiary);
   justify-content: center;
+  position: relative;
 }
 
 .menu a {
@@ -20,13 +21,12 @@
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
 }
 
 .menu a::before {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -0.5rem;
   left: 50%;
   width: 0;
   height: 2px;
