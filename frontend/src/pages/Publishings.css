@@ -87,7 +87,7 @@
   left: 0;
   width: 3px;
   height: 100%;
-  background: linear-gradient(180deg, var(--accent-hover), var(--accent-primary));
+  background: linear-gradient(to bottom left, var(--accent-hover), var(--accent-primary));
   transform: scaleY(0);
   transition: transform 0.3s ease;
 }
@@ -170,7 +170,7 @@
 }
 
 .publishing-card:hover .link-indicator {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-hover));
+  background: linear-gradient(135deg, var(--accent-hover), var(--accent-primary));
 }
 
 @media (max-width: 768px) {
