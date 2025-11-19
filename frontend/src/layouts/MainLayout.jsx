@@ -12,6 +12,7 @@ const MainLayout = () => {
         <div className="header-icon">
           <img src="/images/header_icon.png" alt="Site Icon" />
         </div>
+        <h1 className="site-title">charno.net</h1>
         <Navigation />
       </header>
       <main className="content">

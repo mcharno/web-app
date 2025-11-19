@@ -53,8 +53,8 @@
 
 .gallery-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 20px var(--shadow);
-  border-color: var(--accent-hover);
+  box-shadow: 0 8px 24px var(--shadow);
+  border-color: var(--accent-primary);
   text-decoration: none;
 }
 
