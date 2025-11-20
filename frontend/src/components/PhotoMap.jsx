@@ -154,24 +154,33 @@ const PhotoMap = ({ photos, onPhotoClick }) => {
       // Click handler for individual photos
       map.current.on('click', 'unclustered-point', (e) => {
         const coordinates = e.features[0].geometry.coordinates.slice();
-        const { caption, location, gallery_name } = e.features[0].properties;
+        const { id, caption, location, gallery_name } = e.features[0].properties;
 
-        // Create popup
-        new maplibregl.Popup()
+        // Create popup with clickable link
+        const popup = new maplibregl.Popup()
           .setLngLat(coordinates)
           .setHTML(
             `<div class="photo-popup">
               <h4>${caption}</h4>
               <p class="popup-location">${location}</p>
               <p class="popup-gallery">${gallery_name}</p>
+              <button class="popup-view-button" data-photo-id="${id}">
+                View Photo
+              </button>
             </div>`
           )
           .addTo(map.current);
 
-        // Call onPhotoClick if provided
-        if (onPhotoClick) {
-          onPhotoClick(e.features[0].properties.id);
-        }
+        // Add click listener to the button after popup is added
+        popup.on('open', () => {
+          const button = document.querySelector('.popup-view-button');
+          if (button && onPhotoClick) {
+            button.addEventListener('click', () => {
+              onPhotoClick(id);
+              popup.remove(); // Close popup after opening lightbox
+            });
+          }
+        });
       });
 
       // Change cursor on hover
