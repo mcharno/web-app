@@ -29,12 +29,6 @@
   border-left: 3px solid var(--accent-primary);
 }
 
-.time-zones p:hover {
-  background-color: var(--bg-primary);
-  transform: translateX(4px);
-  transition: all 0.3s ease;
-}
-
 .avatar-container {
   margin-top: 3rem;
   display: flex;

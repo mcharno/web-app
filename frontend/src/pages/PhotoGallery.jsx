@@ -75,7 +75,7 @@ const PhotoGallery = () => {
       </button>
 
       <div className="gallery-header">
-        <h2>{galleryInfo.name}</h2>
+        <h3>{galleryInfo.name}</h3>
         {galleryInfo.description && (
           <p className="gallery-intro">{galleryInfo.description}</p>
         )}
