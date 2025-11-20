@@ -6,13 +6,13 @@ const CricketFrame = () => {
   const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate('/cricket');
+    navigate('/archives');
   };
 
   return (
     <div className="cricket-frame-container">
       <button className="back-button" onClick={handleBack}>
-        ← Back
+        ← Back to Archives
       </button>
       <iframe
         src={`/cricket/${page}`}

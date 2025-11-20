@@ -1,9 +1,13 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './Navigation.css';
 
 const Navigation = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+
+  // Check if we're on a cricket-related page
+  const isArchivesActive = location.pathname === '/archives' || location.pathname.startsWith('/cricket');
 
   return (
     <nav className="navigation">
@@ -12,7 +16,7 @@ const Navigation = () => {
         <NavLink to="/projects">{t('menu.projects')}</NavLink>
         <NavLink to="/publishings">publishings</NavLink>
         <NavLink to="/photos">{t('menu.photos')}</NavLink>
-        <NavLink to="/archives">archives</NavLink>
+        <NavLink to="/archives" className={isArchivesActive ? 'active' : ''}>archives</NavLink>
         <NavLink to="/cv">{t('menu.cv')}</NavLink>
       </div>
     </nav>

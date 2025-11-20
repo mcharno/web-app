@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Cricket.css';
 
 const Cricket = () => {
+  const navigate = useNavigate();
   const seasons = [
     { year: '2011', label: '2011' },
     { year: '2010', label: '2010' },
@@ -22,6 +23,9 @@ const Cricket = () => {
 
   return (
     <div className="cricket-page">
+      <button className="back-to-archives" onClick={() => navigate('/archives')}>
+        ← Back to Archives
+      </button>
       <div className="cricket-header">
         <img
           src="/cricket/ball_small.gif"
