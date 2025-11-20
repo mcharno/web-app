@@ -4,6 +4,22 @@
   padding: 2rem;
 }
 
+.archives-page h2 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
+}
+
+.archives-intro {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
 .archives-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -96,13 +112,31 @@
   align-self: flex-start;
   border: 2px solid var(--accent-primary);
   box-shadow: 0 4px 12px var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.archive-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.archive-link:hover::before {
+  transform: scaleX(1);
 }
 
 .archive-link:hover {
   background: var(--bg-tertiary);
   color: var(--accent-primary);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 140, 0, 0.6);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px var(--shadow);
   border-color: var(--accent-primary);
 }
 
