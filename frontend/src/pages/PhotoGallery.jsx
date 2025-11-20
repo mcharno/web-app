@@ -5,10 +5,9 @@ import { useLanguage } from '../contexts/LanguageContext';
 import Lightbox from 'yet-another-react-lightbox';
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import Captions from 'yet-another-react-lightbox/plugins/captions';
+import PhotoInfoPanel from '../components/PhotoInfoPanel';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
-import 'yet-another-react-lightbox/plugins/captions.css';
 import './PhotoGallery.css';
 
 const PhotoGallery = () => {
@@ -20,6 +19,7 @@ const PhotoGallery = () => {
   const [loading, setLoading] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [infoPanelOpen, setInfoPanelOpen] = useState(false);
 
   useEffect(() => {
     const fetchGalleryPhotos = async () => {
@@ -62,25 +62,14 @@ const PhotoGallery = () => {
     );
   }
 
-  // Prepare slides for lightbox with metadata
-  const slides = photos.map((photo) => {
-    const metadata = [];
-    if (photo.location) metadata.push(`📍 ${photo.location}`);
-    if (photo.taken_date) {
-      const date = new Date(photo.taken_date);
-      metadata.push(`📅 ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`);
-    }
-    if (photo.latitude && photo.longitude) {
-      metadata.push(`🌍 ${photo.latitude.toFixed(4)}°, ${photo.longitude.toFixed(4)}°`);
-    }
+  // Prepare slides for lightbox
+  const slides = photos.map((photo) => ({
+    src: `/images/photos/${photo.filename}`,
+    alt: photo.caption || photo.filename,
+  }));
 
-    return {
-      src: `/images/photos/${photo.filename}`,
-      alt: photo.caption || photo.filename,
-      title: photo.caption,
-      description: metadata.join(' • ')
-    };
-  });
+  // Get current photo data
+  const currentPhoto = photos[currentIndex];
 
   return (
     <div className="photo-gallery-page">
@@ -129,15 +118,19 @@ const PhotoGallery = () => {
 
       <Lightbox
         open={lightboxOpen}
-        close={() => setLightboxOpen(false)}
+        close={() => {
+          setLightboxOpen(false);
+          setInfoPanelOpen(false);
+        }}
         slides={slides}
         index={currentIndex}
-        plugins={[Captions, Thumbnails, Zoom]}
-        captions={{
-          showToggle: true,
-          descriptionTextAlign: 'center',
-          descriptionMaxLines: 3
+        on={{
+          view: ({ index }) => {
+            setCurrentIndex(index);
+            setInfoPanelOpen(false);
+          },
         }}
+        plugins={[Thumbnails, Zoom]}
         thumbnails={{
           position: 'bottom',
           width: 120,
@@ -152,9 +145,37 @@ const PhotoGallery = () => {
           maxZoomPixelRatio: 3,
           scrollToZoom: true
         }}
+        toolbar={{
+          buttons: [
+            <button
+              key="info"
+              type="button"
+              className="yarl__button"
+              aria-label="Toggle info"
+              onClick={() => setInfoPanelOpen(!infoPanelOpen)}
+              style={{
+                fontSize: '1.5rem',
+                background: infoPanelOpen ? 'rgba(228, 236, 24, 0.2)' : 'transparent',
+              }}
+            >
+              ℹ️
+            </button>,
+            'close',
+          ],
+        }}
         animation={{ fade: 250 }}
         controller={{ closeOnBackdropClick: true }}
       />
+
+      {lightboxOpen && (
+        <PhotoInfoPanel
+          photo={{
+            ...currentPhoto,
+            title: currentPhoto?.caption,
+          }}
+          isOpen={infoPanelOpen}
+        />
+      )}
     </div>
   );
 };
