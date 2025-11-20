@@ -142,7 +142,7 @@ const PhotoGallery = () => {
         on={{
           view: ({ index }) => {
             setCurrentIndex(index);
-            setInfoPanelOpen(false);
+            // Keep info panel state persistent between photos
           },
         }}
         plugins={[Thumbnails, Zoom]}
@@ -182,19 +182,13 @@ const PhotoGallery = () => {
       />
 
       {lightboxOpen && (
-        <>
-          <div className="lightbox-static-header">
-            <h3 className="lightbox-photo-title">{currentPhoto?.caption || 'Untitled'}</h3>
-            {/* YARL toolbar will be positioned here via CSS */}
-          </div>
-          <PhotoInfoPanel
-            photo={{
-              ...currentPhoto,
-              title: currentPhoto?.caption,
-            }}
-            isOpen={infoPanelOpen}
-          />
-        </>
+        <PhotoInfoPanel
+          photo={{
+            ...currentPhoto,
+            title: currentPhoto?.caption,
+          }}
+          isOpen={infoPanelOpen}
+        />
       )}
     </div>
   );
