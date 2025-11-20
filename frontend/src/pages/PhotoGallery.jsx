@@ -146,6 +146,7 @@ const PhotoGallery = () => {
           },
         }}
         plugins={[Thumbnails, Zoom]}
+        className={infoPanelOpen ? 'lightbox-with-panel' : ''}
         thumbnails={{
           position: 'bottom',
           width: 120,
