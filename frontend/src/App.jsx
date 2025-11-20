@@ -9,6 +9,7 @@ import Publishings from './pages/Publishings';
 import Photos from './pages/Photos';
 import PhotoGallery from './pages/PhotoGallery';
 import CV from './pages/CV';
+import Archives from './pages/Archives';
 import Cricket from './pages/Cricket';
 import CricketFrame from './pages/CricketFrame';
 import './App.css';
@@ -26,6 +27,7 @@ function App() {
             <Route path="publishings" element={<Publishings />} />
             <Route path="photos" element={<Photos />} />
             <Route path="photos/:galleryName" element={<PhotoGallery />} />
+            <Route path="archives" element={<Archives />} />
             <Route path="cricket" element={<Cricket />} />
             <Route path="cricket/:page" element={<CricketFrame />} />
             <Route path="cv" element={<CV />} />
