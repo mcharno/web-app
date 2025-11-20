@@ -18,18 +18,23 @@ const PhotoInfoPanel = ({ photo, isOpen }) => {
       map.current = null;
     }
 
-    // Initialize map
+    // Initialize map with monotone style
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://demotiles.maplibre.org/style.json',
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json', // Light monotone style
       center: [photo.longitude, photo.latitude],
-      zoom: 12,
+      zoom: 8, // Zoomed out for wider context
     });
 
     // Add marker
     new maplibregl.Marker({ color: '#E4EC18' })
       .setLngLat([photo.longitude, photo.latitude])
       .addTo(map.current);
+
+    // Add navigation controls with custom styling
+    map.current.addControl(new maplibregl.NavigationControl({
+      showCompass: false
+    }), 'top-right');
 
     // Cleanup on unmount
     return () => {
