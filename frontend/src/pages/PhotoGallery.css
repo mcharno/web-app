@@ -222,3 +222,63 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Static header for lightbox */
+.lightbox-static-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 10002;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  pointer-events: none; /* Allow clicks to pass through except on children */
+}
+
+.lightbox-static-header > * {
+  pointer-events: auto; /* Re-enable clicks on children */
+}
+
+.lightbox-photo-title {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 60vw;
+}
+
+/* Ensure YARL toolbar appears in the header area */
+.yarl__toolbar {
+  position: fixed !important;
+  top: 12px !important;
+  right: 1.5rem !important;
+  z-index: 10003 !important;
+  background: transparent !important;
+}
+
+/* Mobile responsive for header */
+@media (max-width: 768px) {
+  .lightbox-static-header {
+    height: 56px;
+    padding: 0 1rem;
+  }
+
+  .lightbox-photo-title {
+    font-size: 1rem;
+    max-width: 50vw;
+  }
+
+  .yarl__toolbar {
+    top: 8px !important;
+    right: 1rem !important;
+  }
+}
