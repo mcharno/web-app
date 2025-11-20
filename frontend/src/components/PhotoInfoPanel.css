@@ -1,13 +1,13 @@
 .photo-info-panel {
   position: fixed;
-  top: 64px; /* Below the static header */
+  top: 0;
   right: 0;
   width: 350px;
-  height: calc(100vh - 64px);
+  height: 100vh;
   background: var(--bg-secondary);
   border-left: 1px solid var(--border-color);
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
-  z-index: 10001; /* Below header but above lightbox */
+  z-index: 10001; /* Below toolbar (10002) */
   overflow-y: auto;
   animation: slideIn 0.3s ease-out;
 }
@@ -22,7 +22,7 @@
 }
 
 .info-panel-content {
-  padding: 2rem 1.5rem; /* Normal padding - header is separate */
+  padding: 4rem 1.5rem 2rem; /* Extra top padding to avoid toolbar */
 }
 
 .info-panel-title {
@@ -88,8 +88,6 @@
 /* Mobile responsive */
 @media (max-width: 768px) {
   .photo-info-panel {
-    top: 56px; /* Mobile header height */
-    height: calc(100vh - 56px);
     width: 100%;
     max-width: 350px;
   }
