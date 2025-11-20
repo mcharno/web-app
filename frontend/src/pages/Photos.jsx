@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { photosAPI } from '../services/api';
 import { useLanguage } from '../contexts/LanguageContext';
 import PhotoMap from '../components/PhotoMap';
+import Lightbox from 'yet-another-react-lightbox';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import 'yet-another-react-lightbox/styles.css';
 import './Photos.css';
 
 const Photos = () => {
@@ -12,7 +15,16 @@ const Photos = () => {
   const [allPhotos, setAllPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('galleries');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [selectedPhotoId, setSelectedPhotoId] = useState(null);
   const { language } = useLanguage();
+
+  const handlePhotoClick = (photoId) => {
+    setSelectedPhotoId(photoId);
+    setLightboxOpen(true);
+  };
+
+  const selectedPhoto = allPhotos.find(p => p.id === selectedPhotoId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,8 +93,26 @@ const Photos = () => {
 
       {activeTab === 'map' && (
         <div className="map-view">
-          <PhotoMap photos={allPhotos} />
+          <PhotoMap photos={allPhotos} onPhotoClick={handlePhotoClick} />
         </div>
+      )}
+
+      {selectedPhoto && (
+        <Lightbox
+          open={lightboxOpen}
+          close={() => setLightboxOpen(false)}
+          slides={[{
+            src: `/images/photos/${selectedPhoto.filename}`,
+            alt: selectedPhoto.caption || selectedPhoto.filename,
+          }]}
+          plugins={[Zoom]}
+          zoom={{
+            maxZoomPixelRatio: 3,
+            scrollToZoom: true
+          }}
+          animation={{ fade: 250 }}
+          controller={{ closeOnBackdropClick: true }}
+        />
       )}
     </div>
   );

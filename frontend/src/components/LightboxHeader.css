@@ -1,0 +1,72 @@
+.lightbox-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  z-index: 10002;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lightbox-header-title h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 60vw;
+}
+
+.lightbox-header-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lightbox-header-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.lightbox-header-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.lightbox-header-button svg {
+  pointer-events: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .lightbox-header {
+    height: 56px;
+    padding: 0 1rem;
+  }
+
+  .lightbox-header-title h3 {
+    font-size: 1rem;
+    max-width: 50vw;
+  }
+
+  .lightbox-header-button {
+    width: 36px;
+    height: 36px;
+  }
+}

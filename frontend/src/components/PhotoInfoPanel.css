@@ -1,9 +1,9 @@
 .photo-info-panel {
   position: fixed;
-  top: 0;
+  top: 64px; /* Below header */
   right: 0;
   width: 350px;
-  height: 100vh;
+  height: calc(100vh - 64px); /* Full height minus header */
   background: var(--bg-secondary);
   border-left: 1px solid var(--border-color);
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
@@ -22,7 +22,7 @@
 }
 
 .info-panel-content {
-  padding: 5rem 1.5rem 2rem 1.5rem; /* Extra top padding for toolbar */
+  padding: 2rem 1.5rem; /* Normal padding - header is separate now */
 }
 
 .info-panel-title {
@@ -88,15 +88,11 @@
 /* Mobile responsive */
 @media (max-width: 768px) {
   .photo-info-panel {
+    top: 56px; /* Mobile header height */
+    height: calc(100vh - 56px);
     width: 100%;
     max-width: 350px;
   }
-}
-
-/* Ensure lightbox toolbar stays on top */
-.yarl__toolbar {
-  z-index: 10001 !important;
-  position: relative;
 }
 
 /* Custom styling for map controls */
