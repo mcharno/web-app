@@ -12,7 +12,7 @@ const Navigation = () => {
         <NavLink to="/projects">{t('menu.projects')}</NavLink>
         <NavLink to="/publishings">publishings</NavLink>
         <NavLink to="/photos">{t('menu.photos')}</NavLink>
-        <NavLink to="/cricket">cricket</NavLink>
+        <NavLink to="/archives">archives</NavLink>
         <NavLink to="/cv">{t('menu.cv')}</NavLink>
       </div>
     </nav>
