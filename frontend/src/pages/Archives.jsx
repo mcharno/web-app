@@ -46,14 +46,6 @@ const Archives = () => {
 
   return (
     <div className="archives-page">
-      <div className="archives-header">
-        <h1>Archives</h1>
-        <p className="archives-intro">
-          A collection of historical projects, memories, and digital artifacts from various periods.
-          Some sections are works in progress and will be expanded over time.
-        </p>
-      </div>
-
       <div className="archives-grid">
         {archiveSections.map((section) => (
           <div key={section.id} className="archive-card">

@@ -4,32 +4,6 @@
   padding: 2rem;
 }
 
-.archives-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 2px solid var(--border-color);
-}
-
-.archives-header h1 {
-  font-size: 3rem;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.archives-intro {
-  font-size: 1.15rem;
-  color: var(--text-secondary);
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
 .archives-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
@@ -40,31 +14,7 @@
   background: var(--bg-secondary);
   border: 2px solid rgba(228, 236, 24, 0.66);
   padding: 2rem;
-  transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
-}
-
-.archive-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent-hover), var(--accent-primary));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.archive-card:hover::before {
-  opacity: 1;
-}
-
-.archive-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 140, 0, 0.6);
-  border-color: var(--accent-primary);
 }
 
 .coming-soon-badge {
@@ -151,9 +101,9 @@
 .archive-link:hover {
   background: var(--bg-tertiary);
   color: var(--accent-primary);
-  transform: translateY(-6px);
-  box-shadow: 0 8px 24px var(--shadow);
-  border-color: var(--accent-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 140, 0, 0.6);
+  border-color: var(--accent-primary);
 }
 
 .archive-link .arrow {
