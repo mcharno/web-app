@@ -1,0 +1,48 @@
+{
+  "name": "Urban Explorations",
+  "category": "travel",
+  "description": "Architectural wonders and cityscapes from around the world",
+  "tags": ["urban", "architecture", "cities", "travel"],
+  "photos": [
+    {
+      "id": "paris-eiffel",
+      "filename": "sample1.jpg",
+      "caption": "Eiffel Tower at dusk",
+      "location": "Paris, France",
+      "latitude": 48.8584,
+      "longitude": 2.2945,
+      "taken_date": "2024-05-10",
+      "display_order": 1
+    },
+    {
+      "id": "tokyo-shibuya",
+      "filename": "sample2.jpg",
+      "caption": "Shibuya crossing hustle",
+      "location": "Tokyo, Japan",
+      "latitude": 35.6762,
+      "longitude": 139.6503,
+      "taken_date": "2024-03-15",
+      "display_order": 2
+    },
+    {
+      "id": "nyc-manhattan",
+      "filename": "sample5.jpg",
+      "caption": "Manhattan skyline",
+      "location": "New York, USA",
+      "latitude": 40.7580,
+      "longitude": -73.9855,
+      "taken_date": "2024-09-01",
+      "display_order": 3
+    },
+    {
+      "id": "dubai-burj",
+      "filename": "sample8.jpg",
+      "caption": "Burj Khalifa towering above",
+      "location": "Dubai, UAE",
+      "latitude": 25.1972,
+      "longitude": 55.2744,
+      "taken_date": "2024-02-20",
+      "display_order": 4
+    }
+  ]
+}

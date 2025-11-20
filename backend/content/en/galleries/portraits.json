@@ -8,7 +8,9 @@
       "id": "profile-portrait",
       "filename": "avatar.gif",
       "caption": "Profile portrait",
-      "location": "Studio",
+      "location": "London Studio, UK",
+      "latitude": 51.5074,
+      "longitude": -0.1278,
       "taken_date": "2023-05-01",
       "display_order": 1
     },
@@ -17,6 +19,8 @@
       "filename": "cricket-2005.jpg",
       "caption": "Team portrait session",
       "location": "York, UK",
+      "latitude": 53.9600,
+      "longitude": -1.0873,
       "taken_date": "2023-05-15",
       "display_order": 2
     }

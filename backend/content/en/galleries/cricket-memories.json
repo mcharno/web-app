@@ -9,6 +9,8 @@
       "filename": "cricket-team.jpg",
       "caption": "Team photo from the 2023 season",
       "location": "York, UK",
+      "latitude": 53.9600,
+      "longitude": -1.0873,
       "taken_date": "2023-08-15",
       "display_order": 1
     },
@@ -17,6 +19,8 @@
       "filename": "cricket-2005.jpg",
       "caption": "Championship winning team 2005",
       "location": "York, UK",
+      "latitude": 53.9600,
+      "longitude": -1.0873,
       "taken_date": "2005-09-20",
       "display_order": 2
     },
@@ -25,6 +29,8 @@
       "filename": "trophy.jpg",
       "caption": "Trophy presentation ceremony",
       "location": "York, UK",
+      "latitude": 53.9600,
+      "longitude": -1.0873,
       "taken_date": "2005-09-20",
       "display_order": 3
     }
