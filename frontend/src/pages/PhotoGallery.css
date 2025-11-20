@@ -231,3 +231,25 @@
   padding: 8px !important;
   border-radius: 4px;
 }
+
+/* Resize lightbox container when info panel is open */
+.lightbox-with-panel .yarl__container {
+  width: calc(100vw - 350px) !important; /* Subtract info panel width */
+  transition: width 0.3s ease-out;
+}
+
+/* Adjust lightbox slide container */
+.lightbox-with-panel .yarl__slide {
+  width: calc(100vw - 350px) !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .lightbox-with-panel .yarl__container {
+    width: calc(100vw - 350px) !important;
+  }
+
+  .lightbox-with-panel .yarl__slide {
+    width: calc(100vw - 350px) !important;
+  }
+}
