@@ -11,6 +11,38 @@ export const getAllGalleries = async (req, res) => {
   }
 };
 
+export const getAllPhotos = async (req, res) => {
+  try {
+    const { language = 'en' } = req.query;
+    const galleries = await loadAllGalleries(language);
+
+    // Load all photos from all galleries
+    const allPhotos = [];
+    for (const galleryMeta of galleries) {
+      const gallery = await loadGallery(language, galleryMeta.gallery_name);
+      const photosWithMetadata = gallery.photos.map(photo => ({
+        ...photo,
+        gallery_name: gallery.name,
+        gallery_category: gallery.category,
+        gallery_description: gallery.description,
+        gallery_tags: gallery.tags,
+        language
+      }));
+      allPhotos.push(...photosWithMetadata);
+    }
+
+    // Filter photos that have latitude and longitude
+    const photosWithCoordinates = allPhotos.filter(
+      photo => photo.latitude && photo.longitude
+    );
+
+    res.json(photosWithCoordinates);
+  } catch (error) {
+    console.error('Error fetching all photos:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 export const getPhotosByGallery = async (req, res) => {
   try {
     const { name } = req.params;

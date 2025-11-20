@@ -6,6 +6,9 @@ const router = express.Router();
 // Get all photo galleries
 router.get('/galleries', photoController.getAllGalleries);
 
+// Get all photos (for map view)
+router.get('/', photoController.getAllPhotos);
+
 // Get photos by gallery
 router.get('/gallery/:name', photoController.getPhotosByGallery);
 

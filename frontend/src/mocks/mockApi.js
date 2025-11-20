@@ -112,6 +112,8 @@ const mockPhotosData = {
       filename: 'beach-sunset.jpg',
       caption: 'Beautiful sunset at the beach',
       location: 'Santorini, Greece',
+      latitude: 36.3932,
+      longitude: 25.4615,
       display_order: 1,
     },
     {
@@ -120,6 +122,8 @@ const mockPhotosData = {
       filename: 'ancient-ruins.jpg',
       caption: 'Ancient ruins exploration',
       location: 'Athens, Greece',
+      latitude: 37.9838,
+      longitude: 23.7275,
       display_order: 2,
     },
   ],
@@ -130,6 +134,8 @@ const mockPhotosData = {
       filename: 'conference-hall.jpg',
       caption: 'Main conference hall',
       location: 'London, UK',
+      latitude: 51.5074,
+      longitude: -0.1278,
       display_order: 1,
     },
   ],
@@ -251,6 +257,13 @@ export const mockApi = {
         throw { response: { status: 404, data: { error: 'Photo not found' } } };
       }
       return { data: photo };
+    },
+    getAll: async (language = 'en') => {
+      await delay();
+      // Return all photos from all galleries with coordinates
+      const allPhotos = Object.values(mockPhotosData).flat();
+      // Filter out photos without coordinates
+      return { data: allPhotos.filter(p => p.latitude && p.longitude) };
     },
   },
 
