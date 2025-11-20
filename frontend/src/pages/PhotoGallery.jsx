@@ -182,13 +182,19 @@ const PhotoGallery = () => {
       />
 
       {lightboxOpen && (
-        <PhotoInfoPanel
-          photo={{
-            ...currentPhoto,
-            title: currentPhoto?.caption,
-          }}
-          isOpen={infoPanelOpen}
-        />
+        <>
+          <div className="lightbox-static-header">
+            <h3 className="lightbox-photo-title">{currentPhoto?.caption || 'Untitled'}</h3>
+            {/* YARL toolbar will be positioned here via CSS */}
+          </div>
+          <PhotoInfoPanel
+            photo={{
+              ...currentPhoto,
+              title: currentPhoto?.caption,
+            }}
+            isOpen={infoPanelOpen}
+          />
+        </>
       )}
     </div>
   );
