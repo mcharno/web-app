@@ -112,6 +112,11 @@ const Photos = () => {
           }}
           animation={{ fade: 250 }}
           controller={{ closeOnBackdropClick: true }}
+          carousel={{ finite: true }}
+          render={{
+            buttonPrev: () => null,
+            buttonNext: () => null,
+          }}
         />
       )}
     </div>
