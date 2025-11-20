@@ -226,4 +226,8 @@
 /* Ensure YARL toolbar is always visible above info panel */
 .yarl__toolbar {
   z-index: 10002 !important; /* Above info panel (10001) */
+  background: rgba(0, 0, 0, 0.5) !important; /* Semi-transparent background for visibility */
+  backdrop-filter: blur(8px);
+  padding: 8px !important;
+  border-radius: 4px;
 }
