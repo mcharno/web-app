@@ -13,7 +13,7 @@ const PhotoMap = ({ photos, onPhotoClick }) => {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: 'https://demotiles.maplibre.org/style.json', // Free MapLibre demo tiles
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json', // Light monotone style
       center: [0, 20], // Center of the world
       zoom: 1.5,
     });
@@ -23,7 +23,9 @@ const PhotoMap = ({ photos, onPhotoClick }) => {
     });
 
     // Add navigation controls
-    map.current.addControl(new maplibregl.NavigationControl(), 'top-right');
+    map.current.addControl(new maplibregl.NavigationControl({
+      showCompass: false
+    }), 'top-right');
 
     // Cleanup on unmount
     return () => {
