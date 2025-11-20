@@ -35,6 +35,7 @@ export const photosAPI = USE_MOCK_API ? mockApi.photos : {
   getAllGalleries: (language = 'en') => api.get('/photos/galleries', { params: { language } }),
   getByGallery: (name, language = 'en') => api.get(`/photos/gallery/${name}`, { params: { language } }),
   getById: (id) => api.get(`/photos/${id}`),
+  getAll: (language = 'en') => api.get('/photos', { params: { language } }),
 };
 
 // Papers API
