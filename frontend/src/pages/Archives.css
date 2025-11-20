@@ -39,7 +39,6 @@
 .archive-card {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-left: 4px solid var(--accent-primary);
   padding: 2rem;
   transition: all 0.3s ease;
   position: relative;
@@ -63,9 +62,7 @@
 }
 
 .archive-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 8px 20px var(--shadow);
-  border-left-width: 6px;
 }
 
 .coming-soon-badge {
@@ -146,12 +143,15 @@
   transition: all 0.3s ease;
   align-self: flex-start;
   border: 2px solid var(--accent-primary);
+  box-shadow: 0 4px 12px var(--shadow);
 }
 
 .archive-link:hover {
   background: var(--bg-primary);
   color: var(--accent-primary);
-  transform: translateX(4px);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 24px var(--shadow);
+  border-color: var(--accent-hover);
 }
 
 .archive-link .arrow {
