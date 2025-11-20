@@ -173,20 +173,25 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update backend image tag
+      - name: Update image tags in kustomization
         run: |
           cd infra/k8s/base
-          sed -i "s|image: ghcr.io/.*/charno-backend:.*|image: ${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}|g" backend-deployment.yaml
-
-      - name: Update frontend image tag
-        run: |
-          cd infra/k8s/base
-          sed -i "s|image: ghcr.io/.*/charno-frontend:.*|image: ${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}|g" frontend-deployment.yaml
+          # Update kustomization.yaml with new image tags
+          sed -i "s|newTag:.*|newTag: main-${{ github.sha }}|g" kustomization.yaml
 
       - name: Commit and push changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add infra/k8s/base/backend-deployment.yaml infra/k8s/base/frontend-deployment.yaml
-          git diff --staged --quiet || git commit -m "Update image tags to ${{ github.sha }}"
+          git add infra/k8s/base/kustomization.yaml
+          git diff --staged --quiet || git commit -m "ci: Update image tags to main-${{ github.sha }}"
           git push
+
+      - name: ArgoCD sync notification
+        run: |
+          echo "✅ Image tags updated to main-${{ github.sha }}"
+          echo "📦 Backend: ${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}"
+          echo "📦 Frontend: ${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}"
+          echo ""
+          echo "ArgoCD will automatically sync within 3 minutes"
+          echo "Or manually sync via: argocd app sync charno-web"

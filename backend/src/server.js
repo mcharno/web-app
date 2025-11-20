@@ -3,6 +3,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import contentRoutes from './routes/contentRoutes.js';
 import projectRoutes from './routes/projectRoutes.js';
 import photoRoutes from './routes/photoRoutes.js';
@@ -14,12 +16,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3080;
 
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Configure photos directory from environment variable
+// Defaults to frontend public directory for local development
+const PHOTOS_DIR = process.env.PHOTOS_DIR || path.join(__dirname, '../../frontend/public/images/photos');
+console.log(`Photos directory: ${PHOTOS_DIR}`);
+
 // Middleware
 app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static photos from configurable directory
+app.use('/images/photos', express.static(PHOTOS_DIR));
 
 // Routes
 app.use('/api/content', contentRoutes);

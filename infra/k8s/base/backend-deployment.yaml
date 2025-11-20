@@ -37,6 +37,8 @@ spec:
           value: "production"
         - name: PORT
           value: "3080"
+        - name: PHOTOS_DIR
+          value: "/data/photos"
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
@@ -62,6 +64,10 @@ spec:
             secretKeyRef:
               name: charno-secrets
               key: db_password
+        volumeMounts:
+        - name: photos
+          mountPath: /data/photos
+          readOnly: true
         resources:
           requests:
             memory: "128Mi"
@@ -93,3 +99,7 @@ spec:
           capabilities:
             drop:
               - ALL
+      volumes:
+      - name: photos
+        persistentVolumeClaim:
+          claimName: photos-pvc
