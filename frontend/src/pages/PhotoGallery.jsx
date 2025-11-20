@@ -146,9 +146,7 @@ const PhotoGallery = () => {
           maxZoomPixelRatio: 3,
           scrollToZoom: true
         }}
-        toolbar={{
-          buttons: ['close'],
-        }}
+        toolbar={false}
         animation={{ fade: 250 }}
         controller={{ closeOnBackdropClick: true }}
       />
