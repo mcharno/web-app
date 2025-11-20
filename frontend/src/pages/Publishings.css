@@ -87,7 +87,7 @@
   left: 0;
   width: 3px;
   height: 100%;
-  background: linear-gradient(to bottom, var(--accent-hover), var(--accent-primary));
+  background: linear-gradient(to bottom, var(--accent-primary), var(--accent-hover));
   transform: scaleY(0);
   transition: transform 0.3s ease;
 }
@@ -99,7 +99,7 @@
 .publishing-card:hover {
   transform: translateX(4px);
   box-shadow: 0 6px 16px var(--shadow);
-  border-left-color: var(--accent-hover);
+  border-left-color: var(--accent-primary);
   border-left-width: 6px;
   text-decoration: none;
 }
