@@ -22,7 +22,7 @@
 }
 
 .info-panel-content {
-  padding: 2rem 1.5rem;
+  padding: 5rem 1.5rem 2rem 1.5rem; /* Extra top padding for toolbar */
 }
 
 .info-panel-title {
@@ -91,4 +91,47 @@
     width: 100%;
     max-width: 350px;
   }
+}
+
+/* Ensure lightbox toolbar stays on top */
+.yarl__toolbar {
+  z-index: 10001 !important;
+  position: relative;
+}
+
+/* Custom styling for map controls */
+.info-map-container .maplibregl-ctrl-group {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.info-map-container .maplibregl-ctrl-group button {
+  background-color: var(--bg-secondary);
+  border: none;
+  width: 29px;
+  height: 29px;
+}
+
+.info-map-container .maplibregl-ctrl-group button:hover {
+  background-color: rgba(228, 236, 24, 0.1);
+}
+
+.info-map-container .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--border-color);
+}
+
+.info-map-container .maplibregl-ctrl-icon {
+  background-color: var(--text-primary);
+}
+
+/* Map attribution styling */
+.info-map-container .maplibregl-ctrl-attrib {
+  background-color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+}
+
+.info-map-container .maplibregl-ctrl-attrib-button {
+  background-color: rgba(255, 255, 255, 0.7);
 }
