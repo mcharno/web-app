@@ -5,8 +5,10 @@ import { useLanguage } from '../contexts/LanguageContext';
 import Lightbox from 'yet-another-react-lightbox';
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import Captions from 'yet-another-react-lightbox/plugins/captions';
 import 'yet-another-react-lightbox/styles.css';
 import 'yet-another-react-lightbox/plugins/thumbnails.css';
+import 'yet-another-react-lightbox/plugins/captions.css';
 import './PhotoGallery.css';
 
 const PhotoGallery = () => {
@@ -60,13 +62,25 @@ const PhotoGallery = () => {
     );
   }
 
-  // Prepare slides for lightbox
-  const slides = photos.map((photo) => ({
-    src: `/images/photos/${photo.filename}`,
-    alt: photo.caption || photo.filename,
-    title: photo.caption,
-    description: photo.location ? `${photo.location}` : ''
-  }));
+  // Prepare slides for lightbox with metadata
+  const slides = photos.map((photo) => {
+    const metadata = [];
+    if (photo.location) metadata.push(`📍 ${photo.location}`);
+    if (photo.taken_date) {
+      const date = new Date(photo.taken_date);
+      metadata.push(`📅 ${date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`);
+    }
+    if (photo.latitude && photo.longitude) {
+      metadata.push(`🌍 ${photo.latitude.toFixed(4)}°, ${photo.longitude.toFixed(4)}°`);
+    }
+
+    return {
+      src: `/images/photos/${photo.filename}`,
+      alt: photo.caption || photo.filename,
+      title: photo.caption,
+      description: metadata.join(' • ')
+    };
+  });
 
   return (
     <div className="photo-gallery-page">
@@ -118,7 +132,12 @@ const PhotoGallery = () => {
         close={() => setLightboxOpen(false)}
         slides={slides}
         index={currentIndex}
-        plugins={[Thumbnails, Zoom]}
+        plugins={[Captions, Thumbnails, Zoom]}
+        captions={{
+          showToggle: true,
+          descriptionTextAlign: 'center',
+          descriptionMaxLines: 3
+        }}
         thumbnails={{
           position: 'bottom',
           width: 120,

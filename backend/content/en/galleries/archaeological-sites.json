@@ -8,7 +8,9 @@
       "id": "ruins-sunset",
       "filename": "sample8.jpg",
       "caption": "Ancient ruins at sunset",
-      "location": "Greece",
+      "location": "Delphi, Greece",
+      "latitude": 38.4824,
+      "longitude": 22.5010,
       "taken_date": "2023-07-20",
       "display_order": 1
     },
@@ -16,7 +18,9 @@
       "id": "excavation-team",
       "filename": "cricket-team.jpg",
       "caption": "Excavation team at work",
-      "location": "Greece",
+      "location": "Olympia, Greece",
+      "latitude": 37.6379,
+      "longitude": 21.6300,
       "taken_date": "2023-07-22",
       "display_order": 2
     }

@@ -8,7 +8,9 @@
       "id": "mountain-view",
       "filename": "sample1.jpg",
       "caption": "Scenic mountain view",
-      "location": "Various",
+      "location": "Swiss Alps, Switzerland",
+      "latitude": 46.5197,
+      "longitude": 7.9650,
       "taken_date": "2023-06-10",
       "display_order": 1
     },
@@ -16,7 +18,9 @@
       "id": "urban-architecture",
       "filename": "sample2.jpg",
       "caption": "Urban architecture",
-      "location": "Various",
+      "location": "Barcelona, Spain",
+      "latitude": 41.3874,
+      "longitude": 2.1686,
       "taken_date": "2023-06-12",
       "display_order": 2
     },
@@ -24,7 +28,9 @@
       "id": "coastal-scenery",
       "filename": "sample5.jpg",
       "caption": "Coastal scenery",
-      "location": "Various",
+      "location": "Amalfi Coast, Italy",
+      "latitude": 40.6333,
+      "longitude": 14.6028,
       "taken_date": "2023-06-15",
       "display_order": 3
     }

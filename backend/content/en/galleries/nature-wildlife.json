@@ -1,0 +1,48 @@
+{
+  "name": "Nature & Wildlife",
+  "category": "nature",
+  "description": "Capturing the beauty of natural landscapes and wildlife",
+  "tags": ["nature", "wildlife", "landscapes", "photography"],
+  "photos": [
+    {
+      "id": "iceland-waterfall",
+      "filename": "sample1.jpg",
+      "caption": "Powerful waterfall cascade",
+      "location": "Reykjavik, Iceland",
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "taken_date": "2024-07-12",
+      "display_order": 1
+    },
+    {
+      "id": "norway-fjords",
+      "filename": "sample2.jpg",
+      "caption": "Majestic Norwegian fjords",
+      "location": "Bergen, Norway",
+      "latitude": 60.3913,
+      "longitude": 5.3221,
+      "taken_date": "2024-07-18",
+      "display_order": 2
+    },
+    {
+      "id": "scotland-highlands",
+      "filename": "sample5.jpg",
+      "caption": "Misty Scottish highlands",
+      "location": "Inverness, Scotland",
+      "latitude": 57.4778,
+      "longitude": -4.2247,
+      "taken_date": "2024-08-05",
+      "display_order": 3
+    },
+    {
+      "id": "new-zealand-mountains",
+      "filename": "sample8.jpg",
+      "caption": "Snow-capped peaks",
+      "location": "Queenstown, New Zealand",
+      "latitude": -45.0312,
+      "longitude": 168.6626,
+      "taken_date": "2024-01-22",
+      "display_order": 4
+    }
+  ]
+}
