@@ -157,7 +157,10 @@ const PhotoMap = ({ photos, onPhotoClick }) => {
         const { id, caption, location, gallery_name } = e.features[0].properties;
 
         // Create popup with clickable link
-        const popup = new maplibregl.Popup()
+        const popup = new maplibregl.Popup({
+          closeButton: true,
+          closeOnClick: false,
+        })
           .setLngLat(coordinates)
           .setHTML(
             `<div class="photo-popup">
@@ -171,16 +174,16 @@ const PhotoMap = ({ photos, onPhotoClick }) => {
           )
           .addTo(map.current);
 
-        // Add click listener to the button after popup is added
-        popup.on('open', () => {
-          const button = document.querySelector('.popup-view-button');
+        // Add click listener to the button after popup is fully rendered
+        setTimeout(() => {
+          const button = popup.getElement()?.querySelector('.popup-view-button');
           if (button && onPhotoClick) {
             button.addEventListener('click', () => {
               onPhotoClick(id);
               popup.remove(); // Close popup after opening lightbox
             });
           }
-        });
+        }, 100);
       });
 
       // Change cursor on hover
