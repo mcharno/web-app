@@ -9,6 +9,7 @@ resources:
   - secret-template.yaml
   - postgres-configmap.yaml
   - postgres-deployment.yaml
+  - photos-pvc.yaml
   - backend-deployment.yaml
   - backend-service.yaml
   - frontend-deployment.yaml
