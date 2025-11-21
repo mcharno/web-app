@@ -6,10 +6,12 @@ metadata:
   labels:
     app: charno-web
 data:
-  # Database configuration
-  db_host: "postgres.charno-web.svc.cluster.local"
+  # Database configuration - Update these to point to your existing Postgres instance
+  # If Postgres is in a different namespace: postgres-service.postgres-namespace.svc.cluster.local
+  # If Postgres is external: use the external IP/hostname
+  db_host: "REPLACE_WITH_YOUR_POSTGRES_HOST"  # e.g., "postgres.database.svc.cluster.local"
   db_port: "5432"
-  db_name: "charno_web"
+  db_name: "charno_web"  # Update with your database name
 
   # API URL for frontend (update with your domain)
-  api_url: "http://charno-backend.charno-web.svc.cluster.local:5000"
+  api_url: "http://charno-backend.charno-web.svc.cluster.local:3080"
