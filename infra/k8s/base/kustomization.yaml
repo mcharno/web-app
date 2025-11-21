@@ -1,27 +1,24 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: charno-web
+namespace: web
 
 resources:
   - namespace.yaml
   - configmap.yaml
   - secret-template.yaml
-  - postgres-configmap.yaml
-  - postgres-deployment.yaml
   - photos-pvc.yaml
   - backend-deployment.yaml
   - backend-service.yaml
   - frontend-deployment.yaml
   - frontend-service.yaml
-  - ingress.yaml
 
 commonLabels:
-  app.kubernetes.io/name: charno-web
+  app.kubernetes.io/name: web-app
   app.kubernetes.io/managed-by: argocd
 
 images:
-  - name: ghcr.io/GITHUB_USERNAME/charno-backend
+  - name: ghcr.io/mcharno/web-app-backend
     newTag: latest
-  - name: ghcr.io/GITHUB_USERNAME/charno-frontend
+  - name: ghcr.io/mcharno/web-app-frontend
     newTag: latest

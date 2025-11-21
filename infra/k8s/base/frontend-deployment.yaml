@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: charno-frontend
-  namespace: charno-web
+  name: web-app-frontend
+  namespace: web
   labels:
-    app: charno-frontend
+    app: web-app-frontend
     component: frontend
 spec:
   replicas: 2
@@ -15,18 +15,18 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: charno-frontend
+      app: web-app-frontend
   template:
     metadata:
       labels:
-        app: charno-frontend
+        app: web-app-frontend
         component: frontend
     spec:
       imagePullSecrets:
         - name: ghcr-secret
       containers:
       - name: frontend
-        image: ghcr.io/GITHUB_USERNAME/charno-frontend:latest
+        image: ghcr.io/mcharno/web-app-frontend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
@@ -36,7 +36,7 @@ spec:
         - name: VITE_API_URL
           valueFrom:
             configMapKeyRef:
-              name: charno-config
+              name: web-app-config
               key: api_url
         resources:
           requests:

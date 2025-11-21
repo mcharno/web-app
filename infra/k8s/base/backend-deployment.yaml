@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: charno-backend
-  namespace: charno-web
+  name: web-app-backend
+  namespace: web
   labels:
-    app: charno-backend
+    app: web-app-backend
     component: backend
 spec:
   replicas: 2
@@ -15,18 +15,18 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: charno-backend
+      app: web-app-backend
   template:
     metadata:
       labels:
-        app: charno-backend
+        app: web-app-backend
         component: backend
     spec:
       imagePullSecrets:
         - name: ghcr-secret
       containers:
       - name: backend
-        image: ghcr.io/GITHUB_USERNAME/charno-backend:latest
+        image: ghcr.io/mcharno/web-app-backend:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3080
@@ -42,27 +42,27 @@ spec:
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
-              name: charno-config
+              name: web-app-config
               key: db_host
         - name: DB_PORT
           valueFrom:
             configMapKeyRef:
-              name: charno-config
+              name: web-app-config
               key: db_port
         - name: DB_NAME
           valueFrom:
             configMapKeyRef:
-              name: charno-config
+              name: web-app-config
               key: db_name
         - name: DB_USER
           valueFrom:
             secretKeyRef:
-              name: charno-secrets
+              name: web-app-secrets
               key: db_user
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: charno-secrets
+              name: web-app-secrets
               key: db_password
         volumeMounts:
         - name: photos

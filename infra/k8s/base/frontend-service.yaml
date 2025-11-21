@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: charno-frontend
-  namespace: charno-web
+  name: web-app-frontend
+  namespace: web
   labels:
-    app: charno-frontend
+    app: web-app-frontend
     component: frontend
 spec:
   type: ClusterIP
   selector:
-    app: charno-frontend
+    app: web-app-frontend
   ports:
   - name: http
     port: 3000

@@ -2,16 +2,16 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: photos-pvc
-  namespace: charno-web
+  namespace: web
   labels:
-    app: charno-web
+    app: web-app
     component: storage
 spec:
   accessModes:
     - ReadOnlyMany  # Multiple pods can read
   resources:
     requests:
-      storage: 10Gi  # Adjust size as needed
+      storage: 3Gi  # Adjust size as needed
   storageClassName: local-path  # Using k3s default storage class
 ---
 # Note: You'll need to manually populate the photos directory
