@@ -1,33 +1,53 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './BellingTheCat.css';
 
 const BellingTheCat = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="belling-page">
       <nav className="breadcrumb">
-        <Link to="/projects">← Back to Projects</Link>
+        <button onClick={() => navigate('/projects')} className="back-button">
+          ← Back to Projects
+        </button>
       </nav>
 
       <header className="project-header">
         <h1>Belling the Cat</h1>
+        <p className="project-year">2015</p>
         <p className="subtitle">A Linked Open Data Tutorial for Cultural Heritage Professionals</p>
-        <div className="project-meta">
-          <span className="meta-item">CIDOC CRM</span>
-          <span className="meta-item">RDF/XML</span>
-          <span className="meta-item">Virtuoso</span>
-          <span className="meta-item">SPARQL</span>
-        </div>
       </header>
 
       <section className="project-intro">
+        <div className="fable-meaning">
+          <h3>About "Belling the Cat"</h3>
+          <p>
+            In Aesop's fable, a group of mice debate how to protect themselves from a cat. One mouse suggests
+            attaching a bell to the cat's collar to warn of its approach—a brilliant idea in theory. However,
+            when asked who will actually attach the bell, the mice fall silent. The fable illustrates the gap
+            between proposing a solution and implementing it.
+          </p>
+          <p>
+            Similarly, cultural heritage professionals often know they <em>should</em> publish their data as
+            Linked Open Data, but lack practical guidance on <em>how</em> to actually do it. This tutorial
+            bridges that gap with step-by-step instructions for implementing LOD infrastructure.
+          </p>
+        </div>
+
         <h2>Overview</h2>
         <p>
           This workshop provides a practical, hands-on guide for publishing CIDOC Conceptual Reference
-          Model (CRM) data as Linked Open Data using free and open-source software. The project uses
-          an Aesop's fable analogy: mice debate attaching a bell to a cat for warning, but face the
-          challenge of implementation. Similarly, this tutorial addresses the "how" of making CRM data
-          publicly available as LOD.
+          Model (CRM) data as Linked Open Data using free and open-source software on minimal hardware.
         </p>
+
+        <div className="tech-stack">
+          <strong>Technologies:</strong>
+          <span>CIDOC CRM</span>
+          <span>RDF/XML</span>
+          <span>Virtuoso</span>
+          <span>SPARQL</span>
+          <span>Raspberry Pi</span>
+        </div>
 
         <div className="tutorial-goals">
           <h3>What You'll Learn</h3>

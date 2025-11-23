@@ -37,6 +37,9 @@ const Projects = () => {
             className="project-card"
           >
             <h3>{project.title}</h3>
+            {project.created_at && (
+              <p className="project-date">{new Date(project.created_at).getFullYear()}</p>
+            )}
             <p>{project.description}</p>
             {project.technologies && (
               <p className="project-technologies">
