@@ -53,9 +53,16 @@
 
 .project-card h3 {
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   font-weight: 600;
   font-size: 1.4rem;
+}
+
+.project-date {
+  color: var(--accent-primary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .project-card p {
