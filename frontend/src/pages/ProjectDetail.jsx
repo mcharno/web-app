@@ -1,9 +1,24 @@
 import { useParams } from 'react-router-dom';
+import BellingTheCat from './BellingTheCat';
 import './ProjectDetail.css';
 
 const ProjectDetail = () => {
   const { id } = useParams();
 
+  // Map project IDs to their specific components
+  const projectComponents = {
+    'belling-the-cat': BellingTheCat,
+  };
+
+  // Get the specific component for this project
+  const SpecificProject = projectComponents[id];
+
+  // If a specific component exists, render it
+  if (SpecificProject) {
+    return <SpecificProject />;
+  }
+
+  // Otherwise, show placeholder
   return (
     <div className="project-detail-page">
       <h2>Project Details</h2>

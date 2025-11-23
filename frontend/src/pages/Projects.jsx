@@ -38,8 +38,10 @@ const Projects = () => {
           >
             <h3>{project.title}</h3>
             <p>{project.description}</p>
-            {project.content && (
-              <div dangerouslySetInnerHTML={{ __html: project.content }} />
+            {project.technologies && (
+              <p className="project-technologies">
+                <strong>Technologies:</strong> {project.technologies}
+              </p>
             )}
           </Link>
         ))}
