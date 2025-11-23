@@ -7,8 +7,8 @@ resources:
   - namespace.yaml
   - configmap.yaml
   - secret-template.yaml
-  - postgres-configmap.yaml
-  - postgres-deployment.yaml
+  # postgres-configmap.yaml - Removed: Using external Postgres
+  # postgres-deployment.yaml - Removed: Using external Postgres
   - photos-pvc.yaml
   - backend-deployment.yaml
   - backend-service.yaml
