@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import BellingTheCat from './BellingTheCat';
+import LinkedDataToolkit from './LinkedDataToolkit';
 import './ProjectDetail.css';
 
 const ProjectDetail = () => {
@@ -7,6 +8,7 @@ const ProjectDetail = () => {
 
   // Map project IDs to their specific components
   const projectComponents = {
+    'linked-data-toolkit': LinkedDataToolkit,
     'belling-the-cat': BellingTheCat,
   };
 
