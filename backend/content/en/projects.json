@@ -20,12 +20,22 @@
     "updated_at": "2015-12-31"
   },
   {
+    "id": "sikyon-data-scripts",
+    "title": "Sikyon Survey Data Processing Scripts",
+    "description": "Automated data cleaning, integration, and analysis scripts for the Sikyon Survey Project, processing pottery and architectural survey data from 2004-2009 excavations. Originally developed in 2008, modernized with Java 17+ and Spring Boot for the project monograph published in Meletemata (2018).",
+    "url": "https://github.com/mcharno/sikyon-data-scripts",
+    "technologies": "Java 17, Spring Boot, MS Access, UCanAccess, Docker, Maven, GIS",
+    "display_order": 3,
+    "created_at": "2008-01-01",
+    "updated_at": "2025-01-01"
+  },
+  {
     "id": "arch-db",
     "title": "Archaeological Database System",
     "description": "A comprehensive database system for managing archaeological excavation data",
     "url": "https://example.com/arch-db",
     "technologies": "PostgreSQL, Node.js, React",
-    "display_order": 3,
+    "display_order": 4,
     "created_at": "2023-01-15",
     "updated_at": "2023-06-20"
   },
@@ -35,7 +45,7 @@
     "description": "Interactive mapping tool for archaeological sites",
     "url": "https://example.com/gis-tool",
     "technologies": "Leaflet, PostGIS, Express",
-    "display_order": 4,
+    "display_order": 5,
     "created_at": "2023-03-10",
     "updated_at": "2023-08-15"
   },
@@ -45,7 +55,7 @@
     "description": "Platform for digitizing and archiving historical documents",
     "url": "https://example.com/archive",
     "technologies": "React, MongoDB, Express",
-    "display_order": 5,
+    "display_order": 6,
     "created_at": "2022-09-01",
     "updated_at": "2023-04-12"
   }
