@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import BellingTheCat from './BellingTheCat';
 import LinkedDataToolkit from './LinkedDataToolkit';
+import SikyonDataScripts from './SikyonDataScripts';
 import './ProjectDetail.css';
 
 const ProjectDetail = () => {
@@ -10,6 +11,7 @@ const ProjectDetail = () => {
   const projectComponents = {
     'linked-data-toolkit': LinkedDataToolkit,
     'belling-the-cat': BellingTheCat,
+    'sikyon-data-scripts': SikyonDataScripts,
   };
 
   // Get the specific component for this project
