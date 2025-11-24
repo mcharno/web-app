@@ -24,27 +24,37 @@ const Publishings = () => {
           date: paper.year
         }));
 
-        // Mock presentations data
+        // Presentations and talks data
         const presentationsData = [
           {
             id: 'pres-1',
-            title: 'Modern Web Architecture with React and Node.js',
-            conference: 'Web Dev Conference 2024',
-            year: 2024,
-            abstract: 'An overview of modern web architecture patterns using React for frontend and Node.js for backend.',
-            slides_url: '#',
+            title: 'Create Once Consume Anywhere: Curating Accessible Archaeological Content for Mobile Apps',
+            conference: 'Computer Applications and Quantitative Methods in Archaeology (CAA) 2014',
+            year: 2014,
+            abstract: 'A presentation on the Archaeology Britain mobile app development, focusing on creating accessible archaeological content that can be consumed across multiple platforms. Presented collaborative work between The British Library and the Archaeology Data Service on making hosted data freely and openly available for reuse in mobile applications.',
+            slides_url: 'http://slideplayer.com/slide/8184578/',
             type: 'talk',
-            date: 2024
+            date: 2014
           },
           {
             id: 'pres-2',
-            title: 'Database Optimization Strategies',
-            conference: 'Tech Summit 2023',
-            year: 2023,
-            abstract: 'Best practices for optimizing PostgreSQL databases in production environments.',
+            title: 'Making the LEAP: Linking Electronic Archives and Publications',
+            conference: 'CAA-UK Southampton',
+            year: 2011,
+            abstract: 'A presentation with Judith Winters and Julian Richards on linking electronic archives to publications, demonstrating the integration between digital repositories and academic publishing.',
             slides_url: '#',
             type: 'talk',
-            date: 2023
+            date: 2011
+          },
+          {
+            id: 'pres-3',
+            title: 'ADS Open Data and Reuse Overview',
+            conference: 'Computer Applications and Quantitative Methods in Archaeology (CAA) Paris',
+            year: 2014,
+            abstract: 'An overview of ADS work with special focus on making hosted archaeological data freely and openly available for reuse by researchers and the public.',
+            slides_url: '#',
+            type: 'talk',
+            date: 2014
           },
         ];
 

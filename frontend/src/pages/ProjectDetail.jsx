@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import BellingTheCat from './BellingTheCat';
 import LinkedDataToolkit from './LinkedDataToolkit';
 import SikyonDataScripts from './SikyonDataScripts';
+import ADS3DViewer from './ADS3DViewer';
 import './ProjectDetail.css';
 
 const ProjectDetail = () => {
@@ -12,6 +13,7 @@ const ProjectDetail = () => {
     'linked-data-toolkit': LinkedDataToolkit,
     'belling-the-cat': BellingTheCat,
     'sikyon-data-scripts': SikyonDataScripts,
+    'ads-3d-viewer': ADS3DViewer,
   };
 
   // Get the specific component for this project
