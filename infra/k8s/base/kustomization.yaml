@@ -21,7 +21,7 @@ commonLabels:
   app.kubernetes.io/managed-by: argocd
 
 images:
-  - name: ghcr.io/GITHUB_USERNAME/charno-backend
+  - name: ghcr.io/mcharno/charno-backend
     newTag: latest
-  - name: ghcr.io/GITHUB_USERNAME/charno-frontend
+  - name: ghcr.io/mcharno/charno-frontend
     newTag: latest
