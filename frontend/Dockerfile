@@ -3,26 +3,34 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json yarn.lock ./
+# Enable Corepack for Yarn 4
+RUN corepack enable
 
-# Install dependencies
+# Copy workspace root files
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+
+# Copy workspace package files
+COPY backend/package.json ./backend/package.json
+COPY frontend/package.json ./frontend/package.json
+
+# Install all dependencies (workspace will handle it)
 RUN yarn install --frozen-lockfile
 
-# Copy application source
-COPY . .
+# Copy frontend source
+COPY frontend ./frontend
 
 # Build the application
-RUN yarn build
+RUN yarn workspace frontend build
 
 # Production stage with nginx
 FROM nginx:1.25-alpine
 
 # Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built assets from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/frontend/dist /usr/share/nginx/html
 
 # Create non-root user and adjust permissions
 RUN addgroup -g 1001 -S nginx-app && \
@@ -37,11 +45,11 @@ RUN addgroup -g 1001 -S nginx-app && \
 USER nginx-app
 
 # Expose port
-EXPOSE 8080
+EXPOSE 3000
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1
+  CMD wget --quiet --tries=1 --spider http://localhost:3000/health || exit 1
 
 # Start nginx
 CMD ["nginx", "-g", "daemon off;"]
