@@ -267,7 +267,7 @@ This application includes a comprehensive CI/CD pipeline for k3s deployment usin
 - Pushes images to GitHub Container Registry (GHCR)
 - Updates image tags in `infra/k8s/base` manifests
 
-**ArgoCD** (configured in k8s-infra repo):
+**ArgoCD** (GitOps deployment):
 - Monitors this repository for manifest changes in `infra/k8s/`
 - Automatically syncs to k3s cluster
 - Provides GitOps-based deployment with auto-healing
@@ -289,11 +289,146 @@ Images are built and pushed to GitHub Container Registry:
 
 ### Infrastructure Setup
 
-The `infra/k8s/` directory contains:
-- **base/**: Core Kubernetes manifests (deployments, services, ingress, configmaps)
-- **overlays/**: Environment-specific configurations (dev, staging, production)
+The `infra/` directory contains all deployment configuration:
 
-For ArgoCD installation, secrets configuration, and cluster setup, see the **k8s-infra** repository.
+```
+infra/
+├── argocd/                      # ArgoCD application manifest
+│   └── application.yaml         # ArgoCD application definition
+├── k8s/
+│   ├── base/                    # Core Kubernetes manifests
+│   │   ├── namespace.yaml       # charno-web namespace
+│   │   ├── backend-deployment.yaml
+│   │   ├── backend-service.yaml
+│   │   ├── frontend-deployment.yaml
+│   │   ├── frontend-service.yaml
+│   │   ├── ingress.yaml         # Traefik ingress configuration
+│   │   ├── configmap.yaml       # Application configuration
+│   │   ├── secret-template.yaml # Secret template (populate manually)
+│   │   ├── photos-pvc.yaml      # Persistent volume for photos
+│   │   └── kustomization.yaml   # Kustomize configuration
+│   ├── argocd-rbac/             # ArgoCD RBAC permissions
+│   │   ├── clusterrole-simple.yaml  # Recommended for homelab
+│   │   ├── clusterrole.yaml         # Granular permissions
+│   │   ├── clusterrolebinding.yaml
+│   │   ├── README.md
+│   │   └── APPROACH.md
+│   └── ARGOCD_KUBECTL_GUIDE.md  # kubectl-based ArgoCD workflow
+├── docker-compose.yml           # Production Docker Compose
+└── docker-compose.dev.yml       # Development Docker Compose
+```
+
+### Deploying to k3s
+
+#### Prerequisites
+
+1. **k3s cluster** with ArgoCD installed (in `cicd` namespace)
+2. **GitHub Container Registry access** (create PAT with `read:packages` permission)
+3. **kubectl** configured to access your cluster
+
+#### One-Time Setup
+
+**See [QUICK_DEPLOY.md](QUICK_DEPLOY.md) for a quick reference guide.**
+
+1. **Apply ArgoCD RBAC permissions** (one-time, cluster-wide):
+   ```bash
+   # Apply simplified RBAC (recommended for homelab)
+   kubectl apply -f infra/k8s/argocd-rbac/clusterrole-simple.yaml
+   kubectl apply -f infra/k8s/argocd-rbac/clusterrolebinding.yaml
+
+   # Restart ArgoCD to pick up permissions
+   kubectl rollout restart deployment argocd-application-controller -n cicd
+   kubectl rollout status deployment argocd-application-controller -n cicd
+   ```
+
+2. **Create secrets in the cluster**:
+   ```bash
+   # GHCR pull secret (for pulling Docker images)
+   kubectl create secret docker-registry ghcr-secret \
+     --docker-server=ghcr.io \
+     --docker-username=YOUR_GITHUB_USERNAME \
+     --docker-password=YOUR_GITHUB_PAT \
+     -n charno-web
+
+   # Application secrets (database credentials)
+   kubectl create secret generic charno-secrets \
+     --from-literal=db_user=YOUR_DB_USER \
+     --from-literal=db_password=YOUR_DB_PASSWORD \
+     -n charno-web
+   ```
+
+3. **Deploy the ArgoCD application**:
+   ```bash
+   kubectl apply -f infra/argocd/application.yaml
+   ```
+
+4. **Verify deployment**:
+   ```bash
+   # Check application status
+   kubectl get application charno-web -n cicd
+
+   # Check pods
+   kubectl get pods -n charno-web
+
+   # Check all resources
+   kubectl get all -n charno-web
+   ```
+
+#### Deployment Management
+
+**Using kubectl (no ArgoCD CLI required):**
+
+See [infra/k8s/ARGOCD_KUBECTL_GUIDE.md](infra/k8s/ARGOCD_KUBECTL_GUIDE.md) for comprehensive kubectl-based workflows.
+
+Common operations:
+```bash
+# Check application sync status
+kubectl get application charno-web -n cicd
+
+# Manually trigger sync
+kubectl patch application charno-web -n cicd \
+  --type merge \
+  --patch '{"operation": {"initiatedBy": {"username": "kubectl"}, "sync": {"revision": "HEAD"}}}'
+
+# View backend logs
+kubectl logs -n charno-web -l app=charno-backend --tail=50
+
+# View frontend logs
+kubectl logs -n charno-web -l app=charno-frontend --tail=50
+
+# Restart deployments
+kubectl rollout restart deployment charno-backend -n charno-web
+kubectl rollout restart deployment charno-frontend -n charno-web
+```
+
+#### ArgoCD Auto-Sync
+
+The application is configured for automatic synchronization:
+- **Auto-prune**: Removes resources deleted from Git
+- **Self-heal**: Automatically reverts manual changes to match Git
+- **Sync interval**: Every 3 minutes (ArgoCD default)
+
+Changes pushed to the `main` branch will be automatically deployed within 3 minutes.
+
+#### Accessing the Application
+
+- **Production URL**: https://charno.net
+- **Health checks**:
+  - Frontend: https://charno.net/health
+  - Backend: https://charno.net/api/health
+
+### Local Development with Docker
+
+See [DOCKER.md](DOCKER.md) for comprehensive Docker development guide.
+
+Quick start:
+```bash
+# Development mode with hot reload
+docker-compose -f infra/docker-compose.dev.yml up
+
+# Production mode
+docker-compose -f infra/docker-compose.yml up
+```
 
 ## Development
 

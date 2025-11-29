@@ -2,14 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: charno-web
-  namespace: argocd  # ArgoCD namespace
+  namespace: cicd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
 
   source:
-    repoURL: https://github.com/mcharno/web-app.git  # Update with your repo URL
+    repoURL: https://github.com/mcharno/web-app.git
     targetRevision: main
     path: infra/k8s/base
 
