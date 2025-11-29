@@ -9,7 +9,8 @@
     "dev": "nodemon src/server.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --verbose",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
-    "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --ci --maxWorkers=2"
+    "test:ci": "NODE_OPTIONS=--experimental-vm-modules jest --coverage --ci --maxWorkers=2",
+    "build": "echo 'No build step needed for backend'"
   },
   "keywords": [
     "express",

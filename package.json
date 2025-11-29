@@ -1,0 +1,27 @@
+{
+  "name": "web-app",
+  "version": "1.0.0",
+  "description": "Personal website web application",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"yarn workspace charno-backend dev\" \"yarn workspace frontend dev\"",
+    "start": "concurrently \"yarn workspace charno-backend start\" \"yarn workspace frontend start\"",
+    "test": "yarn workspaces foreach -pt run test",
+    "test:watch": "concurrently \"yarn workspace charno-backend test:watch\" \"yarn workspace frontend test:watch\"",
+    "build": "yarn workspace frontend build",
+    "install:all": "yarn install"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "keywords": [
+    "personal-website",
+    "portfolio"
+  ],
+  "author": "Michael Charno",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
