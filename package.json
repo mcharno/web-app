@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Personal website web application",
   "private": true,
+  "packageManager": "yarn@4.11.0",
   "scripts": {
     "dev": "concurrently \"yarn workspace charno-backend dev\" \"yarn workspace frontend dev\"",
     "start": "concurrently \"yarn workspace charno-backend start\" \"yarn workspace frontend start\"",
