@@ -2,13 +2,12 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: photos-pvc
-  namespace: charno-web
   labels:
-    app: charno-web
+    app: web
     component: storage
 spec:
   accessModes:
-    - ReadOnlyMany  # Multiple pods can read
+    - ReadWriteOnce  # local-path only supports ReadWriteOnce
   resources:
     requests:
       storage: 10Gi  # Adjust size as needed

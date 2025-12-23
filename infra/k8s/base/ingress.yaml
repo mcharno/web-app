@@ -2,9 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: charno-ingress
-  namespace: charno-web
   labels:
-    app: charno-web
+    app: web
   annotations:
     # Uncomment if using cert-manager for TLS
     # cert-manager.io/cluster-issuer: "letsencrypt-prod"
