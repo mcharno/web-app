@@ -14,7 +14,8 @@ resources:
   - backend-service.yaml
   - frontend-deployment.yaml
   - frontend-service.yaml
-  - ingress.yaml
+  - ingress-external.yaml
+  - ingress-local.yaml
 
 commonLabels:
   app.kubernetes.io/name: web
@@ -22,6 +23,6 @@ commonLabels:
 
 images:
   - name: ghcr.io/mcharno/charno-backend
-    newTag: main-ddf033ccdd08ba6e55e5c976fbf48d1e4332b45f
+    newTag: main
   - name: ghcr.io/mcharno/charno-frontend
-    newTag: main-ddf033ccdd08ba6e55e5c976fbf48d1e4332b45f
+    newTag: main

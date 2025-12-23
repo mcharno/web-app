@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: charno-external
+  labels:
+    app: web
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - charno.net
+    - www.charno.net
+    secretName: charno-net-wildcard-tls
+  rules:
+  # Main domain
+  - host: charno.net
+    http:
+      paths:
+      # Backend API routes
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-backend
+            port:
+              number: 3080
+      # Frontend routes (catch-all)
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-frontend
+            port:
+              number: 3000
+  # WWW subdomain
+  - host: www.charno.net
+    http:
+      paths:
+      # Backend API routes
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-backend
+            port:
+              number: 3080
+      # Frontend routes (catch-all)
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-frontend
+            port:
+              number: 3000
