@@ -26,7 +26,8 @@ RUN yarn workspace frontend build
 # Production stage with nginx
 FROM nginx:1.25-alpine
 
-# Copy custom nginx config
+# Copy custom nginx configs
+COPY frontend/nginx-main.conf /etc/nginx/nginx.conf
 COPY frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy built assets from builder
