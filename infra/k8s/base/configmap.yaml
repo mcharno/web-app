@@ -2,9 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: charno-config
-  namespace: charno-web
   labels:
-    app: charno-web
+    app: web
 data:
   # Database configuration - Update these to point to your existing Postgres instance
   # If Postgres is in a different namespace: postgres-service.postgres-namespace.svc.cluster.local
@@ -14,4 +13,4 @@ data:
   db_name: "charno_web"  # Update with your database name
 
   # API URL for frontend (update with your domain)
-  api_url: "http://charno-backend.charno-web.svc.cluster.local:3080"
+  api_url: "http://charno-backend.web.svc.cluster.local:3080"

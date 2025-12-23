@@ -1,0 +1,41 @@
+{
+  "name": "2600",
+  "category": "tech",
+  "description": "Pay phone photography inspired by 2600 Magazine - documenting the disappearing infrastructure of analog telecommunications",
+  "tags": ["payphones", "2600", "hacking", "phreaking", "telecommunications", "urban", "nostalgia"],
+  "photos": [
+    {
+      "id": "payphone-sample-01",
+      "filename": "2600/payphone-01.jpg",
+      "caption": "Classic Bell payphone booth",
+      "location": "Sample Location, USA",
+      "latitude": 40.7128,
+      "longitude": -74.0060,
+      "taken_date": "2024-01-15",
+      "display_order": 1,
+      "notes": "Replace with actual photo and metadata"
+    },
+    {
+      "id": "payphone-sample-02",
+      "filename": "2600/payphone-02.jpg",
+      "caption": "Another payphone example",
+      "location": "Sample Location, USA",
+      "latitude": 40.7580,
+      "longitude": -73.9855,
+      "taken_date": "2024-02-20",
+      "display_order": 2,
+      "notes": "Replace with actual photo and metadata"
+    },
+    {
+      "id": "payphone-sample-03",
+      "filename": "2600/payphone-03.jpg",
+      "caption": "Third payphone sample",
+      "location": "Sample Location, USA",
+      "latitude": 34.0522,
+      "longitude": -118.2437,
+      "taken_date": "2024-03-10",
+      "display_order": 3,
+      "notes": "Replace with actual photo and metadata"
+    }
+  ]
+}

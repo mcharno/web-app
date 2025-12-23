@@ -10,7 +10,8 @@
     "test": "yarn workspaces foreach -pt run test",
     "test:watch": "concurrently \"yarn workspace charno-backend test:watch\" \"yarn workspace frontend test:watch\"",
     "build": "yarn workspace frontend build",
-    "install:all": "yarn install"
+    "install:all": "yarn install",
+    "validate-gallery": "node scripts/validate-gallery.js"
   },
   "workspaces": [
     "frontend",

@@ -1,0 +1,45 @@
+{
+  "_comment": "This is a template file for adding new photos to the 2600 gallery",
+  "_instructions": [
+    "1. Copy a photo entry from below",
+    "2. Update all fields with your actual photo data",
+    "3. Add the entry to the 2600.json file in the 'photos' array",
+    "4. Make sure the filename matches your actual photo file in /frontend/public/images/photos/2600/",
+    "5. Increment display_order for each new photo"
+  ],
+  "photo_template": {
+    "id": "unique-identifier-here",
+    "filename": "2600/your-photo-name.jpg",
+    "caption": "Brief description of what's in the photo",
+    "location": "City, State/Country",
+    "latitude": 0.0000,
+    "longitude": 0.0000,
+    "taken_date": "YYYY-MM-DD",
+    "display_order": 1,
+    "notes": "Optional: Any interesting details about the phone, location, or context"
+  },
+  "sample_entries": [
+    {
+      "id": "payphone-manhattan-42nd",
+      "filename": "2600/payphone-manhattan-42nd.jpg",
+      "caption": "Vintage payphone near Grand Central Terminal",
+      "location": "Manhattan, New York, NY",
+      "latitude": 40.7527,
+      "longitude": -73.9772,
+      "taken_date": "2024-05-12",
+      "display_order": 1,
+      "notes": "One of the last working payphones in Midtown"
+    },
+    {
+      "id": "payphone-san-francisco-mission",
+      "filename": "2600/payphone-sf-mission.jpg",
+      "caption": "Graffiti-covered phone booth in Mission District",
+      "location": "San Francisco, CA",
+      "latitude": 37.7599,
+      "longitude": -122.4148,
+      "taken_date": "2024-03-08",
+      "display_order": 2,
+      "notes": "Phone no longer functional but booth remains as street art"
+    }
+  ]
+}
