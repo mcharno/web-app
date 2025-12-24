@@ -12,5 +12,5 @@ data:
   db_port: "5432"
   db_name: "charno_web"  # Update with your database name
 
-  # API URL for frontend (update with your domain)
-  api_url: "http://charno-backend.web.svc.cluster.local:3080"
+  # API URL for frontend - use relative path so requests go through ingress
+  api_url: "/api"
