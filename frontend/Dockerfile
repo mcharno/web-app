@@ -20,7 +20,8 @@ RUN yarn install --frozen-lockfile
 # Copy frontend source
 COPY frontend ./frontend
 
-# Build the application
+# Build the application with API URL for production
+ENV VITE_API_URL=/api
 RUN yarn workspace frontend build
 
 # Production stage with nginx
