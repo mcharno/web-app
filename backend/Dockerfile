@@ -17,8 +17,9 @@ COPY frontend/package.json ./frontend/package.json
 # Install all dependencies (workspace will handle it)
 RUN yarn install --frozen-lockfile
 
-# Copy backend source
+# Copy backend source and content
 COPY backend/src ./backend/src
+COPY backend/content ./backend/content
 
 # Production stage
 FROM node:20-alpine
