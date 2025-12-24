@@ -27,4 +27,4 @@ images:
   - name: ghcr.io/mcharno/charno-backend
     newTag: main
   - name: ghcr.io/mcharno/charno-frontend
-    newTag: main-f56ca40543712175d8cc6bfbf2e7cfeafae5c88a
+    newTag: main-f56ca40
