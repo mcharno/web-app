@@ -25,6 +25,6 @@ commonLabels:
 
 images:
   - name: ghcr.io/mcharno/charno-backend
-    newTag: main-d800719
+    newTag: main-7d2ff45
   - name: ghcr.io/mcharno/charno-frontend
     newTag: main-ed32bdb
