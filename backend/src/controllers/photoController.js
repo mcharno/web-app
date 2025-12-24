@@ -20,6 +20,12 @@ export const getAllPhotos = async (req, res) => {
     const allPhotos = [];
     for (const galleryMeta of galleries) {
       const gallery = await loadGallery(language, galleryMeta.gallery_name);
+
+      // Skip galleries without photos array
+      if (!gallery.photos || !Array.isArray(gallery.photos)) {
+        continue;
+      }
+
       const photosWithMetadata = gallery.photos.map(photo => ({
         ...photo,
         gallery_name: gallery.name,
@@ -91,6 +97,12 @@ export const getPhotoById = async (req, res) => {
 
     for (const galleryMeta of galleries) {
       const gallery = await loadGallery(language, galleryMeta.gallery_name);
+
+      // Skip galleries without photos array
+      if (!gallery.photos || !Array.isArray(gallery.photos)) {
+        continue;
+      }
+
       const photo = gallery.photos.find(p => p.id === id);
 
       if (photo) {
