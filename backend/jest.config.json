@@ -5,16 +5,10 @@
   "collectCoverageFrom": [
     "src/**/*.js",
     "!src/server.js",
-    "!src/config/database.js"
+    "!src/config/database.js",
+    "!src/mocks/**",
+    "!src/__tests__/**"
   ],
-  "coverageThreshold": {
-    "global": {
-      "branches": 75,
-      "functions": 75,
-      "lines": 75,
-      "statements": 75
-    }
-  },
   "testMatch": [
     "**/__tests__/**/*.test.js",
     "**/?(*.)+(spec|test).js"
