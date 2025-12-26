@@ -194,6 +194,7 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -207,19 +208,46 @@ jobs:
           # Update kustomization.yaml with new image tags
           sed -i "s|newTag:.*|newTag: main-${{ github.sha }}|g" kustomization.yaml
 
-      - name: Commit and push changes
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add infra/k8s/base/kustomization.yaml
-          git diff --staged --quiet || git commit -m "ci: Update image tags to main-${{ github.sha }}"
-          git push
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "ci: Update image tags to main-${{ github.sha }}"
+          committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          branch: ci/update-manifests-${{ github.sha }}
+          delete-branch: true
+          title: "ci: Update image tags to main-${{ github.sha }}"
+          body: |
+            ## Automated Image Tag Update
 
-      - name: ArgoCD sync notification
+            This PR updates the Kubernetes manifest image tags after a successful build.
+
+            **Changes:**
+            - Backend image: `${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}`
+            - Frontend image: `${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}`
+
+            **Trigger:** Commit ${{ github.sha }} on `main` branch
+
+            **Next Steps:**
+            1. Review and merge this PR
+            2. ArgoCD will automatically sync the deployment within 3 minutes
+            3. Or manually sync via: `argocd app sync charno-web`
+
+            ---
+            *This PR was automatically created by GitHub Actions*
+          labels: |
+            automated
+            deployment
+
+      - name: PR Creation Result
         run: |
-          echo "✅ Image tags updated to main-${{ github.sha }}"
-          echo "📦 Backend: ${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}"
-          echo "📦 Frontend: ${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}"
-          echo ""
-          echo "ArgoCD will automatically sync within 3 minutes"
-          echo "Or manually sync via: argocd app sync charno-web"
+          if [ "${{ steps.cpr.outputs.pull-request-number }}" != "" ]; then
+            echo "✅ Pull request created: #${{ steps.cpr.outputs.pull-request-number }}"
+            echo "📦 Backend: ${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}"
+            echo "📦 Frontend: ${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}"
+            echo "🔗 URL: ${{ steps.cpr.outputs.pull-request-url }}"
+          else
+            echo "ℹ️ No changes to image tags, PR not needed"
+          fi
