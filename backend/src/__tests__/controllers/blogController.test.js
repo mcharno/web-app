@@ -1,13 +1,16 @@
 import { jest } from '@jest/globals';
-import { getAllPosts, getPostByPage } from '../../controllers/blogController.js';
 
-// Mock the database pool
-const mockQuery = jest.fn();
-jest.unstable_mockModule('../../config/database.js', () => ({
-  default: {
-    query: mockQuery
-  }
+// Mock the contentLoader module BEFORE importing the controller
+const mockLoadAllBlogPosts = jest.fn();
+const mockLoadBlogPost = jest.fn();
+
+jest.unstable_mockModule('../../utils/contentLoader.js', () => ({
+  loadAllBlogPosts: mockLoadAllBlogPosts,
+  loadBlogPost: mockLoadBlogPost
 }));
+
+// Import controller AFTER setting up the mock
+const { getAllPosts, getPostByPage } = await import('../../controllers/blogController.js');
 
 describe('Blog Controller', () => {
   let req, res;
@@ -25,50 +28,70 @@ describe('Blog Controller', () => {
   });
 
   describe('getAllPosts', () => {
-    it('should return all blog posts ordered by updated_at', async () => {
+    it('should return all blog posts without content', async () => {
       const mockPosts = [
-        { id: 1, page_name: 'post1', title: 'Post 1', created_at: '2024-01-01', updated_at: '2024-01-02' },
-        { id: 2, page_name: 'post2', title: 'Post 2', created_at: '2024-01-01', updated_at: '2024-01-01' }
+        {
+          id: 'post1',
+          page_name: 'post1',
+          title: 'Post 1',
+          content: 'Full content here',
+          created_at: '2024-01-01',
+          updated_at: '2024-01-02'
+        },
+        {
+          id: 'post2',
+          page_name: 'post2',
+          title: 'Post 2',
+          content: 'More content',
+          created_at: '2024-01-01',
+          updated_at: '2024-01-01'
+        }
       ];
 
-      mockQuery.mockResolvedValue({ rows: mockPosts });
+      mockLoadAllBlogPosts.mockResolvedValue(mockPosts);
 
       await getAllPosts(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT id, page_name, title, created_at, updated_at FROM blog_posts WHERE language = $1 ORDER BY updated_at DESC',
-        ['en']
-      );
-      expect(res.json).toHaveBeenCalledWith(mockPosts);
+      expect(mockLoadAllBlogPosts).toHaveBeenCalledWith('en');
+      expect(res.json).toHaveBeenCalledWith([
+        { id: 'post1', page_name: 'post1', title: 'Post 1', created_at: '2024-01-01', updated_at: '2024-01-02' },
+        { id: 'post2', page_name: 'post2', title: 'Post 2', created_at: '2024-01-01', updated_at: '2024-01-01' }
+      ]);
     });
 
     it('should return posts for specified language', async () => {
       req.query = { language: 'gr' };
       const mockPosts = [
-        { id: 3, page_name: 'post3', title: 'Δημοσίευση', created_at: '2024-01-01', updated_at: '2024-01-01' }
+        {
+          id: 'post3',
+          page_name: 'post3',
+          title: 'Δημοσίευση',
+          content: 'Content',
+          created_at: '2024-01-01',
+          updated_at: '2024-01-01'
+        }
       ];
 
-      mockQuery.mockResolvedValue({ rows: mockPosts });
+      mockLoadAllBlogPosts.mockResolvedValue(mockPosts);
 
       await getAllPosts(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT id, page_name, title, created_at, updated_at FROM blog_posts WHERE language = $1 ORDER BY updated_at DESC',
-        ['gr']
-      );
-      expect(res.json).toHaveBeenCalledWith(mockPosts);
+      expect(mockLoadAllBlogPosts).toHaveBeenCalledWith('gr');
+      expect(res.json).toHaveBeenCalledWith([
+        { id: 'post3', page_name: 'post3', title: 'Δημοσίευση', created_at: '2024-01-01', updated_at: '2024-01-01' }
+      ]);
     });
 
     it('should return empty array when no posts found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+      mockLoadAllBlogPosts.mockResolvedValue([]);
 
       await getAllPosts(req, res);
 
       expect(res.json).toHaveBeenCalledWith([]);
     });
 
-    it('should return 500 on database error', async () => {
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 500 on error', async () => {
+      mockLoadAllBlogPosts.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
@@ -86,7 +109,7 @@ describe('Blog Controller', () => {
     it('should return blog post by page name', async () => {
       req.params = { page: 'my-first-post' };
       const mockPost = {
-        id: 1,
+        id: 'my-first-post',
         page_name: 'my-first-post',
         title: 'My First Post',
         content: 'Content here',
@@ -94,14 +117,11 @@ describe('Blog Controller', () => {
         updated_at: '2024-01-02'
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockPost] });
+      mockLoadBlogPost.mockResolvedValue(mockPost);
 
       await getPostByPage(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM blog_posts WHERE page_name = $1 AND language = $2',
-        ['my-first-post', 'en']
-      );
+      expect(mockLoadBlogPost).toHaveBeenCalledWith('en', 'my-first-post');
       expect(res.json).toHaveBeenCalledWith(mockPost);
     });
 
@@ -109,26 +129,24 @@ describe('Blog Controller', () => {
       req.params = { page: 'my-first-post' };
       req.query = { language: 'gr' };
       const mockPost = {
-        id: 1,
+        id: 'my-first-post',
         page_name: 'my-first-post',
         title: 'Η πρώτη μου ανάρτηση',
-        language: 'gr'
+        language: 'gr',
+        content: 'Content'
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockPost] });
+      mockLoadBlogPost.mockResolvedValue(mockPost);
 
       await getPostByPage(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM blog_posts WHERE page_name = $1 AND language = $2',
-        ['my-first-post', 'gr']
-      );
+      expect(mockLoadBlogPost).toHaveBeenCalledWith('gr', 'my-first-post');
       expect(res.json).toHaveBeenCalledWith(mockPost);
     });
 
     it('should return 404 when post not found', async () => {
       req.params = { page: 'nonexistent' };
-      mockQuery.mockResolvedValue({ rows: [] });
+      mockLoadBlogPost.mockResolvedValue(null);
 
       await getPostByPage(req, res);
 
@@ -136,9 +154,24 @@ describe('Blog Controller', () => {
       expect(res.json).toHaveBeenCalledWith({ error: 'Blog post not found' });
     });
 
-    it('should return 500 on database error', async () => {
+    it('should return 404 on not found error', async () => {
       req.params = { page: 'my-first-post' };
-      mockQuery.mockRejectedValue(new Error('Database error'));
+      mockLoadBlogPost.mockRejectedValue(new Error('Blog post not found'));
+
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+
+      await getPostByPage(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Blog post not found' });
+      expect(consoleSpy).toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
+
+    it('should return 500 on other errors', async () => {
+      req.params = { page: 'my-first-post' };
+      mockLoadBlogPost.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
