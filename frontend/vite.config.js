@@ -7,5 +7,19 @@ export default defineConfig({
   server: {
     port: 3000,
     host: true
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/\.(css)$/.test(assetInfo.name)) {
+            return `assets/[name]-[hash]-${Date.now()}[extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
+        }
+      }
+    }
   }
 })
