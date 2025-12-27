@@ -1,13 +1,16 @@
 import { jest } from '@jest/globals';
-import { getAllProjects, getProjectById } from '../../controllers/projectController.js';
 
-// Mock the database pool
-const mockQuery = jest.fn();
-jest.unstable_mockModule('../../config/database.js', () => ({
-  default: {
-    query: mockQuery
-  }
+// Mock the contentLoader module BEFORE importing the controller
+const mockLoadJSON = jest.fn();
+const mockFindById = jest.fn();
+
+jest.unstable_mockModule('../../utils/contentLoader.js', () => ({
+  loadJSON: mockLoadJSON,
+  findById: mockFindById
 }));
+
+// Import controller AFTER setting up the mock
+const { getAllProjects, getProjectById } = await import('../../controllers/projectController.js');
 
 describe('Project Controller', () => {
   let req, res;
@@ -25,50 +28,57 @@ describe('Project Controller', () => {
   });
 
   describe('getAllProjects', () => {
-    it('should return all projects for default language (en)', async () => {
+    it('should return all projects sorted by display_order', async () => {
       const mockProjects = [
-        { id: 1, language: 'en', title: 'Project 1', display_order: 1 },
-        { id: 2, language: 'en', title: 'Project 2', display_order: 2 }
+        { id: 'project2', title: 'Project 2', display_order: 2 },
+        { id: 'project1', title: 'Project 1', display_order: 1 },
+        { id: 'project3', title: 'Project 3', display_order: 3 }
       ];
 
-      mockQuery.mockResolvedValue({ rows: mockProjects });
+      mockLoadJSON.mockResolvedValue(mockProjects);
 
       await getAllProjects(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM projects WHERE language = $1 ORDER BY display_order',
-        ['en']
-      );
-      expect(res.json).toHaveBeenCalledWith(mockProjects);
+      expect(mockLoadJSON).toHaveBeenCalledWith('en', 'projects');
+      expect(res.json).toHaveBeenCalledWith([
+        { id: 'project1', title: 'Project 1', display_order: 1 },
+        { id: 'project2', title: 'Project 2', display_order: 2 },
+        { id: 'project3', title: 'Project 3', display_order: 3 }
+      ]);
     });
 
     it('should return projects for specified language', async () => {
       req.query = { language: 'gr' };
       const mockProjects = [
-        { id: 3, language: 'gr', title: 'Έργο 1', display_order: 1 }
+        { id: 'project1', title: 'Έργο 1', display_order: 1 }
       ];
 
-      mockQuery.mockResolvedValue({ rows: mockProjects });
+      mockLoadJSON.mockResolvedValue(mockProjects);
 
       await getAllProjects(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM projects WHERE language = $1 ORDER BY display_order',
-        ['gr']
-      );
+      expect(mockLoadJSON).toHaveBeenCalledWith('gr', 'projects');
       expect(res.json).toHaveBeenCalledWith(mockProjects);
     });
 
-    it('should return empty array when no projects found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+    it('should handle projects without display_order', async () => {
+      const mockProjects = [
+        { id: 'project1', title: 'Project 1' },
+        { id: 'project2', title: 'Project 2', display_order: 1 }
+      ];
+
+      mockLoadJSON.mockResolvedValue(mockProjects);
 
       await getAllProjects(req, res);
 
-      expect(res.json).toHaveBeenCalledWith([]);
+      expect(res.json).toHaveBeenCalledWith([
+        { id: 'project1', title: 'Project 1' },
+        { id: 'project2', title: 'Project 2', display_order: 1 }
+      ]);
     });
 
-    it('should return 500 on database error', async () => {
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 500 on error', async () => {
+      mockLoadJSON.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
@@ -83,49 +93,42 @@ describe('Project Controller', () => {
   });
 
   describe('getProjectById', () => {
-    it('should return project by id for default language', async () => {
-      req.params = { id: '1' };
+    it('should return project by id', async () => {
+      req.params = { id: 'my-project' };
       const mockProject = {
-        id: 1,
-        language: 'en',
-        title: 'Project 1',
+        id: 'my-project',
+        title: 'My Project',
         description: 'Description'
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockProject] });
+      mockFindById.mockResolvedValue(mockProject);
 
       await getProjectById(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM projects WHERE id = $1 AND language = $2',
-        ['1', 'en']
-      );
+      expect(mockFindById).toHaveBeenCalledWith('en', 'projects', 'my-project');
       expect(res.json).toHaveBeenCalledWith(mockProject);
     });
 
     it('should return project for specified language', async () => {
-      req.params = { id: '1' };
+      req.params = { id: 'my-project' };
       req.query = { language: 'gr' };
       const mockProject = {
-        id: 1,
-        language: 'gr',
-        title: 'Έργο 1'
+        id: 'my-project',
+        title: 'Το έργο μου',
+        language: 'gr'
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockProject] });
+      mockFindById.mockResolvedValue(mockProject);
 
       await getProjectById(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM projects WHERE id = $1 AND language = $2',
-        ['1', 'gr']
-      );
+      expect(mockFindById).toHaveBeenCalledWith('gr', 'projects', 'my-project');
       expect(res.json).toHaveBeenCalledWith(mockProject);
     });
 
     it('should return 404 when project not found', async () => {
-      req.params = { id: '999' };
-      mockQuery.mockResolvedValue({ rows: [] });
+      req.params = { id: 'nonexistent' };
+      mockFindById.mockResolvedValue(null);
 
       await getProjectById(req, res);
 
@@ -133,9 +136,9 @@ describe('Project Controller', () => {
       expect(res.json).toHaveBeenCalledWith({ error: 'Project not found' });
     });
 
-    it('should return 500 on database error', async () => {
-      req.params = { id: '1' };
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 500 on error', async () => {
+      req.params = { id: 'my-project' };
+      mockFindById.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 

@@ -1,13 +1,16 @@
 import { jest } from '@jest/globals';
-import { getAllPapers, getPaperById } from '../../controllers/paperController.js';
 
-// Mock the database pool
-const mockQuery = jest.fn();
-jest.unstable_mockModule('../../config/database.js', () => ({
-  default: {
-    query: mockQuery
-  }
+// Mock the contentLoader module BEFORE importing the controller
+const mockLoadJSON = jest.fn();
+const mockFindById = jest.fn();
+
+jest.unstable_mockModule('../../utils/contentLoader.js', () => ({
+  loadJSON: mockLoadJSON,
+  findById: mockFindById
 }));
+
+// Import controller AFTER setting up the mock
+const { getAllPapers, getPaperById } = await import('../../controllers/paperController.js');
 
 describe('Paper Controller', () => {
   let req, res;
@@ -25,50 +28,57 @@ describe('Paper Controller', () => {
   });
 
   describe('getAllPapers', () => {
-    it('should return all papers ordered by year descending', async () => {
+    it('should return all papers sorted by year descending', async () => {
       const mockPapers = [
-        { id: 1, language: 'en', title: 'Paper 2023', year: 2023 },
-        { id: 2, language: 'en', title: 'Paper 2022', year: 2022 }
+        { id: 'paper1', title: 'Paper 1', year: 2020 },
+        { id: 'paper2', title: 'Paper 2', year: 2022 },
+        { id: 'paper3', title: 'Paper 3', year: 2021 }
       ];
 
-      mockQuery.mockResolvedValue({ rows: mockPapers });
+      mockLoadJSON.mockResolvedValue(mockPapers);
 
       await getAllPapers(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM papers WHERE language = $1 ORDER BY year DESC',
-        ['en']
-      );
-      expect(res.json).toHaveBeenCalledWith(mockPapers);
+      expect(mockLoadJSON).toHaveBeenCalledWith('en', 'papers');
+      expect(res.json).toHaveBeenCalledWith([
+        { id: 'paper2', title: 'Paper 2', year: 2022 },
+        { id: 'paper3', title: 'Paper 3', year: 2021 },
+        { id: 'paper1', title: 'Paper 1', year: 2020 }
+      ]);
     });
 
     it('should return papers for specified language', async () => {
       req.query = { language: 'gr' };
       const mockPapers = [
-        { id: 3, language: 'gr', title: 'Έγγραφο', year: 2023 }
+        { id: 'paper1', title: 'Δημοσίευση 1', year: 2022 }
       ];
 
-      mockQuery.mockResolvedValue({ rows: mockPapers });
+      mockLoadJSON.mockResolvedValue(mockPapers);
 
       await getAllPapers(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM papers WHERE language = $1 ORDER BY year DESC',
-        ['gr']
-      );
+      expect(mockLoadJSON).toHaveBeenCalledWith('gr', 'papers');
       expect(res.json).toHaveBeenCalledWith(mockPapers);
     });
 
-    it('should return empty array when no papers found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+    it('should handle papers without year', async () => {
+      const mockPapers = [
+        { id: 'paper1', title: 'Paper 1' },
+        { id: 'paper2', title: 'Paper 2', year: 2022 }
+      ];
+
+      mockLoadJSON.mockResolvedValue(mockPapers);
 
       await getAllPapers(req, res);
 
-      expect(res.json).toHaveBeenCalledWith([]);
+      expect(res.json).toHaveBeenCalledWith([
+        { id: 'paper2', title: 'Paper 2', year: 2022 },
+        { id: 'paper1', title: 'Paper 1' }
+      ]);
     });
 
-    it('should return 500 on database error', async () => {
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 500 on error', async () => {
+      mockLoadJSON.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
@@ -83,50 +93,42 @@ describe('Paper Controller', () => {
   });
 
   describe('getPaperById', () => {
-    it('should return paper by id for default language', async () => {
-      req.params = { id: '1' };
+    it('should return paper by id', async () => {
+      req.params = { id: 'my-paper' };
       const mockPaper = {
-        id: 1,
-        language: 'en',
-        title: 'Research Paper',
-        abstract: 'Abstract text',
-        year: 2023
+        id: 'my-paper',
+        title: 'My Paper',
+        year: 2022
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockPaper] });
+      mockFindById.mockResolvedValue(mockPaper);
 
       await getPaperById(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM papers WHERE id = $1 AND language = $2',
-        ['1', 'en']
-      );
+      expect(mockFindById).toHaveBeenCalledWith('en', 'papers', 'my-paper');
       expect(res.json).toHaveBeenCalledWith(mockPaper);
     });
 
     it('should return paper for specified language', async () => {
-      req.params = { id: '1' };
+      req.params = { id: 'my-paper' };
       req.query = { language: 'gr' };
       const mockPaper = {
-        id: 1,
-        language: 'gr',
-        title: 'Έρευνα'
+        id: 'my-paper',
+        title: 'Η δημοσίευσή μου',
+        language: 'gr'
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockPaper] });
+      mockFindById.mockResolvedValue(mockPaper);
 
       await getPaperById(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM papers WHERE id = $1 AND language = $2',
-        ['1', 'gr']
-      );
+      expect(mockFindById).toHaveBeenCalledWith('gr', 'papers', 'my-paper');
       expect(res.json).toHaveBeenCalledWith(mockPaper);
     });
 
     it('should return 404 when paper not found', async () => {
-      req.params = { id: '999' };
-      mockQuery.mockResolvedValue({ rows: [] });
+      req.params = { id: 'nonexistent' };
+      mockFindById.mockResolvedValue(null);
 
       await getPaperById(req, res);
 
@@ -134,9 +136,9 @@ describe('Paper Controller', () => {
       expect(res.json).toHaveBeenCalledWith({ error: 'Paper not found' });
     });
 
-    it('should return 500 on database error', async () => {
-      req.params = { id: '1' };
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 500 on error', async () => {
+      req.params = { id: 'my-paper' };
+      mockFindById.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 

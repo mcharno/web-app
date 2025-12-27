@@ -1,22 +1,27 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import axios from 'axios';
+
+// Create mock axios instance
+const mockAxiosInstance = {
+  get: vi.fn(),
+  post: vi.fn(),
+  put: vi.fn(),
+  delete: vi.fn(),
+};
+
+// Mock axios.create BEFORE importing the API module
+vi.mock('axios', () => ({
+  default: {
+    create: vi.fn(() => mockAxiosInstance)
+  }
+}));
+
+// Import API module AFTER mocking axios
 import { contentAPI, projectsAPI, photosAPI, papersAPI, blogAPI } from '../../services/api';
 
-// Mock axios
-vi.mock('axios');
-
 describe('API Services', () => {
-  let mockAxiosInstance;
-
   beforeEach(() => {
-    mockAxiosInstance = {
-      get: vi.fn(),
-      post: vi.fn(),
-      put: vi.fn(),
-      delete: vi.fn(),
-    };
-
-    axios.create.mockReturnValue(mockAxiosInstance);
+    vi.clearAllMocks();
   });
 
   describe('contentAPI', () => {
@@ -62,47 +67,56 @@ describe('API Services', () => {
       const mockData = { data: { id: 1, title: 'Project 1' } };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await projectsAPI.getById(1, 'en');
+      await projectsAPI.getById('my-project');
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/projects/1', { params: { language: 'en' } });
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/projects/my-project', { params: { language: 'en' } });
     });
   });
 
   describe('photosAPI', () => {
     it('should fetch all galleries', async () => {
-      const mockData = { data: [{ gallery_name: 'Vacation', category: 'places' }] };
+      const mockData = { data: [{ name: 'Gallery 1' }] };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await photosAPI.getAllGalleries('en');
+      await photosAPI.getAllGalleries();
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith('/photos/galleries', { params: { language: 'en' } });
     });
 
     it('should fetch photos by gallery name', async () => {
-      const mockData = { data: [{ id: 1, filename: 'photo1.jpg' }] };
+      const mockData = { data: [{ id: 1, caption: 'Photo 1' }] };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await photosAPI.getByGallery('Vacation', 'en');
+      await photosAPI.getByGallery('my-gallery');
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/photos/gallery/Vacation', { params: { language: 'en' } });
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/photos/gallery/my-gallery', { params: { language: 'en' } });
     });
 
     it('should fetch photo by id', async () => {
-      const mockData = { data: { id: 1, filename: 'photo1.jpg' } };
+      const mockData = { data: { id: 1, caption: 'Photo 1' } };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await photosAPI.getById(1);
+      await photosAPI.getById('photo1');
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/photos/1');
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/photos/photo1');
+    });
+
+    it('should fetch all photos', async () => {
+      const mockData = { data: [{ id: 1, caption: 'Photo 1' }] };
+      mockAxiosInstance.get.mockResolvedValue(mockData);
+
+      await photosAPI.getAll();
+
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/photos', { params: { language: 'en' } });
     });
   });
 
   describe('papersAPI', () => {
     it('should fetch all papers', async () => {
-      const mockData = { data: [{ id: 1, title: 'Paper 1', year: 2023 }] };
+      const mockData = { data: [{ id: 1, title: 'Paper 1' }] };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await papersAPI.getAll('en');
+      await papersAPI.getAll();
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith('/papers', { params: { language: 'en' } });
     });
@@ -111,9 +125,9 @@ describe('API Services', () => {
       const mockData = { data: { id: 1, title: 'Paper 1' } };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await papersAPI.getById(1, 'en');
+      await papersAPI.getById('my-paper');
 
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/papers/1', { params: { language: 'en' } });
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/papers/my-paper', { params: { language: 'en' } });
     });
   });
 
@@ -122,16 +136,16 @@ describe('API Services', () => {
       const mockData = { data: [{ id: 1, title: 'Post 1' }] };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await blogAPI.getAll('en');
+      await blogAPI.getAll();
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith('/blog', { params: { language: 'en' } });
     });
 
     it('should fetch blog post by page name', async () => {
-      const mockData = { data: { id: 1, page_name: 'my-post', title: 'My Post' } };
+      const mockData = { data: { id: 1, title: 'Post 1' } };
       mockAxiosInstance.get.mockResolvedValue(mockData);
 
-      await blogAPI.getByPage('my-post', 'en');
+      await blogAPI.getByPage('my-post');
 
       expect(mockAxiosInstance.get).toHaveBeenCalledWith('/blog/my-post', { params: { language: 'en' } });
     });
