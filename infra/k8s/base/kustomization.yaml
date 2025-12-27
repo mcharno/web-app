@@ -25,6 +25,6 @@ commonLabels:
 
 images:
   - name: ghcr.io/mcharno/charno-backend
-    newTag: main-8a0868a
+    newTag: main-8e5867ff2d8115c3e78221a6429f22c66e19b7b3
   - name: ghcr.io/mcharno/charno-frontend
-    newTag: main-8a0868a
+    newTag: main-8e5867ff2d8115c3e78221a6429f22c66e19b7b3
