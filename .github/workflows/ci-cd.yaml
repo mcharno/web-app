@@ -194,7 +194,6 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -208,46 +207,40 @@ jobs:
           # Update kustomization.yaml with new image tags
           sed -i "s|newTag:.*|newTag: main-${{ github.sha }}|g" kustomization.yaml
 
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "ci: Update image tags to main-${{ github.sha }}"
-          committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-          branch: ci/update-manifests-${{ github.sha }}
-          delete-branch: true
-          title: "ci: Update image tags to main-${{ github.sha }}"
-          body: |
-            ## Automated Image Tag Update
-
-            This PR updates the Kubernetes manifest image tags after a successful build.
-
-            **Changes:**
-            - Backend image: `${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}`
-            - Frontend image: `${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}`
-
-            **Trigger:** Commit ${{ github.sha }} on `main` branch
-
-            **Next Steps:**
-            1. Review and merge this PR
-            2. ArgoCD will automatically sync the deployment within 3 minutes
-            3. Or manually sync via: `argocd app sync charno-web`
-
-            ---
-            *This PR was automatically created by GitHub Actions*
-          labels: |
-            automated
-            deployment
-
-      - name: PR Creation Result
+      - name: Check for changes
+        id: check_changes
         run: |
-          if [ "${{ steps.cpr.outputs.pull-request-number }}" != "" ]; then
-            echo "✅ Pull request created: #${{ steps.cpr.outputs.pull-request-number }}"
-            echo "📦 Backend: ${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}"
-            echo "📦 Frontend: ${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}"
-            echo "🔗 URL: ${{ steps.cpr.outputs.pull-request-url }}"
+          if git diff --quiet infra/k8s/base/kustomization.yaml; then
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
-            echo "ℹ️ No changes to image tags, PR not needed"
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Commit and push to branch
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          BRANCH_NAME="ci/update-manifests-${{ github.sha }}"
+
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          git checkout -b "$BRANCH_NAME"
+          git add infra/k8s/base/kustomization.yaml
+          git commit -m "ci: Update image tags to main-${{ github.sha }}"
+          git push -u origin "$BRANCH_NAME"
+
+          echo "✅ Branch created: $BRANCH_NAME"
+          echo "📦 Backend: ${{ env.BACKEND_IMAGE }}:main-${{ github.sha }}"
+          echo "📦 Frontend: ${{ env.FRONTEND_IMAGE }}:main-${{ github.sha }}"
+          echo ""
+          echo "📋 Next steps:"
+          echo "1. Create a PR from branch: $BRANCH_NAME"
+          echo "2. Review and merge the PR"
+          echo "3. ArgoCD will automatically sync within 3 minutes"
+          echo ""
+          echo "🔗 Create PR: https://github.com/${{ github.repository }}/compare/$BRANCH_NAME?expand=1"
+
+      - name: No changes needed
+        if: steps.check_changes.outputs.changed == 'false'
+        run: |
+          echo "ℹ️ No changes to image tags, branch not created"
