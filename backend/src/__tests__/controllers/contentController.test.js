@@ -1,20 +1,24 @@
 import { jest } from '@jest/globals';
-import { getContent, getAllContent } from '../../controllers/contentController.js';
 
-// Mock the database pool
-const mockQuery = jest.fn();
-jest.unstable_mockModule('../../config/database.js', () => ({
-  default: {
-    query: mockQuery
-  }
+// Mock the contentLoader module BEFORE importing the controller
+const mockLoadJSON = jest.fn();
+const mockGetContentValue = jest.fn();
+
+jest.unstable_mockModule('../../utils/contentLoader.js', () => ({
+  loadJSON: mockLoadJSON,
+  getContentValue: mockGetContentValue
 }));
+
+// Import controller AFTER setting up the mock
+const { getAllContent, getContent } = await import('../../controllers/contentController.js');
 
 describe('Content Controller', () => {
   let req, res;
 
   beforeEach(() => {
     req = {
-      params: {}
+      params: {},
+      query: {}
     };
     res = {
       json: jest.fn().mockReturnThis(),
@@ -23,45 +27,44 @@ describe('Content Controller', () => {
     jest.clearAllMocks();
   });
 
-  describe('getContent', () => {
-    it('should return content for valid language and key', async () => {
-      req.params = { language: 'en', key: 'welcome' };
+  describe('getAllContent', () => {
+    it('should return all content for language', async () => {
+      req.params = { language: 'en' };
       const mockContent = {
-        id: 1,
-        language: 'en',
-        key: 'welcome',
-        value: 'Welcome to the site'
+        welcome: 'Welcome',
+        about: 'About us'
       };
 
-      mockQuery.mockResolvedValue({ rows: [mockContent] });
+      mockLoadJSON.mockResolvedValue(mockContent);
 
-      await getContent(req, res);
+      await getAllContent(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM content WHERE language = $1 AND key = $2',
-        ['en', 'welcome']
-      );
+      expect(mockLoadJSON).toHaveBeenCalledWith('en', 'content');
       expect(res.json).toHaveBeenCalledWith(mockContent);
-      expect(res.status).not.toHaveBeenCalled();
     });
 
-    it('should return 404 when content not found', async () => {
-      req.params = { language: 'en', key: 'nonexistent' };
-      mockQuery.mockResolvedValue({ rows: [] });
+    it('should return content for Greek language', async () => {
+      req.params = { language: 'gr' };
+      const mockContent = {
+        welcome: 'Καλώς ήρθατε',
+        about: 'Σχετικά με εμάς'
+      };
 
-      await getContent(req, res);
+      mockLoadJSON.mockResolvedValue(mockContent);
 
-      expect(res.status).toHaveBeenCalledWith(404);
-      expect(res.json).toHaveBeenCalledWith({ error: 'Content not found' });
+      await getAllContent(req, res);
+
+      expect(mockLoadJSON).toHaveBeenCalledWith('gr', 'content');
+      expect(res.json).toHaveBeenCalledWith(mockContent);
     });
 
-    it('should return 500 on database error', async () => {
-      req.params = { language: 'en', key: 'welcome' };
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 500 on error', async () => {
+      req.params = { language: 'en' };
+      mockLoadJSON.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-      await getContent(req, res);
+      await getAllContent(req, res);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });
@@ -71,46 +74,56 @@ describe('Content Controller', () => {
     });
   });
 
-  describe('getAllContent', () => {
-    it('should return all content as key-value object', async () => {
-      req.params = { language: 'en' };
-      const mockRows = [
-        { id: 1, language: 'en', key: 'welcome', value: 'Welcome' },
-        { id: 2, language: 'en', key: 'about', value: 'About Us' },
-        { id: 3, language: 'en', key: 'contact', value: 'Contact' }
-      ];
+  describe('getContent', () => {
+    it('should return content by key', async () => {
+      req.params = { language: 'en', key: 'welcome' };
+      const mockValue = 'Welcome to our site';
 
-      mockQuery.mockResolvedValue({ rows: mockRows });
+      mockGetContentValue.mockResolvedValue(mockValue);
 
-      await getAllContent(req, res);
+      await getContent(req, res);
 
-      expect(mockQuery).toHaveBeenCalledWith(
-        'SELECT * FROM content WHERE language = $1',
-        ['en']
-      );
+      expect(mockGetContentValue).toHaveBeenCalledWith('en', 'welcome');
       expect(res.json).toHaveBeenCalledWith({
-        welcome: 'Welcome',
-        about: 'About Us',
-        contact: 'Contact'
+        language: 'en',
+        key: 'welcome',
+        value: mockValue
       });
     });
 
-    it('should return empty object when no content found', async () => {
-      req.params = { language: 'es' };
-      mockQuery.mockResolvedValue({ rows: [] });
+    it('should return content for Greek language', async () => {
+      req.params = { language: 'gr', key: 'about' };
+      const mockValue = 'Σχετικά με εμάς';
 
-      await getAllContent(req, res);
+      mockGetContentValue.mockResolvedValue(mockValue);
 
-      expect(res.json).toHaveBeenCalledWith({});
+      await getContent(req, res);
+
+      expect(mockGetContentValue).toHaveBeenCalledWith('gr', 'about');
+      expect(res.json).toHaveBeenCalledWith({
+        language: 'gr',
+        key: 'about',
+        value: mockValue
+      });
     });
 
-    it('should return 500 on database error', async () => {
-      req.params = { language: 'en' };
-      mockQuery.mockRejectedValue(new Error('Database error'));
+    it('should return 404 when content key not found', async () => {
+      req.params = { language: 'en', key: 'nonexistent' };
+      mockGetContentValue.mockResolvedValue(null);
+
+      await getContent(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(404);
+      expect(res.json).toHaveBeenCalledWith({ error: 'Content not found' });
+    });
+
+    it('should return 500 on error', async () => {
+      req.params = { language: 'en', key: 'welcome' };
+      mockGetContentValue.mockRejectedValue(new Error('File system error'));
 
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
-      await getAllContent(req, res);
+      await getContent(req, res);
 
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: 'Internal server error' });

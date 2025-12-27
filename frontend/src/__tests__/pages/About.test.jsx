@@ -1,60 +1,60 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import About from '../../pages/About';
 
 // Mock react-i18next
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key) => {
-      const translations = {
-        'about.main': 'Main about text',
-        'about.listItem1': 'List item 1',
-        'about.listItem2': 'List item 2',
-        'about.listItem3': 'List item 3',
-        'about.listItem4': 'List item 4',
-        'about.listItem5': 'List item 5',
-        'about.listItem6': 'List item 6',
-        'about.content1': 'Content paragraph 1',
-        'about.content2': 'Content paragraph 2',
-        'about.content3': 'Content paragraph 3',
-        'about.content4': 'Content paragraph 4',
-      };
-      return translations[key] || key;
-    },
+    t: (key) => key,
   }),
 }));
 
 describe('About Page', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2024-01-15T12:00:00Z'));
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it('should render the about page heading', () => {
     render(<About />);
 
     expect(screen.getByRole('heading', { name: 'About' })).toBeInTheDocument();
   });
 
-  it('should render main content text', () => {
+  it('should render welcome message', () => {
     render(<About />);
 
-    expect(screen.getByText('Main about text')).toBeInTheDocument();
+    expect(screen.getByText(/Welcome! I'm a researcher and developer/)).toBeInTheDocument();
   });
 
-  it('should render all list items', () => {
+  it('should render content about digital tools', () => {
     render(<About />);
 
-    expect(screen.getByText('List item 1')).toBeInTheDocument();
-    expect(screen.getByText('List item 2')).toBeInTheDocument();
-    expect(screen.getByText('List item 3')).toBeInTheDocument();
-    expect(screen.getByText('List item 4')).toBeInTheDocument();
-    expect(screen.getByText('List item 5')).toBeInTheDocument();
-    expect(screen.getByText('List item 6')).toBeInTheDocument();
+    expect(screen.getByText(/I specialize in creating digital tools/)).toBeInTheDocument();
   });
 
-  it('should render content paragraphs', () => {
+  it('should render personal interests', () => {
     render(<About />);
 
-    expect(screen.getByText('Content paragraph 1')).toBeInTheDocument();
-    expect(screen.getByText('Content paragraph 2')).toBeInTheDocument();
-    expect(screen.getByText('Content paragraph 3')).toBeInTheDocument();
-    expect(screen.getByText('Content paragraph 4')).toBeInTheDocument();
+    expect(screen.getByText(/When I'm not coding or researching/)).toBeInTheDocument();
+  });
+
+  it('should render call to action', () => {
+    render(<About />);
+
+    expect(screen.getByText(/Feel free to explore my projects/)).toBeInTheDocument();
+  });
+
+  it('should render time zones', () => {
+    render(<About />);
+
+    expect(screen.getByText(/York, UK:/)).toBeInTheDocument();
+    expect(screen.getByText(/Portland, OR:/)).toBeInTheDocument();
+    expect(screen.getByText(/Vasiliko, Cyprus:/)).toBeInTheDocument();
   });
 
   it('should have correct CSS class', () => {
