@@ -152,3 +152,10 @@ Thumbs.db
 # Kubernetes secrets (never commit real secrets!)
 k8s/base/secret.yaml
 k8s/overlays/*/secret.yaml
+
+# Photo galleries
+# Exclude all photos by default (they live on the server)
+frontend/public/images/photos/*
+# But include the 2600 gallery for local development
+!frontend/public/images/photos/2600/
+!frontend/public/images/photos/2600/*
