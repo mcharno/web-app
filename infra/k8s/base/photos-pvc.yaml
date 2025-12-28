@@ -1,3 +1,23 @@
+# PersistentVolume that points to a directory on the host server
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: photos-pv
+  labels:
+    app: web
+    component: storage
+spec:
+  capacity:
+    storage: 100Gi  # This is just a label; hostPath doesn't enforce limits
+  accessModes:
+    - ReadOnlyMany  # Multiple pods can read, but not write
+  persistentVolumeReclaimPolicy: Retain  # Keep data if PV is deleted
+  storageClassName: ""  # Empty string for manual binding
+  hostPath:
+    path: /data/charno-photos  # Directory on your server
+    type: DirectoryOrCreate  # Create if doesn't exist
+---
+# PersistentVolumeClaim that binds to the above PV
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -7,12 +27,9 @@ metadata:
     component: storage
 spec:
   accessModes:
-    - ReadWriteOnce  # local-path only supports ReadWriteOnce
+    - ReadOnlyMany  # Match the PV
   resources:
     requests:
-      storage: 10Gi  # Adjust size as needed
-  storageClassName: local-path  # Using k3s default storage class
----
-# Note: You'll need to manually populate the photos directory
-# The path will be created by the storageClassName (local-path in k3s)
-# You can find the actual path on your k3s node and copy your photos there
+      storage: 100Gi  # Match the PV
+  storageClassName: ""  # Empty string to bind to manual PV
+  volumeName: photos-pv  # Explicitly bind to our PV
