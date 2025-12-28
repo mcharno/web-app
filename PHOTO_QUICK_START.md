@@ -18,21 +18,30 @@ This creates `/data/charno-photos` with the correct permissions.
 ### 1. Prepare Photos Locally
 
 ```bash
-# Create directory for your gallery
-mkdir -p ~/photos-to-upload/sikyon
+# Create directory for your photos
+mkdir -p ~/photo-originals/sikyon
 
-# Copy and rename your photos
-cp ~/Pictures/excavation/*.jpg ~/photos-to-upload/sikyon/
-cd ~/photos-to-upload/sikyon
+# Copy your photos
+cp ~/Pictures/excavation/*.jpg ~/photo-originals/sikyon/
+cd ~/photo-originals/sikyon
 
 # Rename with descriptive names (lowercase, hyphens)
 mv IMG_1234.jpg excavation-2023-trench-a.jpg
 mv IMG_1235.jpg artifact-ceramic-vessel.jpg
 
-# Optional: Optimize for web
+# Extract GPS coordinates (before optimization strips them)
 for img in *.jpg; do
-  convert "$img" -resize 2048x2048\> -quality 85 "opt-$img"
-done
+  echo "$img:"
+  exiftool "$img" | grep GPS
+done > ../sikyon-gps.txt
+
+# Optimize for web (resize to 2048px, quality 85, strip EXIF)
+cd ~/photo-originals
+../projects/homelab/web-app/scripts/optimize-photos.sh sikyon
+# Creates: sikyon-optimized/
+
+# Move to upload directory
+mv sikyon-optimized ~/photos-to-upload/sikyon
 ```
 
 ### 2. Upload to Server
