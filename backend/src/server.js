@@ -10,6 +10,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import photoRoutes from './routes/photoRoutes.js';
 import paperRoutes from './routes/paperRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
+import { metricsMiddleware, metricsHandler } from './middleware/metrics.js';
 
 dotenv.config();
 
@@ -32,6 +33,9 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Prometheus metrics middleware (before routes)
+app.use(metricsMiddleware);
+
 // Serve static photos from configurable directory
 app.use('/images/photos', express.static(PHOTOS_DIR));
 
@@ -46,6 +50,9 @@ app.use('/api/blog', blogRoutes);
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
 });
+
+// Prometheus metrics endpoint
+app.get('/metrics', metricsHandler);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

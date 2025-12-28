@@ -1,4 +1,5 @@
 import { loadAllBlogPosts, loadBlogPost } from '../utils/contentLoader.js';
+import { trackContentView } from '../middleware/metrics.js';
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -24,6 +25,9 @@ export const getPostByPage = async (req, res) => {
     if (!post) {
       return res.status(404).json({ error: 'Blog post not found' });
     }
+
+    // Track blog post view
+    trackContentView('blog', page);
 
     res.json(post);
   } catch (error) {

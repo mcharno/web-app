@@ -1,4 +1,5 @@
 import { loadJSON, getContentValue } from '../utils/contentLoader.js';
+import { trackContentView } from '../middleware/metrics.js';
 
 export const getContent = async (req, res) => {
   try {
@@ -8,6 +9,9 @@ export const getContent = async (req, res) => {
     if (!value) {
       return res.status(404).json({ error: 'Content not found' });
     }
+
+    // Track content access
+    trackContentView('content', key);
 
     res.json({ language, key, value });
   } catch (error) {

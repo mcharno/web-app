@@ -1,4 +1,5 @@
 import { loadJSON, findById } from '../utils/contentLoader.js';
+import { trackContentView } from '../middleware/metrics.js';
 
 export const getAllProjects = async (req, res) => {
   try {
@@ -24,6 +25,9 @@ export const getProjectById = async (req, res) => {
     if (!project) {
       return res.status(404).json({ error: 'Project not found' });
     }
+
+    // Track project view
+    trackContentView('project', id);
 
     res.json(project);
   } catch (error) {
