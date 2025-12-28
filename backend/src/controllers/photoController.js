@@ -1,4 +1,5 @@
 import { loadAllGalleries, loadGallery } from '../utils/contentLoader.js';
+import { trackGalleryView, trackContentView } from '../middleware/metrics.js';
 
 export const getAllGalleries = async (req, res) => {
   try {
@@ -62,6 +63,9 @@ export const getPhotosByGallery = async (req, res) => {
       return res.status(404).json({ error: 'Gallery not found' });
     }
 
+    // Track gallery view
+    trackGalleryView(galleryFileName, gallery.name);
+
     // Return photos sorted by display_order
     const sortedPhotos = gallery.photos.sort((a, b) => (a.display_order || 0) - (b.display_order || 0));
 
@@ -106,6 +110,9 @@ export const getPhotoById = async (req, res) => {
       const photo = gallery.photos.find(p => p.id === id);
 
       if (photo) {
+        // Track individual photo view
+        trackContentView('photo', id);
+
         return res.json({
           ...photo,
           gallery_name: gallery.name,

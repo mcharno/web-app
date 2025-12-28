@@ -1,4 +1,5 @@
 import { loadJSON, findById } from '../utils/contentLoader.js';
+import { trackContentView } from '../middleware/metrics.js';
 
 export const getAllPapers = async (req, res) => {
   try {
@@ -24,6 +25,9 @@ export const getPaperById = async (req, res) => {
     if (!paper) {
       return res.status(404).json({ error: 'Paper not found' });
     }
+
+    // Track paper view
+    trackContentView('paper', id);
 
     res.json(paper);
   } catch (error) {

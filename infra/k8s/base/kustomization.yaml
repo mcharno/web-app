@@ -12,6 +12,7 @@ resources:
   - photos-pvc.yaml
   - backend-deployment.yaml
   - backend-service.yaml
+  - backend-servicemonitor.yaml
   - frontend-deployment.yaml
   - frontend-service.yaml
   - ingress-external.yaml
