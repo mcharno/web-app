@@ -21,11 +21,17 @@ spec:
         app: charno-frontend
         component: frontend
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
       imagePullSecrets:
         - name: ghcr-secret
       containers:
       - name: frontend
-        image: ghcr.io/mcharno/charno-frontend:latest
+        image: ghcr.io/mcharno/charno-frontend:sha256-619cd79
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
