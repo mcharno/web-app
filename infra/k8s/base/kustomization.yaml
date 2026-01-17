@@ -12,7 +12,7 @@ resources:
   - photos-pvc.yaml
   - backend-deployment.yaml
   - backend-service.yaml
-  - backend-servicemonitor.yaml
+  # - backend-servicemonitor.yaml  # Disabled: ServiceMonitor CRD not installed
   - frontend-deployment.yaml
   - frontend-service.yaml
   - ingress-external.yaml
