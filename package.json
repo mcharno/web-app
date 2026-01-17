@@ -11,7 +11,8 @@
     "test:watch": "concurrently \"yarn workspace charno-backend test:watch\" \"yarn workspace frontend test:watch\"",
     "build": "yarn workspace frontend build",
     "install:all": "yarn install",
-    "validate-gallery": "node scripts/validate-gallery.js"
+    "validate-gallery": "node scripts/validate-gallery.js",
+    "upload-photos": "bash scripts/upload-photos.sh"
   },
   "workspaces": [
     "frontend",
