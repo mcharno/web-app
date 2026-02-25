@@ -21,4 +21,7 @@ router.put('/:id', romController.updateGame);
 // Scrape metadata + images from ScreenScraper URLs
 router.post('/:id/scrape', romController.scrapeGame);
 
+// Auto-scrape: backend calls ScreenScraper directly (has internet access)
+router.post('/:id/auto-scrape', romController.autoScrapeGame);
+
 export default router;

@@ -203,6 +203,119 @@ export const scrapeGame = async (req, res) => {
   }
 };
 
+const SS_SYSTEM_IDS = {
+  amiga: 64, arcade: 75, genesis: 1, n64: 14,
+  neogeo: 142, nes: 3, psx: 57, snes: 4, turbografx: 31, xbox: 32,
+};
+
+// Calls ScreenScraper from the backend (which has internet access) and saves everything
+export const autoScrapeGame = async (req, res) => {
+  if (!ROM_IMAGES_DIR) {
+    return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
+  }
+
+  const { id } = req.params;
+  const { ss_user, ss_password, ss_devid = '', ss_devpassword = '' } = req.body;
+
+  if (!ss_user || !ss_password) {
+    return res.status(400).json({ error: 'ss_user and ss_password are required' });
+  }
+
+  try {
+    const gameResult = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
+    if (gameResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+    const game = gameResult.rows[0];
+
+    const systemId = SS_SYSTEM_IDS[game.console] ?? 0;
+    const params = new URLSearchParams({
+      devid: ss_devid, devpassword: ss_devpassword,
+      softname: 'charno-rom-scraper',
+      ssid: ss_user, sspassword: ss_password,
+      crc: '', systemeid: systemId,
+      romtype: 'rom', romnom: game.filename, output: 'json',
+    });
+
+    const ssResponse = await fetch(
+      `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
+      { signal: AbortSignal.timeout(15000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+    );
+
+    if (!ssResponse.ok) {
+      return res.json({ id: game.id, ss_found: false, reason: `ScreenScraper HTTP ${ssResponse.status}` });
+    }
+
+    const ssData = await ssResponse.json();
+    const jeu = ssData?.response?.jeu;
+    if (!jeu) {
+      const errMsg = ssData?.header?.error || 'No game data returned';
+      return res.json({ id: game.id, ss_found: false, reason: errMsg });
+    }
+
+    // Extract metadata
+    const titleObj = jeu.noms?.find(n => n.region === 'wor') || jeu.noms?.find(n => n.region === 'us') || jeu.noms?.[0];
+    const title = titleObj?.text || game.title;
+
+    const synopsisObj = jeu.synopsis?.find(s => s.langue === 'en') || jeu.synopsis?.[0];
+    const description = synopsisObj?.text || null;
+
+    const dateObj = jeu.dates?.find(d => d.region === 'wor') || jeu.dates?.find(d => d.region === 'us') || jeu.dates?.[0];
+    const year = dateObj?.text ? parseInt(dateObj.text.slice(0, 4)) : null;
+
+    const tags = (jeu.genres || []).flatMap(g =>
+      (g.noms || []).filter(n => n.langue === 'en').map(n => n.text)
+    ).filter(Boolean);
+
+    // Build authenticated image URLs
+    const addAuth = url => `${url}&ssid=${encodeURIComponent(ss_user)}&sspassword=${encodeURIComponent(ss_password)}`;
+    const medias = jeu.medias || [];
+
+    const boxArt = medias.find(m => m.type === 'box-2D' && m.region === 'wor')
+                || medias.find(m => m.type === 'box-2D' && m.region === 'us')
+                || medias.find(m => m.type === 'box-2D')
+                || medias.find(m => m.type === 'box-3D');
+
+    const screenshotMedias = medias.filter(m => m.type === 'ss').slice(0, 3);
+
+    // Download images
+    const savedBoxArt = boxArt?.url ? await downloadImage(addAuth(boxArt.url), `${id}-box`) : null;
+    const savedScreenshots = [];
+    for (let i = 0; i < screenshotMedias.length; i++) {
+      const url = await downloadImage(addAuth(screenshotMedias[i].url), `${id}-ss-${i}`);
+      if (url) savedScreenshots.push(url);
+    }
+
+    // Persist to DB
+    const result = await pool.query(
+      `UPDATE rom_games SET
+        title = COALESCE($1, title),
+        description = COALESCE($2, description),
+        year = COALESCE($3, year),
+        box_art_url = COALESCE($4, box_art_url),
+        screenshots = COALESCE($5::jsonb, screenshots),
+        tags = COALESCE($6::jsonb, tags)
+      WHERE id = $7
+      RETURNING *`,
+      [
+        title || null,
+        description || null,
+        year || null,
+        savedBoxArt || null,
+        savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
+        tags.length > 0 ? JSON.stringify(tags) : null,
+        id,
+      ]
+    );
+
+    console.log(`Auto-scraped: ${title} (${game.console}, id=${id}) — box: ${!!savedBoxArt}, screenshots: ${savedScreenshots.length}`);
+    res.json({ ...result.rows[0], ss_found: true });
+  } catch (error) {
+    console.error('Error auto-scraping game:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 export const scanRoms = async (req, res) => {
   if (!ROMS_DIR) {
     return res.status(503).json({ error: 'ROMS_DIR environment variable not configured' });
