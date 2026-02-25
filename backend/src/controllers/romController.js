@@ -15,6 +15,10 @@ const ROM_EXTENSIONS = new Set([
   '.md', '.gen', '.smd',                             // Genesis/Mega Drive
   '.xbe',                                            // Xbox
   '.xiso',                                           // Xbox ISO
+  '.zip',                                            // Arcade (MAME), Neo Geo
+  '.pce',                                            // TurboGrafx-16 / PC Engine
+  '.dsk', '.adf', '.adz', '.ipf',                   // Amiga disk images
+  '.lha', '.lzx',                                   // Amiga archives
 ]);
 
 export const listGames = async (req, res) => {
@@ -145,20 +149,48 @@ export const scanRoms = async (req, res) => {
       const consoleDir = path.join(ROMS_DIR, consoleName);
       const allEntries = fs.readdirSync(consoleDir, { withFileTypes: true });
 
-      const romFiles = allEntries
+      // Collect ROM entries: direct files with known extensions, or subdirectory names
+      // (for consoles like Amiga where each game lives in its own folder)
+      const romEntries = []; // { filename, title }
+
+      const directFiles = allEntries
         .filter(entry => entry.isFile())
         .map(entry => entry.name)
         .filter(name => ROM_EXTENSIONS.has(path.extname(name).toLowerCase()));
 
+      if (directFiles.length > 0) {
+        // Normal flat layout: files directly in the console dir
+        for (const filename of directFiles) {
+          romEntries.push({
+            filename,
+            title: path.basename(filename, path.extname(filename))
+          });
+        }
+      } else {
+        // Check for subdirectory-per-game layout (e.g., Amiga)
+        const subDirs = allEntries.filter(entry => entry.isDirectory()).map(entry => entry.name);
+        for (const subDir of subDirs) {
+          const subPath = path.join(consoleDir, subDir);
+          const subEntries = fs.readdirSync(subPath, { withFileTypes: true });
+          const hasRomFile = subEntries.some(
+            e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase())
+          );
+          if (hasRomFile) {
+            romEntries.push({ filename: subDir, title: subDir });
+          }
+        }
+      }
+
+      const filenameList = romEntries.map(e => e.filename);
+
       // Upsert each discovered ROM
-      for (const filename of romFiles) {
-        const defaultTitle = path.basename(filename, path.extname(filename));
+      for (const { filename, title } of romEntries) {
         const result = await pool.query(
           `INSERT INTO rom_games (filename, console, title, available)
            VALUES ($1, $2, $3, true)
            ON CONFLICT (filename, console) DO UPDATE SET available = true
            RETURNING (xmax = 0) AS is_new`,
-          [filename, consoleName, defaultTitle]
+          [filename, consoleName, title]
         );
         if (result.rows[0]?.is_new) {
           added++;
@@ -168,12 +200,12 @@ export const scanRoms = async (req, res) => {
       }
 
       // Mark ROMs in this console that are no longer present on disk
-      if (romFiles.length > 0) {
-        const placeholders = romFiles.map((_, i) => `$${i + 2}`).join(', ');
+      if (filenameList.length > 0) {
+        const placeholders = filenameList.map((_, i) => `$${i + 2}`).join(', ');
         const updateResult = await pool.query(
           `UPDATE rom_games SET available = false
            WHERE console = $1 AND filename NOT IN (${placeholders}) AND available = true`,
-          [consoleName, ...romFiles]
+          [consoleName, ...filenameList]
         );
         markedUnavailable += updateResult.rowCount;
       } else {
