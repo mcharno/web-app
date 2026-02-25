@@ -3,6 +3,7 @@ import path from 'path';
 import pool from '../config/database.js';
 
 const ROMS_DIR = process.env.ROMS_DIR || null;
+const ROM_IMAGES_DIR = process.env.ROM_IMAGES_DIR || null;
 
 const ROM_EXTENSIONS = new Set([
   '.iso', '.bin', '.cue', '.img', '.chd', '.mdf',  // disc images
@@ -123,6 +124,81 @@ export const updateGame = async (req, res) => {
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Error updating ROM game:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+async function downloadImage(url, basename) {
+  if (!url) return null;
+  try {
+    const response = await fetch(url, {
+      signal: AbortSignal.timeout(15000),
+      headers: { 'User-Agent': 'charno-rom-scraper/1.0' },
+    });
+    if (!response.ok) {
+      console.warn(`Image download failed (${response.status}): ${url}`);
+      return null;
+    }
+    const contentType = response.headers.get('content-type') || '';
+    const ext = contentType.includes('png') ? 'png'
+               : contentType.includes('webp') ? 'webp'
+               : 'jpg';
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const filename = `${basename}.${ext}`;
+    fs.writeFileSync(path.join(ROM_IMAGES_DIR, filename), buffer);
+    return `/images/roms/${filename}`;
+  } catch (e) {
+    console.warn(`Failed to download image: ${e.message}`);
+    return null;
+  }
+}
+
+export const scrapeGame = async (req, res) => {
+  if (!ROM_IMAGES_DIR) {
+    return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
+  }
+
+  const { id } = req.params;
+  const { box_art_url, screenshot_urls = [], title, description, year, tags } = req.body;
+
+  try {
+    const gameResult = await pool.query('SELECT id FROM rom_games WHERE id = $1', [id]);
+    if (gameResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
+    const savedBoxArt = await downloadImage(box_art_url, `${id}-box`);
+
+    const savedScreenshots = [];
+    for (let i = 0; i < Math.min(screenshot_urls.length, 5); i++) {
+      const url = await downloadImage(screenshot_urls[i], `${id}-ss-${i}`);
+      if (url) savedScreenshots.push(url);
+    }
+
+    const result = await pool.query(
+      `UPDATE rom_games SET
+        title = COALESCE($1, title),
+        description = COALESCE($2, description),
+        year = COALESCE($3, year),
+        box_art_url = COALESCE($4, box_art_url),
+        screenshots = COALESCE($5::jsonb, screenshots),
+        tags = COALESCE($6::jsonb, tags)
+      WHERE id = $7
+      RETURNING *`,
+      [
+        title || null,
+        description || null,
+        year ? parseInt(year) : null,
+        savedBoxArt || null,
+        savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
+        tags?.length > 0 ? JSON.stringify(tags) : null,
+        id,
+      ]
+    );
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error scraping game:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

@@ -18,4 +18,7 @@ router.get('/:id', romController.getGameById);
 // Update game metadata
 router.put('/:id', romController.updateGame);
 
+// Scrape metadata + images from ScreenScraper URLs
+router.post('/:id/scrape', romController.scrapeGame);
+
 export default router;
