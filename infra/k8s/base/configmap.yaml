@@ -8,7 +8,7 @@ data:
   # Database configuration - Update these to point to your existing Postgres instance
   # If Postgres is in a different namespace: postgres-service.postgres-namespace.svc.cluster.local
   # If Postgres is external: use the external IP/hostname
-  db_host: "REPLACE_WITH_YOUR_POSTGRES_HOST"  # e.g., "postgres.database.svc.cluster.local"
+  db_host: "postgres-lb.database.svc.cluster.local"
   db_port: "5432"
   db_name: "charno_web"  # Update with your database name
 

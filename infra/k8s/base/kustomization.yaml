@@ -6,7 +6,7 @@ namespace: web
 resources:
   - namespace.yaml
   - configmap.yaml
-  - secret-template.yaml
+  # secret-template.yaml - Managed manually via kubectl (not via ArgoCD)
   # postgres-configmap.yaml - Removed: Using external Postgres
   # postgres-deployment.yaml - Removed: Using external Postgres
   - photos-pvc.yaml
