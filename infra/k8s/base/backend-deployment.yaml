@@ -77,6 +77,11 @@ spec:
             secretKeyRef:
               name: charno-secrets
               key: db_password
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: api_key
         volumeMounts:
         - name: photos
           mountPath: /data/photos

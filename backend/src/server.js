@@ -12,6 +12,7 @@ import paperRoutes from './routes/paperRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import romRoutes from './routes/romRoutes.js';
 import { metricsMiddleware, metricsHandler } from './middleware/metrics.js';
+import { requireApiKey } from './middleware/auth.js';
 
 dotenv.config();
 
@@ -40,6 +41,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Prometheus metrics middleware (before routes)
 app.use(metricsMiddleware);
+
+// Require API key for all mutating requests
+app.use(requireApiKey);
 
 // Serve static photos from configurable directory
 app.use('/images/photos', express.static(PHOTOS_DIR));
