@@ -1,0 +1,543 @@
+.rom-library-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Back navigation */
+.back-to-archives {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 2rem;
+  background: var(--bg-secondary);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.back-to-archives::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.back-to-archives:hover::before {
+  transform: scaleX(1);
+}
+
+.back-to-archives:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--accent-primary);
+  transform: translateX(-4px);
+}
+
+/* Header */
+.rom-library-header {
+  margin-bottom: 2rem;
+}
+
+.rom-library-header h2 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
+}
+
+.rom-library-intro {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Controls: console tabs + search */
+.rom-library-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.console-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.console-tab {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.console-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.console-tab.active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
+/* Search */
+.rom-search {
+  position: relative;
+  min-width: 240px;
+}
+
+.rom-search-input {
+  width: 100%;
+  padding: 0.6rem 2.5rem 0.6rem 1rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.rom-search-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.rom-search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.search-clear:hover {
+  color: var(--accent-primary);
+}
+
+/* Tag filters */
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.tag-filter {
+  padding: 0.3rem 0.9rem;
+  background: transparent;
+  color: var(--text-tertiary);
+  border: 1px solid var(--border-color);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tag-filter:hover {
+  color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  background: rgba(228, 236, 24, 0.05);
+}
+
+.tag-filter.active {
+  color: var(--bg-primary);
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+.tag-filter-clear {
+  padding: 0.3rem 0.9rem;
+  background: transparent;
+  color: var(--accent-hover);
+  border: 1px solid var(--accent-hover);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.tag-filter-clear:hover {
+  background: var(--accent-hover);
+  color: white;
+}
+
+/* Results count */
+.rom-count {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  margin-bottom: 1rem;
+}
+
+/* Game grid */
+.rom-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.rom-card {
+  background: var(--bg-secondary);
+  border: 2px solid rgba(228, 236, 24, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.rom-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.rom-card:hover::before {
+  transform: scaleX(1);
+}
+
+.rom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border-color: var(--accent-primary);
+}
+
+.rom-card-art {
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+.rom-card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.rom-card:hover .rom-card-art img {
+  transform: scale(1.04);
+}
+
+.rom-card-info {
+  padding: 0.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rom-console-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--bg-primary);
+  background: var(--accent-primary);
+  padding: 0.15rem 0.5rem;
+  align-self: flex-start;
+}
+
+.rom-console-badge-large {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.7rem;
+}
+
+.rom-card-title {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.rom-card-year {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.rom-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: auto;
+}
+
+.rom-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  color: var(--accent-primary);
+  background: rgba(228, 236, 24, 0.08);
+  border: 1px solid rgba(228, 236, 24, 0.3);
+}
+
+.rom-tag-more {
+  color: var(--text-tertiary);
+  background: transparent;
+  border-color: var(--border-color);
+}
+
+/* Empty state */
+.rom-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+}
+
+/* Detail modal */
+.rom-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.rom-modal {
+  background: var(--bg-secondary);
+  border: 2px solid rgba(228, 236, 24, 0.4);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.rom-modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  z-index: 10;
+  transition: color 0.2s ease;
+}
+
+.rom-modal-close:hover {
+  color: var(--accent-primary);
+}
+
+.rom-modal-content {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.rom-modal-art {
+  width: 240px;
+}
+
+.rom-modal-art img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--border-color);
+}
+
+.rom-modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rom-modal-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rom-modal-year {
+  font-size: 1rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.rom-modal-title {
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  margin: 0;
+  border: none;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.rom-modal-description {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.rom-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rom-modal-tags .rom-tag {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+}
+
+/* Screenshots */
+.rom-modal-screenshots h4 {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 0.75rem;
+}
+
+.screenshot-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.screenshot-thumb {
+  width: 100px;
+  height: 70px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.screenshot-thumb:hover {
+  border-color: var(--accent-primary);
+  transform: scale(1.03);
+}
+
+.screenshot-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rom-modal-filename {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-family: monospace;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .rom-library-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .rom-library-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rom-search {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .rom-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .rom-modal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .rom-modal-art {
+    width: 180px;
+    margin: 0 auto;
+  }
+
+  .rom-modal-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rom-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .rom-modal-overlay {
+    padding: 1rem;
+  }
+
+  .rom-modal-content {
+    padding: 1.5rem;
+  }
+}

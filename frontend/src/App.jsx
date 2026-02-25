@@ -12,6 +12,7 @@ import CV from './pages/CV';
 import Archives from './pages/Archives';
 import Cricket from './pages/Cricket';
 import CricketFrame from './pages/CricketFrame';
+import RomLibrary from './pages/RomLibrary';
 import './App.css';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             <Route path="photos" element={<Photos />} />
             <Route path="photos/:galleryName" element={<PhotoGallery />} />
             <Route path="archives" element={<Archives />} />
+            <Route path="archives/roms" element={<RomLibrary />} />
             <Route path="cricket" element={<Cricket />} />
             <Route path="cricket/:page" element={<CricketFrame />} />
             <Route path="cv" element={<CV />} />

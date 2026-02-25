@@ -91,7 +91,29 @@ CREATE TABLE IF NOT EXISTS cv_sections (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- ROM games table
+CREATE TABLE IF NOT EXISTS rom_games (
+  id SERIAL PRIMARY KEY,
+  filename VARCHAR(500) NOT NULL,
+  console VARCHAR(100) NOT NULL,
+  title VARCHAR(500),
+  description TEXT,
+  year INTEGER,
+  box_art_url VARCHAR(500),
+  screenshots JSONB DEFAULT '[]',
+  tags JSONB DEFAULT '[]',
+  available BOOLEAN DEFAULT true,
+  display_order INTEGER DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(filename, console)
+);
+
 -- Create indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_rom_games_console ON rom_games(console);
+CREATE INDEX IF NOT EXISTS idx_rom_games_available ON rom_games(available);
+CREATE INDEX IF NOT EXISTS idx_rom_games_title ON rom_games(title);
+
 CREATE INDEX idx_content_language ON content(language);
 CREATE INDEX idx_projects_language ON projects(language);
 CREATE INDEX idx_papers_year ON papers(year DESC);
@@ -125,4 +147,7 @@ CREATE TRIGGER update_blog_posts_updated_at BEFORE UPDATE ON blog_posts
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_cv_sections_updated_at BEFORE UPDATE ON cv_sections
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_rom_games_updated_at BEFORE UPDATE ON rom_games
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

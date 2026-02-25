@@ -10,6 +10,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import photoRoutes from './routes/photoRoutes.js';
 import paperRoutes from './routes/paperRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
+import romRoutes from './routes/romRoutes.js';
 import { metricsMiddleware, metricsHandler } from './middleware/metrics.js';
 
 dotenv.config();
@@ -26,6 +27,10 @@ const __dirname = path.dirname(__filename);
 const PHOTOS_DIR = process.env.PHOTOS_DIR || path.join(__dirname, '../../frontend/public/images/photos');
 console.log(`Photos directory: ${PHOTOS_DIR}`);
 
+// Configure ROM images directory from environment variable
+const ROM_IMAGES_DIR = process.env.ROM_IMAGES_DIR || path.join(__dirname, '../../frontend/public/images/roms');
+console.log(`ROM images directory: ${ROM_IMAGES_DIR}`);
+
 // Middleware
 app.use(helmet());
 app.use(cors());
@@ -39,12 +44,16 @@ app.use(metricsMiddleware);
 // Serve static photos from configurable directory
 app.use('/images/photos', express.static(PHOTOS_DIR));
 
+// Serve static ROM images (box art, screenshots) from configurable directory
+app.use('/images/roms', express.static(ROM_IMAGES_DIR));
+
 // Routes
 app.use('/api/content', contentRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/photos', photoRoutes);
 app.use('/api/papers', paperRoutes);
 app.use('/api/blog', blogRoutes);
+app.use('/api/roms', romRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

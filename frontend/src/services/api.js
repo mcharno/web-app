@@ -50,4 +50,13 @@ export const blogAPI = USE_MOCK_API ? mockApi.blog : {
   getByPage: (page, language = 'en') => api.get(`/blog/${page}`, { params: { language } }),
 };
 
+// ROMs API
+export const romsAPI = USE_MOCK_API ? mockApi.roms : {
+  getAll: (params = {}) => api.get('/roms', { params }),
+  getConsoles: () => api.get('/roms/consoles'),
+  getById: (id) => api.get(`/roms/${id}`),
+  update: (id, data) => api.put(`/roms/${id}`, data),
+  scan: () => api.post('/roms/scan'),
+};
+
 export default api;

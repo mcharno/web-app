@@ -1,0 +1,71 @@
+# PersistentVolume for reading ROMs from the Samba share (read-only access)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: roms-pv
+  labels:
+    app: web
+    component: storage
+spec:
+  capacity:
+    storage: 500Gi  # Label only; hostPath doesn't enforce limits
+  accessModes:
+    - ReadOnlyMany  # Multiple pods can read, none can write
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""  # Manual binding
+  hostPath:
+    path: /mnt/k3s-storage/samba-share  # Samba share on k3s-storage disk
+    type: DirectoryOrCreate
+---
+# PersistentVolumeClaim for ROM filesystem access
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: roms-pvc
+  labels:
+    app: web
+    component: storage
+spec:
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 500Gi
+  storageClassName: ""
+  volumeName: roms-pv
+---
+# PersistentVolume for ROM images (box art, screenshots) — writable
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rom-images-pv
+  labels:
+    app: web
+    component: storage
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: /mnt/k3s-storage/rom-images  # Dedicated directory for box art and screenshots
+    type: DirectoryOrCreate
+---
+# PersistentVolumeClaim for ROM images
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rom-images-pvc
+  labels:
+    app: web
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ""
+  volumeName: rom-images-pv

@@ -48,6 +48,10 @@ spec:
           value: "3080"
         - name: PHOTOS_DIR
           value: "/data/photos"
+        - name: ROMS_DIR
+          value: "/data/roms/games"
+        - name: ROM_IMAGES_DIR
+          value: "/data/rom-images"
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
@@ -77,6 +81,11 @@ spec:
         - name: photos
           mountPath: /data/photos
           readOnly: true
+        - name: roms
+          mountPath: /data/roms
+          readOnly: true
+        - name: rom-images
+          mountPath: /data/rom-images
         resources:
           requests:
             memory: "128Mi"
@@ -112,3 +121,9 @@ spec:
       - name: photos
         persistentVolumeClaim:
           claimName: photos-pvc
+      - name: roms
+        persistentVolumeClaim:
+          claimName: roms-pvc
+      - name: rom-images
+        persistentVolumeClaim:
+          claimName: rom-images-pvc
