@@ -367,28 +367,41 @@ export const igdbScrapeGame = async (req, res) => {
       }
     }
 
-    // 2. Search IGDB
+    // 2. Search IGDB — first with platform filter, then without if no results
     const searchTitle = cleanRomTitle(game.title || game.filename);
     const platformId = IGDB_PLATFORM_IDS[game.console];
-    const platformClause = platformId ? ` & platforms = (${platformId})` : '';
-    const apicalypse = `fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id; search "${searchTitle}"; where category = 0${platformClause}; limit 5;`;
+    const fields = 'fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id;';
 
-    const igdbRes = await fetch('https://api.igdb.com/v4/games', {
-      method: 'POST',
-      headers: {
-        'Client-ID': igdb_client_id,
-        'Authorization': `Bearer ${access_token}`,
-        'Content-Type': 'text/plain',
-      },
-      body: apicalypse,
-      signal: AbortSignal.timeout(10000),
-    });
+    const igdbHeaders = {
+      'Client-ID': igdb_client_id,
+      'Authorization': `Bearer ${access_token}`,
+      'Content-Type': 'text/plain',
+    };
 
-    if (!igdbRes.ok) {
-      return res.json({ id: game.id, igdb_found: false, reason: `IGDB HTTP ${igdbRes.status}` });
+    const igdbSearch = async (whereClause) => {
+      const body = `${fields} search "${searchTitle}"; ${whereClause ? `where ${whereClause};` : ''} limit 5;`;
+      const res = await fetch('https://api.igdb.com/v4/games', {
+        method: 'POST',
+        headers: igdbHeaders,
+        body,
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!res.ok) throw new Error(`IGDB HTTP ${res.status}`);
+      return res.json();
+    };
+
+    let igdbData;
+    try {
+      // Pass 1: with platform filter
+      igdbData = platformId ? await igdbSearch(`platforms = (${platformId})`) : [];
+      // Pass 2: no platform filter if first pass found nothing
+      if (!Array.isArray(igdbData) || igdbData.length === 0) {
+        igdbData = await igdbSearch(null);
+      }
+    } catch (e) {
+      return res.json({ id: game.id, igdb_found: false, reason: e.message });
     }
 
-    const igdbData = await igdbRes.json();
     if (!Array.isArray(igdbData) || igdbData.length === 0) {
       return res.json({ id: game.id, igdb_found: false, reason: 'No match found on IGDB' });
     }
