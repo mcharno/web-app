@@ -316,6 +316,134 @@ export const autoScrapeGame = async (req, res) => {
   }
 };
 
+const IGDB_PLATFORM_IDS = {
+  amiga: 16, arcade: 52, genesis: 29, n64: 4,
+  neogeo: 80, nes: 18, psx: 7, snes: 19, turbografx: 86, xbox: 11,
+};
+
+// Strip ROM filename annotations to get a clean search title
+function cleanRomTitle(raw) {
+  let title = raw.replace(/\.[^/.]+$/, '');           // remove extension
+  title = title.replace(/\s*[\(\[][^\)\]]*[\)\]]/g, ''); // remove (USA), [!], etc.
+  title = title.replace(/_/g, ' ').replace(/\s+/g, ' ').trim();
+  return title;
+}
+
+// Calls IGDB (via Twitch OAuth) from the backend and saves metadata + images
+export const igdbScrapeGame = async (req, res) => {
+  if (!ROM_IMAGES_DIR) {
+    return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
+  }
+
+  const { id } = req.params;
+  const { igdb_client_id, igdb_client_secret } = req.body;
+
+  if (!igdb_client_id || !igdb_client_secret) {
+    return res.status(400).json({ error: 'igdb_client_id and igdb_client_secret are required' });
+  }
+
+  try {
+    const gameResult = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
+    if (gameResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+    const game = gameResult.rows[0];
+
+    // 1. Get Twitch OAuth token
+    const tokenRes = await fetch(
+      `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdb_client_id)}&client_secret=${encodeURIComponent(igdb_client_secret)}&grant_type=client_credentials`,
+      { method: 'POST', signal: AbortSignal.timeout(10000) }
+    );
+    if (!tokenRes.ok) {
+      return res.json({ id: game.id, igdb_found: false, reason: `Twitch auth failed: HTTP ${tokenRes.status}` });
+    }
+    const { access_token } = await tokenRes.json();
+    if (!access_token) {
+      return res.json({ id: game.id, igdb_found: false, reason: 'No access token returned from Twitch' });
+    }
+
+    // 2. Search IGDB
+    const searchTitle = cleanRomTitle(game.title || game.filename);
+    const platformId = IGDB_PLATFORM_IDS[game.console];
+    const platformClause = platformId ? ` & platforms = (${platformId})` : '';
+    const apicalypse = `fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id; search "${searchTitle}"; where category = 0${platformClause}; limit 5;`;
+
+    const igdbRes = await fetch('https://api.igdb.com/v4/games', {
+      method: 'POST',
+      headers: {
+        'Client-ID': igdb_client_id,
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'text/plain',
+      },
+      body: apicalypse,
+      signal: AbortSignal.timeout(10000),
+    });
+
+    if (!igdbRes.ok) {
+      return res.json({ id: game.id, igdb_found: false, reason: `IGDB HTTP ${igdbRes.status}` });
+    }
+
+    const igdbData = await igdbRes.json();
+    if (!Array.isArray(igdbData) || igdbData.length === 0) {
+      return res.json({ id: game.id, igdb_found: false, reason: 'No match found on IGDB' });
+    }
+
+    const match = igdbData[0];
+    const title = match.name || null;
+    const description = match.summary || null;
+    const year = match.first_release_date
+      ? new Date(match.first_release_date * 1000).getFullYear()
+      : null;
+    const tags = (match.genres || []).map(g => g.name).filter(Boolean);
+
+    // 3. Download cover art
+    const savedBoxArt = match.cover?.image_id
+      ? await downloadImage(
+          `https://images.igdb.com/igdb/image/upload/t_cover_big/${match.cover.image_id}.jpg`,
+          `${id}-box`
+        )
+      : null;
+
+    // 4. Download up to 3 screenshots
+    const savedScreenshots = [];
+    for (let i = 0; i < Math.min((match.screenshots || []).length, 3); i++) {
+      const saved = await downloadImage(
+        `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${match.screenshots[i].image_id}.jpg`,
+        `${id}-ss-${i}`
+      );
+      if (saved) savedScreenshots.push(saved);
+    }
+
+    // 5. Persist to DB
+    const result = await pool.query(
+      `UPDATE rom_games SET
+        title = COALESCE($1, title),
+        description = COALESCE($2, description),
+        year = COALESCE($3, year),
+        box_art_url = COALESCE($4, box_art_url),
+        screenshots = COALESCE($5::jsonb, screenshots),
+        tags = COALESCE($6::jsonb, tags)
+      WHERE id = $7
+      RETURNING *`,
+      [
+        title || null,
+        description || null,
+        year || null,
+        savedBoxArt || null,
+        savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
+        tags.length > 0 ? JSON.stringify(tags) : null,
+        id,
+      ]
+    );
+
+    console.log(`IGDB scraped: ${title} (${game.console}, id=${id}) — box: ${!!savedBoxArt}, screenshots: ${savedScreenshots.length}`);
+    res.json({ ...result.rows[0], igdb_found: true });
+  } catch (error) {
+    console.error('Error IGDB-scraping game:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 export const scanRoms = async (req, res) => {
   if (!ROMS_DIR) {
     return res.status(503).json({ error: 'ROMS_DIR environment variable not configured' });

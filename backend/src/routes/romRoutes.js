@@ -24,4 +24,7 @@ router.post('/:id/scrape', romController.scrapeGame);
 // Auto-scrape: backend calls ScreenScraper directly (has internet access)
 router.post('/:id/auto-scrape', romController.autoScrapeGame);
 
+// Auto-scrape via IGDB (Twitch OAuth, instant access)
+router.post('/:id/auto-scrape-igdb', romController.igdbScrapeGame);
+
 export default router;
