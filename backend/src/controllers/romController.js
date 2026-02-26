@@ -24,9 +24,10 @@ const ROM_EXTENSIONS = new Set([
 
 export const listGames = async (req, res) => {
   try {
-    const { console: consoleName, search, tags } = req.query;
+    const { console: consoleName, search, tags, no_art } = req.query;
 
     let query = 'SELECT * FROM rom_games WHERE available = true';
+    if (no_art === 'true') query += ' AND box_art_url IS NULL';
     const params = [];
     let paramIndex = 1;
 
