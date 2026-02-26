@@ -108,6 +108,7 @@
 .rom-search {
   position: relative;
   min-width: 240px;
+  margin-bottom: 1.25rem;
 }
 
 .rom-search-input {

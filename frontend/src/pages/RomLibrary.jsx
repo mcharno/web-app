@@ -124,19 +124,19 @@ const RomLibrary = () => {
             </button>
           ))}
         </div>
+      </div>
 
-        <div className="rom-search">
-          <input
-            type="text"
-            placeholder="Search games..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            className="rom-search-input"
-          />
-          {searchTerm && (
-            <button className="search-clear" onClick={() => setSearchTerm('')}>×</button>
-          )}
-        </div>
+      <div className="rom-search">
+        <input
+          type="text"
+          placeholder="Search games..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          className="rom-search-input"
+        />
+        {searchTerm && (
+          <button className="search-clear" onClick={() => setSearchTerm('')}>×</button>
+        )}
       </div>
 
       {availableTags.length > 0 && (
