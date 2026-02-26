@@ -3,9 +3,9 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## ROM Metadata Scraper — IGDB\n\n**Setup (fill in Config node):**\n1. `rom_api_base` — already set to internal backend URL\n2. `rom_api_key` — your API key from charno-secrets\n3. `igdb_client_id` / `igdb_client_secret` — from dev.twitch.tv\n\n**How it works:**\n- Fetches a single Twitch OAuth token upfront\n- Fetches only games that have no box art (?no_art=true)\n- For each game, calls /auto-scrape-igdb on the backend\n- 250ms delay between games\n\nCan be re-run safely — already-scraped games are excluded.",
-        "height": 260,
-        "width": 380,
+        "content": "## ROM Metadata Scraper — IGDB\n\n**Setup (fill in Config node):**\n1. `rom_api_base` — already set\n2. `rom_api_key` — API key from charno-secrets\n3. `igdb_client_id` / `igdb_client_secret` — from dev.twitch.tv\n\n**How it works:**\n- Fetches only games with no box art from the backend\n- For each game, POSTs to /auto-scrape-igdb\n- Backend handles Twitch OAuth + IGDB search + image download\n- No code nodes — safe to re-run at any time",
+        "height": 240,
+        "width": 360,
         "color": 5
       },
       "id": "note-setup",
@@ -63,18 +63,6 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://id.twitch.tv/oauth2/token?client_id={{ $('Config').first().json.igdb_client_id }}&client_secret={{ $('Config').first().json.igdb_client_secret }}&grant_type=client_credentials",
-        "options": {}
-      },
-      "id": "node-get-token",
-      "name": "Get IGDB Token",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [440, 100]
-    },
-    {
-      "parameters": {
         "method": "GET",
         "url": "={{ $('Config').first().json.rom_api_base }}/roms?no_art=true",
         "sendHeaders": true,
@@ -92,7 +80,7 @@
       "name": "Get Unscraped Games",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [660, 100]
+      "position": [440, 100]
     },
     {
       "parameters": {
@@ -103,12 +91,12 @@
       "name": "Loop Over Games",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [880, 100]
+      "position": [660, 100]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $('Config').first().json.rom_api_base + '/roms/' + $json.id + '/auto-scrape-igdb' }}",
+        "url": "={{ $('Config').first().json.rom_api_base }}/roms/{{ $json.id }}/auto-scrape-igdb",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -122,27 +110,19 @@
         "contentType": "json",
         "bodyParameters": {
           "parameters": [
-            { "name": "igdb_client_id",    "value": "={{ $('Config').first().json.igdb_client_id }}" },
-            { "name": "igdb_access_token", "value": "={{ $('Get IGDB Token').first().json.access_token }}" }
+            { "name": "igdb_client_id",     "value": "={{ $('Config').first().json.igdb_client_id }}" },
+            { "name": "igdb_client_secret", "value": "={{ $('Config').first().json.igdb_client_secret }}" }
           ]
         },
-        "options": {}
+        "options": {
+          "timeout": 30000
+        }
       },
       "id": "node-igdb-scrape",
       "name": "IGDB Scrape Game",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1100, 100]
-    },
-    {
-      "parameters": {
-        "jsCode": "const result = $input.first().json;\nif (result.igdb_found) {\n  console.log(`Scraped: ${result.title} — box: ${!!result.box_art_url}, screenshots: ${(result.screenshots||[]).length}`);\n} else {\n  console.log(`Not found: id=${result.id} — ${result.reason || 'unknown'}`);\n}\nawait new Promise(resolve => setTimeout(resolve, 250));\nreturn $input.all();"
-      },
-      "id": "node-delay",
-      "name": "Log and Delay",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [1320, 100]
+      "position": [880, 100]
     }
   ],
   "connections": {
@@ -150,9 +130,6 @@
       "main": [[{ "node": "Config", "type": "main", "index": 0 }]]
     },
     "Config": {
-      "main": [[{ "node": "Get IGDB Token", "type": "main", "index": 0 }]]
-    },
-    "Get IGDB Token": {
       "main": [[{ "node": "Get Unscraped Games", "type": "main", "index": 0 }]]
     },
     "Get Unscraped Games": {
@@ -165,9 +142,6 @@
       ]
     },
     "IGDB Scrape Game": {
-      "main": [[{ "node": "Log and Delay", "type": "main", "index": 0 }]]
-    },
-    "Log and Delay": {
       "main": [[{ "node": "Loop Over Games", "type": "main", "index": 0 }]]
     }
   },
@@ -175,7 +149,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3",
+  "versionId": "4",
   "meta": {
     "instanceId": ""
   },
