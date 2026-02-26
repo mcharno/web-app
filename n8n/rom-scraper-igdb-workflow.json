@@ -3,8 +3,8 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## ROM Metadata Scraper — IGDB\n\n**Setup (fill in Config node):**\n1. `rom_api_base` — already set to internal backend URL\n2. `rom_api_key` — your API key from charno-secrets\n3. `igdb_client_id` / `igdb_client_secret` — from dev.twitch.tv:\n   - Register app at https://dev.twitch.tv/console\n   - Category: \"Application Integration\"\n   - Get Client ID + generate Client Secret\n   - Register at https://api.igdb.com to enable IGDB access\n\n**How it works:**\n- Fetches all games without box art\n- For each game, calls `/auto-scrape-igdb` on the backend\n- Backend gets a Twitch OAuth token, queries IGDB, downloads images\n- 1 second delay between games (IGDB rate limit: 4 req/sec)\n\n**IGDB free tier:** 4 requests/second\n~6,700 games ≈ ~30 minutes to complete",
-        "height": 320,
+        "content": "## ROM Metadata Scraper — IGDB\n\n**Setup (fill in Config node):**\n1. `rom_api_base` — already set to internal backend URL\n2. `rom_api_key` — your API key from charno-secrets\n3. `igdb_client_id` / `igdb_client_secret` — from dev.twitch.tv:\n   - Register app at https://dev.twitch.tv/console\n   - Category: \"Application Integration\"\n   - Get Client ID + generate Client Secret\n\n**How it works:**\n- Fetches a single Twitch OAuth token upfront (reused for all games)\n- Fetches all games without box art\n- For each game, calls `/auto-scrape-igdb` on the backend with the token\n- 250ms delay between games (IGDB allows 4 req/sec)\n\n**IGDB free tier:** 4 requests/second\n~6,700 games ≈ ~30 minutes to complete",
+        "height": 300,
         "width": 400,
         "color": 5
       },
@@ -63,6 +63,18 @@
     },
     {
       "parameters": {
+        "method": "POST",
+        "url": "=https://id.twitch.tv/oauth2/token?client_id={{ encodeURIComponent($('Config').first().json.igdb_client_id) }}&client_secret={{ encodeURIComponent($('Config').first().json.igdb_client_secret) }}&grant_type=client_credentials",
+        "options": {}
+      },
+      "id": "node-get-token",
+      "name": "Get IGDB Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 100]
+    },
+    {
+      "parameters": {
         "method": "GET",
         "url": "={{ $('Config').first().json.rom_api_base }}/roms",
         "sendHeaders": true,
@@ -80,7 +92,7 @@
       "name": "Get All Games",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [440, 100]
+      "position": [660, 100]
     },
     {
       "parameters": {
@@ -90,7 +102,7 @@
       "name": "Filter Unscraped",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [660, 100]
+      "position": [880, 100]
     },
     {
       "parameters": {
@@ -101,7 +113,7 @@
       "name": "Loop Over Games",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [880, 100]
+      "position": [1100, 100]
     },
     {
       "parameters": {
@@ -121,7 +133,7 @@
         "bodyParameters": {
           "parameters": [
             { "name": "igdb_client_id",     "value": "={{ $('Config').first().json.igdb_client_id }}" },
-            { "name": "igdb_client_secret", "value": "={{ $('Config').first().json.igdb_client_secret }}" }
+            { "name": "igdb_access_token",  "value": "={{ $('Get IGDB Token').first().json.access_token }}" }
           ]
         },
         "options": {}
@@ -130,17 +142,17 @@
       "name": "IGDB Scrape Game",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [1100, 100]
+      "position": [1320, 100]
     },
     {
       "parameters": {
-        "jsCode": "const result = $input.first().json;\nif (result.igdb_found) {\n  console.log(`Scraped: ${result.title} — box: ${!!result.box_art_url}, screenshots: ${(result.screenshots||[]).length}`);\n} else {\n  console.log(`Not found: id=${result.id} — ${result.reason || 'unknown'}`);\n}\n// 1 second delay (IGDB allows 4 req/sec, backend does OAuth per request so be conservative)\nawait new Promise(resolve => setTimeout(resolve, 1000));\nreturn $input.all();"
+        "jsCode": "const result = $input.first().json;\nif (result.igdb_found) {\n  console.log(`Scraped: ${result.title} — box: ${!!result.box_art_url}, screenshots: ${(result.screenshots||[]).length}`);\n} else {\n  console.log(`Not found: id=${result.id} — ${result.reason || 'unknown'}`);\n}\n// 250ms delay — token is reused so no auth overhead, IGDB allows 4 req/sec\nawait new Promise(resolve => setTimeout(resolve, 250));\nreturn $input.all();"
       },
       "id": "node-delay",
       "name": "Log and Delay",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [1320, 100]
+      "position": [1540, 100]
     }
   ],
   "connections": {
@@ -148,6 +160,9 @@
       "main": [[{ "node": "Config", "type": "main", "index": 0 }]]
     },
     "Config": {
+      "main": [[{ "node": "Get IGDB Token", "type": "main", "index": 0 }]]
+    },
+    "Get IGDB Token": {
       "main": [[{ "node": "Get All Games", "type": "main", "index": 0 }]]
     },
     "Get All Games": {
@@ -173,7 +188,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "1",
+  "versionId": "2",
   "meta": {
     "instanceId": ""
   },

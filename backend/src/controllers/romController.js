@@ -336,10 +336,10 @@ export const igdbScrapeGame = async (req, res) => {
   }
 
   const { id } = req.params;
-  const { igdb_client_id, igdb_client_secret } = req.body;
+  const { igdb_client_id, igdb_client_secret, igdb_access_token } = req.body;
 
-  if (!igdb_client_id || !igdb_client_secret) {
-    return res.status(400).json({ error: 'igdb_client_id and igdb_client_secret are required' });
+  if (!igdb_client_id || (!igdb_client_secret && !igdb_access_token)) {
+    return res.status(400).json({ error: 'igdb_client_id and either igdb_client_secret or igdb_access_token are required' });
   }
 
   try {
@@ -349,17 +349,21 @@ export const igdbScrapeGame = async (req, res) => {
     }
     const game = gameResult.rows[0];
 
-    // 1. Get Twitch OAuth token
-    const tokenRes = await fetch(
-      `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdb_client_id)}&client_secret=${encodeURIComponent(igdb_client_secret)}&grant_type=client_credentials`,
-      { method: 'POST', signal: AbortSignal.timeout(10000) }
-    );
-    if (!tokenRes.ok) {
-      return res.json({ id: game.id, igdb_found: false, reason: `Twitch auth failed: HTTP ${tokenRes.status}` });
-    }
-    const { access_token } = await tokenRes.json();
+    // 1. Get Twitch OAuth token (skip if pre-fetched token provided)
+    let access_token = igdb_access_token;
     if (!access_token) {
-      return res.json({ id: game.id, igdb_found: false, reason: 'No access token returned from Twitch' });
+      const tokenRes = await fetch(
+        `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdb_client_id)}&client_secret=${encodeURIComponent(igdb_client_secret)}&grant_type=client_credentials`,
+        { method: 'POST', signal: AbortSignal.timeout(10000) }
+      );
+      if (!tokenRes.ok) {
+        return res.json({ id: game.id, igdb_found: false, reason: `Twitch auth failed: HTTP ${tokenRes.status}` });
+      }
+      const tokenData = await tokenRes.json();
+      access_token = tokenData.access_token;
+      if (!access_token) {
+        return res.json({ id: game.id, igdb_found: false, reason: 'No access token returned from Twitch' });
+      }
     }
 
     // 2. Search IGDB
