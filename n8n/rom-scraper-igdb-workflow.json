@@ -137,8 +137,8 @@
     },
     "Loop Over Games": {
       "main": [
-        [{ "node": "IGDB Scrape Game", "type": "main", "index": 0 }],
-        []
+        [],
+        [{ "node": "IGDB Scrape Game", "type": "main", "index": 0 }]
       ]
     },
     "IGDB Scrape Game": {
@@ -149,7 +149,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "4",
+  "versionId": "5",
   "meta": {
     "instanceId": ""
   },
