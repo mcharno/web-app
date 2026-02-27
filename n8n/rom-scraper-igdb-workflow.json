@@ -64,7 +64,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $('Config').first().json.rom_api_base }}/roms?no_art=true",
+        "url": "={{ $('Config').first().json.rom_api_base }}/roms?no_art=true&exclude_console=arcade",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -122,7 +122,8 @@
       "name": "IGDB Scrape Game",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [880, 100]
+      "position": [880, 100],
+      "continueOnFail": true
     }
   ],
   "connections": {

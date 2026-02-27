@@ -26,6 +26,14 @@ spec:
             name: charno-backend
             port:
               number: 3080
+      # Backend-served static assets (photos, ROM box art/screenshots)
+      - path: /images
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-backend
+            port:
+              number: 3080
       # Frontend routes (catch-all)
       - path: /
         pathType: Prefix

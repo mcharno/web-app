@@ -24,12 +24,20 @@ const ROM_EXTENSIONS = new Set([
 
 export const listGames = async (req, res) => {
   try {
-    const { console: consoleName, search, tags, no_art } = req.query;
+    const { console: consoleName, search, tags, no_art, exclude_console } = req.query;
 
     let query = 'SELECT * FROM rom_games WHERE available = true';
     if (no_art === 'true') query += ' AND box_art_url IS NULL';
     const params = [];
     let paramIndex = 1;
+
+    if (exclude_console) {
+      const excludeList = Array.isArray(exclude_console) ? exclude_console : [exclude_console];
+      const placeholders = excludeList.map((_, i) => `$${paramIndex + i}`).join(', ');
+      query += ` AND console NOT IN (${placeholders})`;
+      params.push(...excludeList);
+      paramIndex += excludeList.length;
+    }
 
     if (consoleName) {
       query += ` AND console = $${paramIndex}`;
@@ -402,7 +410,14 @@ export const igdbScrapeGame = async (req, res) => {
       return res.json({ id: game.id, igdb_found: false, reason: e.message });
     }
 
-    if (!Array.isArray(igdbData) || igdbData.length === 0) {
+    if (!Array.isArray(igdbData)) {
+      // IGDB returned a non-array — likely an auth/access error object
+      console.warn(`IGDB returned non-array for game ${id} ("${searchTitle}"): ${JSON.stringify(igdbData)}`);
+      return res.json({ id: game.id, igdb_found: false, reason: `IGDB error: ${JSON.stringify(igdbData)}` });
+    }
+
+    if (igdbData.length === 0) {
+      console.warn(`IGDB: no match for game ${id} ("${searchTitle}", console: ${game.console})`);
       return res.json({ id: game.id, igdb_found: false, reason: 'No match found on IGDB' });
     }
 
