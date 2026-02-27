@@ -76,7 +76,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $('Config').first().json.rom_api_base }}/roms",
+        "url": "={{ $('Config').first().json.rom_api_base }}/roms?no_art=true",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -96,16 +96,6 @@
     },
     {
       "parameters": {
-        "jsCode": "// n8n splits JSON arrays into individual items, so use $input.all()\nconst items = $input.all();\nconst unscraped = items.filter(item => !item.json.box_art_url);\n\nif (unscraped.length === 0) {\n  throw new Error('Nothing to scrape — all games already have box art.');\n}\n\nconsole.log(`Found ${unscraped.length} unscraped games out of ${items.length} total`);\nreturn unscraped;"
-      },
-      "id": "node-filter",
-      "name": "Filter Unscraped",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [660, 100]
-    },
-    {
-      "parameters": {
         "batchSize": 1,
         "options": {}
       },
@@ -113,7 +103,7 @@
       "name": "Loop Over Games",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [880, 100]
+      "position": [660, 100]
     },
     {
       "parameters": {
@@ -165,15 +155,12 @@
       "main": [[{ "node": "Get All Games", "type": "main", "index": 0 }]]
     },
     "Get All Games": {
-      "main": [[{ "node": "Filter Unscraped", "type": "main", "index": 0 }]]
-    },
-    "Filter Unscraped": {
       "main": [[{ "node": "Loop Over Games", "type": "main", "index": 0 }]]
     },
     "Loop Over Games": {
       "main": [
-        [{ "node": "Auto Scrape Game", "type": "main", "index": 0 }],
-        []
+        [],
+        [{ "node": "Auto Scrape Game", "type": "main", "index": 0 }]
       ]
     },
     "Auto Scrape Game": {
