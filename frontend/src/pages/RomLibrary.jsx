@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { romsAPI } from '../services/api';
 import './RomLibrary.css';
@@ -18,6 +18,8 @@ const RomLibrary = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +38,37 @@ const RomLibrary = () => {
     };
     fetchData();
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // All tags across all games (for autocomplete), excluding 'adults'
+  const allTags = useMemo(() => {
+    const tagSet = new Set();
+    games.forEach(game => {
+      (game.tags || []).forEach(tag => {
+        if (tag !== 'adults') tagSet.add(tag);
+      });
+    });
+    return Array.from(tagSet).sort();
+  }, [games]);
+
+  // Tags matching the current search term that aren't already selected
+  const tagSuggestions = useMemo(() => {
+    if (!searchTerm.trim()) return [];
+    const lower = searchTerm.toLowerCase();
+    return allTags.filter(tag =>
+      tag.toLowerCase().includes(lower) && !selectedTags.includes(tag)
+    );
+  }, [searchTerm, allTags, selectedTags]);
 
   const filteredGames = useMemo(() => {
     return games.filter(game => {
@@ -61,21 +94,14 @@ const RomLibrary = () => {
     return filteredGames.slice(start, start + GAMES_PER_PAGE);
   }, [filteredGames, currentPage]);
 
-  // Exclude 'adults' from the visible tag filter UI
-  const availableTags = useMemo(() => {
-    const tagSet = new Set();
-    filteredGames.forEach(game => {
-      (game.tags || []).forEach(tag => {
-        if (tag !== 'adults') tagSet.add(tag);
-      });
-    });
-    return Array.from(tagSet).sort();
-  }, [filteredGames]);
+  const selectTag = (tag) => {
+    setSelectedTags(prev => [...prev, tag]);
+    setSearchTerm('');
+    setShowDropdown(false);
+  };
 
-  const toggleTag = (tag) => {
-    setSelectedTags(prev =>
-      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-    );
+  const removeTag = (tag) => {
+    setSelectedTags(prev => prev.filter(t => t !== tag));
   };
 
   const changePage = (newPage) => {
@@ -125,33 +151,58 @@ const RomLibrary = () => {
         </div>
       </div>
 
-      <div className="rom-search">
-        <input
-          type="text"
-          placeholder="Search games..."
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          className="rom-search-input"
-        />
-        {searchTerm && (
-          <button className="search-clear" onClick={() => setSearchTerm('')}>×</button>
+      {/* Unified search + tag autocomplete */}
+      <div className="rom-search-container" ref={searchContainerRef}>
+        <div className="rom-search">
+          <input
+            type="text"
+            placeholder="Search games or filter by tag..."
+            value={searchTerm}
+            onChange={e => {
+              setSearchTerm(e.target.value);
+              setShowDropdown(true);
+            }}
+            onFocus={() => setShowDropdown(true)}
+            onKeyDown={e => {
+              if (e.key === 'Escape') setShowDropdown(false);
+            }}
+            className="rom-search-input"
+          />
+          {searchTerm && (
+            <button className="search-clear" onClick={() => { setSearchTerm(''); setShowDropdown(false); }}>×</button>
+          )}
+        </div>
+
+        {showDropdown && tagSuggestions.length > 0 && (
+          <div className="search-dropdown">
+            {tagSuggestions.map(tag => (
+              <button
+                key={tag}
+                className="search-dropdown-item"
+                // onMouseDown prevents the input blur from firing before onClick
+                onMouseDown={e => e.preventDefault()}
+                onClick={() => selectTag(tag)}
+              >
+                <span className="dropdown-tag-badge">TAG</span>
+                {tag}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
-      {availableTags.length > 0 && (
-        <div className="tag-filters">
-          {availableTags.map(tag => (
-            <button
-              key={tag}
-              className={`tag-filter ${selectedTags.includes(tag) ? 'active' : ''}`}
-              onClick={() => toggleTag(tag)}
-            >
+      {/* Active tag chips */}
+      {selectedTags.length > 0 && (
+        <div className="active-tag-filters">
+          {selectedTags.map(tag => (
+            <span key={tag} className="active-tag-chip">
               {tag}
-            </button>
+              <button className="active-tag-remove" onClick={() => removeTag(tag)}>×</button>
+            </span>
           ))}
-          {selectedTags.length > 0 && (
+          {selectedTags.length > 1 && (
             <button className="tag-filter-clear" onClick={() => setSelectedTags([])}>
-              Clear filters
+              Clear all
             </button>
           )}
         </div>
