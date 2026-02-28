@@ -14,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain  # Keep data if PV is deleted
   storageClassName: ""  # Empty string for manual binding
   hostPath:
-    path: /data/charno-photos  # Directory on your server
+    path: /mnt/k3s-storage/media/photos/web  # Directory on k3s-storage disk
     type: DirectoryOrCreate  # Create if doesn't exist
 ---
 # PersistentVolumeClaim that binds to the above PV

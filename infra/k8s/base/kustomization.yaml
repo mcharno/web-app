@@ -26,8 +26,5 @@ commonLabels:
   app.kubernetes.io/name: web
   app.kubernetes.io/managed-by: argocd
 
-images:
-  - name: ghcr.io/mcharno/charno-backend
-    newTag: latest
-  - name: ghcr.io/mcharno/charno-frontend
-    newTag: latest
+# Image tags are managed directly in deployment YAMLs by GHA build workflows.
+# Do not add an images: override block here — it would override the SHA tags.
