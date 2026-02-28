@@ -1,14 +1,12 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
-import 'yet-another-react-lightbox/styles.css';
-import 'yet-another-react-lightbox/plugins/thumbnails.css';
 import { romsAPI } from '../services/api';
 import './RomLibrary.css';
 
 const PLACEHOLDER_BOX_ART = '/images/roms/placeholder.svg';
+const GAMES_PER_PAGE = 60;
+
+const isAdultGame = (game) => game.tags?.includes('adults');
 
 const RomLibrary = () => {
   const navigate = useNavigate();
@@ -19,8 +17,9 @@ const RomLibrary = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +39,37 @@ const RomLibrary = () => {
     fetchData();
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // All tags across all games (for autocomplete), excluding 'adults'
+  const allTags = useMemo(() => {
+    const tagSet = new Set();
+    games.forEach(game => {
+      (game.tags || []).forEach(tag => {
+        if (tag !== 'adults') tagSet.add(tag);
+      });
+    });
+    return Array.from(tagSet).sort();
+  }, [games]);
+
+  // Tags matching the current search term that aren't already selected
+  const tagSuggestions = useMemo(() => {
+    if (!searchTerm.trim()) return [];
+    const lower = searchTerm.toLowerCase();
+    return allTags.filter(tag =>
+      tag.toLowerCase().includes(lower) && !selectedTags.includes(tag)
+    );
+  }, [searchTerm, allTags, selectedTags]);
+
   const filteredGames = useMemo(() => {
     return games.filter(game => {
       if (selectedConsole !== 'all' && game.console !== selectedConsole) return false;
@@ -52,37 +82,32 @@ const RomLibrary = () => {
     });
   }, [games, selectedConsole, searchTerm, selectedTags]);
 
-  const availableTags = useMemo(() => {
-    const tagSet = new Set();
-    filteredGames.forEach(game => {
-      (game.tags || []).forEach(tag => tagSet.add(tag));
-    });
-    return Array.from(tagSet).sort();
-  }, [filteredGames]);
+  // Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedConsole, searchTerm, selectedTags]);
 
-  const toggleTag = (tag) => {
-    setSelectedTags(prev =>
-      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
-    );
+  const totalPages = Math.ceil(filteredGames.length / GAMES_PER_PAGE);
+
+  const paginatedGames = useMemo(() => {
+    const start = (currentPage - 1) * GAMES_PER_PAGE;
+    return filteredGames.slice(start, start + GAMES_PER_PAGE);
+  }, [filteredGames, currentPage]);
+
+  const selectTag = (tag) => {
+    setSelectedTags(prev => [...prev, tag]);
+    setSearchTerm('');
+    setShowDropdown(false);
   };
 
-  const openGame = (game) => {
-    setSelectedGame(game);
+  const removeTag = (tag) => {
+    setSelectedTags(prev => prev.filter(t => t !== tag));
   };
 
-  const closeModal = () => {
-    setSelectedGame(null);
-    setLightboxOpen(false);
+  const changePage = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const openScreenshots = (index = 0) => {
-    setLightboxIndex(index);
-    setLightboxOpen(true);
-  };
-
-  const screenshotSlides = selectedGame?.screenshots
-    ? selectedGame.screenshots.map(url => ({ src: url }))
-    : [];
 
   if (loading) {
     return (
@@ -126,33 +151,58 @@ const RomLibrary = () => {
         </div>
       </div>
 
-      <div className="rom-search">
-        <input
-          type="text"
-          placeholder="Search games..."
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          className="rom-search-input"
-        />
-        {searchTerm && (
-          <button className="search-clear" onClick={() => setSearchTerm('')}>×</button>
+      {/* Unified search + tag autocomplete */}
+      <div className="rom-search-container" ref={searchContainerRef}>
+        <div className="rom-search">
+          <input
+            type="text"
+            placeholder="Search games or filter by tag..."
+            value={searchTerm}
+            onChange={e => {
+              setSearchTerm(e.target.value);
+              setShowDropdown(true);
+            }}
+            onFocus={() => setShowDropdown(true)}
+            onKeyDown={e => {
+              if (e.key === 'Escape') setShowDropdown(false);
+            }}
+            className="rom-search-input"
+          />
+          {searchTerm && (
+            <button className="search-clear" onClick={() => { setSearchTerm(''); setShowDropdown(false); }}>×</button>
+          )}
+        </div>
+
+        {showDropdown && tagSuggestions.length > 0 && (
+          <div className="search-dropdown">
+            {tagSuggestions.map(tag => (
+              <button
+                key={tag}
+                className="search-dropdown-item"
+                // onMouseDown prevents the input blur from firing before onClick
+                onMouseDown={e => e.preventDefault()}
+                onClick={() => selectTag(tag)}
+              >
+                <span className="dropdown-tag-badge">TAG</span>
+                {tag}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
-      {availableTags.length > 0 && (
-        <div className="tag-filters">
-          {availableTags.map(tag => (
-            <button
-              key={tag}
-              className={`tag-filter ${selectedTags.includes(tag) ? 'active' : ''}`}
-              onClick={() => toggleTag(tag)}
-            >
+      {/* Active tag chips */}
+      {selectedTags.length > 0 && (
+        <div className="active-tag-filters">
+          {selectedTags.map(tag => (
+            <span key={tag} className="active-tag-chip">
               {tag}
-            </button>
+              <button className="active-tag-remove" onClick={() => removeTag(tag)}>×</button>
+            </span>
           ))}
-          {selectedTags.length > 0 && (
+          {selectedTags.length > 1 && (
             <button className="tag-filter-clear" onClick={() => setSelectedTags([])}>
-              Clear filters
+              Clear all
             </button>
           )}
         </div>
@@ -166,43 +216,91 @@ const RomLibrary = () => {
         </div>
       ) : (
         <>
-          <p className="rom-count">{filteredGames.length} game{filteredGames.length !== 1 ? 's' : ''}</p>
-          <div className="rom-grid">
-            {filteredGames.map(game => (
-              <div key={game.id} className="rom-card" onClick={() => openGame(game)}>
-                <div className="rom-card-art">
-                  <img
-                    src={game.box_art_url || PLACEHOLDER_BOX_ART}
-                    alt={game.title || game.filename}
-                    loading="lazy"
-                    onError={e => { e.target.src = PLACEHOLDER_BOX_ART; }}
-                  />
-                </div>
-                <div className="rom-card-info">
-                  <span className="rom-console-badge">{game.console.toUpperCase()}</span>
-                  <h3 className="rom-card-title">{game.title || game.filename}</h3>
-                  {game.year && <p className="rom-card-year">{game.year}</p>}
-                  {game.tags?.length > 0 && (
-                    <div className="rom-card-tags">
-                      {game.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="rom-tag">{tag}</span>
-                      ))}
-                      {game.tags.length > 3 && (
-                        <span className="rom-tag rom-tag-more">+{game.tags.length - 3}</span>
-                      )}
-                    </div>
-                  )}
-                </div>
+          <div className="rom-count-bar">
+            <p className="rom-count">
+              {filteredGames.length} game{filteredGames.length !== 1 ? 's' : ''}
+              {totalPages > 1 && ` — page ${currentPage} of ${totalPages}`}
+            </p>
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button
+                  className="page-btn"
+                  onClick={() => changePage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  ← Prev
+                </button>
+                <span className="page-indicator">{currentPage} / {totalPages}</span>
+                <button
+                  className="page-btn"
+                  onClick={() => changePage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next →
+                </button>
               </div>
-            ))}
+            )}
           </div>
+
+          <div className="rom-grid">
+            {paginatedGames.map(game => {
+              const visibleTags = (game.tags || []).filter(t => t !== 'adults');
+              return (
+                <div key={game.id} className="rom-card" onClick={() => setSelectedGame(game)}>
+                  <div className="rom-card-art">
+                    <img
+                      src={game.box_art_url || PLACEHOLDER_BOX_ART}
+                      alt={game.title || game.filename}
+                      loading="lazy"
+                      onError={e => { e.target.src = PLACEHOLDER_BOX_ART; }}
+                    />
+                  </div>
+                  <div className="rom-card-info">
+                    <span className="rom-console-badge">{game.console.toUpperCase()}</span>
+                    <h3 className="rom-card-title">{game.title || game.filename}</h3>
+                    {game.year && <p className="rom-card-year">{game.year}</p>}
+                    {visibleTags.length > 0 && (
+                      <div className="rom-card-tags">
+                        {visibleTags.slice(0, 3).map(tag => (
+                          <span key={tag} className="rom-tag">{tag}</span>
+                        ))}
+                        {visibleTags.length > 3 && (
+                          <span className="rom-tag rom-tag-more">+{visibleTags.length - 3}</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="pagination pagination-bottom">
+              <button
+                className="page-btn"
+                onClick={() => changePage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ← Prev
+              </button>
+              <span className="page-indicator">{currentPage} / {totalPages}</span>
+              <button
+                className="page-btn"
+                onClick={() => changePage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next →
+              </button>
+            </div>
+          )}
         </>
       )}
 
       {selectedGame && (
-        <div className="rom-modal-overlay" onClick={closeModal}>
+        <div className="rom-modal-overlay" onClick={() => setSelectedGame(null)}>
           <div className="rom-modal" onClick={e => e.stopPropagation()}>
-            <button className="rom-modal-close" onClick={closeModal}>×</button>
+            <button className="rom-modal-close" onClick={() => setSelectedGame(null)}>×</button>
 
             <div className="rom-modal-content">
               <div className="rom-modal-art">
@@ -231,26 +329,26 @@ const RomLibrary = () => {
                   <p className="rom-modal-description">{selectedGame.description}</p>
                 )}
 
-                {selectedGame.tags?.length > 0 && (
+                {(selectedGame.tags || []).filter(t => t !== 'adults').length > 0 && (
                   <div className="rom-modal-tags">
-                    {selectedGame.tags.map(tag => (
+                    {selectedGame.tags.filter(t => t !== 'adults').map(tag => (
                       <span key={tag} className="rom-tag">{tag}</span>
                     ))}
                   </div>
                 )}
 
-                {selectedGame.screenshots?.length > 0 && (
+                {!isAdultGame(selectedGame) && selectedGame.screenshots?.length > 0 && (
                   <div className="rom-modal-screenshots">
                     <h4>Screenshots</h4>
-                    <div className="screenshot-thumbs">
+                    <div className="screenshot-grid">
                       {selectedGame.screenshots.map((url, i) => (
-                        <div
+                        <img
                           key={i}
-                          className="screenshot-thumb"
-                          onClick={() => openScreenshots(i)}
-                        >
-                          <img src={url} alt={`Screenshot ${i + 1}`} loading="lazy" />
-                        </div>
+                          src={url}
+                          alt={`Screenshot ${i + 1}`}
+                          loading="lazy"
+                          className="screenshot-full"
+                        />
                       ))}
                     </div>
                   </div>
@@ -261,28 +359,6 @@ const RomLibrary = () => {
             </div>
           </div>
         </div>
-      )}
-
-      {lightboxOpen && screenshotSlides.length > 0 && (
-        <Lightbox
-          open={lightboxOpen}
-          close={() => setLightboxOpen(false)}
-          slides={screenshotSlides}
-          index={lightboxIndex}
-          plugins={[Zoom, Thumbnails]}
-          zoom={{ maxZoomPixelRatio: 3, scrollToZoom: true }}
-          thumbnails={{
-            position: 'bottom',
-            width: 120,
-            height: 80,
-            border: 1,
-            borderRadius: 0,
-            padding: 0,
-            gap: 16,
-          }}
-          animation={{ fade: 250 }}
-          controller={{ closeOnBackdropClick: true }}
-        />
       )}
     </div>
   );
