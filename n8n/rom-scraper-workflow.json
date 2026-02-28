@@ -138,7 +138,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const result = $input.first().json;\nif (result.ss_found) {\n  console.log(`Scraped: ${result.title} — box: ${!!result.box_art_url}, screenshots: ${(result.screenshots||[]).length}`);\n} else {\n  console.log(`Not found: id=${result.id} — ${result.reason || 'unknown'}`);\n}\n// 2 second rate-limit delay\nawait new Promise(resolve => setTimeout(resolve, 2000));\nreturn $input.all();"
+        "jsCode": "const result = $input.first().json;\nif (result.reason && result.reason.includes('403')) {\n  throw new Error(`ScreenScraper credentials rejected (HTTP 403) — check ss_user/ss_password in Config node`);\n}\nif (result.ss_found) {\n  console.log(`Scraped: ${result.title} — box: ${!!result.box_art_url}, screenshots: ${(result.screenshots||[]).length}`);\n} else {\n  console.log(`Not found: id=${result.id} — ${result.reason || 'unknown'}`);\n}\n// 2 second rate-limit delay\nawait new Promise(resolve => setTimeout(resolve, 2000));\nreturn $input.all();"
       },
       "id": "node-delay",
       "name": "Log and Delay",

@@ -160,10 +160,10 @@ yarn upload-photos <gallery-name>
 ./scripts/check-photos.sh
 
 # Manual upload via rsync
-rsync -avz frontend/public/images/photos/2600/ user@k3s-srv:/data/charno-photos/2600/
+rsync -avz frontend/public/images/photos/2600/ user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 
 # Fix permissions on server
-ssh user@k3s-srv "sudo chown -R 1001:1001 /data/charno-photos && sudo chmod -R 755 /data/charno-photos"
+ssh user@k3s-srv "sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web && sudo chmod -R 755 /mnt/k3s-storage/media/photos/web"
 
 # Check backend pod
 kubectl exec -n web -l app=charno-backend -- ls -la /data/photos/
@@ -190,7 +190,7 @@ kubectl logs -n web -l app=charno-backend -f
 
 The scripts assume:
 - Server hostname: `k3s-srv` (or specify different with `user@hostname`)
-- Photo directory: `/data/charno-photos/`
+- Photo directory: `/mnt/k3s-storage/media/photos/web/`
 - Kubernetes namespace: `web`
 - Backend app label: `app=charno-backend`
 - Backend user ID: `1001`
@@ -217,7 +217,7 @@ To use a different server, pass it as an argument:
 
 3. Try manual upload:
    ```bash
-   scp frontend/public/images/photos/2600/test.jpg user@k3s-srv:/data/charno-photos/2600/
+   scp frontend/public/images/photos/2600/test.jpg user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
    ```
 
 ### Photos uploaded but not showing
@@ -229,7 +229,7 @@ To use a different server, pass it as an argument:
 
 2. Fix ownership:
    ```bash
-   ssh user@k3s-srv "sudo chown -R 1001:1001 /data/charno-photos"
+   ssh user@k3s-srv "sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web"
    ```
 
 3. Check pod can see files:

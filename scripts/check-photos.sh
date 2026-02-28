@@ -16,8 +16,8 @@ if [ -z "$GALLERY_NAME" ]; then
   # List all galleries
   echo "📁 Available galleries on server:"
   echo ""
-  ssh "$SERVER" "ls -1 /data/charno-photos/" 2>/dev/null | while read dir; do
-    COUNT=$(ssh "$SERVER" "find /data/charno-photos/$dir -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.gif' \) 2>/dev/null | wc -l" | xargs)
+  ssh "$SERVER" "ls -1 /mnt/k3s-storage/media/photos/web/" 2>/dev/null | while read dir; do
+    COUNT=$(ssh "$SERVER" "find /mnt/k3s-storage/media/photos/web/$dir -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.gif' \) 2>/dev/null | wc -l" | xargs)
     printf "  %-30s %s files\n" "$dir" "$COUNT"
   done
   echo ""
@@ -26,7 +26,7 @@ if [ -z "$GALLERY_NAME" ]; then
   exit 0
 fi
 
-REMOTE_DIR="/data/charno-photos/${GALLERY_NAME}"
+REMOTE_DIR="/mnt/k3s-storage/media/photos/web/${GALLERY_NAME}"
 
 echo "Gallery: $GALLERY_NAME"
 echo "Server:  $SERVER"

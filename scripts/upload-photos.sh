@@ -24,7 +24,7 @@ fi
 
 # Paths
 LOCAL_DIR="frontend/public/images/photos/${GALLERY_NAME}"
-REMOTE_DIR="/data/charno-photos/${GALLERY_NAME}"
+REMOTE_DIR="/mnt/k3s-storage/media/photos/web/${GALLERY_NAME}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 

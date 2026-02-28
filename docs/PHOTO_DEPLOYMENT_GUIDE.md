@@ -12,7 +12,7 @@ This guide explains how photos are stored and served in production, and the best
 │                                                             │
 │  ┌──────────────────────────────────────────────────────┐  │
 │  │ Host Filesystem                                       │  │
-│  │   /data/charno-photos/                               │  │
+│  │   /mnt/k3s-storage/media/photos/web/                               │  │
 │  │   ├── 2600/                                          │  │
 │  │   │   ├── payphone-01.jpg                           │  │
 │  │   │   └── payphone-02.jpg                           │  │
@@ -33,7 +33,7 @@ This guide explains how photos are stored and served in production, and the best
 
 ### Key Components
 
-1. **Host Directory**: `/data/charno-photos` on your K3s server
+1. **Host Directory**: `/mnt/k3s-storage/media/photos/web` on your K3s server
    - This is where physical photo files are stored
    - Persistent across pod restarts
    - Directly accessible from the server
@@ -51,7 +51,7 @@ This guide explains how photos are stored and served in production, and the best
 ## Photo Directory Structure on Server
 
 ```
-/data/charno-photos/
+/mnt/k3s-storage/media/photos/web/
 ├── 2600/                      # Gallery subdirectory
 │   ├── payphone-01.jpg
 │   ├── payphone-02.jpg
@@ -73,19 +73,19 @@ Upload photos directly to your server using SCP:
 
 ```bash
 # Upload a single photo
-scp local-photo.jpg user@k3s-srv:/data/charno-photos/2600/
+scp local-photo.jpg user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 
 # Upload multiple photos
-scp photos/*.jpg user@k3s-srv:/data/charno-photos/2600/
+scp photos/*.jpg user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 
 # Upload an entire directory
-scp -r 2600/ user@k3s-srv:/data/charno-photos/
+scp -r 2600/ user@k3s-srv:/mnt/k3s-storage/media/photos/web/
 ```
 
 Using SFTP (interactive):
 ```bash
 sftp user@k3s-srv
-cd /data/charno-photos/2600
+cd /mnt/k3s-storage/media/photos/web/2600
 put payphone-*.jpg
 exit
 ```
@@ -98,17 +98,17 @@ Best for syncing large photo collections:
 # Sync a local directory to server
 rsync -avz --progress \
   frontend/public/images/photos/2600/ \
-  user@k3s-srv:/data/charno-photos/2600/
+  user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 
 # Dry run first to see what will be transferred
 rsync -avz --progress --dry-run \
   frontend/public/images/photos/2600/ \
-  user@k3s-srv:/data/charno-photos/2600/
+  user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 
 # Sync all galleries
 rsync -avz --progress \
   frontend/public/images/photos/ \
-  user@k3s-srv:/data/charno-photos/
+  user@k3s-srv:/mnt/k3s-storage/media/photos/web/
 ```
 
 **rsync advantages:**
@@ -141,14 +141,14 @@ If you have direct access to the server:
 ssh user@k3s-srv
 
 # Create gallery directory if needed
-sudo mkdir -p /data/charno-photos/2600
+sudo mkdir -p /mnt/k3s-storage/media/photos/web/2600
 
 # Set proper permissions
-sudo chown -R 1001:1001 /data/charno-photos
-sudo chmod -R 755 /data/charno-photos
+sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web
+sudo chmod -R 755 /mnt/k3s-storage/media/photos/web
 
 # Copy from a mounted drive, network share, etc.
-sudo cp -r /mnt/my-photos/payphones/* /data/charno-photos/2600/
+sudo cp -r /mnt/my-photos/payphones/* /mnt/k3s-storage/media/photos/web/2600/
 ```
 
 ### Method 5: Git LFS (For Version-Controlled Photos)
@@ -183,7 +183,7 @@ cd /tmp
 git clone <your-repo>
 cd web-app
 git lfs pull
-sudo rsync -av frontend/public/images/photos/ /data/charno-photos/
+sudo rsync -av frontend/public/images/photos/ /mnt/k3s-storage/media/photos/web/
 ```
 
 ## Complete Workflow Example: Adding 2600 Photos
@@ -240,7 +240,7 @@ yarn dev
 # Using rsync (recommended)
 rsync -avz --progress \
   frontend/public/images/photos/2600/ \
-  user@k3s-srv:/data/charno-photos/2600/
+  user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 ```
 
 ### Step 5: Set Proper Permissions
@@ -250,10 +250,10 @@ rsync -avz --progress \
 ssh user@k3s-srv
 
 # Set ownership (backend pod runs as user 1001)
-sudo chown -R 1001:1001 /data/charno-photos/2600
+sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web/2600
 
 # Set permissions (readable by all, writable by owner)
-sudo chmod -R 755 /data/charno-photos/2600
+sudo chmod -R 755 /mnt/k3s-storage/media/photos/web/2600
 ```
 
 ### Step 6: Deploy Gallery Metadata
@@ -282,14 +282,14 @@ The backend pod runs as user `1001` (non-root), so files must be readable by thi
 
 ```bash
 # On the server
-sudo chown -R 1001:1001 /data/charno-photos
-sudo chmod -R 755 /data/charno-photos
+sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web
+sudo chmod -R 755 /mnt/k3s-storage/media/photos/web
 ```
 
 ### Directory Permissions
 
 ```
-/data/charno-photos/          755 (drwxr-xr-x)
+/mnt/k3s-storage/media/photos/web/          755 (drwxr-xr-x)
 ├── 2600/                     755 (drwxr-xr-x)
 │   ├── payphone-01.jpg       644 (-rw-r--r--)
 │   └── ...
@@ -302,13 +302,13 @@ sudo chmod -R 755 /data/charno-photos
 1. **Check file exists on server:**
 ```bash
 ssh user@k3s-srv
-ls -la /data/charno-photos/2600/
+ls -la /mnt/k3s-storage/media/photos/web/2600/
 ```
 
 2. **Check permissions:**
 ```bash
 # Should be readable by user 1001
-ls -la /data/charno-photos/2600/payphone-01.jpg
+ls -la /mnt/k3s-storage/media/photos/web/2600/payphone-01.jpg
 ```
 
 3. **Check pod can see the file:**
@@ -327,8 +327,8 @@ kubectl logs -n web -l app=charno-backend --tail=50
 ```bash
 # Fix permissions on server
 ssh user@k3s-srv
-sudo chown -R 1001:1001 /data/charno-photos
-sudo chmod -R 755 /data/charno-photos
+sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web
+sudo chmod -R 755 /mnt/k3s-storage/media/photos/web
 ```
 
 ### Gallery JSON Not Updating
@@ -366,10 +366,10 @@ Since photos are on the host filesystem:
 ```bash
 # On the server, create a backup
 ssh user@k3s-srv
-sudo tar -czf /backups/charno-photos-$(date +%Y%m%d).tar.gz /data/charno-photos/
+sudo tar -czf /backups/charno-photos-$(date +%Y%m%d).tar.gz /mnt/k3s-storage/media/photos/web/
 
 # Or use rsync to backup to another location
-sudo rsync -av /data/charno-photos/ /mnt/backup/charno-photos/
+sudo rsync -av /mnt/k3s-storage/media/photos/web/ /mnt/backup/charno-photos/
 ```
 
 ### Version Control
@@ -386,13 +386,13 @@ Consider adding photos to git (with Git LFS) for:
 
 ```bash
 # Upload photos via rsync
-rsync -avz frontend/public/images/photos/2600/ user@k3s-srv:/data/charno-photos/2600/
+rsync -avz frontend/public/images/photos/2600/ user@k3s-srv:/mnt/k3s-storage/media/photos/web/2600/
 
 # Check server directory
-ssh user@k3s-srv ls -la /data/charno-photos/2600/
+ssh user@k3s-srv ls -la /mnt/k3s-storage/media/photos/web/2600/
 
 # Fix permissions
-ssh user@k3s-srv "sudo chown -R 1001:1001 /data/charno-photos && sudo chmod -R 755 /data/charno-photos"
+ssh user@k3s-srv "sudo chown -R 1001:1001 /mnt/k3s-storage/media/photos/web && sudo chmod -R 755 /mnt/k3s-storage/media/photos/web"
 
 # Check backend pod
 kubectl exec -n web -l app=charno-backend -- ls -la /data/photos/2600/
@@ -407,7 +407,7 @@ kubectl logs -n web -l app=charno-backend -f
 |----------|------|---------|
 | Local development | `/frontend/public/images/photos/` | Development files |
 | Gallery metadata | `/backend/content/en/galleries/*.json` | Gallery definitions |
-| Server filesystem | `/data/charno-photos/` | Production photo storage |
+| Server filesystem | `/mnt/k3s-storage/media/photos/web/` | Production photo storage |
 | Backend pod mount | `/data/photos/` | Backend container view |
 | Backend serves as | `/api/photos/...` | API endpoint |
 
@@ -415,7 +415,7 @@ kubectl logs -n web -l app=charno-backend -f
 
 **Recommended workflow:**
 1. Develop and test locally with photos in `frontend/public/images/photos/`
-2. Use `rsync` to upload photos to `/data/charno-photos/` on server
+2. Use `rsync` to upload photos to `/mnt/k3s-storage/media/photos/web/` on server
 3. Commit gallery JSON files to git
 4. Let ArgoCD deploy the metadata automatically
 5. Photos are served immediately once on server with correct permissions
