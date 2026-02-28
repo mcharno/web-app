@@ -1,14 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
-import 'yet-another-react-lightbox/styles.css';
-import 'yet-another-react-lightbox/plugins/thumbnails.css';
 import { romsAPI } from '../services/api';
 import './RomLibrary.css';
 
 const PLACEHOLDER_BOX_ART = '/images/roms/placeholder.svg';
+const GAMES_PER_PAGE = 60;
+
+const isAdultGame = (game) => game.tags?.includes('adults');
 
 const RomLibrary = () => {
   const navigate = useNavigate();
@@ -19,8 +17,7 @@ const RomLibrary = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedGame, setSelectedGame] = useState(null);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,10 +49,25 @@ const RomLibrary = () => {
     });
   }, [games, selectedConsole, searchTerm, selectedTags]);
 
+  // Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedConsole, searchTerm, selectedTags]);
+
+  const totalPages = Math.ceil(filteredGames.length / GAMES_PER_PAGE);
+
+  const paginatedGames = useMemo(() => {
+    const start = (currentPage - 1) * GAMES_PER_PAGE;
+    return filteredGames.slice(start, start + GAMES_PER_PAGE);
+  }, [filteredGames, currentPage]);
+
+  // Exclude 'adults' from the visible tag filter UI
   const availableTags = useMemo(() => {
     const tagSet = new Set();
     filteredGames.forEach(game => {
-      (game.tags || []).forEach(tag => tagSet.add(tag));
+      (game.tags || []).forEach(tag => {
+        if (tag !== 'adults') tagSet.add(tag);
+      });
     });
     return Array.from(tagSet).sort();
   }, [filteredGames]);
@@ -66,23 +78,10 @@ const RomLibrary = () => {
     );
   };
 
-  const openGame = (game) => {
-    setSelectedGame(game);
+  const changePage = (newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
-  const closeModal = () => {
-    setSelectedGame(null);
-    setLightboxOpen(false);
-  };
-
-  const openScreenshots = (index = 0) => {
-    setLightboxIndex(index);
-    setLightboxOpen(true);
-  };
-
-  const screenshotSlides = selectedGame?.screenshots
-    ? selectedGame.screenshots.map(url => ({ src: url }))
-    : [];
 
   if (loading) {
     return (
@@ -166,43 +165,91 @@ const RomLibrary = () => {
         </div>
       ) : (
         <>
-          <p className="rom-count">{filteredGames.length} game{filteredGames.length !== 1 ? 's' : ''}</p>
-          <div className="rom-grid">
-            {filteredGames.map(game => (
-              <div key={game.id} className="rom-card" onClick={() => openGame(game)}>
-                <div className="rom-card-art">
-                  <img
-                    src={game.box_art_url || PLACEHOLDER_BOX_ART}
-                    alt={game.title || game.filename}
-                    loading="lazy"
-                    onError={e => { e.target.src = PLACEHOLDER_BOX_ART; }}
-                  />
-                </div>
-                <div className="rom-card-info">
-                  <span className="rom-console-badge">{game.console.toUpperCase()}</span>
-                  <h3 className="rom-card-title">{game.title || game.filename}</h3>
-                  {game.year && <p className="rom-card-year">{game.year}</p>}
-                  {game.tags?.length > 0 && (
-                    <div className="rom-card-tags">
-                      {game.tags.slice(0, 3).map(tag => (
-                        <span key={tag} className="rom-tag">{tag}</span>
-                      ))}
-                      {game.tags.length > 3 && (
-                        <span className="rom-tag rom-tag-more">+{game.tags.length - 3}</span>
-                      )}
-                    </div>
-                  )}
-                </div>
+          <div className="rom-count-bar">
+            <p className="rom-count">
+              {filteredGames.length} game{filteredGames.length !== 1 ? 's' : ''}
+              {totalPages > 1 && ` — page ${currentPage} of ${totalPages}`}
+            </p>
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button
+                  className="page-btn"
+                  onClick={() => changePage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  ← Prev
+                </button>
+                <span className="page-indicator">{currentPage} / {totalPages}</span>
+                <button
+                  className="page-btn"
+                  onClick={() => changePage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next →
+                </button>
               </div>
-            ))}
+            )}
           </div>
+
+          <div className="rom-grid">
+            {paginatedGames.map(game => {
+              const visibleTags = (game.tags || []).filter(t => t !== 'adults');
+              return (
+                <div key={game.id} className="rom-card" onClick={() => setSelectedGame(game)}>
+                  <div className="rom-card-art">
+                    <img
+                      src={game.box_art_url || PLACEHOLDER_BOX_ART}
+                      alt={game.title || game.filename}
+                      loading="lazy"
+                      onError={e => { e.target.src = PLACEHOLDER_BOX_ART; }}
+                    />
+                  </div>
+                  <div className="rom-card-info">
+                    <span className="rom-console-badge">{game.console.toUpperCase()}</span>
+                    <h3 className="rom-card-title">{game.title || game.filename}</h3>
+                    {game.year && <p className="rom-card-year">{game.year}</p>}
+                    {visibleTags.length > 0 && (
+                      <div className="rom-card-tags">
+                        {visibleTags.slice(0, 3).map(tag => (
+                          <span key={tag} className="rom-tag">{tag}</span>
+                        ))}
+                        {visibleTags.length > 3 && (
+                          <span className="rom-tag rom-tag-more">+{visibleTags.length - 3}</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {totalPages > 1 && (
+            <div className="pagination pagination-bottom">
+              <button
+                className="page-btn"
+                onClick={() => changePage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                ← Prev
+              </button>
+              <span className="page-indicator">{currentPage} / {totalPages}</span>
+              <button
+                className="page-btn"
+                onClick={() => changePage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next →
+              </button>
+            </div>
+          )}
         </>
       )}
 
       {selectedGame && (
-        <div className="rom-modal-overlay" onClick={closeModal}>
+        <div className="rom-modal-overlay" onClick={() => setSelectedGame(null)}>
           <div className="rom-modal" onClick={e => e.stopPropagation()}>
-            <button className="rom-modal-close" onClick={closeModal}>×</button>
+            <button className="rom-modal-close" onClick={() => setSelectedGame(null)}>×</button>
 
             <div className="rom-modal-content">
               <div className="rom-modal-art">
@@ -231,26 +278,26 @@ const RomLibrary = () => {
                   <p className="rom-modal-description">{selectedGame.description}</p>
                 )}
 
-                {selectedGame.tags?.length > 0 && (
+                {(selectedGame.tags || []).filter(t => t !== 'adults').length > 0 && (
                   <div className="rom-modal-tags">
-                    {selectedGame.tags.map(tag => (
+                    {selectedGame.tags.filter(t => t !== 'adults').map(tag => (
                       <span key={tag} className="rom-tag">{tag}</span>
                     ))}
                   </div>
                 )}
 
-                {selectedGame.screenshots?.length > 0 && (
+                {!isAdultGame(selectedGame) && selectedGame.screenshots?.length > 0 && (
                   <div className="rom-modal-screenshots">
                     <h4>Screenshots</h4>
-                    <div className="screenshot-thumbs">
+                    <div className="screenshot-grid">
                       {selectedGame.screenshots.map((url, i) => (
-                        <div
+                        <img
                           key={i}
-                          className="screenshot-thumb"
-                          onClick={() => openScreenshots(i)}
-                        >
-                          <img src={url} alt={`Screenshot ${i + 1}`} loading="lazy" />
-                        </div>
+                          src={url}
+                          alt={`Screenshot ${i + 1}`}
+                          loading="lazy"
+                          className="screenshot-full"
+                        />
                       ))}
                     </div>
                   </div>
@@ -261,28 +308,6 @@ const RomLibrary = () => {
             </div>
           </div>
         </div>
-      )}
-
-      {lightboxOpen && screenshotSlides.length > 0 && (
-        <Lightbox
-          open={lightboxOpen}
-          close={() => setLightboxOpen(false)}
-          slides={screenshotSlides}
-          index={lightboxIndex}
-          plugins={[Zoom, Thumbnails]}
-          zoom={{ maxZoomPixelRatio: 3, scrollToZoom: true }}
-          thumbnails={{
-            position: 'bottom',
-            width: 120,
-            height: 80,
-            border: 1,
-            borderRadius: 0,
-            padding: 0,
-            gap: 16,
-          }}
-          animation={{ fade: 250 }}
-          controller={{ closeOnBackdropClick: true }}
-        />
       )}
     </div>
   );
