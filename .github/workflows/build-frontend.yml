@@ -60,4 +60,4 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add infra/k8s/base/frontend-deployment.yaml
           git diff --staged --quiet || git commit -m "ci: update frontend image to sha256-${{ steps.sha.outputs.short }}"
-          git push
+          git push || echo "::warning::Push to main blocked by branch protection. Image sha256-${{ steps.sha.outputs.short }} is in GHCR. Update infra/k8s/base/frontend-deployment.yaml manually or allow github-actions[bot] to bypass branch protection in repo settings."
