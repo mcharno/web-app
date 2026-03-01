@@ -8,7 +8,6 @@ RUN corepack enable
 
 # Copy workspace root files
 COPY package.json yarn.lock .yarnrc.yml ./
-COPY .yarn ./.yarn
 
 # Copy workspace package files
 COPY backend/package.json ./backend/package.json
