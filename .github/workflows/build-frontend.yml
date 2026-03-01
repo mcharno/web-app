@@ -9,6 +9,7 @@ on:
       - 'yarn.lock'
       - '.yarnrc.yml'
       - '.yarn/**'
+  workflow_dispatch:
 
 jobs:
   build-and-push:
