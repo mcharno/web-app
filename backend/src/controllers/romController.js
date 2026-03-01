@@ -255,7 +255,14 @@ export const autoScrapeGame = async (req, res) => {
       return res.json({ id: game.id, ss_found: false, reason: `ScreenScraper HTTP ${ssResponse.status}` });
     }
 
-    const ssData = await ssResponse.json();
+    const ssText = await ssResponse.text();
+    let ssData;
+    try {
+      ssData = JSON.parse(ssText);
+    } catch {
+      console.warn(`ScreenScraper non-JSON response for id=${id}: ${ssText.slice(0, 200)}`);
+      return res.json({ id: game.id, ss_found: false, reason: 'ScreenScraper returned non-JSON response' });
+    }
     const jeu = ssData?.response?.jeu;
     if (!jeu) {
       const errMsg = ssData?.header?.error || 'No game data returned';
@@ -321,7 +328,7 @@ export const autoScrapeGame = async (req, res) => {
     res.json({ ...result.rows[0], ss_found: true });
   } catch (error) {
     console.error('Error auto-scraping game:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
 };
 
