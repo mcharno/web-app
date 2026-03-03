@@ -385,142 +385,190 @@ function cleanRomTitle(raw) {
   return title;
 }
 
+// Shared core: search IGDB, download assets, persist to DB for one game row.
+// Returns { igdb_found: true, ...dbRow } or { igdb_found: false, reason: string }
+async function _igdbScrapeOne(game, clientId, accessToken) {
+  const searchTitle = cleanRomTitle(game.title || game.filename);
+  const platformId = IGDB_PLATFORM_IDS[game.console];
+  const fields = 'fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id;';
+
+  const igdbHeaders = {
+    'Client-ID': clientId,
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'text/plain',
+  };
+
+  const igdbSearch = async (whereClause) => {
+    const body = `${fields} search "${searchTitle}"; ${whereClause ? `where ${whereClause};` : ''} limit 5;`;
+    const r = await fetch('https://api.igdb.com/v4/games', {
+      method: 'POST', headers: igdbHeaders, body,
+      signal: AbortSignal.timeout(30000),
+    });
+    if (!r.ok) throw new Error(`IGDB HTTP ${r.status}`);
+    return r.json();
+  };
+
+  let igdbData = platformId ? await igdbSearch(`platforms = (${platformId})`) : [];
+  if (!Array.isArray(igdbData) || igdbData.length === 0) {
+    igdbData = await igdbSearch(null);
+  }
+
+  if (!Array.isArray(igdbData)) {
+    console.warn(`IGDB returned non-array for game ${game.id} ("${searchTitle}"): ${JSON.stringify(igdbData)}`);
+    return { igdb_found: false, reason: `IGDB error: ${JSON.stringify(igdbData)}` };
+  }
+  if (igdbData.length === 0) {
+    console.warn(`IGDB: no match for game ${game.id} ("${searchTitle}", console: ${game.console})`);
+    return { igdb_found: false, reason: 'No match found on IGDB' };
+  }
+
+  const match = igdbData[0];
+  const title = match.name || null;
+  const description = match.summary || null;
+  const year = match.first_release_date
+    ? new Date(match.first_release_date * 1000).getFullYear()
+    : null;
+  const tags = (match.genres || []).map(g => g.name).filter(Boolean);
+
+  const savedBoxArt = match.cover?.image_id
+    ? await downloadImage(
+        `https://images.igdb.com/igdb/image/upload/t_cover_big/${match.cover.image_id}.jpg`,
+        `${game.id}-box`
+      )
+    : null;
+
+  const savedScreenshots = [];
+  for (let i = 0; i < Math.min((match.screenshots || []).length, 3); i++) {
+    const saved = await downloadImage(
+      `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${match.screenshots[i].image_id}.jpg`,
+      `${game.id}-ss-${i}`
+    );
+    if (saved) savedScreenshots.push(saved);
+  }
+
+  const result = await pool.query(
+    `UPDATE rom_games SET
+      title = COALESCE($1, title),
+      description = COALESCE($2, description),
+      year = COALESCE($3, year),
+      box_art_url = COALESCE($4, box_art_url),
+      screenshots = COALESCE($5::jsonb, screenshots),
+      tags = COALESCE($6::jsonb, tags)
+    WHERE id = $7
+    RETURNING *`,
+    [
+      title || null, description || null, year || null, savedBoxArt || null,
+      savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
+      tags.length > 0 ? JSON.stringify(tags) : null,
+      game.id,
+    ]
+  );
+
+  console.log(`IGDB scraped: ${title} (${game.console}, id=${game.id}) — box: ${!!savedBoxArt}, screenshots: ${savedScreenshots.length}`);
+  return { igdb_found: true, ...result.rows[0] };
+}
+
 // Calls IGDB (via Twitch OAuth) from the backend and saves metadata + images
 export const igdbScrapeGame = async (req, res) => {
   const { id } = req.params;
   if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
-  if (!ROM_IMAGES_DIR) {
-    return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
-  }
-  const { igdb_client_id, igdb_client_secret, igdb_access_token } = req.body;
+  if (!ROM_IMAGES_DIR) return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
 
+  const { igdb_client_id, igdb_client_secret, igdb_access_token } = req.body;
   if (!igdb_client_id || (!igdb_client_secret && !igdb_access_token)) {
     return res.status(400).json({ error: 'igdb_client_id and either igdb_client_secret or igdb_access_token are required' });
   }
 
   try {
     const gameResult = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
-    if (gameResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Game not found' });
-    }
+    if (gameResult.rows.length === 0) return res.status(404).json({ error: 'Game not found' });
     const game = gameResult.rows[0];
 
-    // 1. Get Twitch OAuth token (skip if pre-fetched token provided)
     let access_token = igdb_access_token;
     if (!access_token) {
       const tokenRes = await fetch(
         `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdb_client_id)}&client_secret=${encodeURIComponent(igdb_client_secret)}&grant_type=client_credentials`,
         { method: 'POST', signal: AbortSignal.timeout(30000) }
       );
-      if (!tokenRes.ok) {
-        return res.json({ id: game.id, igdb_found: false, reason: `Twitch auth failed: HTTP ${tokenRes.status}` });
-      }
+      if (!tokenRes.ok) return res.json({ id: game.id, igdb_found: false, reason: `Twitch auth failed: HTTP ${tokenRes.status}` });
       const tokenData = await tokenRes.json();
       access_token = tokenData.access_token;
-      if (!access_token) {
-        return res.json({ id: game.id, igdb_found: false, reason: 'No access token returned from Twitch' });
-      }
+      if (!access_token) return res.json({ id: game.id, igdb_found: false, reason: 'No access token returned from Twitch' });
     }
 
-    // 2. Search IGDB — first with platform filter, then without if no results
-    const searchTitle = cleanRomTitle(game.title || game.filename);
-    const platformId = IGDB_PLATFORM_IDS[game.console];
-    const fields = 'fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id;';
-
-    const igdbHeaders = {
-      'Client-ID': igdb_client_id,
-      'Authorization': `Bearer ${access_token}`,
-      'Content-Type': 'text/plain',
-    };
-
-    const igdbSearch = async (whereClause) => {
-      const body = `${fields} search "${searchTitle}"; ${whereClause ? `where ${whereClause};` : ''} limit 5;`;
-      const res = await fetch('https://api.igdb.com/v4/games', {
-        method: 'POST',
-        headers: igdbHeaders,
-        body,
-        signal: AbortSignal.timeout(30000),
-      });
-      if (!res.ok) throw new Error(`IGDB HTTP ${res.status}`);
-      return res.json();
-    };
-
-    let igdbData;
     try {
-      // Pass 1: with platform filter
-      igdbData = platformId ? await igdbSearch(`platforms = (${platformId})`) : [];
-      // Pass 2: no platform filter if first pass found nothing
-      if (!Array.isArray(igdbData) || igdbData.length === 0) {
-        igdbData = await igdbSearch(null);
-      }
+      const scrapeResult = await _igdbScrapeOne(game, igdb_client_id, access_token);
+      res.json(scrapeResult);
     } catch (e) {
-      return res.json({ id: game.id, igdb_found: false, reason: e.message });
+      res.json({ id: game.id, igdb_found: false, reason: e.message });
     }
-
-    if (!Array.isArray(igdbData)) {
-      // IGDB returned a non-array — likely an auth/access error object
-      console.warn(`IGDB returned non-array for game ${id} ("${searchTitle}"): ${JSON.stringify(igdbData)}`);
-      return res.json({ id: game.id, igdb_found: false, reason: `IGDB error: ${JSON.stringify(igdbData)}` });
-    }
-
-    if (igdbData.length === 0) {
-      console.warn(`IGDB: no match for game ${id} ("${searchTitle}", console: ${game.console})`);
-      return res.json({ id: game.id, igdb_found: false, reason: 'No match found on IGDB' });
-    }
-
-    const match = igdbData[0];
-    const title = match.name || null;
-    const description = match.summary || null;
-    const year = match.first_release_date
-      ? new Date(match.first_release_date * 1000).getFullYear()
-      : null;
-    const tags = (match.genres || []).map(g => g.name).filter(Boolean);
-
-    // 3. Download cover art
-    const savedBoxArt = match.cover?.image_id
-      ? await downloadImage(
-          `https://images.igdb.com/igdb/image/upload/t_cover_big/${match.cover.image_id}.jpg`,
-          `${id}-box`
-        )
-      : null;
-
-    // 4. Download up to 3 screenshots
-    const savedScreenshots = [];
-    for (let i = 0; i < Math.min((match.screenshots || []).length, 3); i++) {
-      const saved = await downloadImage(
-        `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${match.screenshots[i].image_id}.jpg`,
-        `${id}-ss-${i}`
-      );
-      if (saved) savedScreenshots.push(saved);
-    }
-
-    // 5. Persist to DB
-    const result = await pool.query(
-      `UPDATE rom_games SET
-        title = COALESCE($1, title),
-        description = COALESCE($2, description),
-        year = COALESCE($3, year),
-        box_art_url = COALESCE($4, box_art_url),
-        screenshots = COALESCE($5::jsonb, screenshots),
-        tags = COALESCE($6::jsonb, tags)
-      WHERE id = $7
-      RETURNING *`,
-      [
-        title || null,
-        description || null,
-        year || null,
-        savedBoxArt || null,
-        savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
-        tags.length > 0 ? JSON.stringify(tags) : null,
-        id,
-      ]
-    );
-
-    console.log(`IGDB scraped: ${title} (${game.console}, id=${id}) — box: ${!!savedBoxArt}, screenshots: ${savedScreenshots.length}`);
-    res.json({ ...result.rows[0], igdb_found: true });
   } catch (error) {
     console.error('Error IGDB-scraping game:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// Scan for unscraped games and scrape them via IGDB using env-configured credentials.
+// Reads IGDB_CLIENT_ID + IGDB_CLIENT_SECRET from environment variables.
+// Query param: ?limit=N (default 50, max 100)
+export const scrapeUnscraped = async (req, res) => {
+  if (!ROM_IMAGES_DIR) return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
+
+  const clientId = process.env.IGDB_CLIENT_ID;
+  const clientSecret = process.env.IGDB_CLIENT_SECRET;
+  if (!clientId || !clientSecret) {
+    return res.status(503).json({ error: 'IGDB_CLIENT_ID and IGDB_CLIENT_SECRET environment variables not configured' });
+  }
+
+  const limit = Math.min(100, parseInt(req.query.limit) || 50);
+
+  try {
+    const tokenRes = await fetch(
+      `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(clientId)}&client_secret=${encodeURIComponent(clientSecret)}&grant_type=client_credentials`,
+      { method: 'POST', signal: AbortSignal.timeout(30000) }
+    );
+    if (!tokenRes.ok) return res.status(502).json({ error: `Twitch auth failed: HTTP ${tokenRes.status}` });
+    const tokenData = await tokenRes.json();
+    const accessToken = tokenData.access_token;
+    if (!accessToken) return res.status(502).json({ error: 'No access token returned from Twitch' });
+
+    const gamesResult = await pool.query(
+      `SELECT id, filename, console, title FROM rom_games
+       WHERE box_art_url IS NULL AND available = true AND hidden = false
+       ORDER BY id ASC LIMIT $1`,
+      [limit]
+    );
+
+    if (gamesResult.rows.length === 0) {
+      return res.json({ scraped: 0, failed: 0, total: 0 });
+    }
+
+    let scraped = 0;
+    let failed = 0;
+    const results = [];
+
+    for (const game of gamesResult.rows) {
+      try {
+        const result = await _igdbScrapeOne(game, clientId, accessToken);
+        if (result.igdb_found) {
+          scraped++;
+          results.push({ id: game.id, title: result.title, status: 'scraped' });
+        } else {
+          failed++;
+          results.push({ id: game.id, title: game.title || game.filename, status: 'not_found', reason: result.reason });
+        }
+      } catch (e) {
+        failed++;
+        console.error(`Failed to scrape game ${game.id} (${game.filename}):`, e.message);
+        results.push({ id: game.id, title: game.title || game.filename, status: 'error', reason: e.message });
+      }
+    }
+
+    console.log(`scrape-unscraped: ${scraped} scraped, ${failed} failed of ${gamesResult.rows.length}`);
+    res.json({ scraped, failed, total: gamesResult.rows.length, results });
+  } catch (error) {
+    console.error('Error in scrape-unscraped:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
 };
 

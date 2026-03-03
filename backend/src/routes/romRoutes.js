@@ -12,6 +12,10 @@ router.get('/tags', romController.getTags);
 // Trigger filesystem scan
 router.post('/scan', romController.scanRoms);
 
+// Scrape all games missing box art using IGDB (reads creds from IGDB_CLIENT_ID/SECRET env vars)
+// Optional query param: ?limit=N (default 50, max 100)
+router.post('/scrape-unscraped', romController.scrapeUnscraped);
+
 // List all games (query: console, search, tags)
 router.get('/', romController.listGames);
 

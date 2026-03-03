@@ -82,6 +82,18 @@ spec:
             secretKeyRef:
               name: charno-secrets
               key: api_key
+        - name: IGDB_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: igdb_client_id
+              optional: true
+        - name: IGDB_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: igdb_client_secret
+              optional: true
         volumeMounts:
         - name: photos
           mountPath: /data/photos

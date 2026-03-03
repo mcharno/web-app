@@ -11,6 +11,7 @@ resources:
   # postgres-deployment.yaml - Removed: Using external Postgres
   - photos-pvc.yaml
   - roms-pvc.yaml
+  - rom-scanner-cronjob.yaml
   - backend-deployment.yaml
   - backend-service.yaml
   # - backend-servicemonitor.yaml  # Disabled: ServiceMonitor CRD not installed

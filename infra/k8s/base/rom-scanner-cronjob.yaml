@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rom-scanner
+  labels:
+    app: rom-scanner
+    component: automation
+spec:
+  # Run every 6 hours
+  schedule: "0 */6 * * *"
+  # Prevent overlapping runs if a previous job is still running
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      # Retry once on failure before giving up
+      backoffLimit: 1
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: scanner
+            image: alpine:3
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              BASE_URL="http://charno-backend.web.svc.cluster.local:3080"
+
+              echo "=== ROM Scan: discovering new files ==="
+              wget -qO- \
+                --post-data='{}' \
+                --header='Content-Type: application/json' \
+                --header="Authorization: Bearer ${API_KEY}" \
+                "${BASE_URL}/api/roms/scan"
+              echo ""
+
+              echo "=== Scraping unscraped games via IGDB ==="
+              wget -qO- \
+                --post-data='{}' \
+                --header='Content-Type: application/json' \
+                --header="Authorization: Bearer ${API_KEY}" \
+                "${BASE_URL}/api/roms/scrape-unscraped?limit=100"
+              echo ""
+            env:
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: charno-secrets
+                  key: api_key
+            resources:
+              requests:
+                memory: "32Mi"
+                cpu: "10m"
+              limits:
+                memory: "64Mi"
+                cpu: "50m"
