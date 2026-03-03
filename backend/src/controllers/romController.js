@@ -5,6 +5,8 @@ import pool from '../config/database.js';
 const ROMS_DIR = process.env.ROMS_DIR || null;
 const ROM_IMAGES_DIR = process.env.ROM_IMAGES_DIR || null;
 
+const isValidId = (id) => id && /^\d+$/.test(String(id));
+
 const ROM_EXTENSIONS = new Set([
   '.iso', '.bin', '.cue', '.img', '.chd', '.mdf',  // disc images
   '.sfc', '.smc',                                    // SNES
@@ -119,8 +121,9 @@ export const getConsoles = async (req, res) => {
 };
 
 export const getGameById = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
   try {
-    const { id } = req.params;
     const result = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
 
     if (result.rows.length === 0) {
@@ -135,8 +138,9 @@ export const getGameById = async (req, res) => {
 };
 
 export const updateGame = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
   try {
-    const { id } = req.params;
     const { title, description, year, box_art_url, screenshots, tags, display_order } = req.body;
 
     const result = await pool.query(
@@ -199,11 +203,11 @@ async function downloadImage(url, basename) {
 }
 
 export const scrapeGame = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
   if (!ROM_IMAGES_DIR) {
     return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
   }
-
-  const { id } = req.params;
   const { box_art_url, screenshot_urls = [], title, description, year, tags } = req.body;
 
   try {
@@ -255,11 +259,11 @@ const SS_SYSTEM_IDS = {
 
 // Calls ScreenScraper from the backend (which has internet access) and saves everything
 export const autoScrapeGame = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
   if (!ROM_IMAGES_DIR) {
     return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
   }
-
-  const { id } = req.params;
   const { ss_user, ss_password, ss_devid = '', ss_devpassword = '' } = req.body;
 
   if (!ss_user || !ss_password) {
@@ -383,11 +387,11 @@ function cleanRomTitle(raw) {
 
 // Calls IGDB (via Twitch OAuth) from the backend and saves metadata + images
 export const igdbScrapeGame = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
   if (!ROM_IMAGES_DIR) {
     return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
   }
-
-  const { id } = req.params;
   const { igdb_client_id, igdb_client_secret, igdb_access_token } = req.body;
 
   if (!igdb_client_id || (!igdb_client_secret && !igdb_access_token)) {
@@ -521,8 +525,9 @@ export const igdbScrapeGame = async (req, res) => {
 };
 
 export const setHidden = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
   try {
-    const { id } = req.params;
     const { hidden } = req.body;
 
     if (typeof hidden !== 'boolean') {
