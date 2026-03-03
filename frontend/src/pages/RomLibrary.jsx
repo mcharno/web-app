@@ -6,40 +6,92 @@ import './RomLibrary.css';
 const PLACEHOLDER_BOX_ART = '/images/roms/placeholder.svg';
 const GAMES_PER_PAGE = 60;
 
-const isAdultGame = (game) => game.tags?.includes('adults');
-
 const RomLibrary = () => {
   const navigate = useNavigate();
+
+  // Paginated game list (current page only)
   const [games, setGames] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [pages, setPages] = useState(1);
+  const [archiveTotal, setArchiveTotal] = useState(0);
+
+  // Metadata loaded once on mount
   const [consoles, setConsoles] = useState([]);
+  const [allTags, setAllTags] = useState([]);
+
+  // UI state
   const [loading, setLoading] = useState(true);
   const [selectedConsole, setSelectedConsole] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
-  const [selectedGame, setSelectedGame] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [showDropdown, setShowDropdown] = useState(false);
-  const searchContainerRef = useRef(null);
 
+  // Modal
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const searchContainerRef = useRef(null);
+  const archiveTotalSet = useRef(false);
+
+  // Fetch consoles + all tags once on mount
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [gamesRes, consolesRes] = await Promise.all([
-          romsAPI.getAll(),
-          romsAPI.getConsoles(),
-        ]);
-        setGames(gamesRes.data);
+    Promise.all([romsAPI.getConsoles(), romsAPI.getTags()])
+      .then(([consolesRes, tagsRes]) => {
         setConsoles(consolesRes.data);
-      } catch (error) {
-        console.error('Error fetching ROM library:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+        setAllTags(tagsRes.data);
+      })
+      .catch(err => console.error('Error fetching ROM metadata:', err));
   }, []);
 
-  // Close dropdown when clicking outside
+  // Debounce search input (300ms)
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(searchTerm), 300);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedConsole, debouncedSearch, selectedTags]);
+
+  // Fetch games whenever page or filters change
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchGames = async () => {
+      setLoading(true);
+      try {
+        const params = { page: currentPage, limit: GAMES_PER_PAGE };
+        if (selectedConsole !== 'all') params.console = selectedConsole;
+        if (debouncedSearch) params.search = debouncedSearch;
+        if (selectedTags.length > 0) params.tags = selectedTags;
+
+        const res = await romsAPI.getAll(params);
+        if (cancelled) return;
+
+        setGames(res.data.games);
+        setTotal(res.data.total);
+        setPages(res.data.pages);
+
+        // Save unfiltered total for the header ("N games in the archive")
+        if (!archiveTotalSet.current && selectedConsole === 'all' && !debouncedSearch && selectedTags.length === 0) {
+          setArchiveTotal(res.data.total);
+          archiveTotalSet.current = true;
+        }
+      } catch (error) {
+        if (!cancelled) console.error('Error fetching ROM games:', error);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    fetchGames();
+    return () => { cancelled = true; };
+  }, [selectedConsole, debouncedSearch, selectedTags, currentPage]);
+
+  // Close search dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
@@ -50,18 +102,7 @@ const RomLibrary = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // All tags across all games (for autocomplete), excluding 'adults'
-  const allTags = useMemo(() => {
-    const tagSet = new Set();
-    games.forEach(game => {
-      (game.tags || []).forEach(tag => {
-        if (tag !== 'adults') tagSet.add(tag);
-      });
-    });
-    return Array.from(tagSet).sort();
-  }, [games]);
-
-  // Tags matching the current search term that aren't already selected
+  // Tag suggestions: filter allTags client-side (instant, no round-trip needed)
   const tagSuggestions = useMemo(() => {
     if (!searchTerm.trim()) return [];
     const lower = searchTerm.toLowerCase();
@@ -69,30 +110,6 @@ const RomLibrary = () => {
       tag.toLowerCase().includes(lower) && !selectedTags.includes(tag)
     );
   }, [searchTerm, allTags, selectedTags]);
-
-  const filteredGames = useMemo(() => {
-    return games.filter(game => {
-      if (selectedConsole !== 'all' && game.console !== selectedConsole) return false;
-      if (searchTerm && !game.title?.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-      if (selectedTags.length > 0) {
-        const gameTags = game.tags || [];
-        if (!selectedTags.every(t => gameTags.includes(t))) return false;
-      }
-      return true;
-    });
-  }, [games, selectedConsole, searchTerm, selectedTags]);
-
-  // Reset to page 1 whenever filters change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedConsole, searchTerm, selectedTags]);
-
-  const totalPages = Math.ceil(filteredGames.length / GAMES_PER_PAGE);
-
-  const paginatedGames = useMemo(() => {
-    const start = (currentPage - 1) * GAMES_PER_PAGE;
-    return filteredGames.slice(start, start + GAMES_PER_PAGE);
-  }, [filteredGames, currentPage]);
 
   const selectTag = (tag) => {
     setSelectedTags(prev => [...prev, tag]);
@@ -109,13 +126,30 @@ const RomLibrary = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (loading) {
+  // Open modal immediately with card data, then fetch full details
+  const openModal = async (cardGame) => {
+    setSelectedGame(cardGame);
+    setModalLoading(true);
+    try {
+      const res = await romsAPI.getById(cardGame.id);
+      setSelectedGame(res.data);
+    } catch (err) {
+      console.error('Error fetching game details:', err);
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+  // Full-page spinner only on initial load (no games yet)
+  if (loading && games.length === 0) {
     return (
       <div className="rom-library-page">
         <div className="loading-state">Loading ROM library...</div>
       </div>
     );
   }
+
+  const hasActiveFilters = selectedConsole !== 'all' || debouncedSearch || selectedTags.length > 0;
 
   return (
     <div className="rom-library-page">
@@ -127,7 +161,7 @@ const RomLibrary = () => {
         <h2>ROM Library</h2>
         <p className="rom-library-intro">
           Retro game collection spanning {consoles.length} console{consoles.length !== 1 ? 's' : ''}.
-          {games.length > 0 && ` ${games.length} game${games.length !== 1 ? 's' : ''} in the archive.`}
+          {archiveTotal > 0 && ` ${archiveTotal} game${archiveTotal !== 1 ? 's' : ''} in the archive.`}
         </p>
       </div>
 
@@ -151,7 +185,7 @@ const RomLibrary = () => {
         </div>
       </div>
 
-      {/* Unified search + tag autocomplete */}
+      {/* Search + tag autocomplete */}
       <div className="rom-search-container" ref={searchContainerRef}>
         <div className="rom-search">
           <input
@@ -179,7 +213,6 @@ const RomLibrary = () => {
               <button
                 key={tag}
                 className="search-dropdown-item"
-                // onMouseDown prevents the input blur from firing before onClick
                 onMouseDown={e => e.preventDefault()}
                 onClick={() => selectTag(tag)}
               >
@@ -208,9 +241,9 @@ const RomLibrary = () => {
         </div>
       )}
 
-      {filteredGames.length === 0 ? (
+      {!loading && games.length === 0 ? (
         <div className="rom-empty">
-          {games.length === 0
+          {!hasActiveFilters
             ? 'No games found. Run a scan to discover ROMs from the share.'
             : 'No games match your current filters.'}
         </div>
@@ -218,23 +251,25 @@ const RomLibrary = () => {
         <>
           <div className="rom-count-bar">
             <p className="rom-count">
-              {filteredGames.length} game{filteredGames.length !== 1 ? 's' : ''}
-              {totalPages > 1 && ` — page ${currentPage} of ${totalPages}`}
+              {loading
+                ? 'Loading...'
+                : `${total} game${total !== 1 ? 's' : ''}${hasActiveFilters ? ' matching' : ''}${pages > 1 ? ` — page ${currentPage} of ${pages}` : ''}`
+              }
             </p>
-            {totalPages > 1 && (
+            {pages > 1 && (
               <div className="pagination">
                 <button
                   className="page-btn"
                   onClick={() => changePage(currentPage - 1)}
-                  disabled={currentPage === 1}
+                  disabled={currentPage === 1 || loading}
                 >
                   ← Prev
                 </button>
-                <span className="page-indicator">{currentPage} / {totalPages}</span>
+                <span className="page-indicator">{currentPage} / {pages}</span>
                 <button
                   className="page-btn"
                   onClick={() => changePage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
+                  disabled={currentPage === pages || loading}
                 >
                   Next →
                 </button>
@@ -242,11 +277,11 @@ const RomLibrary = () => {
             )}
           </div>
 
-          <div className="rom-grid" data-console={selectedConsole}>
-            {paginatedGames.map(game => {
+          <div className={`rom-grid${loading ? ' rom-grid--loading' : ''}`} data-console={selectedConsole}>
+            {games.map(game => {
               const visibleTags = (game.tags || []).filter(t => t !== 'adults');
               return (
-                <div key={game.id} className="rom-card" data-console={game.console} onClick={() => setSelectedGame(game)}>
+                <div key={game.id} className="rom-card" data-console={game.console} onClick={() => openModal(game)}>
                   <div className="rom-card-art">
                     <img
                       src={game.box_art_url || PLACEHOLDER_BOX_ART}
@@ -275,20 +310,20 @@ const RomLibrary = () => {
             })}
           </div>
 
-          {totalPages > 1 && (
+          {pages > 1 && (
             <div className="pagination pagination-bottom">
               <button
                 className="page-btn"
                 onClick={() => changePage(currentPage - 1)}
-                disabled={currentPage === 1}
+                disabled={currentPage === 1 || loading}
               >
                 ← Prev
               </button>
-              <span className="page-indicator">{currentPage} / {totalPages}</span>
+              <span className="page-indicator">{currentPage} / {pages}</span>
               <button
                 className="page-btn"
                 onClick={() => changePage(currentPage + 1)}
-                disabled={currentPage === totalPages}
+                disabled={currentPage === pages || loading}
               >
                 Next →
               </button>
@@ -325,33 +360,39 @@ const RomLibrary = () => {
                   {selectedGame.title || selectedGame.filename}
                 </h2>
 
-                {selectedGame.description && (
-                  <p className="rom-modal-description">{selectedGame.description}</p>
-                )}
+                {modalLoading ? (
+                  <p className="rom-modal-loading">Loading details...</p>
+                ) : (
+                  <>
+                    {selectedGame.description && (
+                      <p className="rom-modal-description">{selectedGame.description}</p>
+                    )}
 
-                {(selectedGame.tags || []).filter(t => t !== 'adults').length > 0 && (
-                  <div className="rom-modal-tags">
-                    {selectedGame.tags.filter(t => t !== 'adults').map(tag => (
-                      <span key={tag} className="rom-tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
+                    {(selectedGame.tags || []).filter(t => t !== 'adults').length > 0 && (
+                      <div className="rom-modal-tags">
+                        {selectedGame.tags.filter(t => t !== 'adults').map(tag => (
+                          <span key={tag} className="rom-tag">{tag}</span>
+                        ))}
+                      </div>
+                    )}
 
-                {!isAdultGame(selectedGame) && selectedGame.screenshots?.length > 0 && (
-                  <div className="rom-modal-screenshots">
-                    <h4>Screenshots</h4>
-                    <div className="screenshot-grid">
-                      {selectedGame.screenshots.map((url, i) => (
-                        <img
-                          key={i}
-                          src={url}
-                          alt={`Screenshot ${i + 1}`}
-                          loading="lazy"
-                          className="screenshot-full"
-                        />
-                      ))}
-                    </div>
-                  </div>
+                    {!(selectedGame.tags || []).includes('adults') && (selectedGame.screenshots || []).length > 0 && (
+                      <div className="rom-modal-screenshots">
+                        <h4>Screenshots</h4>
+                        <div className="screenshot-grid">
+                          {selectedGame.screenshots.map((url, i) => (
+                            <img
+                              key={i}
+                              src={url}
+                              alt={`Screenshot ${i + 1}`}
+                              loading="lazy"
+                              className="screenshot-full"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
 
                 <p className="rom-modal-filename">{selectedGame.filename}</p>

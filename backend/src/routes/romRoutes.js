@@ -6,6 +6,9 @@ const router = express.Router();
 // List unique consoles
 router.get('/consoles', romController.getConsoles);
 
+// List all distinct tags (for autocomplete)
+router.get('/tags', romController.getTags);
+
 // Trigger filesystem scan
 router.post('/scan', romController.scanRoms);
 

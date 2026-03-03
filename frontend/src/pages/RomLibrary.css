@@ -304,6 +304,21 @@
   text-align: center;
 }
 
+/* Game grid loading state (during page/filter transitions) */
+.rom-grid--loading {
+  opacity: 0.4;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+/* Modal loading state */
+.rom-modal-loading {
+  color: var(--text-tertiary);
+  font-style: italic;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
 /* Game grid */
 .rom-grid {
   display: grid;

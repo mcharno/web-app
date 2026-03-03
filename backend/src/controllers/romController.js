@@ -24,29 +24,34 @@ const ROM_EXTENSIONS = new Set([
 
 export const listGames = async (req, res) => {
   try {
-    const { console: consoleName, search, tags, no_art, exclude_console } = req.query;
+    const { console: consoleName, search, tags, no_art, exclude_console, page = 1, limit = 60 } = req.query;
 
-    let query = 'SELECT * FROM rom_games WHERE available = true AND hidden = false';
-    if (no_art === 'true') query += ' AND box_art_url IS NULL';
+    const pageNum = Math.max(1, parseInt(page) || 1);
+    const limitNum = Math.min(200, Math.max(1, parseInt(limit) || 60));
+    const offset = (pageNum - 1) * limitNum;
+
+    const conditions = ['available = true', 'hidden = false'];
     const params = [];
     let paramIndex = 1;
+
+    if (no_art === 'true') conditions.push('box_art_url IS NULL');
 
     if (exclude_console) {
       const excludeList = Array.isArray(exclude_console) ? exclude_console : [exclude_console];
       const placeholders = excludeList.map((_, i) => `$${paramIndex + i}`).join(', ');
-      query += ` AND console NOT IN (${placeholders})`;
+      conditions.push(`console NOT IN (${placeholders})`);
       params.push(...excludeList);
       paramIndex += excludeList.length;
     }
 
     if (consoleName) {
-      query += ` AND console = $${paramIndex}`;
+      conditions.push(`console = $${paramIndex}`);
       params.push(consoleName);
       paramIndex++;
     }
 
     if (search) {
-      query += ` AND title ILIKE $${paramIndex}`;
+      conditions.push(`title ILIKE $${paramIndex}`);
       params.push(`%${search}%`);
       paramIndex++;
     }
@@ -54,18 +59,49 @@ export const listGames = async (req, res) => {
     if (tags) {
       const tagList = Array.isArray(tags) ? tags : [tags];
       for (const tag of tagList) {
-        query += ` AND tags @> $${paramIndex}::jsonb`;
+        conditions.push(`tags @> $${paramIndex}::jsonb`);
         params.push(JSON.stringify([tag]));
         paramIndex++;
       }
     }
 
-    query += ' ORDER BY console ASC, display_order ASC, title ASC';
+    const where = 'WHERE ' + conditions.join(' AND ');
 
-    const result = await pool.query(query, params);
-    res.json(result.rows);
+    const countResult = await pool.query(`SELECT COUNT(*) FROM rom_games ${where}`, params);
+    const total = parseInt(countResult.rows[0].count);
+
+    const dataResult = await pool.query(
+      `SELECT id, filename, console, title, year, box_art_url, tags
+       FROM rom_games ${where}
+       ORDER BY console ASC, display_order ASC, title ASC
+       LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
+      [...params, limitNum, offset]
+    );
+
+    res.json({
+      games: dataResult.rows,
+      total,
+      page: pageNum,
+      limit: limitNum,
+      pages: Math.ceil(total / limitNum),
+    });
   } catch (error) {
     console.error('Error listing ROM games:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const getTags = async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT DISTINCT jsonb_array_elements_text(tags) AS tag
+      FROM rom_games
+      WHERE available = true AND hidden = false
+      ORDER BY tag ASC
+    `);
+    res.json(result.rows.map(r => r.tag).filter(t => t !== 'adults'));
+  } catch (error) {
+    console.error('Error fetching tags:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

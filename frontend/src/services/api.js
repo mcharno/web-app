@@ -54,6 +54,7 @@ export const blogAPI = USE_MOCK_API ? mockApi.blog : {
 export const romsAPI = USE_MOCK_API ? mockApi.roms : {
   getAll: (params = {}) => api.get('/roms', { params }),
   getConsoles: () => api.get('/roms/consoles'),
+  getTags: () => api.get('/roms/tags'),
   getById: (id) => api.get(`/roms/${id}`),
   update: (id, data) => api.put(`/roms/${id}`, data),
   scan: () => api.post('/roms/scan'),
