@@ -242,11 +242,11 @@ const RomLibrary = () => {
             )}
           </div>
 
-          <div className="rom-grid">
+          <div className="rom-grid" data-console={selectedConsole}>
             {paginatedGames.map(game => {
               const visibleTags = (game.tags || []).filter(t => t !== 'adults');
               return (
-                <div key={game.id} className="rom-card" onClick={() => setSelectedGame(game)}>
+                <div key={game.id} className="rom-card" data-console={game.console} onClick={() => setSelectedGame(game)}>
                   <div className="rom-card-art">
                     <img
                       src={game.box_art_url || PLACEHOLDER_BOX_ART}

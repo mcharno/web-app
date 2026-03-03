@@ -310,6 +310,18 @@
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 1.5rem;
   margin-bottom: 3rem;
+  align-items: start;
+}
+
+/* Landscape consoles: wider columns */
+.rom-grid[data-console="n64"],
+.rom-grid[data-console="snes"] {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* Square console: slightly narrower columns */
+.rom-grid[data-console="psx"] {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
 
 .rom-card {
@@ -351,12 +363,26 @@
   aspect-ratio: 3/4;
   overflow: hidden;
   background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Landscape consoles */
+[data-console="n64"] .rom-card-art,
+[data-console="snes"] .rom-card-art {
+  aspect-ratio: 4/3;
+}
+
+/* Square console */
+[data-console="psx"] .rom-card-art {
+  aspect-ratio: 1/1;
 }
 
 .rom-card-art img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   transition: transform 0.3s ease;
 }
@@ -596,7 +622,10 @@
     width: 100%;
   }
 
-  .rom-grid {
+  .rom-grid,
+  .rom-grid[data-console="n64"],
+  .rom-grid[data-console="snes"],
+  .rom-grid[data-console="psx"] {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 1rem;
   }
