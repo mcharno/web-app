@@ -319,9 +319,9 @@
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
-/* Square console: slightly narrower columns */
+/* Square console: wider min so count matches portrait consoles */
 .rom-grid[data-console="psx"] {
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
 .rom-card {
