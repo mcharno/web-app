@@ -26,7 +26,7 @@ export const listGames = async (req, res) => {
   try {
     const { console: consoleName, search, tags, no_art, exclude_console } = req.query;
 
-    let query = 'SELECT * FROM rom_games WHERE available = true';
+    let query = 'SELECT * FROM rom_games WHERE available = true AND hidden = false';
     if (no_art === 'true') query += ' AND box_art_url IS NULL';
     const params = [];
     let paramIndex = 1;
@@ -73,7 +73,7 @@ export const listGames = async (req, res) => {
 export const getConsoles = async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT DISTINCT console FROM rom_games WHERE available = true ORDER BY console ASC'
+      'SELECT DISTINCT console FROM rom_games WHERE available = true AND hidden = false ORDER BY console ASC'
     );
     res.json(result.rows.map(r => r.console));
   } catch (error) {
@@ -481,6 +481,31 @@ export const igdbScrapeGame = async (req, res) => {
   } catch (error) {
     console.error('Error IGDB-scraping game:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const setHidden = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { hidden } = req.body;
+
+    if (typeof hidden !== 'boolean') {
+      return res.status(400).json({ error: '"hidden" must be a boolean' });
+    }
+
+    const result = await pool.query(
+      'UPDATE rom_games SET hidden = $1 WHERE id = $2 RETURNING id, filename, console, title, hidden',
+      [hidden, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Game not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error setting hidden flag:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
 };
 

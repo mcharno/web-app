@@ -103,15 +103,20 @@ CREATE TABLE IF NOT EXISTS rom_games (
   screenshots JSONB DEFAULT '[]',
   tags JSONB DEFAULT '[]',
   available BOOLEAN DEFAULT true,
+  hidden BOOLEAN DEFAULT false,
   display_order INTEGER DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(filename, console)
 );
 
+-- Migration: add hidden column if upgrading from older schema
+ALTER TABLE rom_games ADD COLUMN IF NOT EXISTS hidden BOOLEAN DEFAULT false;
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_rom_games_console ON rom_games(console);
 CREATE INDEX IF NOT EXISTS idx_rom_games_available ON rom_games(available);
+CREATE INDEX IF NOT EXISTS idx_rom_games_hidden ON rom_games(hidden);
 CREATE INDEX IF NOT EXISTS idx_rom_games_title ON rom_games(title);
 
 CREATE INDEX idx_content_language ON content(language);
