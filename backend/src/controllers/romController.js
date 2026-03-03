@@ -141,7 +141,7 @@ async function downloadImage(url, basename) {
   if (!url) return null;
   try {
     const response = await fetch(url, {
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(45000),
       headers: { 'User-Agent': 'charno-rom-scraper/1.0' },
     });
     if (!response.ok) {
@@ -248,7 +248,7 @@ export const autoScrapeGame = async (req, res) => {
 
     const ssResponse = await fetch(
       `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
-      { signal: AbortSignal.timeout(15000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+      { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
     );
 
     if (!ssResponse.ok) {
@@ -370,7 +370,7 @@ export const igdbScrapeGame = async (req, res) => {
     if (!access_token) {
       const tokenRes = await fetch(
         `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdb_client_id)}&client_secret=${encodeURIComponent(igdb_client_secret)}&grant_type=client_credentials`,
-        { method: 'POST', signal: AbortSignal.timeout(10000) }
+        { method: 'POST', signal: AbortSignal.timeout(30000) }
       );
       if (!tokenRes.ok) {
         return res.json({ id: game.id, igdb_found: false, reason: `Twitch auth failed: HTTP ${tokenRes.status}` });
@@ -399,7 +399,7 @@ export const igdbScrapeGame = async (req, res) => {
         method: 'POST',
         headers: igdbHeaders,
         body,
-        signal: AbortSignal.timeout(10000),
+        signal: AbortSignal.timeout(30000),
       });
       if (!res.ok) throw new Error(`IGDB HTTP ${res.status}`);
       return res.json();
