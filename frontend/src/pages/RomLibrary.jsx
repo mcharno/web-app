@@ -39,8 +39,8 @@ const RomLibrary = () => {
   useEffect(() => {
     Promise.all([romsAPI.getConsoles(), romsAPI.getTags()])
       .then(([consolesRes, tagsRes]) => {
-        setConsoles(consolesRes.data);
-        setAllTags(tagsRes.data);
+        setConsoles(Array.isArray(consolesRes.data) ? consolesRes.data : []);
+        setAllTags(Array.isArray(tagsRes.data) ? tagsRes.data : []);
       })
       .catch(err => console.error('Error fetching ROM metadata:', err));
   }, []);
@@ -71,9 +71,9 @@ const RomLibrary = () => {
         const res = await romsAPI.getAll(params);
         if (cancelled) return;
 
-        setGames(res.data.games);
-        setTotal(res.data.total);
-        setPages(res.data.pages);
+        setGames(Array.isArray(res.data.games) ? res.data.games : []);
+        setTotal(res.data.total || 0);
+        setPages(res.data.pages || 1);
 
         // Save unfiltered total for the header ("N games in the archive")
         if (!archiveTotalSet.current && selectedConsole === 'all' && !debouncedSearch && selectedTags.length === 0) {
@@ -105,9 +105,10 @@ const RomLibrary = () => {
   // Tag suggestions: filter allTags client-side (instant, no round-trip needed)
   const tagSuggestions = useMemo(() => {
     if (!searchTerm.trim()) return [];
+    if (!Array.isArray(allTags)) return [];
     const lower = searchTerm.toLowerCase();
     return allTags.filter(tag =>
-      tag.toLowerCase().includes(lower) && !selectedTags.includes(tag)
+      typeof tag === 'string' && tag.toLowerCase().includes(lower) && !selectedTags.includes(tag)
     );
   }, [searchTerm, allTags, selectedTags]);
 
