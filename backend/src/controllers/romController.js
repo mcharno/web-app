@@ -524,28 +524,36 @@ export const igdbScrapeGame = async (req, res) => {
   }
 };
 
-export const setHidden = async (req, res) => {
+const PATCH_ALLOWED = new Set(['title', 'description', 'year', 'box_art_url', 'screenshots', 'tags', 'display_order', 'hidden']);
+const JSONB_FIELDS = new Set(['screenshots', 'tags']);
+
+export const patchGame = async (req, res) => {
   const { id } = req.params;
   if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
+
+  const fields = Object.keys(req.body).filter(k => PATCH_ALLOWED.has(k));
+  if (fields.length === 0)
+    return res.status(400).json({ error: 'No valid fields to update' });
+
   try {
-    const { hidden } = req.body;
-
-    if (typeof hidden !== 'boolean') {
-      return res.status(400).json({ error: '"hidden" must be a boolean' });
-    }
-
-    const result = await pool.query(
-      'UPDATE rom_games SET hidden = $1 WHERE id = $2 RETURNING id, filename, console, title, hidden',
-      [hidden, id]
+    const sets = fields.map((f, i) =>
+      JSONB_FIELDS.has(f) ? `${f} = $${i + 1}::jsonb` : `${f} = $${i + 1}`
+    );
+    const values = fields.map(f =>
+      JSONB_FIELDS.has(f) ? JSON.stringify(req.body[f]) : req.body[f]
     );
 
-    if (result.rows.length === 0) {
+    const result = await pool.query(
+      `UPDATE rom_games SET ${sets.join(', ')} WHERE id = $${fields.length + 1} RETURNING *`,
+      [...values, id]
+    );
+
+    if (result.rows.length === 0)
       return res.status(404).json({ error: 'Game not found' });
-    }
 
     res.json(result.rows[0]);
   } catch (error) {
-    console.error('Error setting hidden flag:', error);
+    console.error('Error patching ROM game:', error);
     res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
 };

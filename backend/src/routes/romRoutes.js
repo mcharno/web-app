@@ -30,7 +30,7 @@ router.post('/:id/auto-scrape', romController.autoScrapeGame);
 // Auto-scrape via IGDB (Twitch OAuth, instant access)
 router.post('/:id/auto-scrape-igdb', romController.igdbScrapeGame);
 
-// Set hidden flag (hide/show a game from the library)
-router.patch('/:id/hidden', romController.setHidden);
+// Partial update (any combination of: title, description, year, box_art_url, screenshots, tags, display_order, hidden)
+router.patch('/:id', romController.patchGame);
 
 export default router;
