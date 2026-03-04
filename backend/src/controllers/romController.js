@@ -632,31 +632,27 @@ export const scanRoms = async (req, res) => {
       // (for consoles like Amiga where each game lives in its own folder)
       const romEntries = []; // { filename, title }
 
-      const directFiles = allEntries
-        .filter(entry => entry.isFile())
-        .map(entry => entry.name)
-        .filter(name => ROM_EXTENSIONS.has(path.extname(name).toLowerCase()));
-
-      if (directFiles.length > 0) {
-        // Normal flat layout: files directly in the console dir
-        for (const filename of directFiles) {
+      // Flat files directly in the console dir
+      for (const entry of allEntries) {
+        if (entry.isFile() && ROM_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
           romEntries.push({
-            filename,
-            title: path.basename(filename, path.extname(filename))
+            filename: entry.name,
+            title: path.basename(entry.name, path.extname(entry.name)),
           });
         }
-      } else {
-        // Check for subdirectory-per-game layout (e.g., Amiga)
-        const subDirs = allEntries.filter(entry => entry.isDirectory()).map(entry => entry.name);
-        for (const subDir of subDirs) {
-          const subPath = path.join(consoleDir, subDir);
-          const subEntries = fs.readdirSync(subPath, { withFileTypes: true });
-          const hasRomFile = subEntries.some(
-            e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase())
-          );
-          if (hasRomFile) {
-            romEntries.push({ filename: subDir, title: subDir });
-          }
+      }
+
+      // Subdirectory-per-game layout (e.g., PSX multi-file, Amiga).
+      // Handled alongside flat files so mixed console dirs work correctly.
+      for (const entry of allEntries) {
+        if (!entry.isDirectory()) continue;
+        const subPath = path.join(consoleDir, entry.name);
+        const subEntries = fs.readdirSync(subPath, { withFileTypes: true });
+        const hasRomFile = subEntries.some(
+          e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase())
+        );
+        if (hasRomFile) {
+          romEntries.push({ filename: entry.name, title: entry.name });
         }
       }
 
