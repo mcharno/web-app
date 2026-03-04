@@ -36,14 +36,6 @@ spec:
                 --header="Authorization: Bearer ${API_KEY}" \
                 "${BASE_URL}/api/roms/scan"
               echo ""
-
-              echo "=== Scraping unscraped games via IGDB ==="
-              wget -qO- \
-                --post-data='{}' \
-                --header='Content-Type: application/json' \
-                --header="Authorization: Bearer ${API_KEY}" \
-                "${BASE_URL}/api/roms/scrape-unscraped?limit=100"
-              echo ""
             env:
             - name: API_KEY
               valueFrom:
