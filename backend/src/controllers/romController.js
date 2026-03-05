@@ -18,7 +18,7 @@ const ROM_EXTENSIONS = new Set([
   '.md', '.gen', '.smd',                             // Genesis/Mega Drive
   '.xbe',                                            // Xbox
   '.xiso',                                           // Xbox ISO
-  '.zip',                                            // Arcade (MAME), Neo Geo
+  '.zip', '.7z',                                     // Arcade (MAME), Neo Geo; compressed ROMs
   '.pce',                                            // TurboGrafx-16 / PC Engine
   '.dsk', '.adf', '.adz', '.ipf',                   // Amiga disk images
   '.lha', '.lzx',                                   // Amiga archives
