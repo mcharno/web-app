@@ -24,6 +24,11 @@ const ROM_EXTENSIONS = new Set([
   '.lha', '.lzx',                                   // Amiga archives
 ]);
 
+// Consoles where every subdirectory is a valid game, regardless of file contents.
+// Used for ScummVM/engine-data collections (e.g. Amiga) where game files have
+// non-standard extensions (.CLU, .LFL, .pak, etc.).
+const SCANDIR_CONSOLES = new Set(['amiga']);
+
 export const listGames = async (req, res) => {
   try {
     const { console: consoleName, search, tags, no_art, exclude_console, page = 1, limit = 60 } = req.query;
@@ -681,9 +686,8 @@ export const scanRoms = async (req, res) => {
         if (!entry.isDirectory()) continue;
         const subPath = path.join(consoleDir, entry.name);
         const subEntries = fs.readdirSync(subPath, { withFileTypes: true });
-        const hasRomFile = subEntries.some(
-          e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase())
-        );
+        const hasRomFile = SCANDIR_CONSOLES.has(consoleName)
+          || subEntries.some(e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase()));
         if (hasRomFile) {
           romEntries.push({ filename: entry.name, title: entry.name });
         }
