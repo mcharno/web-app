@@ -257,6 +257,38 @@ const SS_SYSTEM_IDS = {
   neogeo: 142, nes: 3, psx: 57, snes: 4, turbografx: 31, xbox: 32,
 };
 
+// Default ROM extension per console — used when a game is stored as a directory
+// (no extension on filename). ScreenScraper requires an extension in romnom.
+const SS_DEFAULT_EXT = {
+  psx: '.bin', snes: '.sfc', nes: '.nes', n64: '.z64',
+  genesis: '.md', neogeo: '.zip', turbografx: '.pce',
+  amiga: '.lha', arcade: '.zip', xbox: '.iso',
+};
+
+// For directory-based games, find the primary ROM file inside and return its name.
+// Falls back to appending the console's default extension.
+function resolveRomFilename(game) {
+  const hasExt = path.extname(game.filename) !== '';
+  if (hasExt) return game.filename;
+
+  // Try to find the actual ROM file inside the directory
+  if (ROMS_DIR) {
+    try {
+      const dirPath = path.join(ROMS_DIR, game.console, game.filename);
+      const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+      const romFile = entries.find(
+        e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase())
+      );
+      if (romFile) return romFile.name;
+    } catch {
+      // Directory unreadable — fall through to default extension
+    }
+  }
+
+  const defaultExt = SS_DEFAULT_EXT[game.console] || '.bin';
+  return game.filename + defaultExt;
+}
+
 // Calls ScreenScraper from the backend (which has internet access) and saves everything
 export const autoScrapeGame = async (req, res) => {
   const { id } = req.params;
@@ -277,13 +309,14 @@ export const autoScrapeGame = async (req, res) => {
     }
     const game = gameResult.rows[0];
 
+    const romFilename = resolveRomFilename(game);
     const systemId = SS_SYSTEM_IDS[game.console] ?? 0;
     const params = new URLSearchParams({
       devid: ss_devid, devpassword: ss_devpassword,
       softname: 'charno-rom-scraper',
       ssid: ss_user, sspassword: ss_password,
       crc: '', systemeid: systemId,
-      romtype: 'rom', romnom: game.filename, output: 'json',
+      romtype: 'rom', romnom: romFilename, output: 'json',
     });
 
     const ssResponse = await fetch(
