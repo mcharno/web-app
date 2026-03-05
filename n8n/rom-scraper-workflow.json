@@ -3,7 +3,7 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## ROM Metadata Scraper\n\n**Setup (fill in Config node):**\n1. `rom_api_base` — internal backend URL (already set)\n2. `rom_api_key` — your API key from charno-secrets\n3. `ss_user` / `ss_password` — register free at screenscraper.fr\n\n**How it works:**\n- Fetches all games without box art\n- For each game, calls the backend `/auto-scrape` endpoint\n- The backend (which has internet access) calls ScreenScraper,\n  downloads images, and saves everything\n- 2 second delay between games to respect rate limits\n\n**ScreenScraper free tier:** ~10,000 requests/day\n~6,700 games ≈ 2 hours to complete",
+        "content": "## ROM Metadata Scraper\n\n**Setup (fill in Config node):**\n1. `rom_api_base` — internal backend URL (already set)\n2. `rom_api_key` — your API key from charno-secrets\n3. `ss_user` / `ss_password` — register free at screenscraper.fr\n\n**How it works:**\n- Fetches up to 200 games without box art per run\n- For each game, calls the backend `/auto-scrape` endpoint\n- The backend (which has internet access) calls ScreenScraper,\n  downloads images, and saves everything\n- 2 second delay between games to respect rate limits\n\n**ScreenScraper free tier:** ~10,000 requests/day\n~6,700 games ≈ 2 hours to complete",
         "height": 300,
         "width": 380,
         "color": 7
@@ -76,7 +76,7 @@
     {
       "parameters": {
         "method": "GET",
-        "url": "={{ $('Config').first().json.rom_api_base }}/roms?no_art=true",
+        "url": "={{ $('Config').first().json.rom_api_base }}/roms?no_art=true&limit=200",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -96,6 +96,16 @@
     },
     {
       "parameters": {
+        "jsCode": "// API now returns paginated shape: { games: [...], total, page, limit, pages }\n// Extract the games array and return each game as a separate item for the loop.\nconst games = $input.first().json.games || [];\nif (games.length === 0) {\n  console.log('No unscraped games found.');\n  return [];\n}\nconsole.log(`Found ${games.length} games without box art.`);\nreturn games.map(game => ({ json: game }));"
+      },
+      "id": "node-extract",
+      "name": "Extract Games",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 100]
+    },
+    {
+      "parameters": {
         "batchSize": 1,
         "options": {}
       },
@@ -103,7 +113,7 @@
       "name": "Loop Over Games",
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
-      "position": [660, 100]
+      "position": [880, 100]
     },
     {
       "parameters": {
@@ -155,6 +165,9 @@
       "main": [[{ "node": "Get All Games", "type": "main", "index": 0 }]]
     },
     "Get All Games": {
+      "main": [[{ "node": "Extract Games", "type": "main", "index": 0 }]]
+    },
+    "Extract Games": {
       "main": [[{ "node": "Loop Over Games", "type": "main", "index": 0 }]]
     },
     "Loop Over Games": {
@@ -174,7 +187,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "2",
+  "versionId": "3",
   "meta": {
     "instanceId": ""
   },
