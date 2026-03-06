@@ -81,7 +81,7 @@ export const listGames = async (req, res) => {
     // first, then oldest-attempted, so the queue cycles through all consoles evenly.
     const orderBy = no_art === 'true'
       ? 'scrape_attempted_at ASC NULLS FIRST, console ASC, title ASC'
-      : 'console ASC, display_order ASC, title ASC';
+      : 'display_order ASC, title ASC';
 
     const dataResult = await pool.query(
       `SELECT id, filename, console, title, year, box_art_url, tags
