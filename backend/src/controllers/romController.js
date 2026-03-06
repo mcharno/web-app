@@ -268,6 +268,13 @@ const SS_SYSTEM_IDS = {
   neogeo: 142, nes: 3, psx: 57, snes: 4, turbografx: 31, xbox: 32,
 };
 
+// Some consoles store mixed software: e.g. "amiga" contains both native Amiga
+// WHDLoad titles and ScummVM/DOS games. When the primary system returns 404,
+// try these fallback (systemeid, extension) pairs in order.
+const SS_FALLBACK_SYSTEMS = {
+  amiga: [{ systemeid: 135, ext: '.zip' }],  // PC/DOS for ScummVM titles
+};
+
 // Default ROM extension per console — used when a game is stored as a directory
 // (no extension on filename). ScreenScraper requires an extension in romnom.
 const SS_DEFAULT_EXT = {
@@ -320,44 +327,51 @@ export const autoScrapeGame = async (req, res) => {
     }
     const game = gameResult.rows[0];
 
-    const romFilename = resolveRomFilename(game);
-    const systemId = SS_SYSTEM_IDS[game.console] ?? 0;
-    const params = new URLSearchParams({
-      devid: ss_devid, devpassword: ss_devpassword,
-      softname: 'charno-rom-scraper',
-      ssid: ss_user, sspassword: ss_password,
-      crc: '', systemeid: systemId,
-      romtype: 'rom', romnom: romFilename, output: 'json',
-    });
-
-    const ssResponse = await fetch(
-      `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
-      { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
-    );
-
     // Always record the attempt time so the scrape queue deprioritises recently-tried games
     const markAttempted = () =>
       pool.query('UPDATE rom_games SET scrape_attempted_at = NOW() WHERE id = $1', [id]).catch(() => {});
 
-    if (!ssResponse.ok) {
-      await markAttempted();
-      return res.json({ id: game.id, ss_found: false, reason: `ScreenScraper HTTP ${ssResponse.status}` });
+    // Helper: call ScreenScraper jeuInfos for a given systemeid + romnom.
+    // Returns the parsed jeu object or null (on 404 / no match / parse error).
+    const fetchSSJeu = async (systemeid, romnom) => {
+      const params = new URLSearchParams({
+        devid: ss_devid, devpassword: ss_devpassword,
+        softname: 'charno-rom-scraper',
+        ssid: ss_user, sspassword: ss_password,
+        crc: '', systemeid,
+        romtype: 'rom', romnom, output: 'json',
+      });
+      const resp = await fetch(
+        `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
+        { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+      );
+      if (!resp.ok) return null;
+      try {
+        const data = JSON.parse(await resp.text());
+        return data?.response?.jeu ?? null;
+      } catch {
+        return null;
+      }
+    };
+
+    const primaryFilename = resolveRomFilename(game);
+    const primarySystemId = SS_SYSTEM_IDS[game.console] ?? 0;
+
+    let jeu = await fetchSSJeu(primarySystemId, primaryFilename);
+
+    // If primary system didn't find it, try fallback systems (e.g. PC/DOS for ScummVM games in amiga dir)
+    if (!jeu) {
+      const fallbacks = SS_FALLBACK_SYSTEMS[game.console] ?? [];
+      for (const { systemeid, ext } of fallbacks) {
+        const fallbackFilename = path.basename(game.filename, path.extname(game.filename)) + ext;
+        jeu = await fetchSSJeu(systemeid, fallbackFilename);
+        if (jeu) break;
+      }
     }
 
-    const ssText = await ssResponse.text();
-    let ssData;
-    try {
-      ssData = JSON.parse(ssText);
-    } catch {
-      console.warn(`ScreenScraper non-JSON response for id=${id}: ${ssText.slice(0, 200)}`);
-      await markAttempted();
-      return res.json({ id: game.id, ss_found: false, reason: 'ScreenScraper returned non-JSON response' });
-    }
-    const jeu = ssData?.response?.jeu;
     if (!jeu) {
-      const errMsg = ssData?.header?.error || 'No game data returned';
       await markAttempted();
-      return res.json({ id: game.id, ss_found: false, reason: errMsg });
+      return res.json({ id: game.id, ss_found: false, reason: 'Not found on ScreenScraper' });
     }
 
     // Extract metadata
