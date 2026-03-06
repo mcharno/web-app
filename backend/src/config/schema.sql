@@ -113,6 +113,10 @@ CREATE TABLE IF NOT EXISTS rom_games (
 -- Migration: add hidden column if upgrading from older schema
 ALTER TABLE rom_games ADD COLUMN IF NOT EXISTS hidden BOOLEAN DEFAULT false;
 
+-- Migration: track when ScreenScraper was last attempted (even on 404)
+-- so the scrape queue always prioritises never-attempted games first.
+ALTER TABLE rom_games ADD COLUMN IF NOT EXISTS scrape_attempted_at TIMESTAMP WITH TIME ZONE;
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_rom_games_console ON rom_games(console);
 CREATE INDEX IF NOT EXISTS idx_rom_games_available ON rom_games(available);

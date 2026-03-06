@@ -77,10 +77,16 @@ export const listGames = async (req, res) => {
     const countResult = await pool.query(`SELECT COUNT(*) FROM rom_games ${where}`, params);
     const total = parseInt(countResult.rows[0].count);
 
+    // When fetching the scrape queue (no_art=true), prioritise never-attempted games
+    // first, then oldest-attempted, so the queue cycles through all consoles evenly.
+    const orderBy = no_art === 'true'
+      ? 'scrape_attempted_at ASC NULLS FIRST, console ASC, title ASC'
+      : 'console ASC, display_order ASC, title ASC';
+
     const dataResult = await pool.query(
       `SELECT id, filename, console, title, year, box_art_url, tags
        FROM rom_games ${where}
-       ORDER BY console ASC, display_order ASC, title ASC
+       ORDER BY ${orderBy}
        LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
       [...params, limitNum, offset]
     );
@@ -329,7 +335,12 @@ export const autoScrapeGame = async (req, res) => {
       { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
     );
 
+    // Always record the attempt time so the scrape queue deprioritises recently-tried games
+    const markAttempted = () =>
+      pool.query('UPDATE rom_games SET scrape_attempted_at = NOW() WHERE id = $1', [id]).catch(() => {});
+
     if (!ssResponse.ok) {
+      await markAttempted();
       return res.json({ id: game.id, ss_found: false, reason: `ScreenScraper HTTP ${ssResponse.status}` });
     }
 
@@ -339,11 +350,13 @@ export const autoScrapeGame = async (req, res) => {
       ssData = JSON.parse(ssText);
     } catch {
       console.warn(`ScreenScraper non-JSON response for id=${id}: ${ssText.slice(0, 200)}`);
+      await markAttempted();
       return res.json({ id: game.id, ss_found: false, reason: 'ScreenScraper returned non-JSON response' });
     }
     const jeu = ssData?.response?.jeu;
     if (!jeu) {
       const errMsg = ssData?.header?.error || 'No game data returned';
+      await markAttempted();
       return res.json({ id: game.id, ss_found: false, reason: errMsg });
     }
 
