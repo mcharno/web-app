@@ -354,6 +354,28 @@ export const autoScrapeGame = async (req, res) => {
       }
     };
 
+    // Helper: ScreenScraper title search — returns first matching jeu or null.
+    // Used when exact filename lookup fails (e.g. simplified directory names).
+    const searchSSJeu = async (title, systemeid) => {
+      const params = new URLSearchParams({
+        devid: ss_devid, devpassword: ss_devpassword,
+        softname: 'charno-rom-scraper',
+        ssid: ss_user, sspassword: ss_password,
+        systemeid, recherche: title, output: 'json',
+      });
+      const resp = await fetch(
+        `https://www.screenscraper.fr/api2/jeuRecherche.php?${params}`,
+        { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+      );
+      if (!resp.ok) return null;
+      try {
+        const data = JSON.parse(await resp.text());
+        return data?.response?.jeux?.[0] ?? null;
+      } catch {
+        return null;
+      }
+    };
+
     const primaryFilename = resolveRomFilename(game);
     const primarySystemId = SS_SYSTEM_IDS[game.console] ?? 0;
 
@@ -365,6 +387,16 @@ export const autoScrapeGame = async (req, res) => {
       for (const { systemeid, ext } of fallbacks) {
         const fallbackFilename = path.basename(game.filename, path.extname(game.filename)) + ext;
         jeu = await fetchSSJeu(systemeid, fallbackFilename);
+        if (jeu) break;
+      }
+    }
+
+    // Last resort: title search across each system in the fallback chain
+    if (!jeu) {
+      const cleanTitle = path.basename(game.filename, path.extname(game.filename));
+      const searchSystems = [primarySystemId, ...(SS_FALLBACK_SYSTEMS[game.console] ?? []).map(f => f.systemeid)];
+      for (const systemeid of searchSystems) {
+        jeu = await searchSSJeu(cleanTitle, systemeid);
         if (jeu) break;
       }
     }
