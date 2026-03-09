@@ -16,6 +16,20 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  // Serialize arrays as repeated params (tags=A&tags=B) so Express
+  // parses them as an array via qs. Bracket notation (tags[0]=A)
+  // is not handled correctly by the backend.
+  paramsSerializer: (params) => {
+    const sp = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      if (Array.isArray(value)) {
+        value.forEach(v => sp.append(key, v));
+      } else if (value !== undefined && value !== null) {
+        sp.append(key, value);
+      }
+    }
+    return sp.toString();
+  },
 });
 
 // Content API

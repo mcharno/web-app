@@ -280,7 +280,7 @@ const RomLibrary = () => {
 
           <div className={`rom-grid${loading ? ' rom-grid--loading' : ''}`} data-console={selectedConsole}>
             {games.map(game => {
-              const visibleTags = (game.tags || []).filter(t => t !== 'adults');
+              const visibleTags = (game.tags || []).filter(t => t.toLowerCase() !== 'adults');
               return (
                 <div key={game.id} className="rom-card" data-console={game.console} onClick={() => openModal(game)}>
                   <div className="rom-card-art">
@@ -369,15 +369,15 @@ const RomLibrary = () => {
                       <p className="rom-modal-description">{selectedGame.description}</p>
                     )}
 
-                    {(selectedGame.tags || []).filter(t => t !== 'adults').length > 0 && (
+                    {(selectedGame.tags || []).filter(t => t.toLowerCase() !== 'adults').length > 0 && (
                       <div className="rom-modal-tags">
-                        {selectedGame.tags.filter(t => t !== 'adults').map(tag => (
+                        {selectedGame.tags.filter(t => t.toLowerCase() !== 'adults').map(tag => (
                           <span key={tag} className="rom-tag">{tag}</span>
                         ))}
                       </div>
                     )}
 
-                    {!(selectedGame.tags || []).includes('adults') && (selectedGame.screenshots || []).length > 0 && (
+                    {!(selectedGame.tags || []).some(t => t.toLowerCase() === 'adults') && (selectedGame.screenshots || []).length > 0 && (
                       <div className="rom-modal-screenshots">
                         <h4>Screenshots</h4>
                         <div className="screenshot-grid">

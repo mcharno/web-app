@@ -112,7 +112,7 @@ export const getTags = async (req, res) => {
       WHERE available = true AND hidden = false
       ORDER BY tag ASC
     `);
-    res.json(result.rows.map(r => r.tag).filter(t => t !== 'adults'));
+    res.json(result.rows.map(r => r.tag));
   } catch (error) {
     console.error('Error fetching tags:', error);
     res.status(500).json({ error: 'Internal server error' });
