@@ -1,0 +1,44 @@
+---
+# Allow rom-scanner pods to reach the backend API
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-rom-scanner-to-backend
+spec:
+  podSelector:
+    matchLabels:
+      app: charno-backend
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              component: rom-scanner
+      ports:
+        - port: 3080
+          protocol: TCP
+---
+# Allow rom-scanner pods egress to the backend service and DNS
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-rom-scanner-egress
+spec:
+  podSelector:
+    matchLabels:
+      component: rom-scanner
+  policyTypes:
+    - Egress
+  egress:
+    # Backend API (via service ClusterIP — no podSelector, as k3s network policy
+    # evaluates egress against pod IPs, not service VIPs)
+    - ports:
+        - port: 3080
+          protocol: TCP
+    # DNS resolution
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP

@@ -12,6 +12,7 @@ resources:
   - photos-pvc.yaml
   - roms-pvc.yaml
   - rom-scanner-cronjob.yaml
+  - rom-scanner-netpol.yaml
   - backend-deployment.yaml
   - backend-service.yaml
   # - backend-servicemonitor.yaml  # Disabled: ServiceMonitor CRD not installed

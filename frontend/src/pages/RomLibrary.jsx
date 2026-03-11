@@ -377,7 +377,7 @@ const RomLibrary = () => {
                       </div>
                     )}
 
-                    {!(selectedGame.tags || []).some(t => t.toLowerCase() === 'adults') && (selectedGame.screenshots || []).length > 0 && (
+                    {(selectedGame.screenshots || []).length > 0 && (
                       <div className="rom-modal-screenshots">
                         <h4>Screenshots</h4>
                         <div className="screenshot-grid">

@@ -17,6 +17,9 @@ spec:
       # Retry once on failure before giving up
       backoffLimit: 1
       template:
+        metadata:
+          labels:
+            component: rom-scanner
         spec:
           restartPolicy: OnFailure
           containers:
@@ -28,6 +31,9 @@ spec:
             - |
               set -e
               BASE_URL="http://charno-backend.web.svc.cluster.local:3080"
+
+              # Brief pause for network policy iptables rules to be programmed
+              sleep 5
 
               echo "=== ROM Scan: discovering new files ==="
               wget -qO- \
