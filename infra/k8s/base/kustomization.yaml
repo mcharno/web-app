@@ -20,8 +20,6 @@ resources:
   - frontend-service.yaml
   - ingress-external.yaml
   - ingress-local.yaml
-  - lod-ingress-external.yaml
-  - lod-ingress-local.yaml
   - ghcr-sealed-secret.yaml
 
 commonLabels:
