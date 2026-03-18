@@ -264,7 +264,7 @@ export const scrapeGame = async (req, res) => {
 };
 
 const SS_SYSTEM_IDS = {
-  amiga: 64, arcade: 75, genesis: 1, n64: 14,
+  amiga: 64, arcade: 75, gba: 12, genesis: 1, n64: 14,
   neogeo: 142, nes: 3, psx: 57, snes: 4, turbografx: 31, xbox: 32,
 };
 
@@ -470,7 +470,7 @@ export const autoScrapeGame = async (req, res) => {
 };
 
 const IGDB_PLATFORM_IDS = {
-  amiga: 16, arcade: 52, genesis: 29, n64: 4,
+  amiga: 16, arcade: 52, gba: 24, genesis: 29, n64: 4,
   neogeo: 80, nes: 18, psx: 7, snes: 19, turbografx: 86, xbox: 11,
 };
 
