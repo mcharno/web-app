@@ -764,6 +764,151 @@ export const mergeByTitle = async (req, res) => {
   }
 };
 
+// Split a merged game row back into one row per filename.
+// Useful when merge-by-title (or scan-time deduplication) incorrectly grouped
+// different games together (e.g. IGDB returned the same title for NHL Hockey 91 & 92).
+// Each split row gets its own title_key derived from its filename; metadata is cleared
+// so each can be re-scraped independently.
+export const splitGame = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
+
+  try {
+    const gameResult = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
+    if (gameResult.rows.length === 0) return res.status(404).json({ error: 'Game not found' });
+
+    const game = gameResult.rows[0];
+    const filenames = Array.isArray(game.filenames) ? game.filenames : [];
+
+    if (filenames.length <= 1) {
+      return res.status(400).json({ error: 'Game has only one filename — nothing to split' });
+    }
+
+    const created = [];
+    const skipped = [];
+
+    for (const filename of filenames) {
+      const key = titleKey(filename);
+      try {
+        const result = await pool.query(
+          `INSERT INTO rom_games (console, title_key, filenames, available)
+           VALUES ($1, $2, $3::jsonb, $4)
+           ON CONFLICT (console, title_key) DO NOTHING
+           RETURNING id, console, title_key, filenames`,
+          [game.console, key, JSON.stringify([filename]), game.available]
+        );
+        if (result.rows.length > 0) {
+          created.push(result.rows[0]);
+        } else {
+          skipped.push({ filename, title_key: key, reason: 'title_key already exists' });
+        }
+      } catch (e) {
+        skipped.push({ filename, title_key: key, reason: e.message });
+      }
+    }
+
+    // Only delete the original if all filenames were successfully rehomed
+    if (created.length + skipped.length === filenames.length && created.length > 0) {
+      await pool.query('DELETE FROM rom_games WHERE id = $1', [id]);
+    }
+
+    console.log(`split game ${id} (${game.console}/${game.title_key}): ${created.length} created, ${skipped.length} skipped`);
+    res.json({ original_id: id, created, skipped });
+  } catch (error) {
+    console.error('Error splitting game:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
+  }
+};
+
+// Bulk-split all rows whose filenames were incorrectly merged by merge-by-title.
+// A row is "mismerged" if its filenames produce more than one distinct title_key —
+// meaning the scan would have kept them as separate games, but merge-by-title
+// collapsed them because IGDB set the same display title on both.
+// Rows where all filenames share the same title_key (scan-time merges, e.g. regional
+// variants of the same cartridge game) are left untouched.
+// Optional query param: ?console=genesis  to limit scope.
+export const splitMismerged = async (req, res) => {
+  const { console: consoleName } = req.query;
+
+  try {
+    const conditions = ['array_length(filenames, 1) > 1'];
+    const params = [];
+    if (consoleName) {
+      conditions.push(`console = $1`);
+      params.push(consoleName);
+    }
+
+    const rows = await pool.query(
+      `SELECT * FROM rom_games WHERE ${conditions.join(' AND ')}`,
+      params
+    );
+
+    let splitCount = 0;
+    let skippedCount = 0;
+    const splitDetails = [];
+    const skippedDetails = [];
+
+    for (const game of rows.rows) {
+      const filenames = Array.isArray(game.filenames) ? game.filenames : [];
+
+      // Compute the title_key each filename would produce independently
+      const keyGroups = new Map(); // title_key → filename[]
+      for (const filename of filenames) {
+        const key = titleKey(filename);
+        if (!keyGroups.has(key)) keyGroups.set(key, []);
+        keyGroups.get(key).push(filename);
+      }
+
+      if (keyGroups.size <= 1) {
+        // All filenames map to the same title_key — correct scan-time merge, leave it
+        skippedCount++;
+        skippedDetails.push({ id: game.id, console: game.console, title_key: game.title_key, filenames });
+        continue;
+      }
+
+      // Multiple distinct title_keys — this was a merge-by-title collapse, split it
+      const created = [];
+      const failed = [];
+
+      for (const [key, fnames] of keyGroups) {
+        try {
+          const result = await pool.query(
+            `INSERT INTO rom_games (console, title_key, filenames, available)
+             VALUES ($1, $2, $3::jsonb, $4)
+             ON CONFLICT (console, title_key) DO UPDATE SET
+               filenames = EXCLUDED.filenames,
+               available = EXCLUDED.available
+             RETURNING id, console, title_key, filenames`,
+            [game.console, key, JSON.stringify(fnames), game.available]
+          );
+          created.push(result.rows[0]);
+        } catch (e) {
+          failed.push({ title_key: key, filenames: fnames, error: e.message });
+        }
+      }
+
+      if (failed.length === 0) {
+        await pool.query('DELETE FROM rom_games WHERE id = $1', [game.id]);
+        splitCount++;
+        splitDetails.push({
+          original_id: game.id,
+          original_title_key: game.title_key,
+          console: game.console,
+          split_into: created.map(r => ({ id: r.id, title_key: r.title_key, filenames: r.filenames })),
+        });
+      } else {
+        failed.forEach(f => console.error(`split-mismerged: failed to insert ${game.console}/${f.title_key}: ${f.error}`));
+      }
+    }
+
+    console.log(`split-mismerged: ${splitCount} rows split, ${skippedCount} correct merges left intact`);
+    res.json({ split: splitCount, skipped: skippedCount, split_details: splitDetails, skipped_details: skippedDetails });
+  } catch (error) {
+    console.error('Error in split-mismerged:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
+  }
+};
+
 // Debug endpoint: dry-run both scrapers and return raw API responses without writing to DB.
 export const debugScrapeGame = async (req, res) => {
   const { id } = req.params;

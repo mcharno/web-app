@@ -21,6 +21,11 @@ router.post('/scrape-unscraped', romController.scrapeUnscraped);
 // Optional query param: ?console=arcade
 router.post('/merge-by-title', romController.mergeByTitle);
 
+// Bulk-split all rows incorrectly merged by merge-by-title (filenames with different title_keys).
+// Rows correctly merged at scan time (all filenames share the same title_key) are left intact.
+// Optional query param: ?console=genesis
+router.post('/split-mismerged', romController.splitMismerged);
+
 // List all games (query: console, search, tags)
 router.get('/', romController.listGames);
 
@@ -35,6 +40,9 @@ router.post('/:id/scrape', romController.scrapeGame);
 
 // Auto-scrape: backend calls ScreenScraper directly (has internet access)
 router.post('/:id/auto-scrape', romController.autoScrapeGame);
+
+// Split a merged game row back into one row per filename (clears metadata for re-scraping)
+router.post('/:id/split', romController.splitGame);
 
 // Debug: dry-run both scrapers and return raw API responses without saving to DB
 router.post('/:id/debug-scrape', romController.debugScrapeGame);
