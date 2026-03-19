@@ -831,7 +831,7 @@ export const splitMismerged = async (req, res) => {
   const { console: consoleName } = req.query;
 
   try {
-    const conditions = ['array_length(filenames, 1) > 1'];
+    const conditions = ['jsonb_array_length(filenames) > 1'];
     const params = [];
     if (consoleName) {
       conditions.push(`console = $1`);
