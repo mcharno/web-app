@@ -826,7 +826,12 @@ export const splitGame = async (req, res) => {
 // collapsed them because IGDB set the same display title on both.
 // Rows where all filenames share the same title_key (scan-time merges, e.g. regional
 // variants of the same cartridge game) are left untouched.
-// Optional query param: ?console=genesis  to limit scope.
+//
+// Arcade is EXCLUDED by default because MAME filenames are always opaque short IDs
+// (ARKANOID, ARKNOIDJ, …) that legitimately have different title_keys but belong to
+// the same game. Pass ?console=arcade explicitly if you really want to split arcade.
+//
+// Optional query param: ?console=genesis  to limit scope to one console.
 export const splitMismerged = async (req, res) => {
   const { console: consoleName } = req.query;
 
@@ -836,6 +841,9 @@ export const splitMismerged = async (req, res) => {
     if (consoleName) {
       conditions.push(`console = $1`);
       params.push(consoleName);
+    } else {
+      // Exclude arcade when no console filter is given
+      conditions.push(`console != 'arcade'`);
     }
 
     const rows = await pool.query(
@@ -866,20 +874,31 @@ export const splitMismerged = async (req, res) => {
         continue;
       }
 
-      // Multiple distinct title_keys — this was a merge-by-title collapse, split it
+      // Multiple distinct title_keys — this was a merge-by-title collapse, split it.
+      // Copy scraped metadata onto every split row so merge-by-title can re-group them
+      // later if needed, and so the library doesn't go blank while re-scraping.
       const created = [];
       const failed = [];
 
       for (const [key, fnames] of keyGroups) {
         try {
           const result = await pool.query(
-            `INSERT INTO rom_games (console, title_key, filenames, available)
-             VALUES ($1, $2, $3::jsonb, $4)
+            `INSERT INTO rom_games
+               (console, title_key, filenames, title, description, year,
+                box_art_url, screenshots, tags, available)
+             VALUES ($1, $2, $3::jsonb, $4, $5, $6, $7, $8::jsonb, $9::jsonb, $10)
              ON CONFLICT (console, title_key) DO UPDATE SET
-               filenames = EXCLUDED.filenames,
-               available = EXCLUDED.available
+               filenames    = EXCLUDED.filenames,
+               available    = EXCLUDED.available
              RETURNING id, console, title_key, filenames`,
-            [game.console, key, JSON.stringify(fnames), game.available]
+            [
+              game.console, key, JSON.stringify(fnames),
+              game.title, game.description, game.year,
+              game.box_art_url,
+              JSON.stringify(game.screenshots ?? []),
+              JSON.stringify(game.tags ?? []),
+              game.available,
+            ]
           );
           created.push(result.rows[0]);
         } catch (e) {
