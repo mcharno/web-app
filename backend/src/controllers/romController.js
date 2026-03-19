@@ -29,6 +29,15 @@ const ROM_EXTENSIONS = new Set([
 // non-standard extensions (.CLU, .LFL, .pak, etc.).
 const SCANDIR_CONSOLES = new Set(['amiga']);
 
+// Compute the deduplication key from a raw filename — mirrors the SQL in schema.sql.
+function titleKey(raw) {
+  let key = raw.replace(/\.[^/.]+$/, '');              // strip extension
+  key = key.replace(/\s*\([^)]*\)/g, '');              // remove (xxx)
+  key = key.replace(/\s*\[[^\]]*\]/g, '');             // remove [xxx]
+  key = key.replace(/[_\s]+/g, ' ').trim();            // underscores/spaces → single space
+  return key || raw.replace(/\.[^/.]+$/, '');          // fallback: filename without ext
+}
+
 export const listGames = async (req, res) => {
   try {
     const { console: consoleName, search, tags, no_art, exclude_console, page = 1, limit = 60 } = req.query;
@@ -84,7 +93,7 @@ export const listGames = async (req, res) => {
       : 'display_order ASC, title ASC';
 
     const dataResult = await pool.query(
-      `SELECT id, filename, console, title, year, box_art_url, tags
+      `SELECT id, title_key, filenames, console, title, year, box_art_url, tags
        FROM rom_games ${where}
        ORDER BY ${orderBy}
        LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
@@ -283,16 +292,29 @@ const SS_DEFAULT_EXT = {
   amiga: '.lha', arcade: '.zip', xbox: '.iso',
 };
 
-// For directory-based games, find the primary ROM file inside and return its name.
-// Falls back to appending the console's default extension.
+// Pick the best filename from a game's filenames array for use as the scrape romnom.
+// Prefers World/USA releases; falls back to the first entry.
+// For directory-based entries (no extension), looks inside for the primary ROM file.
 function resolveRomFilename(game) {
-  const hasExt = path.extname(game.filename) !== '';
-  if (hasExt) return game.filename;
+  const filenames = Array.isArray(game.filenames) ? game.filenames : [];
+  if (filenames.length === 0) {
+    const defaultExt = SS_DEFAULT_EXT[game.console] || '.bin';
+    return (game.title_key || 'unknown') + defaultExt;
+  }
 
-  // Try to find the actual ROM file inside the directory
+  const preferred =
+    filenames.find(f => /\(world\)/i.test(f)) ||
+    filenames.find(f => /\(usa\)/i.test(f)) ||
+    filenames.find(f => /\(europe\)/i.test(f)) ||
+    filenames[0];
+
+  const hasExt = path.extname(preferred) !== '';
+  if (hasExt) return preferred;
+
+  // Directory-based game: look inside for the primary ROM file
   if (ROMS_DIR) {
     try {
-      const dirPath = path.join(ROMS_DIR, game.console, game.filename);
+      const dirPath = path.join(ROMS_DIR, game.console, preferred);
       const entries = fs.readdirSync(dirPath, { withFileTypes: true });
       const romFile = entries.find(
         e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase())
@@ -304,7 +326,7 @@ function resolveRomFilename(game) {
   }
 
   const defaultExt = SS_DEFAULT_EXT[game.console] || '.bin';
-  return game.filename + defaultExt;
+  return preferred + defaultExt;
 }
 
 // Calls ScreenScraper from the backend (which has internet access) and saves everything
@@ -485,7 +507,7 @@ function cleanRomTitle(raw) {
 // Shared core: search IGDB, download assets, persist to DB for one game row.
 // Returns { igdb_found: true, ...dbRow } or { igdb_found: false, reason: string }
 async function _igdbScrapeOne(game, clientId, accessToken) {
-  const searchTitle = cleanRomTitle(game.title || game.filename);
+  const searchTitle = cleanRomTitle(game.title || game.title_key || (game.filenames?.[0] ?? ''));
   const platformId = IGDB_PLATFORM_IDS[game.console];
   const fields = 'fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id;';
 
@@ -630,7 +652,7 @@ export const scrapeUnscraped = async (req, res) => {
     if (!accessToken) return res.status(502).json({ error: 'No access token returned from Twitch' });
 
     const gamesResult = await pool.query(
-      `SELECT id, filename, console, title FROM rom_games
+      `SELECT id, title_key, filenames, console, title FROM rom_games
        WHERE box_art_url IS NULL AND available = true AND hidden = false
        ORDER BY id ASC LIMIT $1`,
       [limit]
@@ -652,12 +674,12 @@ export const scrapeUnscraped = async (req, res) => {
           results.push({ id: game.id, title: result.title, status: 'scraped' });
         } else {
           failed++;
-          results.push({ id: game.id, title: game.title || game.filename, status: 'not_found', reason: result.reason });
+          results.push({ id: game.id, title: game.title || game.title_key, status: 'not_found', reason: result.reason });
         }
       } catch (e) {
         failed++;
-        console.error(`Failed to scrape game ${game.id} (${game.filename}):`, e.message);
-        results.push({ id: game.id, title: game.title || game.filename, status: 'error', reason: e.message });
+        console.error(`Failed to scrape game ${game.id} (${game.title_key}):`, e.message);
+        results.push({ id: game.id, title: game.title || game.title_key, status: 'error', reason: e.message });
       }
     }
 
@@ -665,6 +687,160 @@ export const scrapeUnscraped = async (req, res) => {
     res.json({ scraped, failed, total: gamesResult.rows.length, results });
   } catch (error) {
     console.error('Error in scrape-unscraped:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
+  }
+};
+
+// Debug endpoint: dry-run both scrapers and return raw API responses without writing to DB.
+export const debugScrapeGame = async (req, res) => {
+  const { id } = req.params;
+  if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
+
+  const { ss_user, ss_password, ss_devid = '', ss_devpassword = '',
+          igdb_client_id, igdb_client_secret } = req.body;
+
+  try {
+    const gameResult = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
+    if (gameResult.rows.length === 0) return res.status(404).json({ error: 'Game not found' });
+    const game = gameResult.rows[0];
+
+    const primaryFilename = resolveRomFilename(game);
+    const primarySystemId = SS_SYSTEM_IDS[game.console] ?? null;
+    const igdbPlatformId = IGDB_PLATFORM_IDS[game.console] ?? null;
+    const cleanTitle = cleanRomTitle(game.title || game.title_key || (game.filenames?.[0] ?? ''));
+
+    const debug = {
+      game: { id: game.id, title_key: game.title_key, filenames: game.filenames, console: game.console, title: game.title },
+      resolved_filename: primaryFilename,
+      ss_system_id: primarySystemId,
+      igdb_platform_id: igdbPlatformId,
+      clean_title_for_igdb: cleanTitle,
+      screenscraper: null,
+      igdb: null,
+    };
+
+    // --- ScreenScraper probe ---
+    if (ss_user && ss_password) {
+      const ssResults = [];
+
+      const probeSS = async (systemeid, romnom, label) => {
+        const params = new URLSearchParams({
+          devid: ss_devid, devpassword: ss_devpassword,
+          softname: 'charno-rom-scraper',
+          ssid: ss_user, sspassword: ss_password,
+          crc: '', systemeid, romtype: 'rom', romnom, output: 'json',
+        });
+        try {
+          const resp = await fetch(
+            `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
+            { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+          );
+          const text = await resp.text();
+          let parsed = null;
+          try { parsed = JSON.parse(text); } catch { /* leave null */ }
+          ssResults.push({ label, systemeid, romnom, http_status: resp.status, raw: parsed ?? text.slice(0, 500) });
+        } catch (e) {
+          ssResults.push({ label, systemeid, romnom, error: e.message });
+        }
+      };
+
+      // Primary lookup
+      if (primarySystemId !== null) {
+        await probeSS(primarySystemId, primaryFilename, 'primary');
+      } else {
+        ssResults.push({ label: 'primary', error: `No SS_SYSTEM_IDS entry for console "${game.console}"` });
+      }
+
+      // Fallback lookups
+      const fallbacks = SS_FALLBACK_SYSTEMS[game.console] ?? [];
+      for (const { systemeid, ext } of fallbacks) {
+        const fallbackFilename = path.basename(game.filename, path.extname(game.filename)) + ext;
+        await probeSS(systemeid, fallbackFilename, `fallback (system ${systemeid})`);
+      }
+
+      // Title search fallback
+      const searchSystems = [
+        ...(primarySystemId !== null ? [primarySystemId] : []),
+        ...fallbacks.map(f => f.systemeid),
+      ];
+      for (const systemeid of searchSystems) {
+        const searchParams = new URLSearchParams({
+          devid: ss_devid, devpassword: ss_devpassword,
+          softname: 'charno-rom-scraper',
+          ssid: ss_user, sspassword: ss_password,
+          systemeid, recherche: cleanTitle, output: 'json',
+        });
+        try {
+          const resp = await fetch(
+            `https://www.screenscraper.fr/api2/jeuRecherche.php?${searchParams}`,
+            { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+          );
+          const text = await resp.text();
+          let parsed = null;
+          try { parsed = JSON.parse(text); } catch { /* leave null */ }
+          ssResults.push({ label: `title-search (system ${systemeid})`, systemeid, recherche: cleanTitle, http_status: resp.status, raw: parsed ?? text.slice(0, 500) });
+        } catch (e) {
+          ssResults.push({ label: `title-search (system ${systemeid})`, error: e.message });
+        }
+      }
+
+      debug.screenscraper = ssResults;
+    } else {
+      debug.screenscraper = 'skipped (no ss_user/ss_password provided)';
+    }
+
+    // --- IGDB probe ---
+    if (igdb_client_id && igdb_client_secret) {
+      try {
+        const tokenRes = await fetch(
+          `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdb_client_id)}&client_secret=${encodeURIComponent(igdb_client_secret)}&grant_type=client_credentials`,
+          { method: 'POST', signal: AbortSignal.timeout(30000) }
+        );
+        if (!tokenRes.ok) {
+          debug.igdb = { error: `Twitch auth failed: HTTP ${tokenRes.status}` };
+        } else {
+          const { access_token } = await tokenRes.json();
+          const igdbHeaders = {
+            'Client-ID': igdb_client_id,
+            'Authorization': `Bearer ${access_token}`,
+            'Content-Type': 'text/plain',
+          };
+          const fields = 'fields name,summary,first_release_date,genres.name,cover.image_id,screenshots.image_id;';
+          const igdbResults = [];
+
+          const probeIGDB = async (whereClause, label) => {
+            const body = `${fields} search "${cleanTitle}"; ${whereClause ? `where ${whereClause};` : ''} limit 5;`;
+            try {
+              const r = await fetch('https://api.igdb.com/v4/games', {
+                method: 'POST', headers: igdbHeaders, body,
+                signal: AbortSignal.timeout(30000),
+              });
+              const json = await r.json();
+              igdbResults.push({ label, where: whereClause, http_status: r.status, results: json });
+            } catch (e) {
+              igdbResults.push({ label, where: whereClause, error: e.message });
+            }
+          };
+
+          if (igdbPlatformId !== null) {
+            await probeIGDB(`platforms = (${igdbPlatformId})`, 'platform-filtered');
+          } else {
+            igdbResults.push({ label: 'platform-filtered', error: `No IGDB_PLATFORM_IDS entry for console "${game.console}"` });
+          }
+          await probeIGDB(null, 'no-platform-filter');
+
+          debug.igdb = igdbResults;
+        }
+      } catch (e) {
+        debug.igdb = { error: e.message };
+      }
+    } else {
+      debug.igdb = 'skipped (no igdb_client_id/igdb_client_secret provided)';
+    }
+
+    res.json(debug);
+  } catch (error) {
+    console.error('Error in debug-scrape:', error);
     res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
 };
@@ -707,7 +883,6 @@ export const scanRoms = async (req, res) => {
   if (!ROMS_DIR) {
     return res.status(503).json({ error: 'ROMS_DIR environment variable not configured' });
   }
-
   if (!fs.existsSync(ROMS_DIR)) {
     return res.status(503).json({ error: `ROMS_DIR path does not exist: ${ROMS_DIR}` });
   }
@@ -725,22 +900,16 @@ export const scanRoms = async (req, res) => {
       const consoleDir = path.join(ROMS_DIR, consoleName);
       const allEntries = fs.readdirSync(consoleDir, { withFileTypes: true });
 
-      // Collect ROM entries: direct files with known extensions, or subdirectory names
-      // (for consoles like Amiga where each game lives in its own folder)
-      const romEntries = []; // { filename, title }
+      // Collect every ROM filename found on disk for this console
+      const discoveredFilenames = [];
 
-      // Flat files directly in the console dir
       for (const entry of allEntries) {
         if (entry.isFile() && ROM_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) {
-          romEntries.push({
-            filename: entry.name,
-            title: path.basename(entry.name, path.extname(entry.name)),
-          });
+          discoveredFilenames.push(entry.name);
         }
       }
 
-      // Subdirectory-per-game layout (e.g., PSX multi-file, Amiga).
-      // Handled alongside flat files so mixed console dirs work correctly.
+      // Subdirectory-per-game layout (e.g. PSX multi-disc, Amiga WHDLoad)
       for (const entry of allEntries) {
         if (!entry.isDirectory()) continue;
         const subPath = path.join(consoleDir, entry.name);
@@ -748,20 +917,32 @@ export const scanRoms = async (req, res) => {
         const hasRomFile = SCANDIR_CONSOLES.has(consoleName)
           || subEntries.some(e => e.isFile() && ROM_EXTENSIONS.has(path.extname(e.name).toLowerCase()));
         if (hasRomFile) {
-          romEntries.push({ filename: entry.name, title: entry.name });
+          discoveredFilenames.push(entry.name);
         }
       }
 
-      const filenameList = romEntries.map(e => e.filename);
+      // Group discovered filenames by their normalised title_key.
+      // Multiple regional variants of the same game (e.g. "Arkanoid (World).zip",
+      // "Arkanoid (Japan).zip") collapse into a single entry.
+      const groups = new Map(); // title_key → string[]
+      for (const filename of discoveredFilenames) {
+        const key = titleKey(filename);
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(filename);
+      }
 
-      // Upsert each discovered ROM
-      for (const { filename, title } of romEntries) {
+      const discoveredKeys = [...groups.keys()];
+
+      // Upsert each game group
+      for (const [key, filenames] of groups) {
         const result = await pool.query(
-          `INSERT INTO rom_games (filename, console, title, available)
-           VALUES ($1, $2, $3, true)
-           ON CONFLICT (filename, console) DO UPDATE SET available = true
+          `INSERT INTO rom_games (console, title_key, filenames, title, available)
+           VALUES ($1, $2, $3::jsonb, $4, true)
+           ON CONFLICT (console, title_key) DO UPDATE SET
+             filenames = EXCLUDED.filenames,
+             available = true
            RETURNING (xmax = 0) AS is_new`,
-          [filename, consoleName, title]
+          [consoleName, key, JSON.stringify(filenames), key]
         );
         if (result.rows[0]?.is_new) {
           added++;
@@ -770,17 +951,15 @@ export const scanRoms = async (req, res) => {
         }
       }
 
-      // Mark ROMs in this console that are no longer present on disk
-      if (filenameList.length > 0) {
-        const placeholders = filenameList.map((_, i) => `$${i + 2}`).join(', ');
+      // Mark games in this console no longer found on disk as unavailable
+      if (discoveredKeys.length > 0) {
         const updateResult = await pool.query(
           `UPDATE rom_games SET available = false
-           WHERE console = $1 AND filename NOT IN (${placeholders}) AND available = true`,
-          [consoleName, ...filenameList]
+           WHERE console = $1 AND title_key != ALL($2::text[]) AND available = true`,
+          [consoleName, discoveredKeys]
         );
         markedUnavailable += updateResult.rowCount;
       } else {
-        // No ROMs found in this console dir — mark all as unavailable
         const updateResult = await pool.query(
           `UPDATE rom_games SET available = false WHERE console = $1 AND available = true`,
           [consoleName]
@@ -794,7 +973,7 @@ export const scanRoms = async (req, res) => {
       consoles: consoleDirs,
       added,
       alreadyPresent,
-      markedUnavailable
+      markedUnavailable,
     });
   } catch (error) {
     console.error('Error scanning ROMs:', error);
