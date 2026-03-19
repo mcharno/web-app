@@ -31,6 +31,9 @@ router.post('/:id/scrape', romController.scrapeGame);
 // Auto-scrape: backend calls ScreenScraper directly (has internet access)
 router.post('/:id/auto-scrape', romController.autoScrapeGame);
 
+// Debug: dry-run both scrapers and return raw API responses without saving to DB
+router.post('/:id/debug-scrape', romController.debugScrapeGame);
+
 // Auto-scrape via IGDB (Twitch OAuth, instant access)
 router.post('/:id/auto-scrape-igdb', romController.igdbScrapeGame);
 
