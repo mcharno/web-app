@@ -691,6 +691,79 @@ export const scrapeUnscraped = async (req, res) => {
   }
 };
 
+// Merge rows that share the same (console, title) after scraping.
+// Useful for arcade/MAME ROMs where filenames are opaque short identifiers
+// (e.g. ARKANOID, ARKNOIDJ, ARKNOIDU) that all scraped to the same display title.
+// Keeps the row with the most metadata; merges all filenames onto it; deletes the rest.
+// Optional query param: ?console=arcade  to limit scope to one console.
+export const mergeByTitle = async (req, res) => {
+  const { console: consoleName } = req.query;
+
+  try {
+    // Find all (console, title) groups with more than one row and a non-null title
+    const conditions = ["title IS NOT NULL", "title != ''"];
+    const params = [];
+    if (consoleName) {
+      conditions.push(`console = $1`);
+      params.push(consoleName);
+    }
+
+    const groupsResult = await pool.query(
+      `SELECT console, title, array_agg(id ORDER BY
+          (CASE WHEN box_art_url IS NOT NULL THEN 1 ELSE 0 END +
+           CASE WHEN description IS NOT NULL THEN 1 ELSE 0 END +
+           CASE WHEN year        IS NOT NULL THEN 1 ELSE 0 END) DESC,
+          id ASC
+       ) AS ids
+       FROM rom_games
+       WHERE ${conditions.join(' AND ')}
+       GROUP BY console, title
+       HAVING COUNT(*) > 1`,
+      params
+    );
+
+    if (groupsResult.rows.length === 0) {
+      return res.json({ merged_groups: 0, deleted_rows: 0, groups: [] });
+    }
+
+    let deletedRows = 0;
+    const groups = [];
+
+    for (const { console: con, title, ids } of groupsResult.rows) {
+      const winnerId = ids[0];
+      const loserIds = ids.slice(1);
+
+      // Collect all filenames across the whole group
+      const filenamesResult = await pool.query(
+        `SELECT jsonb_array_elements_text(filenames) AS f FROM rom_games WHERE id = ANY($1)`,
+        [ids]
+      );
+      const allFilenames = [...new Set(filenamesResult.rows.map(r => r.f))].sort();
+
+      // Write merged filenames onto the winner
+      await pool.query(
+        `UPDATE rom_games SET filenames = $1::jsonb WHERE id = $2`,
+        [JSON.stringify(allFilenames), winnerId]
+      );
+
+      // Delete the losers
+      const deleteResult = await pool.query(
+        `DELETE FROM rom_games WHERE id = ANY($1)`,
+        [loserIds]
+      );
+      deletedRows += deleteResult.rowCount;
+
+      groups.push({ console: con, title, winner_id: winnerId, merged_count: ids.length, filenames: allFilenames });
+    }
+
+    console.log(`merge-by-title: ${groupsResult.rows.length} groups merged, ${deletedRows} rows deleted`);
+    res.json({ merged_groups: groupsResult.rows.length, deleted_rows: deletedRows, groups });
+  } catch (error) {
+    console.error('Error in merge-by-title:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
+  }
+};
+
 // Debug endpoint: dry-run both scrapers and return raw API responses without writing to DB.
 export const debugScrapeGame = async (req, res) => {
   const { id } = req.params;

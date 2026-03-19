@@ -16,6 +16,11 @@ router.post('/scan', romController.scanRoms);
 // Optional query param: ?limit=N (default 50, max 100)
 router.post('/scrape-unscraped', romController.scrapeUnscraped);
 
+// Merge rows sharing the same (console, title) after scraping.
+// Useful for arcade/MAME where filenames are opaque short IDs.
+// Optional query param: ?console=arcade
+router.post('/merge-by-title', romController.mergeByTitle);
+
 // List all games (query: console, search, tags)
 router.get('/', romController.listGames);
 
