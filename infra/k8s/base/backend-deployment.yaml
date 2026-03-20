@@ -94,6 +94,30 @@ spec:
               name: charno-secrets
               key: igdb_client_secret
               optional: true
+        - name: SS_USER
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: ss_user
+              optional: true
+        - name: SS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: ss_password
+              optional: true
+        - name: SS_DEVID
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: ss_devid
+              optional: true
+        - name: SS_DEVPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: ss_devpassword
+              optional: true
         volumeMounts:
         - name: photos
           mountPath: /data/photos
