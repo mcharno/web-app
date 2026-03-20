@@ -16,6 +16,10 @@ router.post('/scan', romController.scanRoms);
 // Optional query param: ?limit=N (default 50, max 100)
 router.post('/scrape-unscraped', romController.scrapeUnscraped);
 
+// Manually merge specific game IDs into one entry.
+// Body: { ids: [1, 2, 3], keep_id: 1 (optional) }
+router.post('/merge', romController.mergeGames);
+
 // Merge rows sharing the same (console, title) after scraping.
 // Useful for arcade/MAME where filenames are opaque short IDs.
 // Optional query param: ?console=arcade
