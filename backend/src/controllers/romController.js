@@ -329,162 +329,143 @@ function resolveRomFilename(game) {
   return preferred + defaultExt;
 }
 
-// Calls ScreenScraper from the backend (which has internet access) and saves everything
+// Shared core: search ScreenScraper, download assets, persist to DB for one game row.
+// Returns { ss_found: true, ...dbRow } or { ss_found: false, reason: string }
+async function _ssScrapeOne(game, ssUser, ssPassword, ssDevId = '', ssDevPassword = '') {
+  const fetchSSJeu = async (systemeid, romnom) => {
+    const params = new URLSearchParams({
+      devid: ssDevId, devpassword: ssDevPassword,
+      softname: 'charno-rom-scraper',
+      ssid: ssUser, sspassword: ssPassword,
+      crc: '', systemeid, romtype: 'rom', romnom, output: 'json',
+    });
+    const resp = await fetch(
+      `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
+      { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+    );
+    if (!resp.ok) return null;
+    try {
+      const data = JSON.parse(await resp.text());
+      return data?.response?.jeu ?? null;
+    } catch { return null; }
+  };
+
+  const searchSSJeu = async (searchTitle, systemeid) => {
+    const params = new URLSearchParams({
+      devid: ssDevId, devpassword: ssDevPassword,
+      softname: 'charno-rom-scraper',
+      ssid: ssUser, sspassword: ssPassword,
+      systemeid, recherche: searchTitle, output: 'json',
+    });
+    const resp = await fetch(
+      `https://www.screenscraper.fr/api2/jeuRecherche.php?${params}`,
+      { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
+    );
+    if (!resp.ok) return null;
+    try {
+      const data = JSON.parse(await resp.text());
+      return data?.response?.jeux?.[0] ?? null;
+    } catch { return null; }
+  };
+
+  const primaryFilename = resolveRomFilename(game);
+  const primarySystemId = SS_SYSTEM_IDS[game.console] ?? 0;
+
+  let jeu = await fetchSSJeu(primarySystemId, primaryFilename);
+
+  // Fallback systems (e.g. PC/DOS for ScummVM games stored in the amiga dir)
+  if (!jeu) {
+    const fallbacks = SS_FALLBACK_SYSTEMS[game.console] ?? [];
+    for (const { systemeid, ext } of fallbacks) {
+      const fallbackFilename = path.basename(primaryFilename, path.extname(primaryFilename)) + ext;
+      jeu = await fetchSSJeu(systemeid, fallbackFilename);
+      if (jeu) break;
+    }
+  }
+
+  // Last resort: title search
+  if (!jeu) {
+    const searchTitle = game.title_key || cleanRomTitle(primaryFilename);
+    const searchSystems = [primarySystemId, ...(SS_FALLBACK_SYSTEMS[game.console] ?? []).map(f => f.systemeid)];
+    for (const systemeid of searchSystems) {
+      jeu = await searchSSJeu(searchTitle, systemeid);
+      if (jeu) break;
+    }
+  }
+
+  if (!jeu) {
+    await pool.query('UPDATE rom_games SET scrape_attempted_at = NOW() WHERE id = $1', [game.id]).catch(() => {});
+    return { ss_found: false, reason: 'Not found on ScreenScraper' };
+  }
+
+  const titleObj = jeu.noms?.find(n => n.region === 'wor') || jeu.noms?.find(n => n.region === 'us') || jeu.noms?.[0];
+  const title = titleObj?.text || game.title;
+
+  const synopsisObj = jeu.synopsis?.find(s => s.langue === 'en') || jeu.synopsis?.[0];
+  const description = synopsisObj?.text || null;
+
+  const dateObj = jeu.dates?.find(d => d.region === 'wor') || jeu.dates?.find(d => d.region === 'us') || jeu.dates?.[0];
+  const year = dateObj?.text ? parseInt(dateObj.text.slice(0, 4)) : null;
+
+  const tags = (jeu.genres || []).flatMap(g =>
+    (g.noms || []).filter(n => n.langue === 'en').map(n => n.text)
+  ).filter(Boolean);
+
+  const addAuth = url => `${url}&ssid=${encodeURIComponent(ssUser)}&sspassword=${encodeURIComponent(ssPassword)}`;
+  const medias = jeu.medias || [];
+
+  const boxArt = medias.find(m => m.type === 'box-2D' && m.region === 'wor')
+              || medias.find(m => m.type === 'box-2D' && m.region === 'us')
+              || medias.find(m => m.type === 'box-2D')
+              || medias.find(m => m.type === 'box-3D');
+  const screenshotMedias = medias.filter(m => m.type === 'ss').slice(0, 3);
+
+  const savedBoxArt = boxArt?.url ? await downloadImage(addAuth(boxArt.url), `${game.id}-box`) : null;
+  const savedScreenshots = [];
+  for (let i = 0; i < screenshotMedias.length; i++) {
+    const url = await downloadImage(addAuth(screenshotMedias[i].url), `${game.id}-ss-${i}`);
+    if (url) savedScreenshots.push(url);
+  }
+
+  const result = await pool.query(
+    `UPDATE rom_games SET
+      title = COALESCE($1, title),
+      description = COALESCE($2, description),
+      year = COALESCE($3, year),
+      box_art_url = COALESCE($4, box_art_url),
+      screenshots = COALESCE($5::jsonb, screenshots),
+      tags = COALESCE($6::jsonb, tags)
+     WHERE id = $7
+     RETURNING *`,
+    [
+      title || null, description || null, year || null, savedBoxArt || null,
+      savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
+      tags.length > 0 ? JSON.stringify(tags) : null,
+      game.id,
+    ]
+  );
+
+  console.log(`SS scraped: ${title} (${game.console}, id=${game.id}) — box: ${!!savedBoxArt}, screenshots: ${savedScreenshots.length}`);
+  return { ss_found: true, ...result.rows[0] };
+}
+
+// Calls ScreenScraper from the backend for a single game (credentials from request body)
 export const autoScrapeGame = async (req, res) => {
   const { id } = req.params;
   if (!isValidId(id)) return res.status(400).json({ error: 'Invalid game ID' });
-  if (!ROM_IMAGES_DIR) {
-    return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
-  }
-  const { ss_user, ss_password, ss_devid = '', ss_devpassword = '' } = req.body;
+  if (!ROM_IMAGES_DIR) return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
 
+  const { ss_user, ss_password, ss_devid = '', ss_devpassword = '' } = req.body;
   if (!ss_user || !ss_password) {
     return res.status(400).json({ error: 'ss_user and ss_password are required' });
   }
 
   try {
     const gameResult = await pool.query('SELECT * FROM rom_games WHERE id = $1', [id]);
-    if (gameResult.rows.length === 0) {
-      return res.status(404).json({ error: 'Game not found' });
-    }
-    const game = gameResult.rows[0];
+    if (gameResult.rows.length === 0) return res.status(404).json({ error: 'Game not found' });
 
-    // Always record the attempt time so the scrape queue deprioritises recently-tried games
-    const markAttempted = () =>
-      pool.query('UPDATE rom_games SET scrape_attempted_at = NOW() WHERE id = $1', [id]).catch(() => {});
-
-    // Helper: call ScreenScraper jeuInfos for a given systemeid + romnom.
-    // Returns the parsed jeu object or null (on 404 / no match / parse error).
-    const fetchSSJeu = async (systemeid, romnom) => {
-      const params = new URLSearchParams({
-        devid: ss_devid, devpassword: ss_devpassword,
-        softname: 'charno-rom-scraper',
-        ssid: ss_user, sspassword: ss_password,
-        crc: '', systemeid,
-        romtype: 'rom', romnom, output: 'json',
-      });
-      const resp = await fetch(
-        `https://www.screenscraper.fr/api2/jeuInfos.php?${params}`,
-        { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
-      );
-      if (!resp.ok) return null;
-      try {
-        const data = JSON.parse(await resp.text());
-        return data?.response?.jeu ?? null;
-      } catch {
-        return null;
-      }
-    };
-
-    // Helper: ScreenScraper title search — returns first matching jeu or null.
-    // Used when exact filename lookup fails (e.g. simplified directory names).
-    const searchSSJeu = async (title, systemeid) => {
-      const params = new URLSearchParams({
-        devid: ss_devid, devpassword: ss_devpassword,
-        softname: 'charno-rom-scraper',
-        ssid: ss_user, sspassword: ss_password,
-        systemeid, recherche: title, output: 'json',
-      });
-      const resp = await fetch(
-        `https://www.screenscraper.fr/api2/jeuRecherche.php?${params}`,
-        { signal: AbortSignal.timeout(45000), headers: { 'User-Agent': 'charno-rom-scraper/1.0' } }
-      );
-      if (!resp.ok) return null;
-      try {
-        const data = JSON.parse(await resp.text());
-        return data?.response?.jeux?.[0] ?? null;
-      } catch {
-        return null;
-      }
-    };
-
-    const primaryFilename = resolveRomFilename(game);
-    const primarySystemId = SS_SYSTEM_IDS[game.console] ?? 0;
-
-    let jeu = await fetchSSJeu(primarySystemId, primaryFilename);
-
-    // If primary system didn't find it, try fallback systems (e.g. PC/DOS for ScummVM games in amiga dir)
-    if (!jeu) {
-      const fallbacks = SS_FALLBACK_SYSTEMS[game.console] ?? [];
-      for (const { systemeid, ext } of fallbacks) {
-        const fallbackFilename = path.basename(game.filename, path.extname(game.filename)) + ext;
-        jeu = await fetchSSJeu(systemeid, fallbackFilename);
-        if (jeu) break;
-      }
-    }
-
-    // Last resort: title search across each system in the fallback chain
-    if (!jeu) {
-      const cleanTitle = path.basename(game.filename, path.extname(game.filename));
-      const searchSystems = [primarySystemId, ...(SS_FALLBACK_SYSTEMS[game.console] ?? []).map(f => f.systemeid)];
-      for (const systemeid of searchSystems) {
-        jeu = await searchSSJeu(cleanTitle, systemeid);
-        if (jeu) break;
-      }
-    }
-
-    if (!jeu) {
-      await markAttempted();
-      return res.json({ id: game.id, ss_found: false, reason: 'Not found on ScreenScraper' });
-    }
-
-    // Extract metadata
-    const titleObj = jeu.noms?.find(n => n.region === 'wor') || jeu.noms?.find(n => n.region === 'us') || jeu.noms?.[0];
-    const title = titleObj?.text || game.title;
-
-    const synopsisObj = jeu.synopsis?.find(s => s.langue === 'en') || jeu.synopsis?.[0];
-    const description = synopsisObj?.text || null;
-
-    const dateObj = jeu.dates?.find(d => d.region === 'wor') || jeu.dates?.find(d => d.region === 'us') || jeu.dates?.[0];
-    const year = dateObj?.text ? parseInt(dateObj.text.slice(0, 4)) : null;
-
-    const tags = (jeu.genres || []).flatMap(g =>
-      (g.noms || []).filter(n => n.langue === 'en').map(n => n.text)
-    ).filter(Boolean);
-
-    // Build authenticated image URLs
-    const addAuth = url => `${url}&ssid=${encodeURIComponent(ss_user)}&sspassword=${encodeURIComponent(ss_password)}`;
-    const medias = jeu.medias || [];
-
-    const boxArt = medias.find(m => m.type === 'box-2D' && m.region === 'wor')
-                || medias.find(m => m.type === 'box-2D' && m.region === 'us')
-                || medias.find(m => m.type === 'box-2D')
-                || medias.find(m => m.type === 'box-3D');
-
-    const screenshotMedias = medias.filter(m => m.type === 'ss').slice(0, 3);
-
-    // Download images
-    const savedBoxArt = boxArt?.url ? await downloadImage(addAuth(boxArt.url), `${id}-box`) : null;
-    const savedScreenshots = [];
-    for (let i = 0; i < screenshotMedias.length; i++) {
-      const url = await downloadImage(addAuth(screenshotMedias[i].url), `${id}-ss-${i}`);
-      if (url) savedScreenshots.push(url);
-    }
-
-    // Persist to DB
-    const result = await pool.query(
-      `UPDATE rom_games SET
-        title = COALESCE($1, title),
-        description = COALESCE($2, description),
-        year = COALESCE($3, year),
-        box_art_url = COALESCE($4, box_art_url),
-        screenshots = COALESCE($5::jsonb, screenshots),
-        tags = COALESCE($6::jsonb, tags)
-      WHERE id = $7
-      RETURNING *`,
-      [
-        title || null,
-        description || null,
-        year || null,
-        savedBoxArt || null,
-        savedScreenshots.length > 0 ? JSON.stringify(savedScreenshots) : null,
-        tags.length > 0 ? JSON.stringify(tags) : null,
-        id,
-      ]
-    );
-
-    console.log(`Auto-scraped: ${title} (${game.console}, id=${id}) — box: ${!!savedBoxArt}, screenshots: ${savedScreenshots.length}`);
-    res.json({ ...result.rows[0], ss_found: true });
+    const result = await _ssScrapeOne(gameResult.rows[0], ss_user, ss_password, ss_devid, ss_devpassword);
+    res.json(result);
   } catch (error) {
     console.error('Error auto-scraping game:', error);
     res.status(500).json({ error: 'Internal server error', detail: error.message });
@@ -627,39 +608,61 @@ export const igdbScrapeGame = async (req, res) => {
   }
 };
 
-// Scan for unscraped games and scrape them via IGDB using env-configured credentials.
-// Reads IGDB_CLIENT_ID + IGDB_CLIENT_SECRET from environment variables.
+// Bulk-scrape games missing box art using whichever scrapers are configured via env vars.
+// ScreenScraper: reads SS_USER + SS_PASSWORD (+ optional SS_DEVID, SS_DEVPASSWORD)
+// IGDB:          reads IGDB_CLIENT_ID + IGDB_CLIENT_SECRET
+// Each game is tried with SS first (if configured), then IGDB as fallback (if configured).
+// Returns an error only if neither scraper is configured at all.
 // Query param: ?limit=N (default 50, max 100)
 export const scrapeUnscraped = async (req, res) => {
   if (!ROM_IMAGES_DIR) return res.status(503).json({ error: 'ROM_IMAGES_DIR not configured' });
 
-  const clientId = process.env.IGDB_CLIENT_ID;
-  const clientSecret = process.env.IGDB_CLIENT_SECRET;
-  if (!clientId || !clientSecret) {
-    return res.status(503).json({ error: 'IGDB_CLIENT_ID and IGDB_CLIENT_SECRET environment variables not configured' });
+  const ssUser       = process.env.SS_USER;
+  const ssPassword   = process.env.SS_PASSWORD;
+  const ssDevId      = process.env.SS_DEVID      || '';
+  const ssDevPassword = process.env.SS_DEVPASSWORD || '';
+  const igdbClientId     = process.env.IGDB_CLIENT_ID;
+  const igdbClientSecret = process.env.IGDB_CLIENT_SECRET;
+
+  const useSS   = !!(ssUser && ssPassword);
+  const useIGDB = !!(igdbClientId && igdbClientSecret);
+
+  if (!useSS && !useIGDB) {
+    return res.status(503).json({
+      error: 'No scraper credentials configured. Set SS_USER + SS_PASSWORD for ScreenScraper and/or IGDB_CLIENT_ID + IGDB_CLIENT_SECRET for IGDB.',
+    });
   }
 
   const limit = Math.min(100, parseInt(req.query.limit) || 50);
 
   try {
-    const tokenRes = await fetch(
-      `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(clientId)}&client_secret=${encodeURIComponent(clientSecret)}&grant_type=client_credentials`,
-      { method: 'POST', signal: AbortSignal.timeout(30000) }
-    );
-    if (!tokenRes.ok) return res.status(502).json({ error: `Twitch auth failed: HTTP ${tokenRes.status}` });
-    const tokenData = await tokenRes.json();
-    const accessToken = tokenData.access_token;
-    if (!accessToken) return res.status(502).json({ error: 'No access token returned from Twitch' });
+    // Get IGDB access token once upfront (only if IGDB is configured)
+    let igdbAccessToken = null;
+    if (useIGDB) {
+      const tokenRes = await fetch(
+        `https://id.twitch.tv/oauth2/token?client_id=${encodeURIComponent(igdbClientId)}&client_secret=${encodeURIComponent(igdbClientSecret)}&grant_type=client_credentials`,
+        { method: 'POST', signal: AbortSignal.timeout(30000) }
+      );
+      if (!tokenRes.ok) {
+        if (!useSS) return res.status(502).json({ error: `Twitch auth failed: HTTP ${tokenRes.status}` });
+        console.warn(`IGDB auth failed (HTTP ${tokenRes.status}), will use ScreenScraper only`);
+      } else {
+        const tokenData = await tokenRes.json();
+        igdbAccessToken = tokenData.access_token ?? null;
+        if (!igdbAccessToken) console.warn('No IGDB access token returned from Twitch, will use ScreenScraper only');
+      }
+    }
 
     const gamesResult = await pool.query(
       `SELECT id, title_key, filenames, console, title FROM rom_games
        WHERE box_art_url IS NULL AND available = true AND hidden = false
-       ORDER BY id ASC LIMIT $1`,
+       ORDER BY scrape_attempted_at ASC NULLS FIRST, console ASC, title_key ASC
+       LIMIT $1`,
       [limit]
     );
 
     if (gamesResult.rows.length === 0) {
-      return res.json({ scraped: 0, failed: 0, total: 0 });
+      return res.json({ scraped: 0, failed: 0, total: 0, scrapers: { ss: useSS, igdb: useIGDB && !!igdbAccessToken } });
     }
 
     let scraped = 0;
@@ -667,24 +670,44 @@ export const scrapeUnscraped = async (req, res) => {
     const results = [];
 
     for (const game of gamesResult.rows) {
-      try {
-        const result = await _igdbScrapeOne(game, clientId, accessToken);
-        if (result.igdb_found) {
-          scraped++;
-          results.push({ id: game.id, title: result.title, status: 'scraped' });
-        } else {
-          failed++;
-          results.push({ id: game.id, title: game.title || game.title_key, status: 'not_found', reason: result.reason });
+      let found = false;
+
+      // 1. Try ScreenScraper
+      if (useSS) {
+        try {
+          const ssResult = await _ssScrapeOne(game, ssUser, ssPassword, ssDevId, ssDevPassword);
+          if (ssResult.ss_found) {
+            scraped++;
+            results.push({ id: game.id, title: ssResult.title, status: 'scraped', scraper: 'screenscraper' });
+            found = true;
+          }
+        } catch (e) {
+          console.warn(`SS error for game ${game.id} (${game.title_key}): ${e.message}`);
         }
-      } catch (e) {
+      }
+
+      // 2. Fall back to IGDB
+      if (!found && useIGDB && igdbAccessToken) {
+        try {
+          const igdbResult = await _igdbScrapeOne(game, igdbClientId, igdbAccessToken);
+          if (igdbResult.igdb_found) {
+            scraped++;
+            results.push({ id: game.id, title: igdbResult.title, status: 'scraped', scraper: 'igdb' });
+            found = true;
+          }
+        } catch (e) {
+          console.warn(`IGDB error for game ${game.id} (${game.title_key}): ${e.message}`);
+        }
+      }
+
+      if (!found) {
         failed++;
-        console.error(`Failed to scrape game ${game.id} (${game.title_key}):`, e.message);
-        results.push({ id: game.id, title: game.title || game.title_key, status: 'error', reason: e.message });
+        results.push({ id: game.id, title: game.title || game.title_key, status: 'not_found' });
       }
     }
 
     console.log(`scrape-unscraped: ${scraped} scraped, ${failed} failed of ${gamesResult.rows.length}`);
-    res.json({ scraped, failed, total: gamesResult.rows.length, results });
+    res.json({ scraped, failed, total: gamesResult.rows.length, scrapers: { ss: useSS, igdb: useIGDB && !!igdbAccessToken }, results });
   } catch (error) {
     console.error('Error in scrape-unscraped:', error);
     res.status(500).json({ error: 'Internal server error', detail: error.message });
