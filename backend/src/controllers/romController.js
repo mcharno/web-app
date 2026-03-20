@@ -43,7 +43,7 @@ export const listGames = async (req, res) => {
     const { console: consoleName, search, tags, no_art, exclude_console, page = 1, limit = 60 } = req.query;
 
     const pageNum = Math.max(1, parseInt(page) || 1);
-    const limitNum = Math.min(200, Math.max(1, parseInt(limit) || 60));
+    const limitNum = Math.min(2000, Math.max(1, parseInt(limit) || 60));
     const offset = (pageNum - 1) * limitNum;
 
     const conditions = ['available = true', 'hidden = false'];
@@ -710,6 +710,73 @@ export const scrapeUnscraped = async (req, res) => {
     res.json({ scraped, failed, total: gamesResult.rows.length, scrapers: { ss: useSS, igdb: useIGDB && !!igdbAccessToken }, results });
   } catch (error) {
     console.error('Error in scrape-unscraped:', error);
+    res.status(500).json({ error: 'Internal server error', detail: error.message });
+  }
+};
+
+// Manually merge a specific set of game IDs into one entry.
+// Body: { ids: [1, 2, 3], keep_id: 1 }
+//   ids     — required, at least 2
+//   keep_id — optional; which row's metadata to preserve (defaults to the row with most metadata)
+// All filenames are merged onto the winner; other rows are deleted.
+export const mergeGames = async (req, res) => {
+  const { ids, keep_id } = req.body;
+
+  if (!Array.isArray(ids) || ids.length < 2) {
+    return res.status(400).json({ error: 'ids must be an array of at least 2 game IDs' });
+  }
+  if (!ids.every(id => isValidId(id))) {
+    return res.status(400).json({ error: 'All ids must be valid integers' });
+  }
+  if (keep_id !== undefined && !isValidId(keep_id)) {
+    return res.status(400).json({ error: 'keep_id must be a valid integer' });
+  }
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM rom_games WHERE id = ANY($1) ORDER BY id',
+      [ids]
+    );
+
+    if (result.rows.length !== ids.length) {
+      const found = result.rows.map(r => r.id);
+      const missing = ids.filter(id => !found.includes(parseInt(id)));
+      return res.status(404).json({ error: `Games not found: ${missing.join(', ')}` });
+    }
+
+    const rows = result.rows;
+
+    const consoles = [...new Set(rows.map(r => r.console))];
+    if (consoles.length > 1) {
+      return res.status(400).json({ error: `Cannot merge games from different consoles: ${consoles.join(', ')}` });
+    }
+
+    const winner = keep_id
+      ? rows.find(r => r.id === parseInt(keep_id))
+      : rows.reduce((best, r) => {
+          const score = (r.box_art_url ? 1 : 0) + (r.description ? 1 : 0) + (r.year ? 1 : 0) + (r.title ? 1 : 0);
+          const bestScore = (best.box_art_url ? 1 : 0) + (best.description ? 1 : 0) + (best.year ? 1 : 0) + (best.title ? 1 : 0);
+          return score > bestScore ? r : best;
+        }, rows[0]);
+
+    if (!winner) {
+      return res.status(400).json({ error: `keep_id ${keep_id} not found in provided ids` });
+    }
+
+    const allFilenames = [...new Set(rows.flatMap(r => Array.isArray(r.filenames) ? r.filenames : []))].sort();
+
+    const updated = await pool.query(
+      `UPDATE rom_games SET filenames = $1::jsonb WHERE id = $2 RETURNING *`,
+      [JSON.stringify(allFilenames), winner.id]
+    );
+
+    const loserIds = rows.map(r => r.id).filter(id => id !== winner.id);
+    await pool.query('DELETE FROM rom_games WHERE id = ANY($1)', [loserIds]);
+
+    console.log(`Manual merge: kept id=${winner.id} (${winner.console}/${winner.title_key}), deleted ids=${loserIds.join(',')}, filenames=${allFilenames.length}`);
+    res.json({ merged: updated.rows[0], deleted_ids: loserIds });
+  } catch (error) {
+    console.error('Error merging games:', error);
     res.status(500).json({ error: 'Internal server error', detail: error.message });
   }
 };
