@@ -52,10 +52,12 @@ const PhotoInfoPanel = ({ photo, isOpen }) => {
       <div className="info-panel-content">
         <h3 className="info-panel-title">Photo Information</h3>
 
-        <div className="info-section">
-          <h4>Caption</h4>
-          <p>{photo.title || 'Untitled'}</p>
-        </div>
+        {photo.caption && (
+          <div className="info-section">
+            <h4>Caption</h4>
+            <p>{photo.caption}</p>
+          </div>
+        )}
 
         {photo.location && (
           <div className="info-section">

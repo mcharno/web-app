@@ -1,7 +1,7 @@
 {
   "name": "2600",
   "category": "tech",
-  "description": "Pay phone photography inspired by 2600 Magazine - documenting the disappearing infrastructure of analog telecommunications",
+  "description": "Pay phone photography inspired by 2600 Magazine and other nerdy pictures",
   "tags": [
     "payphones",
     "2600",
@@ -13,43 +13,10 @@
   ],
   "photos": [
     {
-      "id": "payphone-sample-01",
-      "filename": "2600/payphone-01.jpg",
-      "caption": "Classic Bell payphone booth",
-      "location": "Sample Location, USA",
-      "latitude": 40.7128,
-      "longitude": -74.006,
-      "taken_date": "2024-01-15",
-      "display_order": 1,
-      "notes": "Replace with actual photo and metadata"
-    },
-    {
-      "id": "payphone-sample-02",
-      "filename": "2600/payphone-02.jpg",
-      "caption": "Another payphone example",
-      "location": "Sample Location, USA",
-      "latitude": 40.758,
-      "longitude": -73.9855,
-      "taken_date": "2024-02-20",
-      "display_order": 2,
-      "notes": "Replace with actual photo and metadata"
-    },
-    {
-      "id": "payphone-sample-03",
-      "filename": "2600/payphone-03.jpg",
-      "caption": "Third payphone sample",
-      "location": "Sample Location, USA",
-      "latitude": 34.0522,
-      "longitude": -118.2437,
-      "taken_date": "2024-03-10",
-      "display_order": 3,
-      "notes": "Replace with actual photo and metadata"
-    },
-    {
       "id": "2600-004",
       "filename": "2600/21B8B609-C7BC-4D42-81F1-23B7BA3D5706_1_105_c.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Kyrgyz telephone",
+      "location": "Bishkek",
       "taken_date": "2008-12-06",
       "display_order": 4,
       "notes": ""
@@ -57,8 +24,8 @@
     {
       "id": "2600-005",
       "filename": "2600/28561DD9-4291-4796-876E-59E32400D038_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Super Hackers",
+      "location": "National Air and Space Museum",
       "taken_date": "2011-05-02",
       "display_order": 5,
       "notes": ""
@@ -66,8 +33,8 @@
     {
       "id": "2600-006",
       "filename": "2600/2E41E2A8-E8CB-4854-A009-7122ACEA315C_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "UoY network cabinet",
+      "location": "King's Manor",
       "taken_date": "2010-11-06",
       "display_order": 6,
       "notes": ""
@@ -75,7 +42,7 @@
     {
       "id": "2600-007",
       "filename": "2600/5E1F6231-6E86-4478-ACC2-DE7B6E8573D0_1_102_o.jpeg",
-      "caption": "",
+      "caption": "Hackers",
       "location": "",
       "taken_date": "2010-06-19",
       "display_order": 7,
@@ -84,8 +51,8 @@
     {
       "id": "2600-008",
       "filename": "2600/5EA96597-B69A-4EB4-BB75-7F3A931A61FB_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Hacker beer",
+      "location": "Moscow Sheremetyevo Airport",
       "taken_date": "2008-12-05",
       "display_order": 8,
       "notes": ""
@@ -93,8 +60,8 @@
     {
       "id": "2600-009",
       "filename": "2600/609B5FD0-F870-47BD-84A0-0CFC540FC164_1_105_c.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Kyrgyz telephone",
+      "location": "Bishkek",
       "taken_date": "2008-12-01",
       "display_order": 9,
       "notes": ""
@@ -102,8 +69,8 @@
     {
       "id": "2600-010",
       "filename": "2600/6ADF3A11-FE8D-44A4-A87A-62D52CC2B034_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "UoY server room",
+      "location": "Secret building on campus",
       "taken_date": "2019-09-05",
       "display_order": 10,
       "notes": "",
@@ -122,7 +89,7 @@
     {
       "id": "2600-012",
       "filename": "2600/7AD125FE-0A23-4EC8-BF6E-679A4722B766_1_102_o.jpeg",
-      "caption": "",
+      "caption": "German bowling game interface",
       "location": "",
       "taken_date": "2007-08-25",
       "display_order": 12,
@@ -131,8 +98,8 @@
     {
       "id": "2600-013",
       "filename": "2600/86732D4B-577E-4A84-BB95-288C31B3D29A_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Turkish server cabinet",
+      "location": "Istanbul",
       "taken_date": "2010-06-17",
       "display_order": 13,
       "notes": ""
@@ -140,8 +107,8 @@
     {
       "id": "2600-014",
       "filename": "2600/887CBCCD-DF5B-4EB9-B2D6-20C7DA5A2134_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Kyrgyz telephone",
+      "location": "Bishkek",
       "taken_date": "2008-11-29",
       "display_order": 14,
       "notes": ""
@@ -149,8 +116,8 @@
     {
       "id": "2600-015",
       "filename": "2600/91E8D95B-0111-42B0-BAE8-52EF41822B68_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "The ADS Semantic Web",
+      "location": "King's Manor",
       "taken_date": "2012-02-02",
       "display_order": 15,
       "notes": "",
@@ -160,8 +127,8 @@
     {
       "id": "2600-016",
       "filename": "2600/9410917D-9C50-4092-BA95-0D670F4D02DC_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "BSOD",
+      "location": "London Tube Station",
       "taken_date": "2010-06-21",
       "display_order": 16,
       "notes": ""
@@ -169,8 +136,8 @@
     {
       "id": "2600-017",
       "filename": "2600/99F2CC44-B805-4CBD-A230-64E9680C2168_1_105_c.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Cold War terminal",
+      "location": "Cold War Bunker, York",
       "taken_date": "2010-11-06",
       "display_order": 17,
       "notes": ""
@@ -178,8 +145,8 @@
     {
       "id": "2600-018",
       "filename": "2600/AFB2AD47-E40F-4A25-9501-05B4CEE35C30_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "UoY server room",
+      "location": "Secret building on campus",
       "taken_date": "2009-12-02",
       "display_order": 18,
       "notes": ""
@@ -187,8 +154,8 @@
     {
       "id": "2600-019",
       "filename": "2600/C86D437C-E829-474F-886E-117688365095_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Computer Museum",
+      "location": "Istanbul",
       "taken_date": "2010-06-19",
       "display_order": 19,
       "notes": ""
@@ -196,8 +163,8 @@
     {
       "id": "2600-020",
       "filename": "2600/D70AFE42-0C11-4920-97B8-6A377E63303B_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Sinclair terminal",
+      "location": "Bradford",
       "taken_date": "2019-02-01",
       "display_order": 20,
       "notes": "",
@@ -207,8 +174,8 @@
     {
       "id": "2600-021",
       "filename": "2600/D9BE5E7A-57E8-4E3F-9DED-C923A6BD2119_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Computer Museum",
+      "location": "Istanbul",
       "taken_date": "2010-06-19",
       "display_order": 21,
       "notes": ""
@@ -216,8 +183,8 @@
     {
       "id": "2600-022",
       "filename": "2600/DC2F8899-7672-4711-825C-F44BFE925EB5_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Server connection failure",
+      "location": "Istanbul",
       "taken_date": "2006-07-28",
       "display_order": 22,
       "notes": ""
@@ -225,8 +192,8 @@
     {
       "id": "2600-023",
       "filename": "2600/DF10F043-D69B-4A6D-A131-D5EC8E352C1E_1_105_c.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Russian telephone",
+      "location": "St. Petersburg",
       "taken_date": "2010-08-15",
       "display_order": 23,
       "notes": ""
@@ -234,8 +201,8 @@
     {
       "id": "2600-024",
       "filename": "2600/E71B02F1-3AAB-4B14-964A-3BE2C3E0A58C_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Computer Museum",
+      "location": "Istanbul",
       "taken_date": "2010-06-19",
       "display_order": 24,
       "notes": ""
@@ -243,8 +210,8 @@
     {
       "id": "2600-025",
       "filename": "2600/E9703E9F-2E67-4F78-A2DA-2039F6F8D6D9_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Computer Museum",
+      "location": "Istanbul",
       "taken_date": "2010-06-19",
       "display_order": 25,
       "notes": ""
@@ -252,8 +219,8 @@
     {
       "id": "2600-026",
       "filename": "2600/IMG_1721.JPG",
-      "caption": "",
-      "location": "",
+      "caption": "Greek telephone",
+      "location": "The Peleponnese",
       "taken_date": "2013-06-27",
       "display_order": 26,
       "notes": "",
@@ -263,8 +230,8 @@
     {
       "id": "2600-027",
       "filename": "2600/IMG_2192.JPG",
-      "caption": "",
-      "location": "",
+      "caption": "Italian telephone",
+      "location": "Siena",
       "taken_date": "2015-04-05",
       "display_order": 27,
       "notes": "",
