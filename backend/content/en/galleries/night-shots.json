@@ -2,6 +2,563 @@
   "name": "Nights",
   "category": "urban",
   "description": "Night photography capturing cities, stars, and nocturnal scenes",
-  "tags": ["night", "photography", "urban", "stars", "nocturnal", "long-exposure"],
-  "photos": []
+  "tags": [
+    "night",
+    "photography",
+    "urban",
+    "stars",
+    "nocturnal",
+    "long-exposure"
+  ],
+  "photos": [
+    {
+      "id": "night-shots-001",
+      "filename": "night-shots/0C5DA8E7-5E35-42F4-A515-93D10A0AC417_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-12-21",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-002",
+      "filename": "night-shots/0DB62F9A-E389-4A67-AA94-531C89D83DCE_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-08-19",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-003",
+      "filename": "night-shots/0FA9B53D-F8AF-4BBD-B43C-B3F4042B19D7_1_102_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-17",
+      "display_order": 3,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-004",
+      "filename": "night-shots/189A0C7D-CD39-4AC3-B215-DACC700B540D_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-02",
+      "display_order": 4,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-005",
+      "filename": "night-shots/1DFF328B-81B2-4913-A9DC-F59D64959BFD.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-06",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-006",
+      "filename": "night-shots/21D17ADC-B224-415F-8243-E0857C513284_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-12-01",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-007",
+      "filename": "night-shots/26D81825-1BCE-48AA-AD34-A2E7A7D45AA1.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-09",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-008",
+      "filename": "night-shots/2842FC85-7B57-4153-BF45-8E7FD1ED8097_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-03-20",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-009",
+      "filename": "night-shots/28BE74C4-71AD-4E99-8BC7-2CB807151051_1_201_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-12-31",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-010",
+      "filename": "night-shots/298E0654-B3FE-4800-B5C1-7E798E525571_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-18",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-011",
+      "filename": "night-shots/29BEFB48-51D7-4925-A6EC-1B0F73A58745_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-14",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-012",
+      "filename": "night-shots/2ED27F41-B007-4CEF-8AB1-7261883F2967.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-07-05",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-013",
+      "filename": "night-shots/3632B089-E09F-489F-A6AB-FE6FE9CF7A2E.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-01-01",
+      "display_order": 13,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-014",
+      "filename": "night-shots/364F7FBE-8410-4607-8BE2-E9B6501628E2_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-03-23",
+      "display_order": 14,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-015",
+      "filename": "night-shots/3F0FF47B-D7E8-489F-BC03-750CD1787938_1_102_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-12-03",
+      "display_order": 15,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-016",
+      "filename": "night-shots/458C828A-EA40-4713-B4B7-3A66A1163263.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-13",
+      "display_order": 16,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-017",
+      "filename": "night-shots/497E5DC2-EBC2-44FC-A5E8-364AC025DC54_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-15",
+      "display_order": 17,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-018",
+      "filename": "night-shots/4F6DB841-492E-4E57-8CB5-A0CC171416F1.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-12-22",
+      "display_order": 18,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-019",
+      "filename": "night-shots/51DDCD83-8883-48FB-9697-FB6374531C2B.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "",
+      "display_order": 19,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-020",
+      "filename": "night-shots/5EF22631-C650-4499-9123-16610795E498_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-17",
+      "display_order": 20,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-021",
+      "filename": "night-shots/647FCD89-384A-4F23-BA65-0820AA5739FD_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-04-01",
+      "display_order": 21,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-022",
+      "filename": "night-shots/6A391FA8-CBD8-44D0-8B45-078C36903E9C_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-17",
+      "display_order": 22,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-023",
+      "filename": "night-shots/6A6D6EE1-B4CE-4476-AAF9-BB5F5D98DB63_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-07-20",
+      "display_order": 23,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-024",
+      "filename": "night-shots/710F4232-5AD3-4B1A-ADF1-33170AD828CD_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-07-26",
+      "display_order": 24,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-025",
+      "filename": "night-shots/735E8408-8603-479D-8D4E-0ABBEBE24289_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-07-18",
+      "display_order": 25,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-026",
+      "filename": "night-shots/7393721F-1711-42A3-A0F8-CE78C8E164B3_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-11-05",
+      "display_order": 26,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-027",
+      "filename": "night-shots/77C6B4D5-E9A0-42C5-9684-4D356DEF68B7_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-02-02",
+      "display_order": 27,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-028",
+      "filename": "night-shots/7FD52C2A-A6E8-460A-BB27-FC989E389318_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-14",
+      "display_order": 28,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-029",
+      "filename": "night-shots/82A2CE1A-BAD9-49A1-BC3F-D6C0D5050EBB.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-07-05",
+      "display_order": 29,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-030",
+      "filename": "night-shots/89E22535-8A84-442F-8D8D-53172B0D468F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-20",
+      "display_order": 30,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-031",
+      "filename": "night-shots/8E96416E-7F71-4DF9-9844-332E7F0CBA39_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-11-05",
+      "display_order": 31,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-032",
+      "filename": "night-shots/9087BEFC-FC77-4A5D-B641-9D819B8FD950_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-07-27",
+      "display_order": 32,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-033",
+      "filename": "night-shots/9135AF75-232A-416B-AF0F-E2E90E5B13D3_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-03-23",
+      "display_order": 33,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-034",
+      "filename": "night-shots/9EE35632-82C2-4EC8-B09C-5F603C0B83F5.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-02",
+      "display_order": 34,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-035",
+      "filename": "night-shots/AB3020D2-8052-4C40-895D-B155D45B1E3C_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-07-15",
+      "display_order": 35,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-036",
+      "filename": "night-shots/AE5419F0-3C6A-469F-ACD4-9B037F4019A5.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-03-26",
+      "display_order": 36,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-037",
+      "filename": "night-shots/AEC25BC5-93F4-45F7-8D5B-84DABA0D86FE_1_102_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-20",
+      "display_order": 37,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-038",
+      "filename": "night-shots/BC4C3680-FACE-4CF0-9629-60DA6325602A_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-03-23",
+      "display_order": 38,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-039",
+      "filename": "night-shots/BFDA188B-269F-4484-A634-7EB7B3365FE4_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-03-20",
+      "display_order": 39,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-040",
+      "filename": "night-shots/C3F04146-F04B-4422-BE89-8C4A2C977E03_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-02-23",
+      "display_order": 40,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-041",
+      "filename": "night-shots/CA3D6545-1558-4F8A-84FA-643C480E81D2_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-04-06",
+      "display_order": 41,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-042",
+      "filename": "night-shots/D0FF23D1-C746-477D-AD5F-6C9BD5BE653F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-03-20",
+      "display_order": 42,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-043",
+      "filename": "night-shots/D1CF0A83-A77F-4522-8A2F-204766DE426F_1_201_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-12-23",
+      "display_order": 43,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-044",
+      "filename": "night-shots/D34D3619-7F5D-4285-A6AE-39EF46BEB656_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2007-04-08",
+      "display_order": 44,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-045",
+      "filename": "night-shots/D560F75B-8A69-4F50-9B72-5B68162A2B66_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-03-29",
+      "display_order": 45,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-046",
+      "filename": "night-shots/D5A51824-0176-40F2-ACF9-0F306C1D220C_1_102_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-18",
+      "display_order": 46,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-047",
+      "filename": "night-shots/D9A00990-4235-4236-80A3-9E4304650494_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-07-29",
+      "display_order": 47,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-048",
+      "filename": "night-shots/D9B12FBF-5EEB-4282-922C-92EC42D4240B_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2012-11-03",
+      "display_order": 48,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-049",
+      "filename": "night-shots/DC3C8AEE-11CA-4D76-BA1C-F0969B1058C2_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-01",
+      "display_order": 49,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-050",
+      "filename": "night-shots/E15241D9-DF28-4350-9E82-3B276276AEC7_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-03-23",
+      "display_order": 50,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-051",
+      "filename": "night-shots/E2D647FC-04CE-47B0-AFB1-33B4BB84C6B1_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 51,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-052",
+      "filename": "night-shots/E6CF8A15-2735-4727-A8FC-96343BF8B19E_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-03-31",
+      "display_order": 52,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-053",
+      "filename": "night-shots/E7926118-C03D-4631-89CD-CC6E885BA62F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-07-27",
+      "display_order": 53,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-054",
+      "filename": "night-shots/E97D2B3C-725C-4343-9D09-4A224892DE5B_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-11-05",
+      "display_order": 54,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-055",
+      "filename": "night-shots/EA0547CD-604C-476E-918A-6DC6B18793ED_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-12-02",
+      "display_order": 55,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-056",
+      "filename": "night-shots/ED2FFE27-7713-4CAF-81BE-129E251EFC5E.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-17",
+      "display_order": 56,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-057",
+      "filename": "night-shots/EF383DA0-D87D-45F5-AB36-F1005EF19FC2.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-02",
+      "display_order": 57,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-058",
+      "filename": "night-shots/F35B0DF2-04AF-45AD-AE5B-A8782AC3DE99_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-02-07",
+      "display_order": 58,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-059",
+      "filename": "night-shots/F49A91C9-D5AB-4E09-B1A4-5D9BED9788C0_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-08-13",
+      "display_order": 59,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-060",
+      "filename": "night-shots/F8173E9F-24C4-435F-8E20-5DAE3AE67493_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-16",
+      "display_order": 60,
+      "notes": ""
+    },
+    {
+      "id": "night-shots-061",
+      "filename": "night-shots/FA917627-BF90-4AF0-80B0-CDC45CD48940.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2005-03-25",
+      "display_order": 61,
+      "notes": ""
+    }
+  ]
 }

@@ -2,6 +2,288 @@
   "name": "Cricket",
   "category": "sports",
   "description": "Cricket matches, teams, and memorable moments from the pitch",
-  "tags": ["cricket", "sports", "team", "matches"],
-  "photos": []
+  "tags": [
+    "cricket",
+    "sports",
+    "team",
+    "matches"
+  ],
+  "photos": [
+    {
+      "id": "cricket-001",
+      "filename": "cricket/00AF4C32-3DC3-42DF-8E03-7253DE11E610_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-09-12",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "cricket-002",
+      "filename": "cricket/04795A5B-90A0-4E00-BACD-B8CEAE7DDE47_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-09",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "cricket-003",
+      "filename": "cricket/09C346C3-108F-4430-9D0E-327DAD7C6953_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 3,
+      "notes": ""
+    },
+    {
+      "id": "cricket-004",
+      "filename": "cricket/12957C10-C8E4-4EF7-B51E-AF1DBE53D98F_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-11-27",
+      "display_order": 4,
+      "notes": ""
+    },
+    {
+      "id": "cricket-005",
+      "filename": "cricket/1EFB3CF4-3772-4EF6-9895-161311085758_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-05-21",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "cricket-006",
+      "filename": "cricket/25211312-3DA1-4B32-8A2B-381EDB73C6E8_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-07",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "cricket-007",
+      "filename": "cricket/2F60E6F0-70FB-4738-AA9B-684048A5C8D8_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-11-27",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "cricket-008",
+      "filename": "cricket/30BA575A-EF58-4352-BB28-0D4F2E696BC2_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-09",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "cricket-009",
+      "filename": "cricket/34FA2A1A-6A17-4FF0-A24E-5A3F8A6FD904_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-11-27",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "cricket-010",
+      "filename": "cricket/36528E35-0019-4AED-8C20-44EC379CD4B0_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "cricket-011",
+      "filename": "cricket/44E24463-15FB-452E-969B-626975725BA5_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-11-27",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "cricket-012",
+      "filename": "cricket/4DC9CDA3-F9EF-4EF7-A64E-32B57D60ED84_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-07",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "cricket-013",
+      "filename": "cricket/518B22B9-4226-4580-A644-2F9B45C3012E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2025-06-18",
+      "display_order": 13,
+      "notes": "",
+      "latitude": 45.507103,
+      "longitude": -122.828803
+    },
+    {
+      "id": "cricket-014",
+      "filename": "cricket/58AE5E19-A3B4-4CCA-9C9C-2446BEB3CFDE_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-09-12",
+      "display_order": 14,
+      "notes": ""
+    },
+    {
+      "id": "cricket-015",
+      "filename": "cricket/60712BA0-2455-4B76-AFCF-1DF68F662DF9_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 15,
+      "notes": ""
+    },
+    {
+      "id": "cricket-016",
+      "filename": "cricket/60D0F67A-A8C8-4C9E-8603-D460210DEC4C_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-08-24",
+      "display_order": 16,
+      "notes": ""
+    },
+    {
+      "id": "cricket-017",
+      "filename": "cricket/7950BCD3-E5F8-45EA-8B38-4FE8718DED1C_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2013-08-02",
+      "display_order": 17,
+      "notes": "",
+      "latitude": 53.456667,
+      "longitude": -2.288333
+    },
+    {
+      "id": "cricket-018",
+      "filename": "cricket/7B3F9CB6-D683-42E2-939C-A17BEDB435C4_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-08-24",
+      "display_order": 18,
+      "notes": ""
+    },
+    {
+      "id": "cricket-019",
+      "filename": "cricket/972D709E-7ED1-462A-AEC3-39288C4681AB_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 19,
+      "notes": ""
+    },
+    {
+      "id": "cricket-020",
+      "filename": "cricket/997DFA41-CA4C-48F1-A802-D481DA668837_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-07",
+      "display_order": 20,
+      "notes": ""
+    },
+    {
+      "id": "cricket-021",
+      "filename": "cricket/9AC8A1DB-5990-4E15-8367-8B3DEDBBA8BF_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 21,
+      "notes": ""
+    },
+    {
+      "id": "cricket-022",
+      "filename": "cricket/9B6E3561-4FA3-483E-9FEC-8559A35BD125_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2024-07-04",
+      "display_order": 22,
+      "notes": "",
+      "latitude": 51.407769,
+      "longitude": -0.351986
+    },
+    {
+      "id": "cricket-023",
+      "filename": "cricket/A079EC94-85F6-48AB-998C-787FEC98EDB8_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-11-27",
+      "display_order": 23,
+      "notes": ""
+    },
+    {
+      "id": "cricket-024",
+      "filename": "cricket/AC54CCCB-D82F-458A-85D5-C9FF1582B257_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 24,
+      "notes": ""
+    },
+    {
+      "id": "cricket-025",
+      "filename": "cricket/AEC1C39D-4226-436D-9F62-55F7D8A06A62_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-05-21",
+      "display_order": 25,
+      "notes": ""
+    },
+    {
+      "id": "cricket-026",
+      "filename": "cricket/C97F7175-2997-48E6-880D-BD89B85E1B72_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-07",
+      "display_order": 26,
+      "notes": ""
+    },
+    {
+      "id": "cricket-027",
+      "filename": "cricket/CD8CC708-DF2F-4A19-A2B1-624DC4DE4FDA_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-08-30",
+      "display_order": 27,
+      "notes": ""
+    },
+    {
+      "id": "cricket-028",
+      "filename": "cricket/DF916D1D-2947-4188-B864-994BF583453F_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2013-08-02",
+      "display_order": 28,
+      "notes": ""
+    },
+    {
+      "id": "cricket-029",
+      "filename": "cricket/E6319674-22F6-46DE-8ABA-597B88EB2F36_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-08-24",
+      "display_order": 29,
+      "notes": ""
+    },
+    {
+      "id": "cricket-030",
+      "filename": "cricket/F650E534-C218-4AA8-AD65-79574D72B483_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2013-08-02",
+      "display_order": 30,
+      "notes": ""
+    }
+  ]
 }

@@ -2,6 +2,130 @@
   "name": "Sunsets",
   "category": "nature",
   "description": "Sunset photography from around the world",
-  "tags": ["sunset", "nature", "landscape", "golden-hour", "sky"],
-  "photos": []
+  "tags": [
+    "sunset",
+    "nature",
+    "landscape",
+    "golden-hour",
+    "sky"
+  ],
+  "photos": [
+    {
+      "id": "sunsets-001",
+      "filename": "sunsets/234169DE-EF77-4D8D-852C-500EBFAA9EDF_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-03-19",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-002",
+      "filename": "sunsets/3C75F7C7-B1F0-45D3-956C-60AA768F4C2D_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-01-02",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-003",
+      "filename": "sunsets/40E2FCB5-B4C5-4A01-80ED-EE7374E5811C_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-07-15",
+      "display_order": 3,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-004",
+      "filename": "sunsets/68FB3555-0A85-46F9-BC46-4F43A6D73009_1_201_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-01-05",
+      "display_order": 4,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-005",
+      "filename": "sunsets/847F1105-D454-4BB0-9E45-2645B5762ED5_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2007-12-12",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-006",
+      "filename": "sunsets/86F1AA05-E64B-49FB-9372-5639D86667F8.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-19",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-007",
+      "filename": "sunsets/88BCDC54-9920-41CB-A31F-160E58FA48C3_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-07-29",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-008",
+      "filename": "sunsets/8FD0792B-219A-4B99-892E-B60CDDC885AC_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2009-03-17",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-009",
+      "filename": "sunsets/9884ED49-0DF6-478A-9419-06689F828671.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-22",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-010",
+      "filename": "sunsets/C7D7CC1B-AD30-4E7C-AF5D-8F4800FB8627_1_201_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-01-05",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-011",
+      "filename": "sunsets/F85AAED4-117C-4370-ACF1-9703DD47ED72_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2010-06-03",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-012",
+      "filename": "sunsets/FA9A0662-7D4C-4741-AB6E-6A8305A86618.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-19",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "sunsets-013",
+      "filename": "sunsets/FAE5FD8E-31A3-449C-9826-DF6699246ED9_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-01-05",
+      "display_order": 13,
+      "notes": ""
+    }
+  ]
 }

@@ -2,6 +2,23 @@
   "name": "Jordan",
   "category": "travel",
   "description": "Ancient ruins, desert landscapes, and culture from the Hashemite Kingdom of Jordan",
-  "tags": ["jordan", "travel", "petra", "desert", "middle-east", "archaeology"],
-  "photos": []
+  "tags": [
+    "jordan",
+    "travel",
+    "petra",
+    "desert",
+    "middle-east",
+    "archaeology"
+  ],
+  "photos": [
+    {
+      "id": "middle-east-001",
+      "filename": "middle-east/70F9C743-8374-4891-999C-5525EB232D9E_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2013-01-19",
+      "display_order": 1,
+      "notes": ""
+    }
+  ]
 }
