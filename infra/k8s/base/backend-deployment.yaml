@@ -35,7 +35,7 @@ spec:
         - name: ghcr-secret
       containers:
       - name: backend
-        image: ghcr.io/mcharno/charno-backend:sha256-9d89d55
+        image: ghcr.io/mcharno/charno-backend:sha256-9d85461
         imagePullPolicy: Always
         ports:
         - containerPort: 3080
