@@ -43,7 +43,7 @@ export const listGames = async (req, res) => {
     const { console: consoleName, search, tags, no_art, exclude_console, page = 1, limit = 60 } = req.query;
 
     const pageNum = Math.max(1, parseInt(page) || 1);
-    const limitNum = Math.min(2000, Math.max(1, parseInt(limit) || 60));
+    const limitNum = Math.min(1000, Math.max(1, parseInt(limit) || 60));
     const offset = (pageNum - 1) * limitNum;
 
     const conditions = ['available = true', 'hidden = false'];

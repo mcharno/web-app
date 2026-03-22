@@ -2,6 +2,47 @@
   "name": "Pace Egging",
   "category": "culture",
   "description": "Traditional Easter folk play and Morris dancing traditions",
-  "tags": ["pace-egging", "folk", "tradition", "morris-dancing", "easter", "uk"],
-  "photos": []
+  "tags": [
+    "pace-egging",
+    "folk",
+    "tradition",
+    "morris-dancing",
+    "easter",
+    "uk"
+  ],
+  "photos": [
+    {
+      "id": "pace-egging-001",
+      "filename": "pace-egging/380C1BCA-E65D-41FE-A7A7-5E3196A022AA_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2012-04-09",
+      "display_order": 1,
+      "notes": "",
+      "latitude": 53.553,
+      "longitude": -2.196167
+    },
+    {
+      "id": "pace-egging-002",
+      "filename": "pace-egging/C4FC825E-6406-4E43-B863-61BB5C86BCE6_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2012-04-09",
+      "display_order": 2,
+      "notes": "",
+      "latitude": 53.552833,
+      "longitude": -2.1965
+    },
+    {
+      "id": "pace-egging-003",
+      "filename": "pace-egging/FECA24E3-48D6-4B41-98FD-6F7694755F9A_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2012-04-09",
+      "display_order": 3,
+      "notes": "",
+      "latitude": 53.551667,
+      "longitude": -2.181667
+    }
+  ]
 }

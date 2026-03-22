@@ -2,6 +2,688 @@
   "name": "Sikyon",
   "category": "archaeology",
   "description": "Archaeological excavations and findings from ancient Sikyon, Greece",
-  "tags": ["archaeology", "greece", "ancient", "excavation", "sikyon"],
-  "photos": []
+  "tags": [
+    "archaeology",
+    "greece",
+    "ancient",
+    "excavation",
+    "sikyon"
+  ],
+  "photos": [
+    {
+      "id": "greece-001",
+      "filename": "greece/09A4111B-CC80-4F35-A034-92AE47C4FDAF_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-25",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "greece-002",
+      "filename": "greece/0BED368F-677E-47B3-B7DF-8BD3215B62CE_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2002-07-03",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "greece-003",
+      "filename": "greece/1A97C406-BE01-4642-9325-2D2986298A7E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 3,
+      "notes": ""
+    },
+    {
+      "id": "greece-004",
+      "filename": "greece/1CC0D94C-93E7-4CD6-A09D-4F619D2B018E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-26",
+      "display_order": 4,
+      "notes": ""
+    },
+    {
+      "id": "greece-005",
+      "filename": "greece/2218C94B-98D8-40CC-ACB8-D30FE2D1DA1A_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-16",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "greece-006",
+      "filename": "greece/22B9CC83-2D8A-4D9F-8491-F9CA9CB56B0D_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "greece-007",
+      "filename": "greece/24966A86-E130-47E4-BB7E-D9AF69C7CA12_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-16",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "greece-008",
+      "filename": "greece/3414D899-F85A-4E31-8E45-EF105DF2C664_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-02",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "greece-009",
+      "filename": "greece/3838061F-B968-4076-8704-8029513652B0_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-16",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "greece-010",
+      "filename": "greece/3B26486F-6875-4F31-ABF3-616F7757E06E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "greece-011",
+      "filename": "greece/3DEB0186-B83F-4266-95AB-F1E9B47E8285_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-23",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "greece-012",
+      "filename": "greece/3E1AA8F5-3E69-4553-AE50-EF7410A7AB65_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-22",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "greece-013",
+      "filename": "greece/404C7081-1142-4D95-ACA7-9B99EAC1DDE6_1_100_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-17",
+      "display_order": 13,
+      "notes": ""
+    },
+    {
+      "id": "greece-014",
+      "filename": "greece/40F008CE-EAA7-497B-8D02-E03CAC0ABF98_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-11",
+      "display_order": 14,
+      "notes": ""
+    },
+    {
+      "id": "greece-015",
+      "filename": "greece/41B6754D-C735-451E-AF24-3E1ECB09FEE4_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-29",
+      "display_order": 15,
+      "notes": ""
+    },
+    {
+      "id": "greece-016",
+      "filename": "greece/4A365714-2DC7-4A22-81E6-BE290E74A204_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-17",
+      "display_order": 16,
+      "notes": ""
+    },
+    {
+      "id": "greece-017",
+      "filename": "greece/51713AAE-3C2A-4013-9624-34ABF45485AD_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-21",
+      "display_order": 17,
+      "notes": ""
+    },
+    {
+      "id": "greece-018",
+      "filename": "greece/56F73DB4-1086-4D7C-88A0-EEECF2550239_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-29",
+      "display_order": 18,
+      "notes": ""
+    },
+    {
+      "id": "greece-019",
+      "filename": "greece/5A42F48F-31AA-4A31-B9A7-E5F8B7ADFC17_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-05",
+      "display_order": 19,
+      "notes": ""
+    },
+    {
+      "id": "greece-020",
+      "filename": "greece/5AB67626-1D5F-4640-B2EC-E78A12AE7089_1_100_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-05",
+      "display_order": 20,
+      "notes": ""
+    },
+    {
+      "id": "greece-021",
+      "filename": "greece/5BD47051-8207-4D2C-9D9C-BE2FF38455FE_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-17",
+      "display_order": 21,
+      "notes": ""
+    },
+    {
+      "id": "greece-022",
+      "filename": "greece/68349CC3-D019-42C7-8F78-2E25EB2F9B40_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-21",
+      "display_order": 22,
+      "notes": ""
+    },
+    {
+      "id": "greece-023",
+      "filename": "greece/689EC0AB-222F-40A1-94FD-0337897A8D27_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-22",
+      "display_order": 23,
+      "notes": ""
+    },
+    {
+      "id": "greece-024",
+      "filename": "greece/6FF24742-4087-448C-9FD9-C4AA08617A13_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-26",
+      "display_order": 24,
+      "notes": ""
+    },
+    {
+      "id": "greece-025",
+      "filename": "greece/70E6621C-F448-43E2-B20E-3841DB23883B_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 25,
+      "notes": ""
+    },
+    {
+      "id": "greece-026",
+      "filename": "greece/72B203AD-42DC-4673-9BCF-7A6B09D1B966_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-21",
+      "display_order": 26,
+      "notes": ""
+    },
+    {
+      "id": "greece-027",
+      "filename": "greece/79F910A0-951E-4337-96DA-A8BD4E12EE98_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-30",
+      "display_order": 27,
+      "notes": ""
+    },
+    {
+      "id": "greece-028",
+      "filename": "greece/7D64C1A0-875D-487F-A195-367D95E43D74_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-01",
+      "display_order": 28,
+      "notes": ""
+    },
+    {
+      "id": "greece-029",
+      "filename": "greece/7F2844B4-4B39-4E34-86D5-908B79312828_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 29,
+      "notes": ""
+    },
+    {
+      "id": "greece-030",
+      "filename": "greece/7F59B8EB-1BD1-42F9-BE45-AF46229C375A_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-07",
+      "display_order": 30,
+      "notes": ""
+    },
+    {
+      "id": "greece-031",
+      "filename": "greece/7FACFF3F-A9BB-49D6-8AD3-D2AC564B9636_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 31,
+      "notes": ""
+    },
+    {
+      "id": "greece-032",
+      "filename": "greece/7FD52C2A-A6E8-460A-BB27-FC989E389318_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-14",
+      "display_order": 32,
+      "notes": ""
+    },
+    {
+      "id": "greece-033",
+      "filename": "greece/82C51C45-FC2B-4C21-AD65-6C0A11060804_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-05",
+      "display_order": 33,
+      "notes": ""
+    },
+    {
+      "id": "greece-034",
+      "filename": "greece/84A98119-F1EA-4D8C-985C-01EABDFCB29A_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 34,
+      "notes": ""
+    },
+    {
+      "id": "greece-035",
+      "filename": "greece/84D2119C-564C-496D-B1FA-85037E15EADC_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-21",
+      "display_order": 35,
+      "notes": ""
+    },
+    {
+      "id": "greece-036",
+      "filename": "greece/87F23F52-1535-4413-9DC1-83EABCA71621_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-06-20",
+      "display_order": 36,
+      "notes": ""
+    },
+    {
+      "id": "greece-037",
+      "filename": "greece/8D6513B2-450D-430A-9E00-60AB818D0608_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-03",
+      "display_order": 37,
+      "notes": ""
+    },
+    {
+      "id": "greece-038",
+      "filename": "greece/8FE54575-91D2-4300-8254-828C9D02B3EA_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-09",
+      "display_order": 38,
+      "notes": ""
+    },
+    {
+      "id": "greece-039",
+      "filename": "greece/9006E333-CDFB-4660-9D40-A48AA62053D6_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-17",
+      "display_order": 39,
+      "notes": ""
+    },
+    {
+      "id": "greece-040",
+      "filename": "greece/91671C80-4D3E-4064-B6C0-77469BEA9F49_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 40,
+      "notes": ""
+    },
+    {
+      "id": "greece-041",
+      "filename": "greece/988CBA81-9BAA-4610-A80D-AAA17331000E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-24",
+      "display_order": 41,
+      "notes": ""
+    },
+    {
+      "id": "greece-042",
+      "filename": "greece/9A1D7002-F228-4429-AFBF-C8CC0FE70C50_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-24",
+      "display_order": 42,
+      "notes": ""
+    },
+    {
+      "id": "greece-043",
+      "filename": "greece/9F19E192-6D31-4D51-814D-4ECA8494C62D_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-15",
+      "display_order": 43,
+      "notes": ""
+    },
+    {
+      "id": "greece-044",
+      "filename": "greece/A0137703-1B2C-42CE-984E-1FEFFDDF635B_1_100_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-08",
+      "display_order": 44,
+      "notes": ""
+    },
+    {
+      "id": "greece-045",
+      "filename": "greece/A5DC7FF1-F8C9-4F3D-9412-C4B2C4E620B0_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-27",
+      "display_order": 45,
+      "notes": ""
+    },
+    {
+      "id": "greece-046",
+      "filename": "greece/A6851614-C2A9-4269-9417-B99C570CF623_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "1998-04-09",
+      "display_order": 46,
+      "notes": ""
+    },
+    {
+      "id": "greece-047",
+      "filename": "greece/AEC3E8B4-0385-4B03-BE7B-B6E15365C4AE_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-30",
+      "display_order": 47,
+      "notes": ""
+    },
+    {
+      "id": "greece-048",
+      "filename": "greece/B2697952-1D88-43F0-8BAC-45310BC63818_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-22",
+      "display_order": 48,
+      "notes": ""
+    },
+    {
+      "id": "greece-049",
+      "filename": "greece/B34CBC18-625B-49A2-B1B5-6D95B3A38C8A_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-22",
+      "display_order": 49,
+      "notes": ""
+    },
+    {
+      "id": "greece-050",
+      "filename": "greece/B6FCD4FC-3F92-466F-B976-6E1F1A1EBD48_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-24",
+      "display_order": 50,
+      "notes": ""
+    },
+    {
+      "id": "greece-051",
+      "filename": "greece/B82E196D-B296-4BAC-A6E4-B7BE424A1B1B_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-10",
+      "display_order": 51,
+      "notes": ""
+    },
+    {
+      "id": "greece-052",
+      "filename": "greece/BA1432F0-318B-4861-907F-CA8A6119071E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2002-06-25",
+      "display_order": 52,
+      "notes": ""
+    },
+    {
+      "id": "greece-053",
+      "filename": "greece/BAA95DE6-2FAB-4AB8-A86F-9E2621BB81A1_1_100_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-06",
+      "display_order": 53,
+      "notes": ""
+    },
+    {
+      "id": "greece-054",
+      "filename": "greece/BB6053F4-2653-467D-9418-7184C878044A_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-21",
+      "display_order": 54,
+      "notes": ""
+    },
+    {
+      "id": "greece-055",
+      "filename": "greece/BB792D11-B965-424D-B606-919793AF2919_1_100_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-18",
+      "display_order": 55,
+      "notes": ""
+    },
+    {
+      "id": "greece-056",
+      "filename": "greece/BC967919-FB4E-4CE7-B49B-51FAB717B974_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 56,
+      "notes": ""
+    },
+    {
+      "id": "greece-057",
+      "filename": "greece/BFF546B2-854C-483F-8E03-D8D944E0E953_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-24",
+      "display_order": 57,
+      "notes": ""
+    },
+    {
+      "id": "greece-058",
+      "filename": "greece/C0A3808C-4EA4-4DC8-9799-44AB7B920299_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-16",
+      "display_order": 58,
+      "notes": ""
+    },
+    {
+      "id": "greece-059",
+      "filename": "greece/C3F210E0-5A9B-4D19-BE6F-F7CE157224AD_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-16",
+      "display_order": 59,
+      "notes": ""
+    },
+    {
+      "id": "greece-060",
+      "filename": "greece/CC739ABC-3126-4FBC-B225-ACB53581D4AB_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-17",
+      "display_order": 60,
+      "notes": ""
+    },
+    {
+      "id": "greece-061",
+      "filename": "greece/D05BF746-6027-4332-88C0-806FDB22ECCC_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-03",
+      "display_order": 61,
+      "notes": ""
+    },
+    {
+      "id": "greece-062",
+      "filename": "greece/D1A8672F-6BA4-402C-86D5-BC25771DBD2F_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-22",
+      "display_order": 62,
+      "notes": ""
+    },
+    {
+      "id": "greece-063",
+      "filename": "greece/D7386CB6-E5F2-4E08-8BDA-22FBAFEC33FD_1_100_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-15",
+      "display_order": 63,
+      "notes": ""
+    },
+    {
+      "id": "greece-064",
+      "filename": "greece/D809958C-12E2-4879-A414-CFD228A5C4D7_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-06-23",
+      "display_order": 64,
+      "notes": ""
+    },
+    {
+      "id": "greece-065",
+      "filename": "greece/E2352EBE-9FF4-47A5-9A76-5A7F5E1F8B16_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-07",
+      "display_order": 65,
+      "notes": ""
+    },
+    {
+      "id": "greece-066",
+      "filename": "greece/E6EF95FB-6F84-4AA2-936D-F66F66886A7E_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-02",
+      "display_order": 66,
+      "notes": ""
+    },
+    {
+      "id": "greece-067",
+      "filename": "greece/E7956401-0030-4725-AC20-55134AA7C725_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-22",
+      "display_order": 67,
+      "notes": ""
+    },
+    {
+      "id": "greece-068",
+      "filename": "greece/E8B91CF1-4131-43EC-9CC3-8CCC618B8A2C_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-27",
+      "display_order": 68,
+      "notes": ""
+    },
+    {
+      "id": "greece-069",
+      "filename": "greece/EA403A0D-A765-4944-A49F-8B6514DDA253_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-04",
+      "display_order": 69,
+      "notes": ""
+    },
+    {
+      "id": "greece-070",
+      "filename": "greece/EB6679CF-2CEC-4894-8D85-E663875F6930_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-07-31",
+      "display_order": 70,
+      "notes": ""
+    },
+    {
+      "id": "greece-071",
+      "filename": "greece/F22A8FB4-E8E8-4C22-B70C-FA5363BEEE25_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-16",
+      "display_order": 71,
+      "notes": ""
+    },
+    {
+      "id": "greece-072",
+      "filename": "greece/F7484363-BC0C-4700-A47B-29D449498559_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-07",
+      "display_order": 72,
+      "notes": ""
+    },
+    {
+      "id": "greece-073",
+      "filename": "greece/F9586DE7-1FC8-417E-A4CA-55989BA7F105_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-08-21",
+      "display_order": 73,
+      "notes": ""
+    },
+    {
+      "id": "greece-074",
+      "filename": "greece/F9FE5177-FF71-4B76-93E0-0DCD8C5D1B76_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2001-07-29",
+      "display_order": 74,
+      "notes": ""
+    },
+    {
+      "id": "greece-075",
+      "filename": "greece/FB6C45BC-5F9F-4C0D-9A0F-B0EEAC9A0298_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-09-22",
+      "display_order": 75,
+      "notes": ""
+    }
+  ]
 }

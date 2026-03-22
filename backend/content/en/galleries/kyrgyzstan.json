@@ -2,6 +2,311 @@
   "name": "Kyrgyzstan",
   "category": "travel",
   "description": "Mountains, nomadic culture, and landscapes from Central Asia's mountain republic",
-  "tags": ["kyrgyzstan", "travel", "mountains", "central-asia", "nomadic", "landscape"],
-  "photos": []
+  "tags": [
+    "kyrgyzstan",
+    "travel",
+    "mountains",
+    "central-asia",
+    "nomadic",
+    "landscape"
+  ],
+  "photos": [
+    {
+      "id": "kyrgyzstan-001",
+      "filename": "kyrgyzstan/09CCD461-0064-4939-B571-592E23477C26_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-002",
+      "filename": "kyrgyzstan/0E6BC4DA-80B5-41A9-9DE7-FFA956062B21_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-02",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-003",
+      "filename": "kyrgyzstan/1477D141-A3ED-4512-81CC-5777442C2780_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 3,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-004",
+      "filename": "kyrgyzstan/1B893AF5-027D-4497-B8B5-BB7A173B4DF5_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 4,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-005",
+      "filename": "kyrgyzstan/27215E84-AE28-431A-A8FF-C390FD441609_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-006",
+      "filename": "kyrgyzstan/280A92A1-AA67-40FB-82B4-07AD788F78B9_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-007",
+      "filename": "kyrgyzstan/2E707404-70B5-4C30-BC1A-FBEE2464FC5E_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-11-29",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-008",
+      "filename": "kyrgyzstan/314E3103-2101-4AD9-8C4C-A828913906B4_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-11-29",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-009",
+      "filename": "kyrgyzstan/3AE77F6B-CA67-4A3B-BC91-0D442D6D2A3B_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-010",
+      "filename": "kyrgyzstan/3FBC9B11-2FAA-40F4-BB66-8E7DED02E548_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-02",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-011",
+      "filename": "kyrgyzstan/422B9E55-FBE9-4613-A7AC-423436D21A83_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-01",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-012",
+      "filename": "kyrgyzstan/5A4E4ECB-5751-4395-802B-E218C9AC4F2A_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-01",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-013",
+      "filename": "kyrgyzstan/5BDE5E00-1AC7-4E69-B868-C376C698B6D9_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 13,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-014",
+      "filename": "kyrgyzstan/5FD0BE95-906C-4237-8ED2-BE57F00DE18F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-02",
+      "display_order": 14,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-015",
+      "filename": "kyrgyzstan/62CF36C1-8353-4890-8033-186630FB5001_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-02",
+      "display_order": 15,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-016",
+      "filename": "kyrgyzstan/64DE65F2-F169-405A-846E-C7D144FE6E3F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-11-29",
+      "display_order": 16,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-017",
+      "filename": "kyrgyzstan/6FB00586-3413-4949-B965-B41CF59790E8_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 17,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-018",
+      "filename": "kyrgyzstan/7645695F-D7FC-4E3D-BEAE-5F2FE6921849_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 18,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-019",
+      "filename": "kyrgyzstan/840003E5-D989-4505-A53E-C9D3DD129644_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-02",
+      "display_order": 19,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-020",
+      "filename": "kyrgyzstan/8812F929-BEA8-4C5B-B2FD-B8CF23140C8A_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 20,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-021",
+      "filename": "kyrgyzstan/A7FC2DC9-5747-4E17-91A2-8A80DE2472E3_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 21,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-022",
+      "filename": "kyrgyzstan/B326F3DA-9814-47C2-B200-517CEC1E3A37_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-11-29",
+      "display_order": 22,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-023",
+      "filename": "kyrgyzstan/B93C0E4F-5654-4911-810B-9F0321C68F71_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 23,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-024",
+      "filename": "kyrgyzstan/BE8F4325-59ED-447B-B6E6-04FB9C858687_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 24,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-025",
+      "filename": "kyrgyzstan/C62733EC-5F07-4946-BEB2-5A5C3A2AC622_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 25,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-026",
+      "filename": "kyrgyzstan/CEC67DAC-90BF-4D2F-905D-9F71F4BC3130_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-11-29",
+      "display_order": 26,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-027",
+      "filename": "kyrgyzstan/CFD9FE1F-4E0F-4470-BDE3-016E75C53718_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 27,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-028",
+      "filename": "kyrgyzstan/D2C1E0A3-A5D8-4AB9-94C1-D12A336A58CE_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-02",
+      "display_order": 28,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-029",
+      "filename": "kyrgyzstan/E0A2E36A-E3EF-4CE1-9F9C-7F7738F06404_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-11-29",
+      "display_order": 29,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-030",
+      "filename": "kyrgyzstan/ED8CDBF9-8634-4C8E-9867-E2DF8C6460DB_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 30,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-031",
+      "filename": "kyrgyzstan/EEFB3662-E57D-43A6-8164-F5C8A0CE93A2_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 31,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-032",
+      "filename": "kyrgyzstan/F6A64EFD-88E0-4AA4-AC16-A0919349CFDC_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-03",
+      "display_order": 32,
+      "notes": ""
+    },
+    {
+      "id": "kyrgyzstan-033",
+      "filename": "kyrgyzstan/F7C7F9C6-1093-4B9C-8C82-DDDF880E521B_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2008-12-04",
+      "display_order": 33,
+      "notes": ""
+    }
+  ]
 }

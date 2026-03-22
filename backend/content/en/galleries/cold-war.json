@@ -2,6 +2,40 @@
   "name": "Cold War",
   "category": "history",
   "description": "Cold War era sites, bunkers, and military installations",
-  "tags": ["cold-war", "history", "military", "bunkers", "historical"],
-  "photos": []
+  "tags": [
+    "cold-war",
+    "history",
+    "military",
+    "bunkers",
+    "historical"
+  ],
+  "photos": [
+    {
+      "id": "cold-war-001",
+      "filename": "cold-war/03F3CA86-9384-4755-B9D6-1A4E6FAB17AE_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "cold-war-002",
+      "filename": "cold-war/23630D7F-74E5-4E26-AFF9-A1389ACB4F3D_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "cold-war-003",
+      "filename": "cold-war/3F267E61-ECC3-40F5-BA41-EC5D0EF43AD0_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 3,
+      "notes": ""
+    }
+  ]
 }

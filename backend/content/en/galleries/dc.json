@@ -2,6 +2,154 @@
   "name": "Washington DC",
   "category": "travel",
   "description": "Monuments, museums, and scenes from the nation's capital",
-  "tags": ["washington-dc", "travel", "monuments", "museums", "usa"],
-  "photos": []
+  "tags": [
+    "washington-dc",
+    "travel",
+    "monuments",
+    "museums",
+    "usa"
+  ],
+  "photos": [
+    {
+      "id": "dc-001",
+      "filename": "dc/028AD96E-3B25-4D42-889A-6CC7A81962D9_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-04-30",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "dc-002",
+      "filename": "dc/10F016E6-6DB2-4AF2-9DE1-AD6CFFF6DE1D_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "dc-003",
+      "filename": "dc/1E8FEAF0-26EA-4D8F-BD82-486538BC285F.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-04-29",
+      "display_order": 3,
+      "notes": "",
+      "latitude": 38.889333,
+      "longitude": -77.037833
+    },
+    {
+      "id": "dc-004",
+      "filename": "dc/2CA2C99E-2786-4EB1-A803-A25031A1BEB9.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 4,
+      "notes": "",
+      "latitude": 38.894667,
+      "longitude": -77.049667
+    },
+    {
+      "id": "dc-005",
+      "filename": "dc/518343C6-73CA-42AC-AE20-E2ADA9D1DAAE_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "dc-006",
+      "filename": "dc/69C5E72F-AB6D-44D5-9C59-EC4BF22A66C5_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "dc-007",
+      "filename": "dc/7056DDFC-90D3-41D3-87FA-ADBB421A8DD7_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "dc-008",
+      "filename": "dc/7400711F-D3DF-44B9-9A61-5127490E196F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-04-30",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "dc-009",
+      "filename": "dc/740E079B-13AD-4D59-957B-EB4CF4BCE15F_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "dc-010",
+      "filename": "dc/85A89942-FDDB-4258-994A-1C2B5D898E36_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "dc-011",
+      "filename": "dc/C5692FE1-9EAE-4026-8560-94E30BFD0D73_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "dc-012",
+      "filename": "dc/C826AD9E-41F7-4ECC-90AC-43E28A15A63A_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "dc-013",
+      "filename": "dc/CB41B738-84AC-41E8-82B5-3C7BA7EB4D74_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 13,
+      "notes": ""
+    },
+    {
+      "id": "dc-014",
+      "filename": "dc/D16751EF-D526-407F-ABD5-65FCA5881715_1_102_o.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 14,
+      "notes": ""
+    },
+    {
+      "id": "dc-015",
+      "filename": "dc/D2863E95-D67B-4EDD-95E3-2809868C9AB7.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2011-05-02",
+      "display_order": 15,
+      "notes": "",
+      "latitude": 38.889333,
+      "longitude": -77.037833
+    }
+  ]
 }

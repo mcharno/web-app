@@ -1,7 +1,150 @@
 {
   "name": "Russia",
   "category": "travel",
-  "description": "Architecture, culture, and landscapes from the Russian Federation",
-  "tags": ["russia", "travel", "architecture", "culture", "moscow", "st-petersburg"],
-  "photos": []
+  "description": "Architecture, culture, and landscapes from the Soviet era",
+  "tags": [
+    "russia",
+    "travel",
+    "architecture",
+    "culture",
+    "moscow",
+    "st-petersburg"
+  ],
+  "photos": [
+    {
+      "id": "soviet-001",
+      "filename": "soviet/0D1D2513-3C7A-4E78-A78B-951D9D11D729_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-11",
+      "display_order": 1,
+      "notes": ""
+    },
+    {
+      "id": "soviet-002",
+      "filename": "soviet/184D04FE-B235-4165-BEE3-EAD21B302CE8_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-15",
+      "display_order": 2,
+      "notes": ""
+    },
+    {
+      "id": "soviet-003",
+      "filename": "soviet/443F6D01-E1B9-4D4D-8210-3FA4FB60859C_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-15",
+      "display_order": 3,
+      "notes": ""
+    },
+    {
+      "id": "soviet-004",
+      "filename": "soviet/4855565C-F454-4BD7-95C7-7EDEA13E329D_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-16",
+      "display_order": 4,
+      "notes": ""
+    },
+    {
+      "id": "soviet-005",
+      "filename": "soviet/4B3960D6-06A8-459F-8B12-36CAAC3978B7_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-11",
+      "display_order": 5,
+      "notes": ""
+    },
+    {
+      "id": "soviet-006",
+      "filename": "soviet/6C9BC687-D9AD-4D77-B17F-5EFDED06A345_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-12",
+      "display_order": 6,
+      "notes": ""
+    },
+    {
+      "id": "soviet-007",
+      "filename": "soviet/73D46C27-A094-4CFC-B67C-1371DADCA431_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-15",
+      "display_order": 7,
+      "notes": ""
+    },
+    {
+      "id": "soviet-008",
+      "filename": "soviet/794B7218-B16D-4398-8833-275B220EC391_1_102_a.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-04-08",
+      "display_order": 8,
+      "notes": ""
+    },
+    {
+      "id": "soviet-009",
+      "filename": "soviet/859CB434-CB6E-4761-9233-7623FCC647E7.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-18",
+      "display_order": 9,
+      "notes": ""
+    },
+    {
+      "id": "soviet-010",
+      "filename": "soviet/889CD3FF-9A75-4BF4-866E-170B876C5CF8_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-08",
+      "display_order": 10,
+      "notes": ""
+    },
+    {
+      "id": "soviet-011",
+      "filename": "soviet/8B04BC27-50C7-4C31-972F-B37C3FBDDEF1_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-11",
+      "display_order": 11,
+      "notes": ""
+    },
+    {
+      "id": "soviet-012",
+      "filename": "soviet/C5B3D77A-4F84-432F-B36B-0DD19CF650BA_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-11",
+      "display_order": 12,
+      "notes": ""
+    },
+    {
+      "id": "soviet-013",
+      "filename": "soviet/D23B6C7C-39F7-4D8B-A4A9-5F2199DAE57F_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-04-08",
+      "display_order": 13,
+      "notes": ""
+    },
+    {
+      "id": "soviet-014",
+      "filename": "soviet/DD4BA05D-57D5-4F86-87AB-0C08A77FF12B_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2004-10-11",
+      "display_order": 14,
+      "notes": ""
+    },
+    {
+      "id": "soviet-015",
+      "filename": "soviet/E961F40C-6C89-4B39-B791-A54DA2BB726A_1_105_c.jpeg",
+      "caption": "",
+      "location": "",
+      "taken_date": "2006-04-08",
+      "display_order": 15,
+      "notes": ""
+    }
+  ]
 }
