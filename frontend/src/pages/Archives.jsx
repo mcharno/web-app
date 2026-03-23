@@ -13,6 +13,15 @@ const Archives = () => {
       details: 'Browse through fifteen seasons of fixtures, results, league tables, and match reports from the beloved University of York Inter-Departmental Cricket League.'
     },
     {
+      id: 'rom-library',
+      title: 'ROM Library',
+      subtitle: 'Retro Game Collection',
+      description: 'Browse the retro game ROM collection',
+      link: '/archives/roms',
+      icon: null,
+      details: 'A catalogue of the retro game ROM collection spanning multiple consoles. Filter by platform, search by title, and browse game details including box art and screenshots.'
+    },
+    {
       id: 'berbatis',
       title: 'Berbatis',
       subtitle: 'A Collection of Memories',
@@ -41,15 +50,6 @@ const Archives = () => {
       icon: null,
       details: 'Coming soon: A dedicated page celebrating Victor Trumper, one of cricket\'s greatest and most stylish batsmen.',
       comingSoon: true
-    },
-    {
-      id: 'rom-library',
-      title: 'ROM Library',
-      subtitle: 'Retro Game Collection',
-      description: 'Browse the retro game ROM collection',
-      link: '/archives/roms',
-      icon: null,
-      details: 'A catalogue of the retro game ROM collection spanning multiple consoles. Filter by platform, search by title, and browse game details including box art and screenshots.'
     }
   ];
 
