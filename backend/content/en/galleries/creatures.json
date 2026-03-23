@@ -1,5 +1,6 @@
 {
   "name": "Creatures",
+  "key_photo": "creatures/D516E619-4B23-409F-97AD-E123AA1A97CD.jpeg",
   "category": "nature",
   "description": "Wildlife and animals encountered in travels and daily life",
   "tags": [
@@ -13,8 +14,8 @@
     {
       "id": "creatures-001",
       "filename": "creatures/01F23ED3-5FA9-40A0-8E57-C0499119E809_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Cats operating in gangs",
+      "location": "Istanbul",
       "taken_date": "2006-07-28",
       "display_order": 1,
       "notes": ""
@@ -22,8 +23,8 @@
     {
       "id": "creatures-002",
       "filename": "creatures/097CB913-FC96-4584-B07F-18BB7F34C26A_1_102_a.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Greyfriars Bobby",
+      "location": "Edinburgh",
       "taken_date": "2006-05-17",
       "display_order": 2,
       "notes": ""
@@ -40,8 +41,8 @@
     {
       "id": "creatures-004",
       "filename": "creatures/10BB7489-FA3D-4554-8E81-0422CA70475A.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "A monster",
+      "location": "Laconia",
       "taken_date": "2004-07-27",
       "display_order": 4,
       "notes": ""
@@ -49,7 +50,7 @@
     {
       "id": "creatures-005",
       "filename": "creatures/1485712E-0BCD-4828-8C31-8B717407C249_1_102_o.jpeg",
-      "caption": "",
+      "caption": "Monsters",
       "location": "",
       "taken_date": "2011-05-02",
       "display_order": 5,
@@ -58,8 +59,8 @@
     {
       "id": "creatures-006",
       "filename": "creatures/17FA0C38-AA8B-4AFE-89F3-723F87E803D3_1_100_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "A cat",
+      "location": "Istanbul",
       "taken_date": "2004-07-06",
       "display_order": 6,
       "notes": ""
@@ -67,8 +68,8 @@
     {
       "id": "creatures-007",
       "filename": "creatures/1CDCBC29-54A5-46A2-B308-D5413D4CEF60_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "A performing bear",
+      "location": "St Petersburg",
       "taken_date": "2010-08-18",
       "display_order": 7,
       "notes": ""
@@ -76,8 +77,8 @@
     {
       "id": "creatures-008",
       "filename": "creatures/1DB057A6-5B3D-477C-A08F-A059E3E3FDE3_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Cozy",
+      "location": "Thessolaniki",
       "taken_date": "2006-07-26",
       "display_order": 8,
       "notes": ""
@@ -85,8 +86,8 @@
     {
       "id": "creatures-009",
       "filename": "creatures/211BB820-1530-46E6-9671-50F273ABBB7C_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Mighty Aratos",
+      "location": "Athens",
       "taken_date": "2009-06-19",
       "display_order": 9,
       "notes": ""
@@ -137,33 +138,6 @@
       "notes": ""
     },
     {
-      "id": "creatures-015",
-      "filename": "creatures/834907A9-A4E4-40B6-884E-7494015CB4AA_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2008-06-29",
-      "display_order": 15,
-      "notes": ""
-    },
-    {
-      "id": "creatures-016",
-      "filename": "creatures/857638D8-502E-4506-A941-A5150B0DA938_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2008-06-02",
-      "display_order": 16,
-      "notes": ""
-    },
-    {
-      "id": "creatures-017",
-      "filename": "creatures/974ECAAE-D8A5-4D3B-9778-9C7174863726_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2009-06-18",
-      "display_order": 17,
-      "notes": ""
-    },
-    {
       "id": "creatures-018",
       "filename": "creatures/9914D0BE-B4F2-4C38-B87F-EC2119FD2BE0_1_102_o.jpeg",
       "caption": "",
@@ -179,15 +153,6 @@
       "location": "",
       "taken_date": "2010-08-18",
       "display_order": 19,
-      "notes": ""
-    },
-    {
-      "id": "creatures-020",
-      "filename": "creatures/AEE36259-85AB-4996-A396-08BED0F384D8_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2011-05-02",
-      "display_order": 20,
       "notes": ""
     },
     {

@@ -1,5 +1,6 @@
 {
   "name": "Airplanes",
+  "key_photo": "airplanes/F5FFC762-2110-460B-BA62-5EDD2A5B7106_1_102_o.jpeg",
   "category": "aviation",
   "description": "Aircraft photography from airports, airshows, and in flight",
   "tags": [
@@ -40,19 +41,10 @@
       "notes": ""
     },
     {
-      "id": "airplanes-004",
-      "filename": "airplanes/19E2969C-86E3-4935-84BF-A5F5F764FE72_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2010-06-23",
-      "display_order": 4,
-      "notes": ""
-    },
-    {
       "id": "airplanes-005",
       "filename": "airplanes/253F70D5-80B4-42DE-B521-7C69E86394DC_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "Final Approach",
+      "location": "Aurora",
       "taken_date": "2009-03-31",
       "display_order": 5,
       "notes": ""
@@ -78,8 +70,8 @@
     {
       "id": "airplanes-008",
       "filename": "airplanes/38B24B1D-7BA8-42FF-92FF-9EC2742B68B7_1_102_a.jpeg",
-      "caption": "",
-      "location": "",
+      "caption": "B-25 Mitchell",
+      "location": "Aurora",
       "taken_date": "2011-08-30",
       "display_order": 8,
       "notes": ""
@@ -168,17 +160,6 @@
       "notes": ""
     },
     {
-      "id": "airplanes-018",
-      "filename": "airplanes/8A18838B-6763-48B7-A7D9-1DAB091B098E_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2014-09-26",
-      "display_order": 18,
-      "notes": "",
-      "latitude": 53.925308,
-      "longitude": -0.965661
-    },
-    {
       "id": "airplanes-019",
       "filename": "airplanes/8A9D76CD-A8D1-4E9D-8E08-98BDAB4BBF87_1_102_o.jpeg",
       "caption": "",
@@ -257,17 +238,6 @@
       "longitude": -1.082
     },
     {
-      "id": "airplanes-027",
-      "filename": "airplanes/ABC2B526-7EAC-4F5F-A34A-FC184C54A61A_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2012-06-10",
-      "display_order": 27,
-      "notes": "",
-      "latitude": 53.926,
-      "longitude": -0.9675
-    },
-    {
       "id": "airplanes-028",
       "filename": "airplanes/AEA7E1E4-E49F-4F85-89C6-0127083703AA_1_102_o.jpeg",
       "caption": "",
@@ -284,17 +254,6 @@
       "taken_date": "2009-04-04",
       "display_order": 29,
       "notes": ""
-    },
-    {
-      "id": "airplanes-030",
-      "filename": "airplanes/B13CB32E-D718-4494-A350-4CC94E797140_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2012-06-10",
-      "display_order": 30,
-      "notes": "",
-      "latitude": 53.925167,
-      "longitude": -0.968333
     },
     {
       "id": "airplanes-031",
@@ -360,15 +319,6 @@
       "notes": ""
     },
     {
-      "id": "airplanes-038",
-      "filename": "airplanes/DD419B15-F685-4956-B1FB-3540977DDA02_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2011-04-26",
-      "display_order": 38,
-      "notes": ""
-    },
-    {
       "id": "airplanes-039",
       "filename": "airplanes/DED8D620-2891-4FAF-864F-F27908BF993B_1_102_o.jpeg",
       "caption": "",
@@ -386,15 +336,6 @@
       "location": "",
       "taken_date": "2011-04-25",
       "display_order": 40,
-      "notes": ""
-    },
-    {
-      "id": "airplanes-041",
-      "filename": "airplanes/F39FF138-67FE-4627-8CB6-BDD2FF5D5685_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2006-05-12",
-      "display_order": 41,
       "notes": ""
     },
     {

@@ -140,6 +140,7 @@ export async function loadAllGalleries(language) {
             category: gallery.category,
             description: gallery.description,
             tags: gallery.tags,
+            key_photo: gallery.key_photo || null,
             language
           };
         })

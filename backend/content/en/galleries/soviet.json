@@ -1,5 +1,6 @@
 {
-  "name": "Russia",
+  "name": "Soviet",
+  "key_photo": "soviet/D23B6C7C-39F7-4D8B-A4A9-5F2199DAE57F_1_105_c.jpeg",
   "category": "travel",
   "description": "Architecture, culture, and landscapes from the Soviet era",
   "tags": [
@@ -72,15 +73,6 @@
       "location": "",
       "taken_date": "2004-10-15",
       "display_order": 7,
-      "notes": ""
-    },
-    {
-      "id": "soviet-008",
-      "filename": "soviet/794B7218-B16D-4398-8833-275B220EC391_1_102_a.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2006-04-08",
-      "display_order": 8,
       "notes": ""
     },
     {

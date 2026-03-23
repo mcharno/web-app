@@ -1,5 +1,6 @@
 {
   "name": "Nights",
+  "key_photo": "night-shots/710F4232-5AD3-4B1A-ADF1-33170AD828CD_1_102_o.jpeg",
   "category": "urban",
   "description": "Night photography capturing cities, stars, and nocturnal scenes",
   "tags": [
@@ -72,15 +73,6 @@
       "location": "",
       "taken_date": "2004-09-09",
       "display_order": 7,
-      "notes": ""
-    },
-    {
-      "id": "night-shots-008",
-      "filename": "night-shots/2842FC85-7B57-4153-BF45-8E7FD1ED8097_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2009-03-20",
-      "display_order": 8,
       "notes": ""
     },
     {
@@ -471,15 +463,6 @@
       "notes": ""
     },
     {
-      "id": "night-shots-052",
-      "filename": "night-shots/E6CF8A15-2735-4727-A8FC-96343BF8B19E_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2008-03-31",
-      "display_order": 52,
-      "notes": ""
-    },
-    {
       "id": "night-shots-053",
       "filename": "night-shots/E7926118-C03D-4631-89CD-CC6E885BA62F_1_102_o.jpeg",
       "caption": "",
@@ -540,15 +523,6 @@
       "location": "",
       "taken_date": "2010-08-13",
       "display_order": 59,
-      "notes": ""
-    },
-    {
-      "id": "night-shots-060",
-      "filename": "night-shots/F8173E9F-24C4-435F-8E20-5DAE3AE67493_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2010-06-16",
-      "display_order": 60,
       "notes": ""
     },
     {

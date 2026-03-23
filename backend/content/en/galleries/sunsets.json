@@ -1,5 +1,6 @@
 {
   "name": "Sunsets",
+  "key_photo": "sunsets/9884ED49-0DF6-478A-9419-06689F828671.jpeg",
   "category": "nature",
   "description": "Sunset photography from around the world",
   "tags": [
@@ -62,15 +63,6 @@
       "location": "",
       "taken_date": "2004-10-19",
       "display_order": 6,
-      "notes": ""
-    },
-    {
-      "id": "sunsets-007",
-      "filename": "sunsets/88BCDC54-9920-41CB-A31F-160E58FA48C3_1_102_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2006-07-29",
-      "display_order": 7,
       "notes": ""
     },
     {
