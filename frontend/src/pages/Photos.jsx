@@ -68,24 +68,31 @@ const Photos = () => {
       </div>
 
       {activeTab === 'galleries' && (
-        <div className="galleries-grid">
+        <div className="galleries-list">
           {galleries.map((gallery) => (
             <Link
               key={gallery.gallery_name}
               to={`/photos/${encodeURIComponent(gallery.gallery_name)}`}
-              className="gallery-card"
+              className={`gallery-tile${gallery.key_photo ? '' : ' gallery-tile--no-photo'}`}
             >
-              <h4>{gallery.gallery_name}</h4>
-              {gallery.gallery_description && (
-                <p className="gallery-description">{gallery.gallery_description}</p>
+              {gallery.key_photo && (
+                <>
+                  <img
+                    className="gallery-tile-photo"
+                    src={`/images/photos/${gallery.key_photo}`}
+                    alt=""
+                  />
+                  <div className="gallery-tile-cutout">
+                    <h3 className="gallery-tile-title--cutout">{gallery.name || gallery.gallery_name}</h3>
+                    {gallery.description && (
+                      <p className="gallery-tile-description">{gallery.description}</p>
+                    )}
+                  </div>
+                </>
               )}
-              {gallery.gallery_tags && gallery.gallery_tags.length > 0 && (
-                <div className="gallery-tags">
-                  {gallery.gallery_tags.map((tag) => (
-                    <span key={tag} className="tag">{tag}</span>
-                  ))}
-                </div>
-              )}
+              <div className="gallery-tile-solid">
+                <h3 className="gallery-tile-title--solid">{gallery.name || gallery.gallery_name}</h3>
+              </div>
             </Link>
           ))}
         </div>

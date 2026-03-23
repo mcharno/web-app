@@ -1,5 +1,6 @@
 {
-  "name": "Sikyon",
+  "name": "Greece",
+  "key_photo": "greece/24966A86-E130-47E4-BB7E-D9AF69C7CA12_1_105_c.jpeg",
   "category": "archaeology",
   "description": "Archaeological excavations and findings from ancient Sikyon, Greece",
   "tags": [
@@ -290,15 +291,6 @@
       "notes": ""
     },
     {
-      "id": "greece-032",
-      "filename": "greece/7FD52C2A-A6E8-460A-BB27-FC989E389318_1_105_c.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2004-08-14",
-      "display_order": 32,
-      "notes": ""
-    },
-    {
       "id": "greece-033",
       "filename": "greece/82C51C45-FC2B-4C21-AD65-6C0A11060804_1_105_c.jpeg",
       "caption": "",
@@ -395,15 +387,6 @@
       "location": "",
       "taken_date": "2004-08-15",
       "display_order": 43,
-      "notes": ""
-    },
-    {
-      "id": "greece-044",
-      "filename": "greece/A0137703-1B2C-42CE-984E-1FEFFDDF635B_1_100_o.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2004-07-08",
-      "display_order": 44,
       "notes": ""
     },
     {

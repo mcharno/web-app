@@ -1,5 +1,6 @@
 {
   "name": "Cricket",
+  "key_photo": "cricket/9AC8A1DB-5990-4E15-8367-8B3DEDBBA8BF_1_105_c.jpeg",
   "category": "sports",
   "description": "Cricket matches, teams, and memorable moments from the pitch",
   "tags": [
@@ -154,17 +155,6 @@
       "taken_date": "2006-08-24",
       "display_order": 16,
       "notes": ""
-    },
-    {
-      "id": "cricket-017",
-      "filename": "cricket/7950BCD3-E5F8-45EA-8B38-4FE8718DED1C_1_105_c.jpeg",
-      "caption": "",
-      "location": "",
-      "taken_date": "2013-08-02",
-      "display_order": 17,
-      "notes": "",
-      "latitude": 53.456667,
-      "longitude": -2.288333
     },
     {
       "id": "cricket-018",
