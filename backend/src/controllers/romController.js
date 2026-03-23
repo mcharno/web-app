@@ -1258,15 +1258,13 @@ export const scanRoms = async (req, res) => {
         groups.get(key).push(filename);
       }
 
-      const discoveredKeys = [...groups.keys()];
-
-      // Upsert each game group
+      // Insert new groups; for existing rows only mark available — never overwrite filenames.
+      // This preserves manual merges (e.g. merge-by-title on arcade) across scans.
       for (const [key, filenames] of groups) {
         const result = await pool.query(
           `INSERT INTO rom_games (console, title_key, filenames, title, available)
            VALUES ($1, $2, $3::jsonb, $4, true)
            ON CONFLICT (console, title_key) DO UPDATE SET
-             filenames = EXCLUDED.filenames,
              available = true
            RETURNING (xmax = 0) AS is_new`,
           [consoleName, key, JSON.stringify(filenames), key]
@@ -1278,12 +1276,18 @@ export const scanRoms = async (req, res) => {
         }
       }
 
-      // Mark games in this console no longer found on disk as unavailable
-      if (discoveredKeys.length > 0) {
+      // Mark games unavailable when NONE of their filenames are still on disk.
+      // Checking against the flat filename list (not title_keys) means merged rows
+      // stay available as long as at least one of their files is present.
+      if (discoveredFilenames.length > 0) {
         const updateResult = await pool.query(
           `UPDATE rom_games SET available = false
-           WHERE console = $1 AND title_key != ALL($2::text[]) AND available = true`,
-          [consoleName, discoveredKeys]
+           WHERE console = $1 AND available = true
+             AND NOT EXISTS (
+               SELECT 1 FROM jsonb_array_elements_text(filenames) AS f
+               WHERE f = ANY($2::text[])
+             )`,
+          [consoleName, discoveredFilenames]
         );
         markedUnavailable += updateResult.rowCount;
       } else {
