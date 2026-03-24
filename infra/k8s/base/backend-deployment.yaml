@@ -52,6 +52,8 @@ spec:
           value: "/data/roms/games"
         - name: ROM_IMAGES_DIR
           value: "/data/rom-images"
+        - name: POSTERS_DIR
+          value: "/data/posters"
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
@@ -127,6 +129,9 @@ spec:
           readOnly: true
         - name: rom-images
           mountPath: /data/rom-images
+        - name: posters
+          mountPath: /data/posters
+          readOnly: true
         resources:
           requests:
             memory: "128Mi"
@@ -168,3 +173,6 @@ spec:
       - name: rom-images
         persistentVolumeClaim:
           claimName: rom-images-pvc
+      - name: posters
+        persistentVolumeClaim:
+          claimName: posters-pvc
