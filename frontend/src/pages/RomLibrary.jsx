@@ -27,6 +27,7 @@ const RomLibrary = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [sort, setSort] = useState('');
 
   // Modal
   const [selectedGame, setSelectedGame] = useState(null);
@@ -51,10 +52,10 @@ const RomLibrary = () => {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  // Reset to page 1 when filters change
+  // Reset to page 1 when filters or sort change
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedConsole, debouncedSearch, selectedTags]);
+  }, [selectedConsole, debouncedSearch, selectedTags, sort]);
 
   // Fetch games whenever page or filters change
   useEffect(() => {
@@ -67,6 +68,7 @@ const RomLibrary = () => {
         if (selectedConsole !== 'all') params.console = selectedConsole;
         if (debouncedSearch) params.search = debouncedSearch;
         if (selectedTags.length > 0) params.tags = selectedTags;
+        if (sort) params.sort = sort;
 
         const res = await romsAPI.getAll(params);
         if (cancelled) return;
@@ -89,7 +91,7 @@ const RomLibrary = () => {
 
     fetchGames();
     return () => { cancelled = true; };
-  }, [selectedConsole, debouncedSearch, selectedTags, currentPage]);
+  }, [selectedConsole, debouncedSearch, selectedTags, sort, currentPage]);
 
   // Close search dropdown on outside click
   useEffect(() => {
@@ -257,6 +259,12 @@ const RomLibrary = () => {
                 : `${total} game${total !== 1 ? 's' : ''}${hasActiveFilters ? ' matching' : ''}${pages > 1 ? ` — page ${currentPage} of ${pages}` : ''}`
               }
             </p>
+            <div className="rom-sort-row">
+              <button className={`rom-sort-btn${sort === 'title' || sort === '' ? ' active' : ''}`} onClick={() => setSort('title')} title="Title A–Z">A→Z</button>
+              <button className={`rom-sort-btn${sort === 'title_desc' ? ' active' : ''}`} onClick={() => setSort('title_desc')} title="Title Z–A">Z→A</button>
+              <button className={`rom-sort-btn${sort === 'year' ? ' active' : ''}`} onClick={() => setSort('year')} title="Year (oldest first)">↑yr</button>
+              <button className={`rom-sort-btn${sort === 'year_desc' ? ' active' : ''}`} onClick={() => setSort('year_desc')} title="Year (newest first)">↓yr</button>
+            </div>
             {pages > 1 && (
               <div className="pagination">
                 <button

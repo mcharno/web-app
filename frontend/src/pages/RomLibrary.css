@@ -104,6 +104,34 @@
   border-bottom-color: var(--accent-primary);
 }
 
+/* Sort row */
+.rom-sort-row {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.rom-sort-btn {
+  padding: 0.35rem 0.6rem;
+  background: transparent;
+  color: var(--text-tertiary);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.rom-sort-btn:hover {
+  color: var(--text-primary);
+}
+
+.rom-sort-btn.active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
 /* Search + tag autocomplete */
 .rom-search-container {
   position: relative;
