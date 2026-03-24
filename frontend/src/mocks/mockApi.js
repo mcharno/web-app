@@ -178,6 +178,55 @@ const mockBlogPostContent = {
   },
 };
 
+// Mock ROM games data — 2 consoles, 3 entries
+const mockRomGames = [
+  {
+    id: 1,
+    console: 'snes',
+    title_key: 'Super Mario World',
+    filenames: ['Super Mario World (USA).sfc'],
+    title: null,
+    description: null,
+    year: null,
+    box_art_url: null,
+    screenshots: [],
+    tags: [],
+    available: true,
+    hidden: false,
+    display_order: 0,
+  },
+  {
+    id: 2,
+    console: 'snes',
+    title_key: 'The Legend of Zelda A Link to the Past',
+    filenames: ['The Legend of Zelda - A Link to the Past (USA).sfc'],
+    title: null,
+    description: null,
+    year: null,
+    box_art_url: null,
+    screenshots: [],
+    tags: [],
+    available: true,
+    hidden: false,
+    display_order: 1,
+  },
+  {
+    id: 3,
+    console: 'n64',
+    title_key: 'GoldenEye 007',
+    filenames: ['GoldenEye 007 (USA).z64'],
+    title: null,
+    description: null,
+    year: null,
+    box_art_url: null,
+    screenshots: [],
+    tags: [],
+    available: true,
+    hidden: false,
+    display_order: 0,
+  },
+];
+
 /**
  * Mock API Object
  * Simulates the real API with mock data
@@ -264,6 +313,43 @@ export const mockApi = {
       const allPhotos = Object.values(mockPhotosData).flat();
       // Filter out photos without coordinates
       return { data: allPhotos.filter(p => p.latitude && p.longitude) };
+    },
+  },
+
+  // ROMs API
+  roms: {
+    getConsoles: async () => {
+      await delay();
+      return { data: [...new Set(mockRomGames.map(g => g.console))] };
+    },
+    getTags: async () => {
+      await delay();
+      return { data: [...new Set(mockRomGames.flatMap(g => g.tags))] };
+    },
+    getAll: async (params = {}) => {
+      await delay();
+      const { console: consoleName, search, sort, page = 1, limit = 60 } = params;
+      let games = mockRomGames.filter(g => g.available && !g.hidden);
+      if (consoleName) games = games.filter(g => g.console === consoleName);
+      if (search) games = games.filter(g => (g.title || g.title_key).toLowerCase().includes(search.toLowerCase()));
+      const SORT = {
+        title:      (a, b) => (a.title || a.title_key).localeCompare(b.title || b.title_key),
+        title_desc: (a, b) => (b.title || b.title_key).localeCompare(a.title || a.title_key),
+        year:       (a, b) => (a.year || 9999) - (b.year || 9999),
+        year_desc:  (a, b) => (b.year || 0) - (a.year || 0),
+      };
+      if (SORT[sort]) games = [...games].sort(SORT[sort]);
+      const total = games.length;
+      const pageNum = Math.max(1, parseInt(page));
+      const limitNum = Math.max(1, parseInt(limit));
+      const paged = games.slice((pageNum - 1) * limitNum, pageNum * limitNum);
+      return { data: { games: paged, total, page: pageNum, limit: limitNum, pages: Math.ceil(total / limitNum) } };
+    },
+    getById: async (id) => {
+      await delay();
+      const game = mockRomGames.find(g => g.id === parseInt(id));
+      if (!game) throw { response: { status: 404, data: { error: 'Game not found' } } };
+      return { data: game };
     },
   },
 

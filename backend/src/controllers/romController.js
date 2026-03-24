@@ -40,7 +40,7 @@ function titleKey(raw) {
 
 export const listGames = async (req, res) => {
   try {
-    const { console: consoleName, search, tags, no_art, exclude_console, page = 1, limit = 60 } = req.query;
+    const { console: consoleName, search, tags, no_art, exclude_console, sort, page = 1, limit = 60 } = req.query;
 
     const pageNum = Math.max(1, parseInt(page) || 1);
     const limitNum = Math.min(1000, Math.max(1, parseInt(limit) || 60));
@@ -88,9 +88,15 @@ export const listGames = async (req, res) => {
 
     // When fetching the scrape queue (no_art=true), prioritise never-attempted games
     // first, then oldest-attempted, so the queue cycles through all consoles evenly.
+    const SORT_OPTIONS = {
+      title:      'title ASC NULLS LAST, title_key ASC',
+      title_desc: 'title DESC NULLS LAST, title_key DESC',
+      year:       'year ASC NULLS LAST, title ASC NULLS LAST',
+      year_desc:  'year DESC NULLS LAST, title ASC NULLS LAST',
+    };
     const orderBy = no_art === 'true'
       ? 'scrape_attempted_at ASC NULLS FIRST, console ASC, title ASC'
-      : 'display_order ASC, title ASC';
+      : (SORT_OPTIONS[sort] || 'display_order ASC, title ASC NULLS LAST');
 
     const dataResult = await pool.query(
       `SELECT id, title_key, filenames, console, title, year, box_art_url, tags
