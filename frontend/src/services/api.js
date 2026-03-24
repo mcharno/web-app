@@ -74,4 +74,10 @@ export const romsAPI = USE_MOCK_API ? mockApi.roms : {
   scan: () => api.post('/roms/scan'),
 };
 
+// Berbatis Archive API
+export const berbatisAPI = USE_MOCK_API ? mockApi.berbatis : {
+  getAll: (params = {}) => api.get('/berbatis', { params }),
+  getById: (id) => api.get(`/berbatis/${id}`),
+};
+
 export default api;

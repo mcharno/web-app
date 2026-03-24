@@ -1,0 +1,416 @@
+.berbatis-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Reuse back button style from ROM library */
+.berbatis-page .back-to-archives {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 2rem;
+  background: var(--bg-secondary);
+  color: var(--accent-primary);
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.berbatis-page .back-to-archives::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.berbatis-page .back-to-archives:hover::before {
+  transform: scaleX(1);
+}
+
+.berbatis-page .back-to-archives:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--accent-primary);
+  transform: translateX(-4px);
+}
+
+/* Header */
+.berbatis-header {
+  margin-bottom: 2rem;
+}
+
+.berbatis-header h2 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
+}
+
+.berbatis-intro {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Decade tabs */
+.berbatis-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.berbatis-tab {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.berbatis-tab:hover {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.berbatis-tab.active {
+  color: var(--accent-primary);
+  border-bottom-color: var(--accent-primary);
+}
+
+/* Search */
+.berbatis-search-wrap {
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.berbatis-search {
+  position: relative;
+}
+
+.berbatis-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 2.5rem 0.6rem 1rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.berbatis-search-input:focus {
+  border-color: var(--accent-primary);
+}
+
+.berbatis-search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.search-clear:hover {
+  color: var(--accent-primary);
+}
+
+/* Count */
+.berbatis-count {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  margin: 0 0 1rem 0;
+}
+
+/* Empty state */
+.berbatis-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* Poster grid — portrait aspect ratio */
+.berbatis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  align-items: start;
+}
+
+.berbatis-card {
+  background: var(--bg-secondary);
+  border: 2px solid rgba(228, 236, 24, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.berbatis-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-hover));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.berbatis-card:hover::before {
+  transform: scaleX(1);
+}
+
+.berbatis-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border-color: var(--accent-primary);
+}
+
+.berbatis-card-poster {
+  width: 100%;
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.berbatis-card-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.berbatis-card:hover .berbatis-card-poster img {
+  transform: scale(1.04);
+}
+
+.berbatis-card-info {
+  padding: 0.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.berbatis-card-headliner {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.berbatis-card-date {
+  font-size: 0.8rem;
+  color: var(--accent-primary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.berbatis-card-support {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Modal */
+.berbatis-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.berbatis-modal {
+  background: var(--bg-secondary);
+  border: 2px solid rgba(228, 236, 24, 0.4);
+  max-width: 860px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.berbatis-modal-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  line-height: 1;
+  z-index: 10;
+  transition: color 0.2s ease;
+}
+
+.berbatis-modal-close:hover {
+  color: var(--accent-primary);
+}
+
+.berbatis-modal-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.berbatis-modal-poster {
+  width: 280px;
+}
+
+.berbatis-modal-poster img {
+  width: 100%;
+  display: block;
+  border: 1px solid var(--border-color);
+}
+
+.berbatis-modal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.berbatis-modal-date {
+  font-size: 1rem;
+  color: var(--accent-primary);
+  font-weight: 600;
+  margin: 0;
+}
+
+.berbatis-modal-headliner {
+  font-size: 2rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  margin: 0;
+  border: none;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.berbatis-modal-support h4 {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 0.5rem 0;
+}
+
+.berbatis-modal-support ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.berbatis-modal-support li {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.berbatis-modal-notes {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .berbatis-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .berbatis-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .berbatis-modal-content {
+    grid-template-columns: 1fr;
+  }
+
+  .berbatis-modal-poster {
+    width: 220px;
+    margin: 0 auto;
+  }
+
+  .berbatis-modal-headliner {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .berbatis-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .berbatis-modal-overlay {
+    padding: 1rem;
+  }
+
+  .berbatis-modal-content {
+    padding: 1.5rem;
+  }
+}

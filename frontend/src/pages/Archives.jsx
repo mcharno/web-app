@@ -24,12 +24,11 @@ const Archives = () => {
     {
       id: 'berbatis',
       title: 'Berbatis',
-      subtitle: 'A Collection of Memories',
-      description: 'Stories and photographs from Berbati',
-      link: '#',
+      subtitle: 'Show Poster Archive',
+      description: 'Show posters from Berbatis Pan over the years',
+      link: '/archives/berbatis',
       icon: null,
-      details: 'Coming soon: A tribute to the village of Berbati in Greece, with historical photographs and personal recollections.',
-      comingSoon: true
+      details: 'An archive of show posters from Berbatis Pan. Browse by decade or search by headliner, support act, or date.'
     },
     {
       id: 'web-1-0',
