@@ -43,6 +43,13 @@ spec:
             name: charno-backend
             port:
               number: 3080
+      - path: /images/berbatis
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-backend
+            port:
+              number: 3080
       # Frontend routes (catch-all)
       - path: /
         pathType: Prefix
@@ -72,6 +79,13 @@ spec:
             port:
               number: 3080
       - path: /images/roms
+        pathType: Prefix
+        backend:
+          service:
+            name: charno-backend
+            port:
+              number: 3080
+      - path: /images/berbatis
         pathType: Prefix
         backend:
           service:
