@@ -52,9 +52,10 @@
       "id": "berbatis-0904retribution",
       "headliner": "Retribution Gospel Choir",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "4 Sep 2005",
       "poster_filename": "0904retribution.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-0922xiuxiu",
@@ -140,9 +141,10 @@
       "id": "berbatis-amcposter",
       "headliner": "American Music Club",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "2 Sep 2004",
       "poster_filename": "AMCposter.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-caribou0527",
@@ -181,7 +183,9 @@
       "headliner": "Frank Black",
       "support_acts": [],
       "date_display": "",
-      "keywords": ["pixies"],
+      "keywords": [
+        "pixies"
+      ],
       "poster_filename": "Frank-Black-Pixies-Berbatis-Pan-Concert-Poster.jpg",
       "notes": ""
     },
@@ -197,17 +201,19 @@
       "id": "berbatis-tv-on-the-radio",
       "headliner": "TV on the Radio",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "16 Nov 2003",
       "poster_filename": "TV-on-the-Radio.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2003
     },
     {
       "id": "berbatis-wolfeyes0505",
       "headliner": "Wolf Eyes",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "14 Oct 2005",
       "poster_filename": "WolfEyes0505.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-acidmotherstemple",
@@ -245,9 +251,10 @@
       "id": "berbatis-and-you-will-know",
       "headliner": "...And You Will Know us by the Trail of the Dead",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "14 Mar 2009",
       "poster_filename": "and_you_will_know.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-angry-arts",
@@ -277,9 +284,10 @@
       "id": "berbatis-appleseed-cast",
       "headliner": "The Appleseed Cast",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "8 Mar 2010",
       "poster_filename": "appleseed_cast.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-bassekeou",
@@ -317,24 +325,28 @@
       "id": "berbatis-black-lips",
       "headliner": "Black Lips",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "24 Apr 2009",
       "poster_filename": "black_lips.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-black-n-blue",
       "headliner": "Black 'n Blue",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "8 Dec 2007",
       "poster_filename": "black_n_blue.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-blackcelebration",
       "headliner": "Black Celebration",
       "support_acts": [],
       "date_display": "",
-      "keywords": ["Depeche Mode"],
+      "keywords": [
+        "Depeche Mode"
+      ],
       "poster_filename": "blackcelebration.jpg",
       "notes": ""
     },
@@ -358,17 +370,19 @@
       "id": "berbatis-blitzen1",
       "headliner": "Blitzen Trapper",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "19 Sep 2007",
       "poster_filename": "blitzen1.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-blitzen-trapper",
       "headliner": "Blitzen Trapper",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "19 Sep 2007",
       "poster_filename": "blitzen_trapper.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-bodiddly",
@@ -422,9 +436,10 @@
       "id": "berbatis-brantbjork",
       "headliner": "Brant Bjork",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "8 Apr 2004",
       "poster_filename": "brantbjork.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-burning-leather",
@@ -438,9 +453,10 @@
       "id": "berbatis-califone-new-colo",
       "headliner": "Califone",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "25 Jun 2004",
       "poster_filename": "califone_new_colo.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-chikchikchik-poster",
@@ -478,9 +494,10 @@
       "id": "berbatis-coup-poster",
       "headliner": "The Coup",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "5 Oct 2005",
       "poster_filename": "coup_poster.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-crookedfingers0419",
@@ -495,7 +512,9 @@
       "headliner": "Kidz in the Hall",
       "support_acts": [],
       "date_display": "",
-      "keywords": ["Crowd Control"],
+      "keywords": [
+        "Crowd Control"
+      ],
       "poster_filename": "crowd_control.jpg",
       "notes": ""
     },
@@ -567,9 +586,10 @@
       "id": "berbatis-djkrush-clr",
       "headliner": "DJ Krush",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "3 Oct 2004",
       "poster_filename": "djkrush_clr.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-dmbq",
@@ -583,18 +603,22 @@
       "id": "berbatis-dokken",
       "headliner": "George Lynch",
       "support_acts": [],
-      "date_display": "",
-      "keywords":["Dokken"],
+      "date_display": "16 Mar 2004",
+      "keywords": [
+        "Dokken"
+      ],
       "poster_filename": "dokken.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-domake",
       "headliner": "Do Make Say Think",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "15 Oct 2004",
       "poster_filename": "domake.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-drats",
@@ -608,9 +632,10 @@
       "id": "berbatis-dungen",
       "headliner": "Dungen",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "1 Sep 2009",
       "poster_filename": "dungen.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-echo-helstorm",
@@ -640,9 +665,10 @@
       "id": "berbatis-fedx",
       "headliner": "Federation X",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "16 Jul 2005",
       "poster_filename": "fedx.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-fernando",
@@ -688,17 +714,19 @@
       "id": "berbatis-fuck",
       "headliner": "Fuck",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "28 Jun 2004",
       "poster_filename": "fuck.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-ganggangdance",
       "headliner": "Gang Gang Dance",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "12 Nov 2008",
       "poster_filename": "ganggangdance.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2008
     },
     {
       "id": "berbatis-get-hustle",
@@ -737,7 +765,9 @@
       "headliner": "Gibby Haynes and his Problem",
       "support_acts": [],
       "date_display": "",
-      "keywords": ["Butthole Surfers"],
+      "keywords": [
+        "Butthole Surfers"
+      ],
       "poster_filename": "gibby.gif",
       "notes": ""
     },
@@ -825,9 +855,10 @@
       "id": "berbatis-hidden-hand",
       "headliner": "The Hidden Hand",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "4 Feb 2007",
       "poster_filename": "hidden_hand.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-high-llammas",
@@ -985,9 +1016,10 @@
       "id": "berbatis-khanate",
       "headliner": "Khanate",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "3 Sep 2004",
       "poster_filename": "khanate.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-krs0312",
@@ -1001,9 +1033,10 @@
       "id": "berbatis-laguns",
       "headliner": "L.A. Guns",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "25 Sep 2008",
       "poster_filename": "laguns.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2008
     },
     {
       "id": "berbatis-life-coach",
@@ -1105,9 +1138,10 @@
       "id": "berbatis-mcchris",
       "headliner": "MC Chris",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "6 Oct 2000",
       "poster_filename": "mcchris.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2000
     },
     {
       "id": "berbatis-media-exposure",
@@ -1137,9 +1171,10 @@
       "id": "berbatis-misfits",
       "headliner": "The Misfits",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "13 Nov 2009",
       "poster_filename": "misfits.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-miss-us0304",
@@ -1177,25 +1212,28 @@
       "id": "berbatis-nadasurf-gigposters",
       "headliner": "Nada Surf",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "4 Feb 2004",
       "poster_filename": "nadasurf_gigposters.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-nappy-roots",
       "headliner": "Nappy Roots",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "12 Feb 2009",
       "poster_filename": "nappy_roots.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-nathistory",
       "headliner": "The Natural History",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "27 Sep 2004",
       "poster_filename": "nathistory.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-new-years-eve",
@@ -1345,17 +1383,19 @@
       "id": "berbatis-pinehurst-kids",
       "headliner": "Pinehurst Kids",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "31 May 2001",
       "poster_filename": "pinehurst_kids.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2001
     },
     {
       "id": "berbatis-polvo",
       "headliner": "Polvo",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "7 Oct 2009",
       "poster_filename": "polvo.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-polysics0222",
@@ -1441,9 +1481,10 @@
       "id": "berbatis-red-fang",
       "headliner": "Red Fang",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "3 Apr 2009",
       "poster_filename": "red_fang.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-reverse-dotty",
@@ -1497,9 +1538,10 @@
       "id": "berbatis-shaky-hands",
       "headliner": "Shaky Hands",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "27 Apr 2007",
       "poster_filename": "shaky_hands.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-shapeshifters0717",
@@ -1537,9 +1579,10 @@
       "id": "berbatis-shonen-knife",
       "headliner": "Shonen Knife",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "14 Dec 2007",
       "poster_filename": "shonen_knife.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-silos",
@@ -1609,25 +1652,28 @@
       "id": "berbatis-super-sonic-soul-pimps",
       "headliner": "Super Sonic Soul Pimps",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "12 Feb 2010",
       "poster_filename": "super_sonic_soul_pimps.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-swords",
       "headliner": "The Swords Project",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "10 Mar 2001",
       "poster_filename": "swords.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2001
     },
     {
       "id": "berbatis-talkdemonic-big",
       "headliner": "Talkdemonic",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "9 Jun 2005",
       "poster_filename": "talkdemonic_big.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-tarentel",
@@ -1642,7 +1688,9 @@
       "headliner": "Morris Tepper",
       "support_acts": [],
       "date_display": "",
-      "keywords": ["Captain Beefheart"],
+      "keywords": [
+        "Captain Beefheart"
+      ],
       "poster_filename": "tepperposter.gif",
       "notes": ""
     },
@@ -1690,33 +1738,28 @@
       "id": "berbatis-theplanet",
       "headliner": "The Planet The",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "7 Dec 2002",
       "poster_filename": "theplanet.gif",
-      "notes": ""
-    },
-    {
-      "id": "berbatis-thermals",
-      "headliner": "",
-      "support_acts": [],
-      "date_display": "",
-      "poster_filename": "thermals.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2002
     },
     {
       "id": "berbatis-thermals",
       "headliner": "The Thermals",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "11 Dec 2009",
       "poster_filename": "thermals.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-thinkin",
       "headliner": "Thinking Fellers Union",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "11 Jun 2004",
       "poster_filename": "thinkin.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-thrones-2",
@@ -1730,17 +1773,19 @@
       "id": "berbatis-thursday",
       "headliner": "Thursday",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "6 Oct 2009",
       "poster_filename": "thursday.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-times-new-viking",
       "headliner": "Times New Viking",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "24 Oct 2009",
       "poster_filename": "times_new_viking.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-tipper",
@@ -1763,7 +1808,9 @@
       "headliner": "Stephen Malkmus and the Jicks",
       "support_acts": [],
       "date_display": "",
-      "keywords": ["Pavement"],
+      "keywords": [
+        "Pavement"
+      ],
       "poster_filename": "tras-al.gif",
       "notes": ""
     },
@@ -1867,9 +1914,10 @@
       "id": "berbatis-wolves-in-the-throne-room",
       "headliner": "Wolves in the Throne Room",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "15 Jul 2009",
       "poster_filename": "wolves_in_the_throne_room.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-worms",
@@ -1899,9 +1947,10 @@
       "id": "berbatis-yob",
       "headliner": "Yob",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "31 Oct 2009",
       "poster_filename": "yob.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     }
   ]
 }
