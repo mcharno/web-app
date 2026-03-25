@@ -23,9 +23,17 @@ const review = JSON.parse(await readFile(REVIEW_FILE, 'utf-8'));
 const showsData = JSON.parse(await readFile(SHOWS_FILE, 'utf-8'));
 const shows = showsData.shows;
 
+// Auto-pick the date for single-candidate entries
+for (const entry of review.pending) {
+  if (!entry.chosen_date && entry.candidates.length === 1) {
+    entry.chosen_date = entry.candidates[0].date;
+  }
+}
+
 const chosen = review.pending.filter(e => e.chosen_date);
 if (chosen.length === 0) {
-  console.log('No chosen_date entries found in berbatis-date-review.json — nothing to apply.');
+  console.log('No chosen_date entries found — nothing to apply.');
+  console.log('For multi-candidate entries, add "chosen_date": "YYYY-MM-DD" to each entry manually.');
   process.exit(0);
 }
 

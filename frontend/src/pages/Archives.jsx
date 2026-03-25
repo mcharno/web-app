@@ -23,12 +23,12 @@ const Archives = () => {
     },
     {
       id: 'berbatis',
-      title: 'Berbatis',
+      title: 'Berbati\'s',
       subtitle: 'Show Poster Archive',
-      description: 'Show posters from Berbatis Pan over the years',
+      description: 'Show posters from Berbati\'s Pan over the years',
       link: '/archives/berbatis',
       icon: null,
-      details: 'An archive of show posters from Berbatis Pan. Browse by decade or search by headliner, support act, or date.'
+      details: 'An archive of show posters from Berbati\'s Pan. Browse by decade or search by headliner, support act, or date.'
     },
     {
       id: 'web-1-0',
