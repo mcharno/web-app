@@ -1267,6 +1267,24 @@ export const scanRoms = async (req, res) => {
       // Insert new groups; for existing rows only mark available — never overwrite filenames.
       // This preserves manual merges (e.g. merge-by-title on arcade) across scans.
       for (const [key, filenames] of groups) {
+        // Skip if any filename in this group is already owned by a different row
+        // (i.e. it was merged into another entry via merge-by-title).
+        const claimed = await pool.query(
+          `SELECT 1 FROM rom_games
+           WHERE console = $1
+             AND title_key != $2
+             AND EXISTS (
+               SELECT 1 FROM jsonb_array_elements_text(filenames) AS f
+               WHERE f = ANY($3::text[])
+             )
+           LIMIT 1`,
+          [consoleName, key, filenames]
+        );
+        if (claimed.rows.length > 0) {
+          alreadyPresent++;
+          continue;
+        }
+
         const result = await pool.query(
           `INSERT INTO rom_games (console, title_key, filenames, title, available)
            VALUES ($1, $2, $3::jsonb, $4, true)
