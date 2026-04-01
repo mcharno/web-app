@@ -172,7 +172,7 @@
     {
       "id": "berbatis-devendr",
       "headliner": "Devendra Banhart",
-      "support_acts": ["Joanna Newsome", "Vetiver"],
+      "support_acts": ["Joanna Newsom", "Vetiver"],
       "date_display": "",
       "poster_filename": "Devendr.gif",
       "notes": ""
@@ -980,47 +980,52 @@
     {
       "id": "berbatis-ian-more",
       "headliner": "Ian Moore",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Charmpatricles", "The Greater Midwest"],
+      "date_display": "18 Oct 2001",
       "poster_filename": "ian_more.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2001
     },
     {
       "id": "berbatis-imaginary-airship",
       "headliner": "Imaginary Airship",
-      "support_acts": [],
-      "date_display": "",
+    "support_acts": ["Childhood Friends", "The Misadventures of Two"],
+      "date_display": "16 Jan 2008",
       "poster_filename": "imaginary_airship.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2008
     },
     {
       "id": "berbatis-in-the-red-poster",
       "headliner": "The Hunches",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Ponys", "The Fuse"],
+      "date_display": "11 Mar 2004",
       "poster_filename": "in-the-red-poster.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-incredible-string-band",
       "headliner": "Incredible String Band",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Joanna Newsom"],
+      "date_display": "11 Oct 2004",
       "poster_filename": "incredible_string_band.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-invisible-orchestra",
       "headliner": "Invisible Orchestra",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Jackson Jackson and the Citizens", "Lowembad"],
+      "date_display": "8 Oct 2009",
       "poster_filename": "invisible_orchestra.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-iprc",
       "headliner": "Menomena",
-      "support_acts": [],
+      "support_acts": ["Point Juncture, WA", "Sexton Blake"],
       "date_display": "20 Jul 2005",
       "poster_filename": "iprc.jpg",
       "notes": "",
@@ -1028,24 +1033,26 @@
     },
     {
       "id": "berbatis-jason-heath",
-      "headliner": "Jason Heath",
-      "support_acts": [],
-      "date_display": "",
+      "headliner": "Jason Heath and the Greedy Souls",
+      "support_acts": ["Chris Jones", "Prarie"],
+      "date_display": "9 Dec 2009",
       "poster_filename": "jason_heath.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-joan-of-arc",
       "headliner": "Joan of Arc",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Love of Everything", "Make Believe"],
+      "date_display": "23 Mar 2004",
       "poster_filename": "joan-of-arc.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-jog2",
       "headliner": "The Joggers",
-      "support_acts": [],
+      "support_acts": ["The Planet The", "Pseudosix"],
       "date_display": "27 Sep 2005",
       "poster_filename": "jog2.jpg",
       "notes": "",
@@ -1054,31 +1061,34 @@
     {
       "id": "berbatis-julianahatfield",
       "headliner": "Juliana Hatfield",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Carolines", "Loch Lomond"],
+      "date_display": "17 Jun 2004",
       "poster_filename": "julianahatfield.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-jus-goodie",
       "headliner": "Jus Goodie & The River Jordan Band",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Sandra D", "Everyday Prophets", "Trinity Sound2", "DJ Cansa Man"],
+      "date_display": "11 Feb 2009",
       "poster_filename": "jus_goodie.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-karate",
       "headliner": "Karate",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Roots of Orchis"],
+      "date_display": "5 Dec 2004",
       "poster_filename": "karate.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-khanate",
       "headliner": "Khanate",
-      "support_acts": [],
+      "support_acts": ["Earth", "Asva"],
       "date_display": "3 Sep 2004",
       "poster_filename": "khanate.jpg",
       "notes": "",
@@ -1088,63 +1098,70 @@
       "id": "berbatis-krs0312",
       "headliner": "KRS-One",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "12 Mar 2005",
       "poster_filename": "krs0312.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-laguns",
       "headliner": "L.A. Guns",
-      "support_acts": [],
-      "date_display": "25 Sep 2008",
+      "support_acts": ["Live Wire"],
+      "date_display": "12 Mar 2005",
+      "keywords": ["Motley Crue"],
       "poster_filename": "laguns.gif",
       "notes": "",
-      "date_year": 2008
+      "date_year": 2005
     },
     {
       "id": "berbatis-life-coach",
       "headliner": "Life Coach",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Ninth Moon Black", "Wizard Rifle"],
+      "date_display": "21 Nov 2005",
       "poster_filename": "life_coach.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-logan-lynn",
       "headliner": "Logan Lynn",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Yeah Great Fine", "Swallows", "Winniebyrd"],
+      "date_display": "23 Jan 2010",
       "poster_filename": "logan_lynn.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-lyrics",
       "headliner": "Lyrics Born",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Diverse"],
+      "date_display": "25 Mar 2004",
       "poster_filename": "lyrics.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-lyricsborn0226",
       "headliner": "Lyrics Born",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Pigeon John"],
+      "date_display": "26 Feb 2005",
       "poster_filename": "lyricsborn0226.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-m-dean-damron",
       "headliner": "Michael Dean Damron and Thee Loyal Bastards",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Hounds Below", "Kasey Anderson", "Matthew Ryan"],
+      "date_display": "25 Feb 2010",
       "poster_filename": "m_dean_damron.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-marah",
       "headliner": "Marah",
-      "support_acts": [],
+      "support_acts": ["Lewi Longmire Band"],
       "date_display": "",
       "poster_filename": "marah.jpg",
       "notes": ""
@@ -1152,15 +1169,16 @@
     {
       "id": "berbatis-marloulord",
       "headliner": "Mary Lou Lord",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Ginger-sol"],
+      "date_display": "5 Mar 2004",
       "poster_filename": "marloulord.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-martyrs",
       "headliner": "The Martyrs",
-      "support_acts": [],
+      "support_acts": ["Tango Alpha Tango", "Symmetry/Symmetry"],
       "date_display": "",
       "poster_filename": "martyrs.jpg",
       "notes": ""
@@ -1168,64 +1186,70 @@
     {
       "id": "berbatis-massive-moth",
       "headliner": "Massive Moth",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Patterns", "Gratitillium", "DoublePlusGood"],
+      "date_display": "3 Sep 2009",
       "poster_filename": "massive_moth.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-matthew-good",
       "headliner": "Matthew Good and his Band",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Automatic Loveletter"],
+      "date_display": "10 Mar 2004",
       "poster_filename": "matthew_good.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-mattress",
       "headliner": "Mattress",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Atole", "Junkface", "E*Rock"],
+      "date_display": "2 Oct 2009",
       "poster_filename": "mattress.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-mattress-2",
       "headliner": "Mattress",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "4 Nov 2009",
       "poster_filename": "mattress_2.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-mcchris",
       "headliner": "MC Chris",
-      "support_acts": [],
-      "date_display": "6 Oct 2000",
+      "support_acts": ["Whole Wheat Bread", "And I Fight Dragons"],
+      "date_display": "23 Oct 2009",
       "poster_filename": "mcchris.jpg",
       "notes": "",
-      "date_year": 2000
+      "date_year": 2009
     },
     {
       "id": "berbatis-media-exposure",
       "headliner": "Media Exposure",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Pep Assembly", "The Angry Orts", "Bombs Into You"],
+      "date_display": "18 Mar 2004",
       "poster_filename": "media_exposure.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-meth-teeth",
       "headliner": "Meth Teeth",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Woolen Men", "Kusika", "Magic Johnson"],
+      "date_display": "27 Aug 2009",
       "poster_filename": "meth_teeth.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-minders",
       "headliner": "The Minders",
-      "support_acts": [],
+      "support_acts": ["Saturday Looks Good to Me", "Sunshine Fix", "Adelaide"],
       "date_display": "",
       "poster_filename": "minders.gif",
       "notes": ""
@@ -1233,7 +1257,7 @@
     {
       "id": "berbatis-misfits",
       "headliner": "The Misfits",
-      "support_acts": [],
+      "support_acts": ["800 Octane", "Embrace the Kill", "Rum Rebellion"],
       "date_display": "13 Nov 2009",
       "poster_filename": "misfits.jpg",
       "notes": "",
@@ -1242,15 +1266,16 @@
     {
       "id": "berbatis-miss-us0304",
       "headliner": "The Miss U's",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Oblivian Seekers"],
+      "date_display": "4 Mar 2005",
       "poster_filename": "miss-us0304.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-mono",
       "headliner": "Mono",
-      "support_acts": [],
+      "support_acts": ["The Twighlight Sad"],
       "date_display": "10 May 2010",
       "poster_filename": "mono.jpg",
       "notes": "",
@@ -1259,7 +1284,7 @@
     {
       "id": "berbatis-mt-goats",
       "headliner": "The Mountain Goats",
-      "support_acts": [],
+      "support_acts": ["Vinny Miller", "We Ragazzi"],
       "date_display": "24 May 2004",
       "poster_filename": "mt-goats.gif",
       "notes": "",
@@ -1268,7 +1293,7 @@
     {
       "id": "berbatis-mtgoats",
       "headliner": "The Mountain Goats",
-      "support_acts": [],
+      "support_acts": ["Baptist Generals", "Bronwyn"],
       "date_display": "3 Oct 2003",
       "poster_filename": "mtgoats.gif",
       "notes": "",
@@ -1277,7 +1302,7 @@
     {
       "id": "berbatis-nadasurf-gigposters",
       "headliner": "Nada Surf",
-      "support_acts": [],
+      "support_acts": ["Pseudosix", "Port O'Brien", "Love as Laughter"],
       "date_display": "4 Feb 2004",
       "poster_filename": "nadasurf_gigposters.jpg",
       "notes": "",
@@ -1286,7 +1311,7 @@
     {
       "id": "berbatis-nappy-roots",
       "headliner": "Nappy Roots",
-      "support_acts": [],
+      "support_acts": ["Regan Fykes", "Othello of Lighthead"],
       "date_display": "12 Feb 2009",
       "poster_filename": "nappy_roots.jpg",
       "notes": "",
@@ -1295,7 +1320,7 @@
     {
       "id": "berbatis-nathistory",
       "headliner": "The Natural History",
-      "support_acts": [],
+      "support_acts": ["The Mendoza Line", "The M's", "Tarantula"],
       "date_display": "27 Sep 2004",
       "poster_filename": "nathistory.gif",
       "notes": "",
@@ -1304,7 +1329,7 @@
     {
       "id": "berbatis-new-years-eve",
       "headliner": "Helio Sequence",
-      "support_acts": [],
+      "support_acts": ["The Swords Project"],
       "date_display": "31 Dec 2000",
       "poster_filename": "new-years-eve.gif",
       "notes": "",
@@ -1313,15 +1338,16 @@
     {
       "id": "berbatis-new-york-rifles",
       "headliner": "New York Rifles",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Kleveland", "The Lonely H"],
+      "date_display": "22 Aug 2009",
       "poster_filename": "new_york_rifles.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-no-means-no",
       "headliner": "No Means No",
-      "support_acts": [],
+      "support_acts": ["Pack AD", "Rapids"],
       "date_display": "9 Oct 2009",
       "poster_filename": "no_means_no.jpg",
       "notes": "",
@@ -1330,7 +1356,7 @@
     {
       "id": "berbatis-no-red-flags",
       "headliner": "No Red Flags",
-      "support_acts": [],
+      "support_acts": ["Bitchin Summer", "My New Vice", "Rendered Useless"],
       "date_display": "",
       "poster_filename": "no_red_flags.jpg",
       "notes": ""
@@ -1339,54 +1365,59 @@
       "id": "berbatis-noisettes",
       "headliner": "Noisettes",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "27 Jul 2009",
       "poster_filename": "noisettes.jpg",
       "notes": ""
     },
     {
       "id": "berbatis-norfolk0711",
       "headliner": "Norfolk & Western",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Naim Amor"],
+      "date_display": "11 Jul 2005",
       "poster_filename": "norfolk0711.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-nucular-animals-2",
       "headliner": "Nucular Animals",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["We All Have Hooks For Hands", "Duck Little Brother Duck"],
+      "date_display": "10 Dec 2009",
       "poster_filename": "nucular_animals_2.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-nucular-animals-big",
       "headliner": "Nucular Animals",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "1 Jul 2009",
       "poster_filename": "nucular_animals_big.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-nurses",
       "headliner": "Nurses",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Aan", "Typhoon"],
+      "date_display": "12 Dec 2009",
       "poster_filename": "nurses.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-nye",
       "headliner": "Mr Romo",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Dmoe Funk", "E3", "Nathan Detroit"],
+      "date_display": "31 Dec 2009",
       "poster_filename": "nye.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-oneida",
       "headliner": "Oneida",
-      "support_acts": [],
+      "support_acts": ["I Love You but I've Chosen Darkness", "Point Line Plane"],
       "date_display": "",
       "poster_filename": "oneida.gif",
       "notes": ""
@@ -1394,15 +1425,16 @@
     {
       "id": "berbatis-panda",
       "headliner": "Panda",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Areyougone"],
+      "date_display": "16 Dec 2009",
       "poster_filename": "panda.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-panther",
       "headliner": "Panther",
-      "support_acts": [],
+      "support_acts": ["Jonesin'", "DJ L-Train"],
       "date_display": "",
       "poster_filename": "panther.jpg",
       "notes": ""
@@ -1410,23 +1442,25 @@
     {
       "id": "berbatis-pants-machine",
       "headliner": "The Pants Machine",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Punk Snowflakes", "Heavy Lids"],
+      "date_display": "1 Nov 2006",
       "poster_filename": "pants_machine.jpg",
-      "notes": ""
+      "notes": "", 
+      "date_year": 2006
     },
     {
       "id": "berbatis-papam",
       "headliner": "Papa M",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Tara Jane O'Neil", "Brightblack"],
+      "date_display": "21 Oct 2003",
       "poster_filename": "papam.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2003
     },
     {
       "id": "berbatis-patterns",
       "headliner": "Patterns",
-      "support_acts": [],
+      "support_acts": ["Weatherbox", "DJ Theo C"],
       "date_display": "",
       "poster_filename": "patterns.jpg",
       "notes": ""
@@ -1434,7 +1468,7 @@
     {
       "id": "berbatis-pdx-rock-collective0316",
       "headliner": "Kieskagato",
-      "support_acts": [],
+      "support_acts": ["Ma Ford", "The Divided", "Welsh Rabbit", "Sleeping Nations"],
       "date_display": "",
       "poster_filename": "pdx-rock-collective0316.gif",
       "notes": ""
