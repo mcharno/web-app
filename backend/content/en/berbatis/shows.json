@@ -1476,24 +1476,25 @@
     {
       "id": "berbatis-pdxpopnow",
       "headliner": "PDX Pop Now!",
-      "support_acts": [],
-      "date_display": "",
-      "poster_filename": "pdxpopnow.jpg",
-      "notes": ""
+      "support_acts": ["The Snuggle Ups", "Antlerland", "Per Se"],
+      "date_display": "13 Jul 2006",
+      "poster_filename": "pdxpopnow2006.jpg",
+      "notes": "",
+      "date_year": 2006
     },
     {
       "id": "berbatis-pinehurst-kids",
       "headliner": "Pinehurst Kids",
-      "support_acts": [],
-      "date_display": "31 May 2001",
+      "support_acts": ["The Starry Nights", "The Glib", "Capducal"],
+      "date_display": "11 Mar 2004",
       "poster_filename": "pinehurst_kids.jpg",
       "notes": "",
-      "date_year": 2001
+      "date_year": 2004
     },
     {
       "id": "berbatis-polvo",
       "headliner": "Polvo",
-      "support_acts": [],
+      "support_acts": ["Little Claw", "Hungry Ghost"],
       "date_display": "7 Oct 2009",
       "poster_filename": "polvo.jpg",
       "notes": "",
@@ -1502,7 +1503,7 @@
     {
       "id": "berbatis-polysics0222",
       "headliner": "Polysics",
-      "support_acts": [],
+      "support_acts": ["The Punk Group"],
       "date_display": "22 Feb 2004",
       "poster_filename": "polysics0222.jpg",
       "notes": "",
@@ -1511,15 +1512,16 @@
     {
       "id": "berbatis-pretty-and-nice",
       "headliner": "Pretty & Nice",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Wild Light", "The Skinnyz"],
+      "date_display": "21 Apr 2009",
       "poster_filename": "pretty_and_nice.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-prid0317",
       "headliner": "The Prids",
-      "support_acts": [],
+      "support_acts": ["Patererini", "DJ Gregarious"],
       "date_display": "",
       "poster_filename": "prid0317.gif",
       "notes": ""
@@ -1527,7 +1529,7 @@
     {
       "id": "berbatis-pseudosix",
       "headliner": "The Decemberists",
-      "support_acts": [],
+      "support_acts": ["Pseudosix", "Reclinerland"],
       "date_display": "7 Nov 2003",
       "poster_filename": "pseudosix.gif",
       "notes": "",
@@ -1536,88 +1538,97 @@
     {
       "id": "berbatis-punk-bunny",
       "headliner": "Punk Bunny",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Sexy Pants"],
+      "date_display": "22 Jan 2008",
       "poster_filename": "punk_bunny.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2008
     },
     {
       "id": "berbatis-pure-country-gold",
       "headliner": "Pure Country Gold",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Goddamn Gentlemen", "The Wires", "Right on John"],
+      "date_display": "12 Oct 2007",
       "poster_filename": "pure_country_gold.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-quintron",
-      "headliner": "Quintron",
-      "support_acts": [],
-      "date_display": "",
+      "headliner": "Quintron and Miss Pussycat",
+      "support_acts": ["Sophe Luxe"],
+      "date_display": "29 Jul 2009",
       "poster_filename": "quintron.jpg",
-      "notes": ""
-    },
-    {
-      "id": "berbatis-rachels",
-      "headliner": "Rachel's",
-      "support_acts": [],
-      "date_display": "",
-      "poster_filename": "rachels.gif",
-      "notes": ""
-    },
-    {
-      "id": "berbatis-rapture",
-      "headliner": "The Rapture",
-      "support_acts": [],
-      "date_display": "",
-      "poster_filename": "rapture.gif",
-      "notes": ""
-    },
-    {
-      "id": "berbatis-ravishers",
-      "headliner": "The Ravishers",
-      "support_acts": [],
-      "date_display": "",
-      "poster_filename": "ravishers.jpg",
-      "notes": ""
-    },
-    {
-      "id": "berbatis-red-fang",
-      "headliner": "Red Fang",
-      "support_acts": [],
-      "date_display": "3 Apr 2009",
-      "poster_filename": "red_fang.jpg",
       "notes": "",
       "date_year": 2009
     },
     {
+      "id": "berbatis-rachels",
+      "headliner": "Rachel's",
+      "support_acts": ["Matt Pond", "Eve Miller"],
+      "date_display": "17 Nov 2003",
+      "poster_filename": "rachels.gif",
+      "notes": "",
+      "date_year": 2003
+    },
+    {
+      "id": "berbatis-rapture",
+      "headliner": "The Rapture",
+      "support_acts": ["Out Hud", "Beans", "DJ Jeffrodisiac"],
+      "date_display": "13 Nov 2002",
+      "poster_filename": "rapture.gif",
+      "notes": "",
+      "date_year": 2002
+    },
+    {
+      "id": "berbatis-ravishers",
+      "headliner": "The Ravishers",
+      "support_acts": ["The Smile Ease", "Syran"],
+      "date_display": "22 Apr 2009",
+      "poster_filename": "ravishers.jpg",
+      "notes": "",
+      "date_year": 2009
+    },
+    {
+      "id": "berbatis-red-fang",
+      "headliner": "Red Fang",
+      "support_acts": ["Fireballs of Freedom", "Black Elk", "DJ Nate C"],
+      "date_display": "16 Feb 2006",
+      "poster_filename": "red_fang.jpg",
+      "notes": "",
+      "date_year": 2006
+    },
+    {
       "id": "berbatis-reverse-dotty",
       "headliner": "Reverse Dotty",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Asa Ransom", "Crosstide"],
+      "date_display": "28 Nov 2009",
       "poster_filename": "reverse_dotty.jpg",
-      "notes": ""
+      "notes": "",
+      :"date_year": 2009
     },
     {
       "id": "berbatis-ritachiarelli0714",
       "headliner": "Rita Chiarelli",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "14 Jul 2005",
       "poster_filename": "ritachiarelli0714.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-rjd2",
       "headliner": "RJD2",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Diverse"],
+      "date_display": "20 May 2004",
       "poster_filename": "rjd2.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-samples",
       "headliner": "The Samples",
-      "support_acts": [],
+      "support_acts": ["John Price"],
       "date_display": "",
       "poster_filename": "samples.gif",
       "notes": ""
@@ -1625,10 +1636,11 @@
     {
       "id": "berbatis-serena-maneesh",
       "headliner": "Serena Maneesh",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Depreciation Guild"],
+      "date_display": "25 Mar 2010",
       "poster_filename": "serena_maneesh.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-sexworkersartshow0217",
@@ -1641,32 +1653,33 @@
     {
       "id": "berbatis-shaky-hands",
       "headliner": "Shaky Hands",
-      "support_acts": [],
-      "date_display": "27 Apr 2007",
+      "support_acts": ["Panther"],
+      "date_display": "1 Oct 2009",
       "poster_filename": "shaky_hands.jpg",
       "notes": "",
-      "date_year": 2007
+      "date_year": 2009
     },
     {
       "id": "berbatis-shapeshifters0717",
       "headliner": "The Shape Shifters",
-      "support_acts": [],
+      "support_acts": ["2Mex", "DJ Wicked"],
       "date_display": "",
       "poster_filename": "shapeshifters0717.jpg",
       "notes": ""
     },
     {
       "id": "berbatis-sharetheroad",
-      "headliner": "Trauma le Tron",
-      "support_acts": [],
-      "date_display": "",
+      "headliner": "Share the Road Benefit",
+      "support_acts": ["Trauma le Tron", "Six Foot Sloth", "Larry Yes", "Ging Gang", "DJ Landlord"],
+      "date_display": "25 Jun 2005",
       "poster_filename": "shareTheRoad.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-shellac",
       "headliner": "Shellac",
-      "support_acts": [],
+      "support_acts": ["Arcwelder"],
       "date_display": "14 Jun 2009",
       "poster_filename": "shellac.jpg",
       "notes": "",
@@ -1675,15 +1688,16 @@
     {
       "id": "berbatis-ship-to-ship",
       "headliner": "Ship to Ship",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Halophile", "Secret Codes", "Hide and Go Hustle"],
+      "date_display": "29 May 2009",
       "poster_filename": "ship_to_ship.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-shonen-knife",
       "headliner": "Shonen Knife",
-      "support_acts": [],
+      "support_acts": ["The Juliet Dagger", "Verona Grove"],
       "date_display": "14 Dec 2007",
       "poster_filename": "shonen_knife.jpg",
       "notes": "",
@@ -1692,7 +1706,7 @@
     {
       "id": "berbatis-silos",
       "headliner": "The Silos",
-      "support_acts": [],
+      "support_acts": ["The Planet The", "Bobby Bare Jr."],
       "date_display": "",
       "poster_filename": "silos.gif",
       "notes": ""
@@ -1700,58 +1714,63 @@
     {
       "id": "berbatis-slough-feh",
       "headliner": "Slough Feg",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Witch Mountain", "Dark Black", ""],
+      "date_display": "19 Feb 2010",
       "poster_filename": "slough_feh.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-souls-of-mischief",
       "headliner": "Souls of Mischief",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "16 Oct 2009",
       "poster_filename": "souls_of_mischief.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-spit0310",
       "headliner": "The Spits",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Punk Group", "The Slip Its"],
+      "date_display": "10 Mar 2005",
       "poster_filename": "spit0310.gif",
-      "notes": ""
+      "notes": "",
+      :"date_year": 2005
     },
     {
       "id": "berbatis-st-frankee-lee",
       "headliner": "St. Frankie Lee",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Hallelujah the Hills", "Love Trucker"],
+      "date_display": "3 Nov 2009",
       "poster_filename": "st_frankee_lee.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-standard",
       "headliner": "The Standard",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Pseudosix", "Talkdemonic"],
+      "date_display": "3 Jun 2004",
       "poster_filename": "standard.gif",
       "notes": ""
     },
     {
       "id": "berbatis-standard0309",
       "headliner": "The Standard",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Invisible"],
+      "date_display": "9 Mar 2005",
       "poster_filename": "standard0309.jpg",
       "notes": ""
     },
     {
       "id": "berbatis-struggle",
-      "headliner": "Cappadonna",
-      "support_acts": [],
-      "date_display": "",
+      "headliner": "The Struggle Tour",
+      "support_acts": ["Cappadonna", "Killah Priest", "Remedy"],
+      "date_display": "24 Nov 2003",
       "poster_filename": "struggle.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2003
     },
     {
       "id": "berbatis-super-sonic-soul-pimps",
@@ -1765,17 +1784,17 @@
     {
       "id": "berbatis-swords",
       "headliner": "The Swords Project",
-      "support_acts": [],
-      "date_display": "10 Mar 2001",
+      "support_acts": ["Manta Ray", "Dolorean"],
+      "date_display": "17 Apr 2004",
       "poster_filename": "swords.gif",
       "notes": "",
-      "date_year": 2001
+      "date_year": 2004
     },
     {
       "id": "berbatis-talkdemonic-big",
       "headliner": "Talkdemonic",
-      "support_acts": [],
-      "date_display": "9 Jun 2005",
+      "support_acts": ["Mothfight!", "Southern Belle"],
+      "date_display": "27 Jun 2005",
       "poster_filename": "talkdemonic_big.jpg",
       "notes": "",
       "date_year": 2005
@@ -1783,15 +1802,17 @@
     {
       "id": "berbatis-tarentel",
       "headliner": "Tarentel",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Grails", "Steve von Till"],
+      "date_display": "15 May 2004",
+      "keywords": ["Neurosis"],
       "poster_filename": "tarentel.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-tepperposter",
       "headliner": "Morris Tepper",
-      "support_acts": [],
+      "support_acts": ["Destroyer", "Frog Eyes"],
       "date_display": "",
       "keywords": [
         "Captain Beefheart"
@@ -1802,23 +1823,25 @@
     {
       "id": "berbatis-the-new-mastersounds",
       "headliner": "The New Mastersounds",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Trombone Shorty", "Salvador Santana", "Orleans Avenue"],
+      "date_display": "17 Mar 2010",
       "poster_filename": "the_new_mastersounds.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-the-paperboys",
       "headliner": "The Paperboys",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Hillstomp", "Sassparilla"],
+      "date_display": "24 Nov 2007",
       "poster_filename": "the_paperboys.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2007
     },
     {
       "id": "berbatis-the-punk-group",
       "headliner": "The Punk Group",
-      "support_acts": [],
+      "support_acts": ["The Saints", "Massive Moth", "The Hugs"],
       "date_display": "",
       "poster_filename": "the_punk_group.jpg",
       "notes": ""
@@ -1826,32 +1849,33 @@
     {
       "id": "berbatis-the-villans",
       "headliner": "The Villians",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Bellboys"],
+      "date_display": "23 Dec 2009",
       "poster_filename": "the_villans.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-themselves",
       "headliner": "Themselves",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Clue to Kalo", "Talkdemonic"],
+      "date_display": "11 Nov 2003",
       "poster_filename": "themselves.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2003
     },
     {
       "id": "berbatis-theplanet",
       "headliner": "The Planet The",
-      "support_acts": [],
-      "date_display": "7 Dec 2002",
+      "support_acts": ["Nice Nice", "Point Line Plane", "E*Rock"],
+      "date_display": "",
       "poster_filename": "theplanet.gif",
-      "notes": "",
-      "date_year": 2002
+      "notes": ""
     },
     {
       "id": "berbatis-thermals",
       "headliner": "The Thermals",
-      "support_acts": [],
+      "support_acts": ["Dirty Mitten", "White Fang"],
       "date_display": "11 Dec 2009",
       "poster_filename": "thermals.jpg",
       "notes": "",
@@ -1859,9 +1883,10 @@
     },
     {
       "id": "berbatis-thinkin",
-      "headliner": "Thinking Fellers Union",
-      "support_acts": [],
+      "headliner": "Thinking Fellers Union Local 282",
+      "support_acts": ["Supreme Reality"],
       "date_display": "11 Jun 2004",
+      "keywords": ["Fuck"],
       "poster_filename": "thinkin.gif",
       "notes": "",
       "date_year": 2004
@@ -1869,7 +1894,7 @@
     {
       "id": "berbatis-thrones-2",
       "headliner": "Thrones",
-      "support_acts": [],
+      "support_acts": ["Lost Lockets", "Valkyrie Rodeo"],
       "date_display": "",
       "poster_filename": "thrones_2.jpg",
       "notes": ""
@@ -1877,7 +1902,7 @@
     {
       "id": "berbatis-thursday",
       "headliner": "Thursday",
-      "support_acts": [],
+      "support_acts": ["The Fall of Troy", "The Dear Hunter"],
       "date_display": "6 Oct 2009",
       "poster_filename": "thursday.jpg",
       "notes": "",
@@ -1886,7 +1911,7 @@
     {
       "id": "berbatis-times-new-viking",
       "headliner": "Times New Viking",
-      "support_acts": [],
+      "support_acts": ["Eat Skull", "Hey Lover"],
       "date_display": "24 Oct 2009",
       "poster_filename": "times_new_viking.jpg",
       "notes": "",
@@ -1895,15 +1920,16 @@
     {
       "id": "berbatis-tipper",
       "headliner": "Tipper",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Danny Corn", "Saqi"],
+      "date_display": "4 Jul 2009",
       "poster_filename": "tipper.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-transam",
       "headliner": "Trans AM",
-      "support_acts": [],
+      "support_acts": ["Les Georges Leningrad", "Movies"],
       "date_display": "",
       "poster_filename": "transam.gif",
       "notes": ""
@@ -1911,7 +1937,7 @@
     {
       "id": "berbatis-tras-al",
       "headliner": "Stephen Malkmus and the Jicks",
-      "support_acts": [],
+      "support_acts": ["Träd, Gräs Och Stenar", "Jackie-O Motherfucker", "Davis Redford Triad"],
       "date_display": "28 Jun 2004",
       "keywords": [
         "Pavement"
@@ -1923,64 +1949,72 @@
     {
       "id": "berbatis-trespassers-william",
       "headliner": "Trespassers William",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Robert Gomez", "The Theater Fire"],
+      "date_display": "20 Jul 2009",
       "poster_filename": "trespassers_william.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-triggers",
       "headliner": "The Triggers",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Spits", "The Hunches", "Electric Eye"],
+      "date_display": "27 Aug 2004",
       "poster_filename": "triggers.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-two-ton-boa",
       "headliner": "Two Ton Boa",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Hot Victory", "Adrian H & the Wounds", "DJ Baroness"],
+      "date_display": "27 Feb 2010",
       "poster_filename": "two_ton_boa.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-unholy-metal-massacre",
-      "headliner": "Unholy Metal Massacre",
-      "support_acts": [],
-      "date_display": "",
+      "headliner": "Panzergod",
+      "support_acts": ["Grim Ritual", "Cemetary Lust", "Heathen Shrine"],
+      "date_display": "30 Mar 2010",
       "poster_filename": "unholy_metal_massacre.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2010
     },
     {
       "id": "berbatis-upside-down",
       "headliner": "The Upside Down",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Carcrash Lander"],
+      "date_display": "30 May 2009",
       "poster_filename": "upside_down.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-upsidedown0327",
       "headliner": "The Upside Down",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Parker & Lily", "Asobi Seksu"],
+      "date_display": "27 Mar 2005",
       "poster_filename": "upsidedown0327.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-usfunkteam0718",
       "headliner": "US Funk Team",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Die Kapitalist Pigs", "The Wanteds", "Towers"],
+      "date_display": "18 Jul 2004",
       "poster_filename": "usfunkteam0718.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2004
     },
     {
       "id": "berbatis-vanderslice",
       "headliner": "John Vanderslice",
-      "support_acts": [],
+      "support_acts": ["Robbers on High Street", "Will Johnson"],
       "date_display": "22 Sep 2004",
+      "keywords": ["Centro-matic"],
       "poster_filename": "vanderslice.gif",
       "notes": "",
       "date_year": 2004
@@ -1989,17 +2023,19 @@
       "id": "berbatis-visqueen-0120",
       "headliner": "Visqueen",
       "support_acts": [],
-      "date_display": "",
+      "date_display": "20 Jan 2005",
       "poster_filename": "visqueen-0120.gif",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-vivian-girls",
       "headliner": "Vivian Girls",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["The Beets", "Eat Skull"],
+      "date_display": "7 Sep 2009",
       "poster_filename": "vivian_girls.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-warrant",
@@ -2012,15 +2048,16 @@
     {
       "id": "berbatis-white-rabbits",
       "headliner": "White Rabbits",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Local Natives", "Glass Ghost"],
+      "date_display": "5 Nov 2009",
       "poster_filename": "white_rabbits.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2009
     },
     {
       "id": "berbatis-wolves-in-the-throne-room",
       "headliner": "Wolves in the Throne Room",
-      "support_acts": [],
+      "support_acts": ["Minsk", "Ninth Moon Black"],
       "date_display": "15 Jul 2009",
       "poster_filename": "wolves_in_the_throne_room.jpg",
       "notes": "",
@@ -2029,35 +2066,37 @@
     {
       "id": "berbatis-worms",
       "headliner": "...worms",
-      "support_acts": [],
+      "support_acts": ["Chevron", "Giant Baby"],
       "date_display": "",
+      "keywords": ["Made for TV Movie"],
       "poster_filename": "worms.jpg",
       "notes": ""
     },
     {
       "id": "berbatis-wowflutter0323",
       "headliner": "Wow & Flutter",
-      "support_acts": [],
-      "date_display": "",
+      "support_acts": ["Portland Vampires", "This is a Process of a Still Life", "We Safari"],
+      "date_display": "23 Mar 2005",
       "poster_filename": "wowflutter0323.jpg",
-      "notes": ""
+      "notes": "",
+      "date_year": 2005
     },
     {
       "id": "berbatis-wrens",
       "headliner": "The Wrens",
-      "support_acts": [],
+      "support_acts": ["Gravity & Henry"],
       "date_display": "",
+      "keywords": ["Dolorean"],
       "poster_filename": "wrens.gif",
       "notes": ""
     },
     {
       "id": "berbatis-yob",
       "headliner": "Yob",
-      "support_acts": [],
-      "date_display": "31 Oct 2009",
+      "support_acts": ["Worm Wood", "Iommi Stubbs", "Golden Pig Electric Blues Band"],
+      "date_display": "",
       "poster_filename": "yob.gif",
-      "notes": "",
-      "date_year": 2009
+      "notes": ""
     }
   ]
 }
