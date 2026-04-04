@@ -6,11 +6,9 @@ const ADS3DViewer = () => {
 
   return (
     <div className="ads3d-page">
-      <nav className="breadcrumb">
-        <button onClick={() => navigate('/projects')} className="back-button">
-          ← Back to Projects
-        </button>
-      </nav>
+      <button onClick={() => navigate('/projects')} className="back-to-archives">
+        ← Back to Projects
+      </button>
 
       <header className="project-header">
         <h1>ADS 3D Viewer</h1>

@@ -1,22 +1,42 @@
 [
   {
-    "id": "arch-db",
-    "title": "Σύστημα Αρχαιολογικής Βάσης Δεδομένων",
-    "description": "Ένα ολοκληρωμένο σύστημα βάσης δεδομένων για τη διαχείριση δεδομένων αρχαιολογικών ανασκαφών",
-    "url": "https://example.com/arch-db",
-    "technologies": "PostgreSQL, Node.js, React",
+    "id": "linked-data-toolkit",
+    "title": "Linked Data Toolkit",
+    "description": "A TypeScript library and CLI tool for querying SPARQL endpoints across multiple authorities, vocabularies, and heritage data sources. Originally created in Java (2013), modernized with TypeScript for enhanced type safety and developer experience.",
+    "url": "https://github.com/mcharno/linked-data-toolkit",
+    "technologies": "TypeScript, Node.js, SPARQL, DBPedia, Geonames, Getty AAT, Nomisma",
     "display_order": 1,
-    "created_at": "2023-01-15",
-    "updated_at": "2023-06-20"
+    "created_at": "2013-01-01",
+    "updated_at": "2024-12-01"
   },
   {
-    "id": "gis-tool",
-    "title": "Εργαλείο Χαρτογράφησης GIS",
-    "description": "Διαδραστικό εργαλείο χαρτογράφησης για αρχαιολογικούς χώρους",
-    "url": "https://example.com/gis-tool",
-    "technologies": "Leaflet, PostGIS, Express",
+    "id": "belling-the-cat",
+    "title": "Belling the Cat: A Linked Open Data Tutorial",
+    "description": "A practical workshop guide for publishing CIDOC CRM cultural heritage data as Linked Open Data using free and open-source software",
+    "url": "https://github.com/mcharno/belling-the-cat",
+    "technologies": "CIDOC CRM, RDF/XML, Virtuoso, SPARQL, Raspberry Pi",
     "display_order": 2,
-    "created_at": "2023-03-10",
-    "updated_at": "2023-08-15"
+    "created_at": "2015-01-01",
+    "updated_at": "2015-12-31"
+  },
+  {
+    "id": "sikyon-data-scripts",
+    "title": "Sikyon Survey Data Processing Scripts",
+    "description": "Automated data cleaning, integration, and analysis scripts for the Sikyon Survey Project, processing pottery and architectural survey data from 2004-2009 excavations. Originally developed in 2008, modernized with Java 17+ and Spring Boot for the project monograph published in Meletemata (2018).",
+    "url": "https://github.com/mcharno/sikyon-data-scripts",
+    "technologies": "Java 17, Spring Boot, MS Access, UCanAccess, Docker, Maven, GIS",
+    "display_order": 3,
+    "created_at": "2008-01-01",
+    "updated_at": "2025-01-01"
+  },
+  {
+    "id": "ads-3d-viewer",
+    "title": "ADS 3D Viewer",
+    "description": "A pioneering web-based 3D visualization platform for archaeological data, funded by Marie Curie Actions. The first example of browser-based WebGL stratigraphic visualization integrated within a trusted digital repository (ADS). Enables real-time 3D model interaction and multi-layer stratigraphic analysis directly in web browsers.",
+    "url": "https://archaeologydataservice.ac.uk/about/projects/ads-3d-viewer/",
+    "technologies": "WebGL, 3DHOP, JavaScript, OBJ, Touch Controls, Trackball Navigation",
+    "display_order": 4,
+    "created_at": "2014-01-01",
+    "updated_at": "2016-12-31"
   }
 ]

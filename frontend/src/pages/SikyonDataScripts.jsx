@@ -6,11 +6,9 @@ const SikyonDataScripts = () => {
 
   return (
     <div className="sikyon-page">
-      <nav className="breadcrumb">
-        <button onClick={() => navigate('/projects')} className="back-button">
-          ← Back to Projects
-        </button>
-      </nav>
+      <button onClick={() => navigate('/projects')} className="back-to-archives">
+        ← Back to Projects
+      </button>
 
       <header className="project-header">
         <h1>Sikyon Survey Data Processing Scripts</h1>

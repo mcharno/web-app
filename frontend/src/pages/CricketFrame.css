@@ -5,7 +5,7 @@
   min-height: 600px;
 }
 
-.back-button {
+.cricket-frame-container .back-button {
   position: absolute;
   top: 0;
   right: 0;
@@ -20,7 +20,7 @@
   transition: background 0.3s ease;
 }
 
-.back-button:hover {
+.cricket-frame-container .back-button:hover {
   background: rgba(228, 236, 24, 0.3);
 }
 

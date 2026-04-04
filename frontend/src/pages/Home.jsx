@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
 import './Home.css';
+
+const formatTime = (date, timezone) =>
+  date.toLocaleTimeString('en-GB', { timeZone: timezone, hour: '2-digit', minute: '2-digit', hour12: false });
 
 const Home = () => {
   const { t } = useTranslation();
@@ -16,9 +18,9 @@ const Home = () => {
       const now = new Date();
 
       setTimes({
-        york: format(now, 'HH:mm'),
-        portland: format(now, 'HH:mm'),
-        vasiliko: format(now, 'HH:mm')
+        york: formatTime(now, 'Europe/London'),
+        portland: formatTime(now, 'America/Los_Angeles'),
+        vasiliko: formatTime(now, 'Asia/Nicosia')
       });
     };
 
