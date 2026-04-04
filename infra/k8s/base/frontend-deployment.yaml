@@ -31,7 +31,7 @@ spec:
         - name: ghcr-secret
       containers:
       - name: frontend
-        image: ghcr.io/mcharno/charno-frontend:sha256-982ef4e
+        image: ghcr.io/mcharno/charno-frontend:sha256-24f39a0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
