@@ -83,7 +83,11 @@ const LinkedDataToolkit = () => {
 
     // Simulate network delay
     setTimeout(() => {
-      const results = exampleResults[selectedSource]?.[searchType]?.[searchTerm] || [];
+      const typeData = exampleResults[selectedSource]?.[searchType] || {};
+      const matchingKey = Object.keys(typeData).find(
+        key => key.toLowerCase() === searchTerm.trim().toLowerCase()
+      );
+      const results = matchingKey ? typeData[matchingKey] : [];
       setDemoResults({
         source: selectedSource,
         type: searchType,
@@ -94,8 +98,8 @@ const LinkedDataToolkit = () => {
     }, 800);
   };
 
-  const getSourceOptions = () => {
-    switch(selectedSource) {
+  const getSourceOptions = (source = selectedSource) => {
+    switch(source) {
       case 'dbpedia':
         return [{ value: 'organization', label: 'Organizations' }];
       case 'geonames':
@@ -116,11 +120,9 @@ const LinkedDataToolkit = () => {
 
   return (
     <div className="toolkit-page">
-      <nav className="breadcrumb">
-        <button onClick={() => navigate('/projects')} className="back-button">
-          ← Back to Projects
-        </button>
-      </nav>
+      <button onClick={() => navigate('/projects')} className="back-to-archives">
+        ← Back to Projects
+      </button>
 
       <header className="project-header">
         <h1>Linked Data Toolkit</h1>
@@ -255,11 +257,11 @@ const LinkedDataToolkit = () => {
         <div className="example-tabs">
           <div className="example-section">
             <h3>Library Usage</h3>
-            <p>Import and use typed clients in your TypeScript/JavaScript applications:</p>
+            <p>Clone the repository and import clients directly into your TypeScript/JavaScript project:</p>
 
             <div className="code-example">
               <div className="code-header">DBPedia - Organizations</div>
-              <pre>{`import { DBPediaClient } from '@charno/linked-data-toolkit';
+              <pre>{`import { DBPediaClient } from './linked-data-toolkit/src';
 
 const dbpedia = new DBPediaClient();
 const results = await dbpedia.lookupOrganization('Microsoft', 10);
@@ -271,7 +273,7 @@ results.forEach(org => {
 
             <div className="code-example">
               <div className="code-header">Geonames - Geographic Locations</div>
-              <pre>{`import { GeonamesClient } from '@charno/linked-data-toolkit';
+              <pre>{`import { GeonamesClient } from './linked-data-toolkit/src';
 
 const geonames = new GeonamesClient({
   username: 'your_username'
@@ -286,7 +288,7 @@ const locations = await geonames.lookupPreciseLocationInCountry(
 
             <div className="code-example">
               <div className="code-header">Nomisma - Numismatic Data</div>
-              <pre>{`import { NomismaClient } from '@charno/linked-data-toolkit';
+              <pre>{`import { NomismaClient } from './linked-data-toolkit/src';
 
 const nomisma = new NomismaClient();
 
@@ -296,7 +298,7 @@ const mints = await nomisma.findMints('Rome');`}</pre>
 
             <div className="code-example">
               <div className="code-header">Getty AAT - Materials</div>
-              <pre>{`import { GettyAATClient } from '@charno/linked-data-toolkit';
+              <pre>{`import { GettyAATClient } from './linked-data-toolkit/src';
 
 const getty = new GettyAATClient();
 const materials = await getty.searchMaterials('bronze');`}</pre>
@@ -305,26 +307,28 @@ const materials = await getty.searchMaterials('bronze');`}</pre>
 
           <div className="example-section">
             <h3>CLI Usage</h3>
-            <p>Install globally and use from the command line:</p>
+            <p>Clone the repository, build, and run ad hoc queries from the command line:</p>
 
             <div className="code-example">
-              <div className="code-header">Installation</div>
-              <pre>{`npm install -g @charno/linked-data-toolkit`}</pre>
+              <div className="code-header">Setup</div>
+              <pre>{`git clone https://github.com/mcharno/linked-data-toolkit
+cd linked-data-toolkit
+npm install && npm run build`}</pre>
             </div>
 
             <div className="code-example">
               <div className="code-header">Query DBPedia</div>
-              <pre>{`linked-data-toolkit dbpedia organization "Microsoft" --max 5`}</pre>
+              <pre>{`node dist/cli.js dbpedia organization "Microsoft" --max 5`}</pre>
             </div>
 
             <div className="code-example">
               <div className="code-header">Search Heritage Data</div>
-              <pre>{`linked-data-toolkit heritagedata monument-types "castle" --max 10`}</pre>
+              <pre>{`node dist/cli.js heritagedata monument-types "castle" --max 10`}</pre>
             </div>
 
             <div className="code-example">
               <div className="code-header">Find Geonames Locations</div>
-              <pre>{`linked-data-toolkit geonames location "York" \\
+              <pre>{`node dist/cli.js geonames location "York" \\
   --country GB \\
   --max 5`}</pre>
             </div>
@@ -347,8 +351,9 @@ const materials = await getty.searchMaterials('bronze');`}</pre>
                 id="source-select"
                 value={selectedSource}
                 onChange={(e) => {
-                  setSelectedSource(e.target.value);
-                  setSearchType(getSourceOptions()[0]?.value || '');
+                  const newSource = e.target.value;
+                  setSelectedSource(newSource);
+                  setSearchType(getSourceOptions(newSource)[0]?.value || '');
                   setDemoResults(null);
                 }}
               >
@@ -411,7 +416,9 @@ const materials = await getty.searchMaterials('bronze');`}</pre>
                     <div className="result-label">{result.label}</div>
                     {result.uri && (
                       <div className="result-uri">
-                        <code>{result.uri}</code>
+                        <a href={result.uri} target="_blank" rel="noopener noreferrer">
+                          <code>{result.uri}</code>
+                        </a>
                       </div>
                     )}
                     {result.abstract && (
@@ -506,15 +513,6 @@ const materials = await getty.searchMaterials('bronze');`}</pre>
           >
             <strong>GitHub Repository</strong>
             <span>View source code and documentation</span>
-          </a>
-          <a
-            href="https://www.npmjs.com/package/@charno/linked-data-toolkit"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="resource-link"
-          >
-            <strong>npm Package</strong>
-            <span>Install and use in your projects</span>
           </a>
         </div>
       </section>
