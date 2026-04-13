@@ -649,6 +649,32 @@
   border-top: 1px solid var(--border-color);
 }
 
+.rom-modal-filenames {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.rom-modal-filenames-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.rom-modal-filenames ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rom-modal-filenames li {
+  font-size: 0.8rem;
+  font-family: monospace;
+  color: var(--text-tertiary);
+  padding: 0.15rem 0;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .rom-library-header h2 {

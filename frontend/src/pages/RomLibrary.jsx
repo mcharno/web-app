@@ -405,14 +405,14 @@ const RomLibrary = () => {
                 )}
 
                 {(selectedGame.filenames || []).length > 0 && (
-                  <details className="rom-modal-filenames">
-                    <summary>{selectedGame.filenames.length} ROM file{selectedGame.filenames.length !== 1 ? 's' : ''}</summary>
+                  <div className="rom-modal-filenames">
+                    <p className="rom-modal-filenames-label">{selectedGame.filenames.length} ROM file{selectedGame.filenames.length !== 1 ? 's' : ''}</p>
                     <ul>
                       {selectedGame.filenames.map((f, i) => (
                         <li key={i}>{f}</li>
                       ))}
                     </ul>
-                  </details>
+                  </div>
                 )}
               </div>
             </div>
