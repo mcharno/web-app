@@ -35,6 +35,7 @@ const RomLibrary = () => {
 
   const searchContainerRef = useRef(null);
   const archiveTotalSet = useRef(false);
+  const libraryHeaderRef = useRef(null);
 
   // Fetch consoles + all tags once on mount
   useEffect(() => {
@@ -126,7 +127,7 @@ const RomLibrary = () => {
 
   const changePage = (newPage) => {
     setCurrentPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    libraryHeaderRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   // Open modal immediately with card data, then fetch full details
@@ -160,7 +161,7 @@ const RomLibrary = () => {
         ← Back to Archives
       </button>
 
-      <div className="rom-library-header">
+      <div className="rom-library-header" ref={libraryHeaderRef}>
         <h2>ROM Library</h2>
         <p className="rom-library-intro">
           Retro game collection spanning {consoles.length} console{consoles.length !== 1 ? 's' : ''}.
