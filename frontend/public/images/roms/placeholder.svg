@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" width="120" height="160">
+  <!-- Background -->
+  <rect width="120" height="160" fill="#1e1e2e" rx="6"/>
+
+  <!-- Broken image icon -->
+  <rect x="22" y="38" width="76" height="60" fill="none" stroke="#3a3a5a" stroke-width="3" rx="3"/>
+  <!-- Mountain/landscape in image -->
+  <polyline points="22,82 44,58 60,72 76,52 98,82" fill="none" stroke="#3a3a5a" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Sun circle -->
+  <circle cx="38" cy="54" r="7" fill="none" stroke="#3a3a5a" stroke-width="3"/>
+  <!-- Broken corner -->
+  <line x1="22" y1="78" x2="36" y2="98" stroke="#3a3a5a" stroke-width="3"/>
+  <line x1="36" y1="98" x2="98" y2="98" stroke="#3a3a5a" stroke-width="3"/>
+
+  <!-- "No image" text -->
+  <text x="60" y="125" font-family="monospace" font-size="10" fill="#3a3a5a" text-anchor="middle">no image</text>
+</svg>

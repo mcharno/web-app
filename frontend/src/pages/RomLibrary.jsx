@@ -397,6 +397,7 @@ const RomLibrary = () => {
                               alt={`Screenshot ${i + 1}`}
                               loading="lazy"
                               className="screenshot-full"
+                              onError={e => { e.target.src = PLACEHOLDER_BOX_ART; }}
                             />
                           ))}
                         </div>
