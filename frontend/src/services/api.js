@@ -85,6 +85,10 @@ export const comicsAPI = {
   getAll: (params = {}) => api.get('/comics', { params }),
   getById: (id) => api.get(`/comics/${id}`),
   getPublishers: () => api.get('/comics/publishers'),
+  create: (data) => api.post('/comics', data),
+  replace: (id, data) => api.put(`/comics/${id}`, data),
+  update: (id, data) => api.patch(`/comics/${id}`, data),
+  remove: (id) => api.delete(`/comics/${id}`),
 };
 
 export default api;
