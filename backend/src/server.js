@@ -12,6 +12,7 @@ import paperRoutes from './routes/paperRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import romRoutes from './routes/romRoutes.js';
 import berbatisRoutes from './routes/berbatisRoutes.js';
+import comicsRoutes from './routes/comicsRoutes.js';
 import { metricsMiddleware, metricsHandler } from './middleware/metrics.js';
 import { requireApiKey } from './middleware/auth.js';
 
@@ -67,6 +68,7 @@ app.use('/api/papers', paperRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/roms', romRoutes);
 app.use('/api/berbatis', berbatisRoutes);
+app.use('/api/comics', comicsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

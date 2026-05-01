@@ -80,4 +80,11 @@ export const berbatisAPI = USE_MOCK_API ? mockApi.berbatis : {
   getById: (id) => api.get(`/berbatis/${id}`),
 };
 
+// Comics Archive API
+export const comicsAPI = {
+  getAll: (params = {}) => api.get('/comics', { params }),
+  getById: (id) => api.get(`/comics/${id}`),
+  getPublishers: () => api.get('/comics/publishers'),
+};
+
 export default api;
