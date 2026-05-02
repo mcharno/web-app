@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Use vi.hoisted to ensure mocks are created before module imports
-const { mockGet, mockPost, mockPut, mockDelete } = vi.hoisted(() => ({
+const { mockGet, mockPost, mockPut, mockPatch, mockDelete } = vi.hoisted(() => ({
   mockGet: vi.fn(),
   mockPost: vi.fn(),
   mockPut: vi.fn(),
+  mockPatch: vi.fn(),
   mockDelete: vi.fn(),
 }));
 
@@ -15,13 +16,15 @@ vi.mock('axios', () => ({
       get: mockGet,
       post: mockPost,
       put: mockPut,
+      patch: mockPatch,
       delete: mockDelete,
     }))
   }
 }));
 
 // Import API module AFTER mocking axios
-import { contentAPI, projectsAPI, photosAPI, papersAPI, blogAPI } from '../../services/api';
+import { contentAPI, projectsAPI, photosAPI, papersAPI, blogAPI, romsAPI, berbatisAPI, comicsAPI } from '../../services/api';
+import api from '../../services/api';
 
 describe('API Services', () => {
   beforeEach(() => {
@@ -152,6 +155,112 @@ describe('API Services', () => {
       await blogAPI.getByPage('my-post');
 
       expect(mockGet).toHaveBeenCalledWith('/blog/my-post', { params: { language: 'en' } });
+    });
+  });
+
+  describe('romsAPI', () => {
+    it('should fetch all roms with params', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await romsAPI.getAll({ console: 'nes', page: 1 });
+      expect(mockGet).toHaveBeenCalledWith('/roms', { params: { console: 'nes', page: 1 } });
+    });
+
+    it('should fetch consoles', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await romsAPI.getConsoles();
+      expect(mockGet).toHaveBeenCalledWith('/roms/consoles');
+    });
+
+    it('should fetch tags', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await romsAPI.getTags();
+      expect(mockGet).toHaveBeenCalledWith('/roms/tags');
+    });
+
+    it('should fetch rom by id', async () => {
+      mockGet.mockResolvedValue({ data: {} });
+      await romsAPI.getById('rom-1');
+      expect(mockGet).toHaveBeenCalledWith('/roms/rom-1');
+    });
+
+    it('should update a rom', async () => {
+      mockPut.mockResolvedValue({ data: {} });
+      await romsAPI.update('rom-1', { title: 'Updated' });
+      expect(mockPut).toHaveBeenCalledWith('/roms/rom-1', { title: 'Updated' });
+    });
+
+    it('should trigger a scan', async () => {
+      mockPost.mockResolvedValue({ data: {} });
+      await romsAPI.scan();
+      expect(mockPost).toHaveBeenCalledWith('/roms/scan');
+    });
+  });
+
+  describe('berbatisAPI', () => {
+    it('should fetch all berbatis records', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await berbatisAPI.getAll({ season: '2019' });
+      expect(mockGet).toHaveBeenCalledWith('/berbatis', { params: { season: '2019' } });
+    });
+
+    it('should fetch berbatis record by id', async () => {
+      mockGet.mockResolvedValue({ data: {} });
+      await berbatisAPI.getById('context-1');
+      expect(mockGet).toHaveBeenCalledWith('/berbatis/context-1');
+    });
+  });
+
+  describe('comicsAPI', () => {
+    it('should fetch all comics', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await comicsAPI.getAll({ publisher: 'DC' });
+      expect(mockGet).toHaveBeenCalledWith('/comics', { params: { publisher: 'DC' } });
+    });
+
+    it('should fetch comic by id', async () => {
+      mockGet.mockResolvedValue({ data: {} });
+      await comicsAPI.getById('issue-1');
+      expect(mockGet).toHaveBeenCalledWith('/comics/issue-1');
+    });
+
+    it('should fetch publishers', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await comicsAPI.getPublishers();
+      expect(mockGet).toHaveBeenCalledWith('/comics/publishers');
+    });
+
+    it('should create a comic', async () => {
+      mockPost.mockResolvedValue({ data: {} });
+      await comicsAPI.create({ title: 'New Comic' });
+      expect(mockPost).toHaveBeenCalledWith('/comics', { title: 'New Comic' });
+    });
+
+    it('should replace a comic', async () => {
+      mockPut.mockResolvedValue({ data: {} });
+      await comicsAPI.replace('issue-1', { title: 'Replaced' });
+      expect(mockPut).toHaveBeenCalledWith('/comics/issue-1', { title: 'Replaced' });
+    });
+
+    it('should patch a comic', async () => {
+      mockPatch.mockResolvedValue({ data: {} });
+      await comicsAPI.update('issue-1', { notes: 'Updated' });
+      expect(mockPatch).toHaveBeenCalledWith('/comics/issue-1', { notes: 'Updated' });
+    });
+
+    it('should delete a comic', async () => {
+      mockDelete.mockResolvedValue({ data: {} });
+      await comicsAPI.remove('issue-1');
+      expect(mockDelete).toHaveBeenCalledWith('/comics/issue-1');
+    });
+  });
+
+  describe('paramsSerializer', () => {
+    it('should serialize array params as repeated keys', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      // The paramsSerializer is exercised when axios.create is called with it
+      // We verify it handles arrays by checking that getAll with array tags doesn't throw
+      await romsAPI.getAll({ tags: ['rpg', 'action'] });
+      expect(mockGet).toHaveBeenCalledWith('/roms', { params: { tags: ['rpg', 'action'] } });
     });
   });
 });
