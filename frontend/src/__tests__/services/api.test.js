@@ -226,7 +226,7 @@ describe('API Services', () => {
     it('should fetch groups', async () => {
       mockGet.mockResolvedValue({ data: [] });
       await comicsAPI.getGroups();
-      expect(mockGet).toHaveBeenCalledWith('/comics/groups');
+      expect(mockGet).toHaveBeenCalledWith('/comics/groups', { params: {} });
     });
 
     it('should fetch publishers', async () => {
@@ -241,10 +241,10 @@ describe('API Services', () => {
       expect(mockPost).toHaveBeenCalledWith('/comics', { title: 'New Comic' });
     });
 
-    it('should replace a comic', async () => {
-      mockPut.mockResolvedValue({ data: {} });
-      await comicsAPI.replace('issue-1', { title: 'Replaced' });
-      expect(mockPut).toHaveBeenCalledWith('/comics/issue-1', { title: 'Replaced' });
+    it('should search issues', async () => {
+      mockGet.mockResolvedValue({ data: { issues: [] } });
+      await comicsAPI.searchIssues({ q: 'Spider-Man' });
+      expect(mockGet).toHaveBeenCalledWith('/comics/issues', { params: { q: 'Spider-Man' } });
     });
 
     it('should patch a comic', async () => {
