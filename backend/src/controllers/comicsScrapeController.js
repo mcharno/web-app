@@ -19,12 +19,20 @@ async function cvGet(endpoint, params = {}) {
   const apiKey = process.env.COMIC_VINE_API_KEY;
   if (!apiKey) throw Object.assign(new Error('COMIC_VINE_API_KEY not set'), { status: 503 });
 
-  const url = new URL(`${CV_BASE}/${endpoint}/`);
-  url.searchParams.set('format', 'json');
-  url.searchParams.set('api_key', apiKey);
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, String(v));
+  // Build base params without filter — URLSearchParams encodes ':' as '%3A' which
+  // breaks Comic Vine's field:value filter syntax, so filter is appended manually.
+  const base = new URLSearchParams({ format: 'json', api_key: apiKey });
+  const extras = [];
+  for (const [k, v] of Object.entries(params)) {
+    if (k === 'filter') {
+      extras.push(`filter=${encodeURIComponent(String(v)).replace(/%3A/gi, ':')}`);
+    } else {
+      base.set(k, String(v));
+    }
+  }
+  const urlStr = `${CV_BASE}/${endpoint}/?${base.toString()}${extras.length ? '&' + extras.join('&') : ''}`;
 
-  const res = await fetch(url.toString(), {
+  const res = await fetch(urlStr, {
     headers: { 'User-Agent': 'charno-comic-scraper/1.0' },
     signal: AbortSignal.timeout(30000),
   });
@@ -32,6 +40,16 @@ async function cvGet(endpoint, params = {}) {
   const data = await res.json();
   if (data.status_code !== 1) throw new Error(`Comic Vine API: ${data.error}`);
   return data;
+}
+
+// Normalize title for fallback CV search: collapse dashes/colons to spaces so
+// "Dead-Pool- The Circle Chase" can still match "Deadpool: The Circle Chase"
+function normalizeTitle(title) {
+  return title
+    .replace(/[:\-–—]+/g, ' ')
+    .replace(/['"!?,._]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 async function downloadFile(imageUrl, destPath) {
@@ -51,29 +69,37 @@ async function downloadFile(imageUrl, destPath) {
 async function resolveVolumeId(series) {
   if (series.comic_vine_id) return { id: series.comic_vine_id, candidates: [] };
 
-  const data = await cvGet('volumes', {
-    filter: `name:${series.title}`,
-    field_list: 'id,name,start_year,count_of_issues,publisher',
-    limit: 10,
-  });
-  await sleep(CV_DELAY);
+  const normalized = normalizeTitle(series.title);
+  const searches = [series.title];
+  if (normalized.toLowerCase() !== series.title.toLowerCase()) searches.push(normalized);
 
-  const results = data.results || [];
-  if (!results.length) return { id: null, candidates: [] };
+  for (const searchTitle of searches) {
+    const data = await cvGet('volumes', {
+      filter: `name:${searchTitle}`,
+      field_list: 'id,name,start_year,count_of_issues,publisher',
+      limit: 10,
+    });
+    await sleep(CV_DELAY);
 
-  const exact = results.filter(v => v.name.toLowerCase() === series.title.toLowerCase());
-  const pool2 = exact.length ? exact : results;
+    const results = data.results || [];
+    if (!results.length) continue;
 
-  let match = pool2[0];
-  if (series.volume && pool2.length > 1) {
-    const n = parseInt(series.volume, 10);
-    if (!isNaN(n)) {
-      const sorted = [...pool2].sort((a, b) => (a.start_year || 0) - (b.start_year || 0));
-      match = sorted[n - 1] || sorted[0];
+    const exact = results.filter(v => v.name.toLowerCase() === series.title.toLowerCase());
+    const pool2 = exact.length ? exact : results;
+
+    let match = pool2[0];
+    if (series.volume && pool2.length > 1) {
+      const n = parseInt(series.volume, 10);
+      if (!isNaN(n)) {
+        const sorted = [...pool2].sort((a, b) => (a.start_year || 0) - (b.start_year || 0));
+        match = sorted[n - 1] || sorted[0];
+      }
     }
+
+    return { id: match.id, candidates: pool2 };
   }
 
-  return { id: match.id, candidates: pool2 };
+  return { id: null, candidates: [] };
 }
 
 // ── Core scrape logic ─────────────────────────────────────────────────────────
