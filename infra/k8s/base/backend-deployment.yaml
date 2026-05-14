@@ -120,6 +120,12 @@ spec:
               name: charno-secrets
               key: ss_devpassword
               optional: true
+        - name: COMIC_VINE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: charno-secrets
+              key: comic_vine_api_key
+              optional: true
         volumeMounts:
         - name: photos
           mountPath: /data/photos
