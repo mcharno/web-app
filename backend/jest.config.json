@@ -10,6 +10,7 @@
     "!src/__tests__/**",
     "!src/controllers/romController.js",
     "!src/controllers/comicsController.js",
+    "!src/controllers/comicsScrapeController.js",
     "!src/controllers/berbatisController.js",
     "!src/routes/berbatisRoutes.js",
     "!src/routes/comicsRoutes.js",

@@ -1,25 +1,40 @@
 import { Router } from 'express';
 import {
-  getAllComics,
-  getComicById,
-  getPublishers,
-  createComic,
-  replaceComic,
-  updateComic,
-  deleteComic,
+  getGroups, createGroup, updateGroup, deleteGroup,
+  getAllComics, getComicById, createComic, updateComic, deleteComic,
+  getPublishers, searchIssues, updateIssue, deleteIssue,
+  searchComicVine,
 } from '../controllers/comicsController.js';
+import { scrapeComic, scrapeUnscraped } from '../controllers/comicsScrapeController.js';
 
 const router = Router();
 
-// Read
-router.get('/publishers', getPublishers);
-router.get('/', getAllComics);
-router.get('/:id', getComicById);
+// ── Groups ────────────────────────────────────────────────────────────────────
+router.get('/groups',        getGroups);
+router.post('/groups',       createGroup);
+router.patch('/groups/:id',  updateGroup);
+router.delete('/groups/:id', deleteGroup);
 
-// Write (all require Bearer API key via requireApiKey middleware in server.js)
-router.post('/', createComic);       // Create new comic
-router.put('/:id', replaceComic);    // Full replace
-router.patch('/:id', updateComic);   // Partial update
-router.delete('/:id', deleteComic);  // Delete
+// ── Issues (before /:id to avoid route conflict) ──────────────────────────────
+router.get('/issues',          searchIssues);
+router.patch('/issues/:id',    updateIssue);
+router.delete('/issues/:id',   deleteIssue);
+
+// ── Comic Vine search ─────────────────────────────────────────────────────────
+router.get('/search-cv',       searchComicVine);
+
+// ── Misc reads ────────────────────────────────────────────────────────────────
+router.get('/publishers',      getPublishers);
+
+// ── Scraping ──────────────────────────────────────────────────────────────────
+router.post('/scrape-unscraped',  scrapeUnscraped);   // bulk queue — called by n8n / manual
+router.post('/:id/scrape',        scrapeComic);        // single series
+
+// ── Series CRUD ───────────────────────────────────────────────────────────────
+router.get('/',       getAllComics);
+router.get('/:id',    getComicById);
+router.post('/',      createComic);
+router.patch('/:id',  updateComic);
+router.delete('/:id', deleteComic);
 
 export default router;

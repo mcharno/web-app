@@ -31,8 +31,14 @@ export class JsonStore {
 
   async write(records) {
     const tmpPath = `${this.filePath}.tmp`;
-    const payload = JSON.stringify({ [this.collectionKey]: records }, null, 2);
-    await fs.writeFile(tmpPath, payload, 'utf-8');
+    let data = {};
+    try {
+      data = JSON.parse(await fs.readFile(this.filePath, 'utf-8'));
+    } catch {
+      // file doesn't exist yet
+    }
+    data[this.collectionKey] = records;
+    await fs.writeFile(tmpPath, JSON.stringify(data, null, 2), 'utf-8');
     await fs.rename(tmpPath, this.filePath);
   }
 

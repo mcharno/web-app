@@ -1,4 +1,57 @@
 {
+  "groups": [
+    { "id": "the-simpsons", "name": "The Simpsons", "description": null },
+    { "id": "x-men", "name": "X-Men", "description": null },
+    { "id": "ghost-rider", "name": "Ghost Rider", "description": null },
+    { "id": "spider-man", "name": "Spider-Man", "description": null },
+    { "id": "punisher", "name": "Punisher", "description": null },
+    { "id": "silver-surfer", "name": "Silver Surfer", "description": null },
+    { "id": "g-i-joe", "name": "G.I. Joe", "description": null },
+    { "id": "transformers", "name": "Transformers", "description": null },
+    { "id": "youngblood", "name": "Youngblood", "description": null },
+    { "id": "wildstorm", "name": "WildStorm", "description": null },
+    { "id": "savage-dragon", "name": "Savage Dragon", "description": null },
+    { "id": "spawn", "name": "Spawn", "description": null },
+    { "id": "teenage-mutant-ninja-turtles", "name": "Teenage Mutant Ninja Turtles", "description": null },
+    { "id": "dragon-age", "name": "Dragon Age", "description": null },
+    { "id": "90s-video-games", "name": "90s Video Games", "description": null },
+    { "id": "marvel-universe", "name": "Marvel Universe", "description": null },
+    { "id": "shadowhawk", "name": "Shadowhawk", "description": null },
+    { "id": "age-of-bronze", "name": "Age of Bronze", "description": null },
+    { "id": "beavis-and-butt-head", "name": "Beavis and Butt-Head", "description": null },
+    { "id": "black-panther", "name": "Black Panther", "description": null },
+    { "id": "boof", "name": "Boof", "description": null },
+    { "id": "cage", "name": "Cage", "description": null },
+    { "id": "conan-the-barbarian", "name": "Conan the Barbarian", "description": null },
+    { "id": "cyber-force", "name": "Cyber Force", "description": null },
+    { "id": "daredevil", "name": "Daredevil", "description": null },
+    { "id": "darker-image", "name": "Darker Image", "description": null },
+    { "id": "deadpool", "name": "Deadpool", "description": null },
+    { "id": "deathlok", "name": "Deathlok", "description": null },
+    { "id": "fantastic-four", "name": "Fantastic Four", "description": null },
+    { "id": "giant-days", "name": "Giant Days", "description": null },
+    { "id": "hellshock", "name": "Hellshock", "description": null },
+    { "id": "iron-fist", "name": "Iron Fist", "description": null },
+    { "id": "iron-man", "name": "Iron Man", "description": null },
+    { "id": "madballs", "name": "Madballs", "description": null },
+    { "id": "mouse-guard", "name": "Mouse Guard", "description": null },
+    { "id": "night-thrasher", "name": "Night Thrasher", "description": null },
+    { "id": "no-escape", "name": "No Escape", "description": null },
+    { "id": "owly", "name": "Owly", "description": null },
+    { "id": "pitt", "name": "Pitt", "description": null },
+    { "id": "primordial", "name": "Primordial", "description": null },
+    { "id": "ravage-2099", "name": "Ravage 2099", "description": null },
+    { "id": "ripleys-believe-it-or-not", "name": "Ripley's Believe It or Not!", "description": null },
+    { "id": "star-wars", "name": "Star Wars", "description": null },
+    { "id": "stupid", "name": "Stupid", "description": null },
+    { "id": "templar", "name": "Templar", "description": null },
+    { "id": "the-art-of-homage-studios", "name": "The Art of Homage Studios", "description": null },
+    { "id": "the-maxx", "name": "The Maxx", "description": null },
+    { "id": "the-ren-stimpy-show", "name": "The Ren & Stimpy Show", "description": null },
+    { "id": "tribe", "name": "Tribe", "description": null },
+    { "id": "wildstar", "name": "Wildstar", "description": null },
+    { "id": "y-the-last-man", "name": "Y: The Last Man", "description": null }
+  ],
   "comics": [
     {
       "id": "age-of-bronze",
@@ -6,7 +59,8 @@
       "publisher": "Image",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "age-of-bronze"
     },
     {
       "id": "bart-simpson-s-treehouse-of-horror",
@@ -16,7 +70,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-simpsons"
     },
     {
       "id": "bartman",
@@ -26,7 +81,8 @@
       "issues": [
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-simpsons"
     },
     {
       "id": "beavis-and-butt-head",
@@ -52,7 +108,8 @@
         "16",
         "17"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "beavis-and-butt-head"
     },
     {
       "id": "black-panther",
@@ -62,7 +119,8 @@
       "issues": [
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "black-panther"
     },
     {
       "id": "bloodstrike",
@@ -76,7 +134,8 @@
         "10",
         "20"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "boof",
@@ -87,7 +146,8 @@
         "2",
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "boof"
     },
     {
       "id": "brigade",
@@ -101,7 +161,8 @@
         "3",
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "cable",
@@ -113,7 +174,8 @@
         "2",
         "25"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "cage",
@@ -123,7 +185,8 @@
       "issues": [
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "cage"
     },
     {
       "id": "conan-the-barbarian",
@@ -133,7 +196,8 @@
       "issues": [
         "233"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "conan-the-barbarian"
     },
     {
       "id": "cyber-force",
@@ -144,7 +208,8 @@
         "1",
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "cyber-force"
     },
     {
       "id": "daredevil",
@@ -156,7 +221,8 @@
         "208",
         "233"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "daredevil"
     },
     {
       "id": "darker-image",
@@ -166,7 +232,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "darker-image"
     },
     {
       "id": "dead-pool-the-circle-chase",
@@ -176,7 +243,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "deadpool"
     },
     {
       "id": "deathblow",
@@ -187,7 +255,8 @@
         "1",
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstorm"
     },
     {
       "id": "deathlok",
@@ -198,7 +267,8 @@
         "25",
         "34"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "deathlok"
     },
     {
       "id": "dragon-age-knight-errant",
@@ -206,7 +276,8 @@
       "publisher": "Dark Horse",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "dragon-age"
     },
     {
       "id": "extreme-sacrifice",
@@ -214,7 +285,8 @@
       "publisher": "",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "fantastic-four",
@@ -225,7 +297,8 @@
         "381",
         "398"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "fantastic-four"
     },
     {
       "id": "freak-force",
@@ -235,7 +308,8 @@
       "issues": [
         "14"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "savage-dragon"
     },
     {
       "id": "g-i-joe-special-missions",
@@ -246,7 +320,8 @@
         "3",
         "22"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "g-i-joe"
     },
     {
       "id": "g-i-joe-and-transformers",
@@ -256,7 +331,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "g-i-joe"
     },
     {
       "id": "g-i-joe",
@@ -270,7 +346,8 @@
         "54",
         "56"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "g-i-joe"
     },
     {
       "id": "gambit-and-the-xternals",
@@ -280,7 +357,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "gen-13",
@@ -290,7 +368,8 @@
       "issues": [
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstorm"
     },
     {
       "id": "generation-next",
@@ -300,7 +379,8 @@
       "issues": [
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "ghost-rider-captain-america-fear",
@@ -310,7 +390,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ghost-rider"
     },
     {
       "id": "ghost-rider-blaze-spirits-of-vengence",
@@ -326,7 +407,8 @@
         "13",
         "14"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ghost-rider"
     },
     {
       "id": "ghost-rider",
@@ -350,7 +432,8 @@
         "43",
         "50"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ghost-rider"
     },
     {
       "id": "giant-days",
@@ -358,7 +441,8 @@
       "publisher": "Boom! Studios",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "giant-days"
     },
     {
       "id": "headlight-comics",
@@ -368,7 +452,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": null
     },
     {
       "id": "hellshock",
@@ -378,7 +463,8 @@
       "issues": [
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "hellshock"
     },
     {
       "id": "iron-fist",
@@ -388,7 +474,8 @@
       "issues": [
         "8"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "iron-fist"
     },
     {
       "id": "iron-man",
@@ -398,7 +485,8 @@
       "issues": [
         "192"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "iron-man"
     },
     {
       "id": "itchy-scratchy",
@@ -408,7 +496,8 @@
       "issues": [
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-simpsons"
     },
     {
       "id": "madballs",
@@ -418,7 +507,8 @@
       "issues": [
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "madballs"
     },
     {
       "id": "marvel-action-hour",
@@ -426,7 +516,8 @@
       "publisher": "Marvel",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "marvel-universe"
     },
     {
       "id": "midnight-sons-unlimited",
@@ -436,7 +527,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ghost-rider"
     },
     {
       "id": "morbius",
@@ -450,7 +542,8 @@
         "4",
         "12"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ghost-rider"
     },
     {
       "id": "mortal-kombat",
@@ -460,7 +553,8 @@
       "issues": [
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "90s-video-games"
     },
     {
       "id": "mouse-guard",
@@ -468,7 +562,8 @@
       "publisher": "",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "mouse-guard"
     },
     {
       "id": "night-thrasher",
@@ -478,7 +573,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "night-thrasher"
     },
     {
       "id": "nightstalkers",
@@ -488,7 +584,8 @@
       "issues": [
         "10"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ghost-rider"
     },
     {
       "id": "no-escape",
@@ -498,7 +595,8 @@
       "issues": [
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "no-escape"
     },
     {
       "id": "owly",
@@ -506,7 +604,8 @@
       "publisher": "Top Shelf Productions",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "owly"
     },
     {
       "id": "pitt",
@@ -518,7 +617,8 @@
         "2",
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "pitt"
     },
     {
       "id": "primordial",
@@ -526,7 +626,8 @@
       "publisher": "Image",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "primordial"
     },
     {
       "id": "prophet",
@@ -538,7 +639,8 @@
         "2",
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "punisher-soviet",
@@ -546,7 +648,8 @@
       "publisher": "Marvel",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "punisher"
     },
     {
       "id": "ravage-2099",
@@ -556,7 +659,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ravage-2099"
     },
     {
       "id": "ripley-s-believe-it-or-not-fairy-tales-literature",
@@ -566,7 +670,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "ripleys-believe-it-or-not"
     },
     {
       "id": "shadowhawk-ii",
@@ -578,7 +683,8 @@
         "2",
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "shadowhawk"
     },
     {
       "id": "shadowhawk",
@@ -590,7 +696,8 @@
         "2",
         "16"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "shadowhawk"
     },
     {
       "id": "simpsons-comics-and-stories",
@@ -600,7 +707,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-simpsons"
     },
     {
       "id": "simpsons-comics",
@@ -613,7 +721,8 @@
         "16",
         "21"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-simpsons"
     },
     {
       "id": "spawn",
@@ -625,7 +734,8 @@
         "14",
         "24"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spawn"
     },
     {
       "id": "spider-man-2099",
@@ -635,7 +745,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spider-man"
     },
     {
       "id": "spider-man",
@@ -646,7 +757,8 @@
         "34",
         "59"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spider-man"
     },
     {
       "id": "star-wars",
@@ -656,7 +768,8 @@
       "issues": [
         "92"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "star-wars"
     },
     {
       "id": "stormwatch",
@@ -666,7 +779,8 @@
       "issues": [
         "8"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstorm"
     },
     {
       "id": "street-fighter",
@@ -677,7 +791,8 @@
         "1",
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "90s-video-games"
     },
     {
       "id": "stupid",
@@ -687,7 +802,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "stupid"
     },
     {
       "id": "supreme",
@@ -700,7 +816,8 @@
         "4",
         "17"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "tales-of-g-i-joe",
@@ -711,7 +828,8 @@
         "10",
         "14"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "g-i-joe"
     },
     {
       "id": "team-youngblood",
@@ -721,7 +839,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "teenage-mutant-ninja-turtles-adventures",
@@ -732,7 +851,8 @@
         "2",
         "15"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "teenage-mutant-ninja-turtles"
     },
     {
       "id": "templar",
@@ -740,7 +860,8 @@
       "publisher": "",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "templar"
     },
     {
       "id": "the-amazing-spider-man",
@@ -751,7 +872,8 @@
         "334",
         "375"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spider-man"
     },
     {
       "id": "the-amazing-x-men",
@@ -761,7 +883,8 @@
       "issues": [
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "the-art-of-homage-studios",
@@ -771,7 +894,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-art-of-homage-studios"
     },
     {
       "id": "the-astonishing-x-men",
@@ -781,7 +905,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "the-maxx",
@@ -794,7 +919,8 @@
         "4",
         "5"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-maxx"
     },
     {
       "id": "the-official-handbook-of-the-marvel-universe",
@@ -804,7 +930,8 @@
       "issues": [
         "8"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "marvel-universe"
     },
     {
       "id": "the-punisher",
@@ -818,7 +945,8 @@
         "75",
         "81"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "punisher"
     },
     {
       "id": "the-ren-stimpy-show",
@@ -830,7 +958,8 @@
         "2",
         "7"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "the-ren-stimpy-show"
     },
     {
       "id": "the-savage-dragon",
@@ -841,7 +970,8 @@
         "1",
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "savage-dragon"
     },
     {
       "id": "the-silver-surfer-annuals",
@@ -852,7 +982,8 @@
         "4",
         "5"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "silver-surfer"
     },
     {
       "id": "the-silver-surfer",
@@ -866,7 +997,8 @@
         "81",
         "83"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "silver-surfer"
     },
     {
       "id": "the-spectacular-spider-man",
@@ -876,7 +1008,8 @@
       "issues": [
         "148"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spider-man"
     },
     {
       "id": "the-transformers",
@@ -886,7 +1019,8 @@
       "issues": [
         "34"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "transformers"
     },
     {
       "id": "the-uncanny-x-men",
@@ -896,7 +1030,8 @@
       "issues": [
         "320"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "tribe",
@@ -906,7 +1041,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "tribe"
     },
     {
       "id": "troll",
@@ -916,7 +1052,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "venom",
@@ -927,7 +1064,8 @@
         "1",
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spider-man"
     },
     {
       "id": "violator",
@@ -938,7 +1076,8 @@
         "1",
         "3"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spawn"
     },
     {
       "id": "weapon-x",
@@ -948,7 +1087,8 @@
       "issues": [
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "web-of-spider-man",
@@ -958,7 +1098,8 @@
       "issues": [
         "11"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "spider-man"
     },
     {
       "id": "wet-works",
@@ -968,7 +1109,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstorm"
     },
     {
       "id": "wild-c-a-t-s-adventures",
@@ -979,7 +1121,8 @@
         "3",
         "6"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstorm"
     },
     {
       "id": "wild-c-a-t-s",
@@ -991,7 +1134,8 @@
         "4",
         "11"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstorm"
     },
     {
       "id": "wildstar",
@@ -1001,7 +1145,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "wildstar"
     },
     {
       "id": "wolverine",
@@ -1011,7 +1156,8 @@
       "issues": [
         "132"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "x-universe",
@@ -1021,7 +1167,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "x-force",
@@ -1031,7 +1178,8 @@
       "issues": [
         "43"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "x-men-alpha",
@@ -1041,7 +1189,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "x-men-chronicles",
@@ -1051,7 +1200,8 @@
       "issues": [
         "2"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "x-men",
@@ -1062,7 +1212,8 @@
         "19",
         "20"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "x-men"
     },
     {
       "id": "y-the-last-man",
@@ -1070,7 +1221,8 @@
       "publisher": "Vertigo",
       "volume": null,
       "issues": [],
-      "cover_image": null
+      "cover_image": null,
+      "group": "y-the-last-man"
     },
     {
       "id": "youngblood-battlezone",
@@ -1080,7 +1232,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "youngblood-strikefile",
@@ -1093,7 +1246,8 @@
         "3",
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "youngblood-yearbook",
@@ -1103,7 +1257,8 @@
       "issues": [
         "1"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     },
     {
       "id": "youngblood",
@@ -1115,7 +1270,8 @@
         "1",
         "4"
       ],
-      "cover_image": null
+      "cover_image": null,
+      "group": "youngblood"
     }
   ]
 }
