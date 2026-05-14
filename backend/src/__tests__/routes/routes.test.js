@@ -2,22 +2,31 @@ import { jest } from '@jest/globals';
 import request from 'supertest';
 import express from 'express';
 
-// Mock the database pool before importing routes
-const mockQuery = jest.fn();
-jest.unstable_mockModule('../../config/database.js', () => ({
-  default: {
-    query: mockQuery
-  }
+// Mock contentLoader before importing routes
+const mockLoadJSON = jest.fn();
+const mockFindById = jest.fn();
+const mockGetContentValue = jest.fn();
+const mockLoadAllGalleries = jest.fn();
+const mockLoadGallery = jest.fn();
+const mockLoadAllBlogPosts = jest.fn();
+const mockLoadBlogPost = jest.fn();
+
+jest.unstable_mockModule('../../utils/contentLoader.js', () => ({
+  loadJSON: mockLoadJSON,
+  findById: mockFindById,
+  getContentValue: mockGetContentValue,
+  loadAllGalleries: mockLoadAllGalleries,
+  loadGallery: mockLoadGallery,
+  loadAllBlogPosts: mockLoadAllBlogPosts,
+  loadBlogPost: mockLoadBlogPost
 }));
 
-// Import routes after mocking
 const { default: contentRoutes } = await import('../../routes/contentRoutes.js');
 const { default: projectRoutes } = await import('../../routes/projectRoutes.js');
 const { default: paperRoutes } = await import('../../routes/paperRoutes.js');
 const { default: photoRoutes } = await import('../../routes/photoRoutes.js');
 const { default: blogRoutes } = await import('../../routes/blogRoutes.js');
 
-// Create test app
 const app = express();
 app.use(express.json());
 app.use('/api/content', contentRoutes);
@@ -33,42 +42,30 @@ describe('API Routes Integration Tests', () => {
 
   describe('Content Routes', () => {
     it('GET /api/content/:language should return all content', async () => {
-      mockQuery.mockResolvedValue({
-        rows: [
-          { key: 'welcome', value: 'Welcome' },
-          { key: 'about', value: 'About' }
-        ]
-      });
+      const mockContent = { welcome: 'Welcome', about: 'About' };
+      mockLoadJSON.mockResolvedValue(mockContent);
 
       const response = await request(app)
         .get('/api/content/en')
         .expect(200);
 
-      expect(response.body).toEqual({
-        welcome: 'Welcome',
-        about: 'About'
-      });
+      expect(mockLoadJSON).toHaveBeenCalledWith('en', 'content');
+      expect(response.body).toEqual(mockContent);
     });
 
     it('GET /api/content/:language/:key should return specific content', async () => {
-      mockQuery.mockResolvedValue({
-        rows: [{ id: 1, language: 'en', key: 'welcome', value: 'Welcome' }]
-      });
+      mockGetContentValue.mockResolvedValue('Welcome to our site');
 
       const response = await request(app)
         .get('/api/content/en/welcome')
         .expect(200);
 
-      expect(response.body).toEqual({
-        id: 1,
-        language: 'en',
-        key: 'welcome',
-        value: 'Welcome'
-      });
+      expect(mockGetContentValue).toHaveBeenCalledWith('en', 'welcome');
+      expect(response.body).toEqual({ language: 'en', key: 'welcome', value: 'Welcome to our site' });
     });
 
     it('GET /api/content/:language/:key should return 404 when not found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+      mockGetContentValue.mockResolvedValue(null);
 
       await request(app)
         .get('/api/content/en/nonexistent')
@@ -77,84 +74,85 @@ describe('API Routes Integration Tests', () => {
   });
 
   describe('Project Routes', () => {
-    it('GET /api/projects should return all projects', async () => {
+    it('GET /api/projects should return all projects sorted by display_order', async () => {
       const mockProjects = [
-        { id: 1, title: 'Project 1', language: 'en' },
-        { id: 2, title: 'Project 2', language: 'en' }
+        { id: 'p2', title: 'Project 2', display_order: 2 },
+        { id: 'p1', title: 'Project 1', display_order: 1 }
       ];
-
-      mockQuery.mockResolvedValue({ rows: mockProjects });
+      mockLoadJSON.mockResolvedValue(mockProjects);
 
       const response = await request(app)
         .get('/api/projects')
         .expect(200);
 
-      expect(response.body).toEqual(mockProjects);
+      expect(mockLoadJSON).toHaveBeenCalledWith('en', 'projects');
+      expect(response.body[0].id).toBe('p1');
     });
 
-    it('GET /api/projects should accept language query parameter', async () => {
-      const mockProjects = [{ id: 1, title: 'Έργο', language: 'gr' }];
-      mockQuery.mockResolvedValue({ rows: mockProjects });
+    it('GET /api/projects should pass language query parameter to content loader', async () => {
+      mockLoadJSON.mockResolvedValue([{ id: 'p1', title: 'Έργο', display_order: 1 }]);
 
-      const response = await request(app)
+      await request(app)
         .get('/api/projects?language=gr')
         .expect(200);
 
-      expect(response.body).toEqual(mockProjects);
+      expect(mockLoadJSON).toHaveBeenCalledWith('gr', 'projects');
     });
 
     it('GET /api/projects/:id should return specific project', async () => {
-      const mockProject = { id: 1, title: 'Project 1', language: 'en' };
-      mockQuery.mockResolvedValue({ rows: [mockProject] });
+      const mockProject = { id: 'my-project', title: 'My Project' };
+      mockFindById.mockResolvedValue(mockProject);
 
       const response = await request(app)
-        .get('/api/projects/1')
+        .get('/api/projects/my-project')
         .expect(200);
 
+      expect(mockFindById).toHaveBeenCalledWith('en', 'projects', 'my-project');
       expect(response.body).toEqual(mockProject);
     });
 
     it('GET /api/projects/:id should return 404 when not found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+      mockFindById.mockResolvedValue(null);
 
       await request(app)
-        .get('/api/projects/999')
+        .get('/api/projects/nonexistent')
         .expect(404);
     });
   });
 
   describe('Paper Routes', () => {
-    it('GET /api/papers should return all papers', async () => {
+    it('GET /api/papers should return all papers sorted by year descending', async () => {
       const mockPapers = [
-        { id: 1, title: 'Paper 1', year: 2023 },
-        { id: 2, title: 'Paper 2', year: 2022 }
+        { id: 'p1', title: 'Paper 1', year: 2022 },
+        { id: 'p2', title: 'Paper 2', year: 2023 }
       ];
-
-      mockQuery.mockResolvedValue({ rows: mockPapers });
+      mockLoadJSON.mockResolvedValue(mockPapers);
 
       const response = await request(app)
         .get('/api/papers')
         .expect(200);
 
-      expect(response.body).toEqual(mockPapers);
+      expect(mockLoadJSON).toHaveBeenCalledWith('en', 'papers');
+      expect(response.body[0].year).toBe(2023);
     });
 
     it('GET /api/papers/:id should return specific paper', async () => {
-      const mockPaper = { id: 1, title: 'Paper 1', year: 2023 };
-      mockQuery.mockResolvedValue({ rows: [mockPaper] });
+      const mockPaper = { id: 'paper-1', title: 'Paper 1', year: 2023 };
+      mockFindById.mockResolvedValue(mockPaper);
 
       const response = await request(app)
-        .get('/api/papers/1')
+        .get('/api/papers/paper-1')
         .expect(200);
 
+      expect(mockFindById).toHaveBeenCalledWith('en', 'papers', 'paper-1');
       expect(response.body).toEqual(mockPaper);
     });
 
     it('GET /api/papers/:id should return 404 when not found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+      mockFindById.mockResolvedValue(null);
 
       await request(app)
-        .get('/api/papers/999')
+        .get('/api/papers/nonexistent')
         .expect(404);
     });
   });
@@ -162,93 +160,100 @@ describe('API Routes Integration Tests', () => {
   describe('Photo Routes', () => {
     it('GET /api/photos/galleries should return all galleries', async () => {
       const mockGalleries = [
-        { gallery_name: 'Vacation', gallery_category: 'places' },
-        { gallery_name: 'Events', gallery_category: 'events' }
+        { gallery_name: 'vacation', name: 'Vacation', category: 'places' }
       ];
-
-      mockQuery.mockResolvedValue({ rows: mockGalleries });
+      mockLoadAllGalleries.mockResolvedValue(mockGalleries);
 
       const response = await request(app)
         .get('/api/photos/galleries')
         .expect(200);
 
+      expect(mockLoadAllGalleries).toHaveBeenCalledWith('en');
       expect(response.body).toEqual(mockGalleries);
     });
 
-    it('GET /api/photos/gallery/:name should return photos by gallery', async () => {
-      const mockPhotos = [
-        { id: 1, gallery_name: 'Vacation', filename: 'photo1.jpg' },
-        { id: 2, gallery_name: 'Vacation', filename: 'photo2.jpg' }
-      ];
-
-      mockQuery.mockResolvedValue({ rows: mockPhotos });
-
-      const response = await request(app)
-        .get('/api/photos/gallery/Vacation')
-        .expect(200);
-
-      expect(response.body).toEqual(mockPhotos);
-    });
-
-    it('GET /api/photos/:id should return specific photo', async () => {
-      const mockPhoto = { id: 1, gallery_name: 'Vacation', filename: 'photo1.jpg' };
-      mockQuery.mockResolvedValue({ rows: [mockPhoto] });
+    it('GET /api/photos/gallery/:name should return photos for that gallery', async () => {
+      const mockGallery = {
+        name: 'Vacation',
+        category: 'places',
+        description: 'Holiday photos',
+        tags: ['beach'],
+        photos: [{ id: 'photo-1', filename: 'photo1.jpg', display_order: 1 }]
+      };
+      mockLoadGallery.mockResolvedValue(mockGallery);
 
       const response = await request(app)
-        .get('/api/photos/1')
+        .get('/api/photos/gallery/vacation')
         .expect(200);
 
-      expect(response.body).toEqual(mockPhoto);
+      expect(mockLoadGallery).toHaveBeenCalledWith('en', 'vacation');
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0]).toMatchObject({ id: 'photo-1', gallery_name: 'Vacation' });
     });
 
-    it('GET /api/photos/:id should return 404 when not found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+    it('GET /api/photos/gallery/:name should return 404 when gallery not found', async () => {
+      mockLoadGallery.mockRejectedValue(new Error('Gallery not found: en/galleries/nonexistent'));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
       await request(app)
-        .get('/api/photos/999')
+        .get('/api/photos/gallery/nonexistent')
+        .expect(404);
+
+      consoleSpy.mockRestore();
+    });
+
+    it('GET /api/photos/:id should return 404 when photo not found', async () => {
+      mockLoadAllGalleries.mockResolvedValue([]);
+
+      await request(app)
+        .get('/api/photos/nonexistent-id')
         .expect(404);
     });
   });
 
   describe('Blog Routes', () => {
-    it('GET /api/blog should return all blog posts', async () => {
+    it('GET /api/blog should return all blog post metadata', async () => {
       const mockPosts = [
-        { id: 1, page_name: 'post1', title: 'Post 1' },
-        { id: 2, page_name: 'post2', title: 'Post 2' }
+        { id: 'post-1', page_name: 'post-1', title: 'Post 1', content: 'Full content' }
       ];
-
-      mockQuery.mockResolvedValue({ rows: mockPosts });
+      mockLoadAllBlogPosts.mockResolvedValue(mockPosts);
 
       const response = await request(app)
         .get('/api/blog')
         .expect(200);
 
-      expect(response.body).toEqual(mockPosts);
+      expect(mockLoadAllBlogPosts).toHaveBeenCalledWith('en');
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0]).not.toHaveProperty('content');
     });
 
     it('GET /api/blog/:page should return specific blog post', async () => {
-      const mockPost = { id: 1, page_name: 'my-post', title: 'My Post', content: 'Content' };
-      mockQuery.mockResolvedValue({ rows: [mockPost] });
+      const mockPost = { id: 'my-post', page_name: 'my-post', title: 'My Post', content: 'Content' };
+      mockLoadBlogPost.mockResolvedValue(mockPost);
 
       const response = await request(app)
         .get('/api/blog/my-post')
         .expect(200);
 
+      expect(mockLoadBlogPost).toHaveBeenCalledWith('en', 'my-post');
       expect(response.body).toEqual(mockPost);
     });
 
-    it('GET /api/blog/:page should return 404 when not found', async () => {
-      mockQuery.mockResolvedValue({ rows: [] });
+    it('GET /api/blog/:page should return 404 when post not found', async () => {
+      mockLoadBlogPost.mockRejectedValue(new Error('Blog post not found: en/blog/nonexistent'));
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
       await request(app)
         .get('/api/blog/nonexistent')
         .expect(404);
+
+      consoleSpy.mockRestore();
     });
   });
 
   describe('Error Handling', () => {
-    it('should return 500 on database errors', async () => {
-      mockQuery.mockRejectedValue(new Error('Database connection failed'));
+    it('should return 500 on unexpected errors', async () => {
+      mockLoadJSON.mockRejectedValue(new Error('Unexpected filesystem error'));
       const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
 
       await request(app)

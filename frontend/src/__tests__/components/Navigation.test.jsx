@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import Navigation from '../../components/Navigation';
 
 // Mock react-i18next
@@ -53,5 +53,15 @@ describe('Navigation', () => {
     const { container } = renderNavigation();
 
     expect(container.querySelector('.navigation')).toBeInTheDocument();
+  });
+
+  it('should mark archives link as active when on /archives', () => {
+    render(
+      <MemoryRouter initialEntries={['/archives']}>
+        <Navigation />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('archives').closest('a')).toHaveClass('active');
   });
 });

@@ -12,6 +12,9 @@ import paperRoutes from './routes/paperRoutes.js';
 import blogRoutes from './routes/blogRoutes.js';
 import romRoutes from './routes/romRoutes.js';
 import berbatisRoutes from './routes/berbatisRoutes.js';
+import comicsRoutes from './routes/comicsRoutes.js';
+import { initSchema as initComicsSchema } from './controllers/comicsController.js';
+import docsRoutes from './routes/docsRoutes.js';
 import { metricsMiddleware, metricsHandler } from './middleware/metrics.js';
 import { requireApiKey } from './middleware/auth.js';
 
@@ -37,6 +40,10 @@ console.log(`ROM images directory: ${ROM_IMAGES_DIR}`);
 const POSTERS_DIR = process.env.POSTERS_DIR || path.join(__dirname, '../../frontend/public/images/berbatis');
 console.log(`Posters directory: ${POSTERS_DIR}`);
 
+// Configure comics cover images directory
+const COMICS_IMAGES_DIR = process.env.COMICS_IMAGES_DIR || path.join(__dirname, '../../frontend/public/images/comics');
+console.log(`Comics images directory: ${COMICS_IMAGES_DIR}`);
+
 // Middleware
 app.use(helmet());
 app.use(cors());
@@ -59,6 +66,9 @@ app.use('/images/roms', express.static(ROM_IMAGES_DIR));
 // Serve Berbatis show posters from configurable directory
 app.use('/images/berbatis', express.static(POSTERS_DIR));
 
+// Serve comic cover images
+app.use('/images/comics', express.static(COMICS_IMAGES_DIR));
+
 // Routes
 app.use('/api/content', contentRoutes);
 app.use('/api/projects', projectRoutes);
@@ -67,6 +77,8 @@ app.use('/api/papers', paperRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/roms', romRoutes);
 app.use('/api/berbatis', berbatisRoutes);
+app.use('/api/comics', comicsRoutes);
+app.use('/api/docs', docsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -84,6 +96,8 @@ app.use((err, req, res, next) => {
     message: process.env.NODE_ENV === 'development' ? err.message : undefined
   });
 });
+
+initComicsSchema().catch(err => console.error('[comics] schema init failed:', err));
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);

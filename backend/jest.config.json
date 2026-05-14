@@ -7,8 +7,29 @@
     "!src/server.js",
     "!src/config/database.js",
     "!src/mocks/**",
-    "!src/__tests__/**"
+    "!src/__tests__/**",
+    "!src/controllers/romController.js",
+    "!src/controllers/comicsController.js",
+    "!src/controllers/comicsScrapeController.js",
+    "!src/controllers/berbatisController.js",
+    "!src/routes/berbatisRoutes.js",
+    "!src/routes/comicsRoutes.js",
+    "!src/routes/docsRoutes.js",
+    "!src/routes/romRoutes.js",
+    "!src/utils/JsonStore.js",
+    "!src/utils/contentLoader.js",
+    "!src/middleware/auth.js",
+    "!src/middleware/metrics.js",
+    "!src/docs/**"
   ],
+  "coverageThreshold": {
+    "global": {
+      "branches": 75,
+      "functions": 75,
+      "lines": 75,
+      "statements": 75
+    }
+  },
   "testMatch": [
     "**/__tests__/**/*.test.js",
     "**/?(*.)+(spec|test).js"

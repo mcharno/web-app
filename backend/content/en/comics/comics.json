@@ -1,0 +1,1277 @@
+{
+  "groups": [
+    { "id": "the-simpsons", "name": "The Simpsons", "description": null },
+    { "id": "x-men", "name": "X-Men", "description": null },
+    { "id": "ghost-rider", "name": "Ghost Rider", "description": null },
+    { "id": "spider-man", "name": "Spider-Man", "description": null },
+    { "id": "punisher", "name": "Punisher", "description": null },
+    { "id": "silver-surfer", "name": "Silver Surfer", "description": null },
+    { "id": "g-i-joe", "name": "G.I. Joe", "description": null },
+    { "id": "transformers", "name": "Transformers", "description": null },
+    { "id": "youngblood", "name": "Youngblood", "description": null },
+    { "id": "wildstorm", "name": "WildStorm", "description": null },
+    { "id": "savage-dragon", "name": "Savage Dragon", "description": null },
+    { "id": "spawn", "name": "Spawn", "description": null },
+    { "id": "teenage-mutant-ninja-turtles", "name": "Teenage Mutant Ninja Turtles", "description": null },
+    { "id": "dragon-age", "name": "Dragon Age", "description": null },
+    { "id": "90s-video-games", "name": "90s Video Games", "description": null },
+    { "id": "marvel-universe", "name": "Marvel Universe", "description": null },
+    { "id": "shadowhawk", "name": "Shadowhawk", "description": null },
+    { "id": "age-of-bronze", "name": "Age of Bronze", "description": null },
+    { "id": "beavis-and-butt-head", "name": "Beavis and Butt-Head", "description": null },
+    { "id": "black-panther", "name": "Black Panther", "description": null },
+    { "id": "boof", "name": "Boof", "description": null },
+    { "id": "cage", "name": "Cage", "description": null },
+    { "id": "conan-the-barbarian", "name": "Conan the Barbarian", "description": null },
+    { "id": "cyber-force", "name": "Cyber Force", "description": null },
+    { "id": "daredevil", "name": "Daredevil", "description": null },
+    { "id": "darker-image", "name": "Darker Image", "description": null },
+    { "id": "deadpool", "name": "Deadpool", "description": null },
+    { "id": "deathlok", "name": "Deathlok", "description": null },
+    { "id": "fantastic-four", "name": "Fantastic Four", "description": null },
+    { "id": "giant-days", "name": "Giant Days", "description": null },
+    { "id": "hellshock", "name": "Hellshock", "description": null },
+    { "id": "iron-fist", "name": "Iron Fist", "description": null },
+    { "id": "iron-man", "name": "Iron Man", "description": null },
+    { "id": "madballs", "name": "Madballs", "description": null },
+    { "id": "mouse-guard", "name": "Mouse Guard", "description": null },
+    { "id": "night-thrasher", "name": "Night Thrasher", "description": null },
+    { "id": "no-escape", "name": "No Escape", "description": null },
+    { "id": "owly", "name": "Owly", "description": null },
+    { "id": "pitt", "name": "Pitt", "description": null },
+    { "id": "primordial", "name": "Primordial", "description": null },
+    { "id": "ravage-2099", "name": "Ravage 2099", "description": null },
+    { "id": "ripleys-believe-it-or-not", "name": "Ripley's Believe It or Not!", "description": null },
+    { "id": "star-wars", "name": "Star Wars", "description": null },
+    { "id": "stupid", "name": "Stupid", "description": null },
+    { "id": "templar", "name": "Templar", "description": null },
+    { "id": "the-art-of-homage-studios", "name": "The Art of Homage Studios", "description": null },
+    { "id": "the-maxx", "name": "The Maxx", "description": null },
+    { "id": "the-ren-stimpy-show", "name": "The Ren & Stimpy Show", "description": null },
+    { "id": "tribe", "name": "Tribe", "description": null },
+    { "id": "wildstar", "name": "Wildstar", "description": null },
+    { "id": "y-the-last-man", "name": "Y: The Last Man", "description": null }
+  ],
+  "comics": [
+    {
+      "id": "age-of-bronze",
+      "title": "Age of Bronze",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "age-of-bronze"
+    },
+    {
+      "id": "bart-simpson-s-treehouse-of-horror",
+      "title": "Bart Simpson's Treehouse of Horror",
+      "publisher": "Bongo",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "the-simpsons"
+    },
+    {
+      "id": "bartman",
+      "title": "Bartman",
+      "publisher": "Bongo",
+      "volume": null,
+      "issues": [
+        "2"
+      ],
+      "cover_image": null,
+      "group": "the-simpsons"
+    },
+    {
+      "id": "beavis-and-butt-head",
+      "title": "Beavis and Butt-Head",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17"
+      ],
+      "cover_image": null,
+      "group": "beavis-and-butt-head"
+    },
+    {
+      "id": "black-panther",
+      "title": "Black Panther",
+      "publisher": "Marvel",
+      "volume": "2",
+      "issues": [
+        "3"
+      ],
+      "cover_image": null,
+      "group": "black-panther"
+    },
+    {
+      "id": "bloodstrike",
+      "title": "Bloodstrike",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "3",
+        "10",
+        "20"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "boof",
+      "title": "Boof",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "2",
+        "3"
+      ],
+      "cover_image": null,
+      "group": "boof"
+    },
+    {
+      "id": "brigade",
+      "title": "Brigade",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "cable",
+      "title": "Cable",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "25"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "cage",
+      "title": "Cage",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "3"
+      ],
+      "cover_image": null,
+      "group": "cage"
+    },
+    {
+      "id": "conan-the-barbarian",
+      "title": "Conan the Barbarian",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "233"
+      ],
+      "cover_image": null,
+      "group": "conan-the-barbarian"
+    },
+    {
+      "id": "cyber-force",
+      "title": "Cyber Force",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2"
+      ],
+      "cover_image": null,
+      "group": "cyber-force"
+    },
+    {
+      "id": "daredevil",
+      "title": "Daredevil",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "207",
+        "208",
+        "233"
+      ],
+      "cover_image": null,
+      "group": "daredevil"
+    },
+    {
+      "id": "darker-image",
+      "title": "Darker Image",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "darker-image"
+    },
+    {
+      "id": "dead-pool-the-circle-chase",
+      "title": "Dead-Pool- The Circle Chase",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "deadpool"
+    },
+    {
+      "id": "deathblow",
+      "title": "Deathblow",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2"
+      ],
+      "cover_image": null,
+      "group": "wildstorm"
+    },
+    {
+      "id": "deathlok",
+      "title": "Deathlok",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "25",
+        "34"
+      ],
+      "cover_image": null,
+      "group": "deathlok"
+    },
+    {
+      "id": "dragon-age-knight-errant",
+      "title": "Dragon Age- Knight Errant",
+      "publisher": "Dark Horse",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "dragon-age"
+    },
+    {
+      "id": "extreme-sacrifice",
+      "title": "Extreme Sacrifice",
+      "publisher": "",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "fantastic-four",
+      "title": "Fantastic Four",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "381",
+        "398"
+      ],
+      "cover_image": null,
+      "group": "fantastic-four"
+    },
+    {
+      "id": "freak-force",
+      "title": "Freak Force",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "14"
+      ],
+      "cover_image": null,
+      "group": "savage-dragon"
+    },
+    {
+      "id": "g-i-joe-special-missions",
+      "title": "G.I. Joe Special Missions",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "3",
+        "22"
+      ],
+      "cover_image": null,
+      "group": "g-i-joe"
+    },
+    {
+      "id": "g-i-joe-and-transformers",
+      "title": "G.I. Joe and Transformers",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "g-i-joe"
+    },
+    {
+      "id": "g-i-joe",
+      "title": "G.I. Joe",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "5",
+        "32",
+        "50",
+        "54",
+        "56"
+      ],
+      "cover_image": null,
+      "group": "g-i-joe"
+    },
+    {
+      "id": "gambit-and-the-xternals",
+      "title": "Gambit and the Xternals",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "gen-13",
+      "title": "Gen 13",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "4"
+      ],
+      "cover_image": null,
+      "group": "wildstorm"
+    },
+    {
+      "id": "generation-next",
+      "title": "Generation Next",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "3"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "ghost-rider-captain-america-fear",
+      "title": "Ghost Rider & Captain America- Fear",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "ghost-rider"
+    },
+    {
+      "id": "ghost-rider-blaze-spirits-of-vengence",
+      "title": "Ghost Rider-Blaze- Spirits of Vengence",
+      "publisher": "",
+      "volume": null,
+      "issues": [
+        "4",
+        "7",
+        "8",
+        "11",
+        "12",
+        "13",
+        "14"
+      ],
+      "cover_image": null,
+      "group": "ghost-rider"
+    },
+    {
+      "id": "ghost-rider",
+      "title": "Ghost Rider",
+      "publisher": "",
+      "volume": "3",
+      "issues": [
+        "7",
+        "10",
+        "19",
+        "29",
+        "30",
+        "31",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "42",
+        "43",
+        "50"
+      ],
+      "cover_image": null,
+      "group": "ghost-rider"
+    },
+    {
+      "id": "giant-days",
+      "title": "Giant Days",
+      "publisher": "Boom! Studios",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "giant-days"
+    },
+    {
+      "id": "headlight-comics",
+      "title": "Headlight Comics",
+      "publisher": "Bongo",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": null
+    },
+    {
+      "id": "hellshock",
+      "title": "Hellshock",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "3"
+      ],
+      "cover_image": null,
+      "group": "hellshock"
+    },
+    {
+      "id": "iron-fist",
+      "title": "Iron Fist",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "8"
+      ],
+      "cover_image": null,
+      "group": "iron-fist"
+    },
+    {
+      "id": "iron-man",
+      "title": "Iron Man",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "192"
+      ],
+      "cover_image": null,
+      "group": "iron-man"
+    },
+    {
+      "id": "itchy-scratchy",
+      "title": "Itchy & Scratchy",
+      "publisher": "Bongo",
+      "volume": null,
+      "issues": [
+        "2"
+      ],
+      "cover_image": null,
+      "group": "the-simpsons"
+    },
+    {
+      "id": "madballs",
+      "title": "Madballs",
+      "publisher": "Star",
+      "volume": null,
+      "issues": [
+        "2"
+      ],
+      "cover_image": null,
+      "group": "madballs"
+    },
+    {
+      "id": "marvel-action-hour",
+      "title": "Marvel Action Hour",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "marvel-universe"
+    },
+    {
+      "id": "midnight-sons-unlimited",
+      "title": "Midnight Sons Unlimited",
+      "publisher": "",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "ghost-rider"
+    },
+    {
+      "id": "morbius",
+      "title": "Morbius",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "12"
+      ],
+      "cover_image": null,
+      "group": "ghost-rider"
+    },
+    {
+      "id": "mortal-kombat",
+      "title": "Mortal Kombat",
+      "publisher": "Midway",
+      "volume": null,
+      "issues": [
+        "4"
+      ],
+      "cover_image": null,
+      "group": "90s-video-games"
+    },
+    {
+      "id": "mouse-guard",
+      "title": "Mouse Guard",
+      "publisher": "",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "mouse-guard"
+    },
+    {
+      "id": "night-thrasher",
+      "title": "Night Thrasher",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "night-thrasher"
+    },
+    {
+      "id": "nightstalkers",
+      "title": "Nightstalkers",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "10"
+      ],
+      "cover_image": null,
+      "group": "ghost-rider"
+    },
+    {
+      "id": "no-escape",
+      "title": "No Escape",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "3"
+      ],
+      "cover_image": null,
+      "group": "no-escape"
+    },
+    {
+      "id": "owly",
+      "title": "Owly",
+      "publisher": "Top Shelf Productions",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "owly"
+    },
+    {
+      "id": "pitt",
+      "title": "Pitt",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "4"
+      ],
+      "cover_image": null,
+      "group": "pitt"
+    },
+    {
+      "id": "primordial",
+      "title": "Primordial",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "primordial"
+    },
+    {
+      "id": "prophet",
+      "title": "Prophet",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "3"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "punisher-soviet",
+      "title": "Punisher- Soviet",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "punisher"
+    },
+    {
+      "id": "ravage-2099",
+      "title": "Ravage 2099",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "ravage-2099"
+    },
+    {
+      "id": "ripley-s-believe-it-or-not-fairy-tales-literature",
+      "title": "Ripley's Believe It or Not! Fairy Tales & Literature",
+      "publisher": "",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "ripleys-believe-it-or-not"
+    },
+    {
+      "id": "shadowhawk-ii",
+      "title": "Shadowhawk II",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "3"
+      ],
+      "cover_image": null,
+      "group": "shadowhawk"
+    },
+    {
+      "id": "shadowhawk",
+      "title": "Shadowhawk",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "16"
+      ],
+      "cover_image": null,
+      "group": "shadowhawk"
+    },
+    {
+      "id": "simpsons-comics-and-stories",
+      "title": "Simpsons Comics and Stories",
+      "publisher": "Bongo",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "the-simpsons"
+    },
+    {
+      "id": "simpsons-comics",
+      "title": "Simpsons Comics",
+      "publisher": "Bongo",
+      "volume": null,
+      "issues": [
+        "6",
+        "8",
+        "16",
+        "21"
+      ],
+      "cover_image": null,
+      "group": "the-simpsons"
+    },
+    {
+      "id": "spawn",
+      "title": "Spawn",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "14",
+        "24"
+      ],
+      "cover_image": null,
+      "group": "spawn"
+    },
+    {
+      "id": "spider-man-2099",
+      "title": "Spider-Man 2099",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "spider-man"
+    },
+    {
+      "id": "spider-man",
+      "title": "Spider-Man",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "34",
+        "59"
+      ],
+      "cover_image": null,
+      "group": "spider-man"
+    },
+    {
+      "id": "star-wars",
+      "title": "Star Wars",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "92"
+      ],
+      "cover_image": null,
+      "group": "star-wars"
+    },
+    {
+      "id": "stormwatch",
+      "title": "StormWatch",
+      "publisher": "Image",
+      "volume": "1",
+      "issues": [
+        "8"
+      ],
+      "cover_image": null,
+      "group": "wildstorm"
+    },
+    {
+      "id": "street-fighter",
+      "title": "Street Fighter",
+      "publisher": "Malibu",
+      "volume": null,
+      "issues": [
+        "1",
+        "3"
+      ],
+      "cover_image": null,
+      "group": "90s-video-games"
+    },
+    {
+      "id": "stupid",
+      "title": "Stupid",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "stupid"
+    },
+    {
+      "id": "supreme",
+      "title": "Supreme",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "2",
+        "3",
+        "4",
+        "17"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "tales-of-g-i-joe",
+      "title": "Tales of G.I. Joe",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "10",
+        "14"
+      ],
+      "cover_image": null,
+      "group": "g-i-joe"
+    },
+    {
+      "id": "team-youngblood",
+      "title": "Team Youngblood",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "teenage-mutant-ninja-turtles-adventures",
+      "title": "Teenage Mutant Ninja Turtles Adventures",
+      "publisher": "Archie",
+      "volume": null,
+      "issues": [
+        "2",
+        "15"
+      ],
+      "cover_image": null,
+      "group": "teenage-mutant-ninja-turtles"
+    },
+    {
+      "id": "templar",
+      "title": "Templar",
+      "publisher": "",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "templar"
+    },
+    {
+      "id": "the-amazing-spider-man",
+      "title": "The Amazing Spider-Man",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "334",
+        "375"
+      ],
+      "cover_image": null,
+      "group": "spider-man"
+    },
+    {
+      "id": "the-amazing-x-men",
+      "title": "The Amazing X-Men",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "3"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "the-art-of-homage-studios",
+      "title": "The Art of Homage Studios",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "the-art-of-homage-studios"
+    },
+    {
+      "id": "the-astonishing-x-men",
+      "title": "The Astonishing X-Men",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "the-maxx",
+      "title": "The Maxx",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "4",
+        "5"
+      ],
+      "cover_image": null,
+      "group": "the-maxx"
+    },
+    {
+      "id": "the-official-handbook-of-the-marvel-universe",
+      "title": "The Official Handbook of the Marvel Universe",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "8"
+      ],
+      "cover_image": null,
+      "group": "marvel-universe"
+    },
+    {
+      "id": "the-punisher",
+      "title": "The Punisher",
+      "publisher": "Marvel",
+      "volume": "2",
+      "issues": [
+        "49",
+        "51",
+        "62",
+        "75",
+        "81"
+      ],
+      "cover_image": null,
+      "group": "punisher"
+    },
+    {
+      "id": "the-ren-stimpy-show",
+      "title": "The Ren & Stimpy Show",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "7"
+      ],
+      "cover_image": null,
+      "group": "the-ren-stimpy-show"
+    },
+    {
+      "id": "the-savage-dragon",
+      "title": "The Savage Dragon",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2"
+      ],
+      "cover_image": null,
+      "group": "savage-dragon"
+    },
+    {
+      "id": "the-silver-surfer-annuals",
+      "title": "The Silver Surfer Annuals",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "4",
+        "5"
+      ],
+      "cover_image": null,
+      "group": "silver-surfer"
+    },
+    {
+      "id": "the-silver-surfer",
+      "title": "The Silver Surfer",
+      "publisher": "Marvel",
+      "volume": "3",
+      "issues": [
+        "9",
+        "75",
+        "80",
+        "81",
+        "83"
+      ],
+      "cover_image": null,
+      "group": "silver-surfer"
+    },
+    {
+      "id": "the-spectacular-spider-man",
+      "title": "The Spectacular Spider-Man",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "148"
+      ],
+      "cover_image": null,
+      "group": "spider-man"
+    },
+    {
+      "id": "the-transformers",
+      "title": "The Transformers",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "34"
+      ],
+      "cover_image": null,
+      "group": "transformers"
+    },
+    {
+      "id": "the-uncanny-x-men",
+      "title": "The Uncanny X-Men",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "320"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "tribe",
+      "title": "Tribe",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "tribe"
+    },
+    {
+      "id": "troll",
+      "title": "Troll",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "venom",
+      "title": "Venom",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1",
+        "2"
+      ],
+      "cover_image": null,
+      "group": "spider-man"
+    },
+    {
+      "id": "violator",
+      "title": "Violator",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "3"
+      ],
+      "cover_image": null,
+      "group": "spawn"
+    },
+    {
+      "id": "weapon-x",
+      "title": "Weapon X",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "4"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "web-of-spider-man",
+      "title": "Web of Spider-Man",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "11"
+      ],
+      "cover_image": null,
+      "group": "spider-man"
+    },
+    {
+      "id": "wet-works",
+      "title": "Wet Works",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "wildstorm"
+    },
+    {
+      "id": "wild-c-a-t-s-adventures",
+      "title": "Wild C.A.T.S. Adventures",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "3",
+        "6"
+      ],
+      "cover_image": null,
+      "group": "wildstorm"
+    },
+    {
+      "id": "wild-c-a-t-s",
+      "title": "Wild C.A.T.S",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "4",
+        "11"
+      ],
+      "cover_image": null,
+      "group": "wildstorm"
+    },
+    {
+      "id": "wildstar",
+      "title": "Wildstar",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "wildstar"
+    },
+    {
+      "id": "wolverine",
+      "title": "Wolverine",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "132"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "x-universe",
+      "title": "X Universe",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "x-force",
+      "title": "X-Force",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "43"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "x-men-alpha",
+      "title": "X-Men Alpha",
+      "publisher": "Marvel",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "x-men-chronicles",
+      "title": "X-Men Chronicles",
+      "publisher": "Marvel",
+      "volume": "1",
+      "issues": [
+        "2"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "x-men",
+      "title": "X-Men",
+      "publisher": "Marvel",
+      "volume": "2",
+      "issues": [
+        "19",
+        "20"
+      ],
+      "cover_image": null,
+      "group": "x-men"
+    },
+    {
+      "id": "y-the-last-man",
+      "title": "Y- The Last Man",
+      "publisher": "Vertigo",
+      "volume": null,
+      "issues": [],
+      "cover_image": null,
+      "group": "y-the-last-man"
+    },
+    {
+      "id": "youngblood-battlezone",
+      "title": "Youngblood Battlezone",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "youngblood-strikefile",
+      "title": "Youngblood Strikefile",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "youngblood-yearbook",
+      "title": "Youngblood Yearbook",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "1"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    },
+    {
+      "id": "youngblood",
+      "title": "Youngblood",
+      "publisher": "Image",
+      "volume": null,
+      "issues": [
+        "0",
+        "1",
+        "4"
+      ],
+      "cover_image": null,
+      "group": "youngblood"
+    }
+  ]
+}

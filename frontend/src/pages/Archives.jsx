@@ -31,6 +31,15 @@ const Archives = () => {
       details: 'An archive of show posters from Berbati\'s Pan. Browse by decade or search by headliner, support act, or date.'
     },
     {
+      id: 'comic-books',
+      title: 'Comic Books',
+      subtitle: 'Personal Collection',
+      description: 'A catalogue of comics collected over the years',
+      link: '/archives/comics',
+      icon: null,
+      details: 'Browse the personal comic book collection spanning Marvel, Image, DC, and more. Filter by publisher, search by title, and view the issues owned for each series.'
+    },
+    {
       id: 'web-1-0',
       title: 'Web 1.0',
       subtitle: 'The Early Days of the Internet',
