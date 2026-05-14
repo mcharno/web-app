@@ -22,6 +22,7 @@ The following were excluded from coverage thresholds pending their own test suit
 **Backend:**
 - `romController.js` (1337 lines) — ROM library CRUD
 - `comicsController.js` — Comics archive CRUD (uses `JsonStore`)
+- `comicsScrapeController.js` — Comic Vine scraper (excluded pending scraper tests)
 - `berbatisController.js` — Berbatis site data
 - `contentLoader.js` — Mocked in all tests; needs direct unit tests
 - `auth.js` — Auth middleware

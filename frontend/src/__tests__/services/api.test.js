@@ -223,6 +223,12 @@ describe('API Services', () => {
       expect(mockGet).toHaveBeenCalledWith('/comics/issue-1');
     });
 
+    it('should fetch groups', async () => {
+      mockGet.mockResolvedValue({ data: [] });
+      await comicsAPI.getGroups();
+      expect(mockGet).toHaveBeenCalledWith('/comics/groups');
+    });
+
     it('should fetch publishers', async () => {
       mockGet.mockResolvedValue({ data: [] });
       await comicsAPI.getPublishers();

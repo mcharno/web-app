@@ -82,13 +82,31 @@ export const berbatisAPI = USE_MOCK_API ? mockApi.berbatis : {
 
 // Comics Archive API
 export const comicsAPI = {
-  getAll: (params = {}) => api.get('/comics', { params }),
-  getById: (id) => api.get(`/comics/${id}`),
-  getPublishers: () => api.get('/comics/publishers'),
-  create: (data) => api.post('/comics', data),
-  replace: (id, data) => api.put(`/comics/${id}`, data),
-  update: (id, data) => api.patch(`/comics/${id}`, data),
-  remove: (id) => api.delete(`/comics/${id}`),
+  // Groups
+  getGroups:    (params = {}) => api.get('/comics/groups',        { params }),
+  createGroup:  (data)        => api.post('/comics/groups',        data),
+  updateGroup:  (id, data)    => api.patch(`/comics/groups/${id}`, data),
+  deleteGroup:  (id)          => api.delete(`/comics/groups/${id}`),
+
+  // Series
+  getAll:       (params = {}) => api.get('/comics',        { params }),
+  getById:      (id)          => api.get(`/comics/${id}`),
+  getPublishers:()            => api.get('/comics/publishers'),
+  create:       (data)        => api.post('/comics',        data),
+  update:       (id, data)    => api.patch(`/comics/${id}`, data),
+  remove:       (id)          => api.delete(`/comics/${id}`),
+
+  // Issues
+  searchIssues: (params = {}) => api.get('/comics/issues',          { params }),
+  updateIssue:  (id, data)    => api.patch(`/comics/issues/${id}`,   data),
+  deleteIssue:  (id)          => api.delete(`/comics/issues/${id}`),
+
+  // Comic Vine search (returns CV volume candidates for a title query)
+  searchCV:     (q)           => api.get('/comics/search-cv', { params: { q } }),
+
+  // Scraping
+  scrape:          (id, data = {}) => api.post(`/comics/${id}/scrape`,  data),
+  scrapeUnscraped: (params = {})   => api.post('/comics/scrape-unscraped', {}, { params }),
 };
 
 export default api;
