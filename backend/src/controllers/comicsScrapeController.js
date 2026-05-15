@@ -257,7 +257,12 @@ export async function scrapeComic(req, res) {
     if (!rows.length) return res.status(404).json({ error: `Series "${req.params.id}" not found` });
 
     const series = rows[0];
-    if (req.body?.comic_vine_id) series.comic_vine_id = Number(req.body.comic_vine_id);
+    if (req.body?.comic_vine_id) {
+      // Accept either the bare numeric ID (21508) or CV's full slug format (4050-21508)
+      const raw = String(req.body.comic_vine_id);
+      const numeric = raw.includes('-') ? raw.split('-').pop() : raw;
+      series.comic_vine_id = Number(numeric);
+    }
 
     if (req.query.force === 'true' || req.body?.force) {
       await pool.query(
