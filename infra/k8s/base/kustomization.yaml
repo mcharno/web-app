@@ -12,6 +12,7 @@ resources:
   - photos-pvc.yaml
   - roms-pvc.yaml
   - posters-pvc.yaml
+  - comics-pvc.yaml
   - rom-scanner-cronjob.yaml
   - rom-scanner-netpol.yaml
   - backend-deployment.yaml

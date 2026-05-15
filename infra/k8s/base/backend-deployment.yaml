@@ -126,6 +126,8 @@ spec:
               name: charno-secrets
               key: comic_vine_api_key
               optional: true
+        - name: COMICS_IMAGES_DIR
+          value: "/data/comics-images"
         volumeMounts:
         - name: photos
           mountPath: /data/photos
@@ -138,6 +140,8 @@ spec:
         - name: posters
           mountPath: /data/posters
           readOnly: true
+        - name: comics-images
+          mountPath: /data/comics-images
         resources:
           requests:
             memory: "128Mi"
@@ -182,3 +186,6 @@ spec:
       - name: posters
         persistentVolumeClaim:
           claimName: posters-pvc
+      - name: comics-images
+        persistentVolumeClaim:
+          claimName: comics-images-pvc
