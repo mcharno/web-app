@@ -152,7 +152,7 @@ async function scrapeOneSeries(series) {
     try {
       const data = await cvGet('issues', {
         filter: `volume:${volumeId},issue_number:${issueNum}`,
-        field_list: 'id,issue_number,name,image,person_credits,cover_date,description,deck,character_credits,location_credits,story_arc_credits',
+        field_list: 'id,issue_number,name,image,person_credits,cover_date,description,deck,character_credits,location_credits,story_arc_credits,team_credits,object_credits',
         limit: 1,
       });
       await sleep(CV_DELAY);
@@ -167,15 +167,19 @@ async function scrapeOneSeries(series) {
         continue;
       }
 
-      // Extract credits
+      // Extract credits — writer = any writer role; artist = penciler, inker,
+      // colorist, letterer, cover artist, or general artist
       const issueWriters = [];
       const issueArtists = [];
       for (const credit of (cvIssue.person_credits || [])) {
         const role = (credit.role || '').toLowerCase();
-        if (role.includes('writer'))  { writerSet.add(credit.name); issueWriters.push(credit.name); }
-        if (role.includes('pencil') || (role.includes('artist') && !role.includes('cover'))) {
-          artistSet.add(credit.name); issueArtists.push(credit.name);
-        }
+        const isWriter = role.includes('writer');
+        const isArtist = role.includes('pencil') || role.includes('ink') ||
+                         role.includes('color') || role.includes('colour') ||
+                         role.includes('letter') || role.includes('cover') ||
+                         role.includes('artist');
+        if (isWriter) { writerSet.add(credit.name); issueWriters.push(credit.name); }
+        if (isArtist) { artistSet.add(credit.name); issueArtists.push(credit.name); }
       }
 
       // Download cover
@@ -204,9 +208,11 @@ async function scrapeOneSeries(series) {
           characters          = $8::jsonb,
           locations           = $9::jsonb,
           story_arcs          = $10::jsonb,
-          description         = $11,
-          cv_issue_id         = $12,
-          scrape_attempted_at = $13
+          teams               = $11::jsonb,
+          objects             = $12::jsonb,
+          description         = $13,
+          cv_issue_id         = $14,
+          scrape_attempted_at = $15
          WHERE id = $1 AND series_id = $2`,
         [
           issue.id, series.id,
@@ -218,6 +224,8 @@ async function scrapeOneSeries(series) {
           JSON.stringify((cvIssue.character_credits || []).map(c => c.name).filter(Boolean)),
           JSON.stringify((cvIssue.location_credits  || []).map(l => l.name).filter(Boolean)),
           JSON.stringify((cvIssue.story_arc_credits || []).map(a => a.name).filter(Boolean)),
+          JSON.stringify((cvIssue.team_credits      || []).map(t => t.name).filter(Boolean)),
+          JSON.stringify((cvIssue.object_credits    || []).map(o => o.name).filter(Boolean)),
           cvIssue.description || cvIssue.deck || null,
           cvIssue.id,
           now,

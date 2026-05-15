@@ -5,6 +5,14 @@ import './ComicBooks.css';
 
 const PAGE_SIZE = 50;
 
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function formatCoverDate(dateStr) {
+  if (!dateStr) return null;
+  const [year, month] = dateStr.split('-');
+  if (!year) return dateStr;
+  return month ? `${MONTHS[parseInt(month, 10) - 1]} ${year}` : year;
+}
+
 function stripHtml(html) {
   if (!html) return '';
   return html
@@ -222,7 +230,7 @@ const ComicBooks = () => {
                       <div className="issue-search-heading">
                         #{issue.issue_number}{issue.name ? ` — ${issue.name}` : ''}
                       </div>
-                      {issue.cover_date && <div className="issue-list-date">{issue.cover_date}</div>}
+                      {issue.cover_date && <div className="issue-list-date">{formatCoverDate(issue.cover_date)}</div>}
                     </div>
                     <span className="issue-list-arrow">›</span>
                   </button>
@@ -418,7 +426,7 @@ const ComicBooks = () => {
                   <div className="issue-list-meta">
                     <div className="issue-list-num">#{issue.issue_number}</div>
                     {issue.name && <div className="issue-list-heading">{issue.name}</div>}
-                    {issue.cover_date && <div className="issue-list-date">{issue.cover_date}</div>}
+                    {issue.cover_date && <div className="issue-list-date">{formatCoverDate(issue.cover_date)}</div>}
                   </div>
                   <span className="issue-list-arrow">›</span>
                 </button>
@@ -477,7 +485,7 @@ const ComicBooks = () => {
                   {issue.name && <p className="issue-detail-name">{issue.name}</p>}
                   <dl className="issue-detail-dl">
                     <dt>Published</dt>
-                    <dd>{issue.cover_date || '—'}</dd>
+                    <dd>{formatCoverDate(issue.cover_date) || '—'}</dd>
                     <dt>Writers</dt>
                     <dd>{issue.writers?.length ? issue.writers.join(', ') : '—'}</dd>
                     <dt>Artists</dt>
@@ -493,6 +501,14 @@ const ComicBooks = () => {
                     {issue.story_arcs?.length > 0 && <>
                       <dt>Story Arcs</dt>
                       <dd>{issue.story_arcs.join(', ')}</dd>
+                    </>}
+                    {issue.teams?.length > 0 && <>
+                      <dt>Teams</dt>
+                      <dd>{issue.teams.join(', ')}</dd>
+                    </>}
+                    {issue.objects?.length > 0 && <>
+                      <dt>Objects</dt>
+                      <dd>{issue.objects.join(', ')}</dd>
                     </>}
                   </dl>
                   {issue.description && (

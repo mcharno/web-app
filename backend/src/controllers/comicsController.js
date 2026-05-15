@@ -79,6 +79,14 @@ export async function initSchema() {
     CREATE INDEX IF NOT EXISTS idx_comic_issues_locs   ON comic_issues USING GIN(locations);
     CREATE INDEX IF NOT EXISTS idx_comic_issues_arcs   ON comic_issues USING GIN(story_arcs);
   `);
+
+  // Additive migrations — safe to run repeatedly
+  await pool.query(`
+    ALTER TABLE comic_issues ADD COLUMN IF NOT EXISTS teams   JSONB NOT NULL DEFAULT '[]';
+    ALTER TABLE comic_issues ADD COLUMN IF NOT EXISTS objects JSONB NOT NULL DEFAULT '[]';
+    CREATE INDEX IF NOT EXISTS idx_comic_issues_teams   ON comic_issues USING GIN(teams);
+    CREATE INDEX IF NOT EXISTS idx_comic_issues_objects ON comic_issues USING GIN(objects);
+  `);
   console.log('[comics] schema ready');
 }
 
