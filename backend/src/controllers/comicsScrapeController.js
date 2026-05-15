@@ -42,14 +42,25 @@ async function cvGet(endpoint, params = {}) {
   return data;
 }
 
-// Normalize title for fallback CV search: collapse dashes/colons to spaces so
-// "Dead-Pool- The Circle Chase" can still match "Deadpool: The Circle Chase"
-function normalizeTitle(title) {
-  return title
-    .replace(/[:\-–—]+/g, ' ')
-    .replace(/['"!?,._]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+// Return search variants to try against CV in priority order.
+// CV uses '&' not 'and', does substring matching, and ignores punctuation
+// differently from how series data is often entered locally.
+function searchVariants(title) {
+  const seen = new Set();
+  const add = (s) => { const t = s.trim(); if (t) seen.add(t); };
+
+  add(title);
+  // CV titles use '&' not 'and'
+  add(title.replace(/\band\b/gi, '&'));
+  // Strip hyphens/colons
+  const stripped = title.replace(/[:\-]+/g, ' ').replace(/\s+/g, ' ').trim();
+  add(stripped);
+  add(stripped.replace(/\band\b/gi, '&'));
+  // First significant word as broad fallback
+  const firstWord = title.split(/[\s\-:,]+/).find(w => w.length > 2 && !['the','a','an'].includes(w.toLowerCase()));
+  if (firstWord) add(firstWord);
+
+  return [...seen];
 }
 
 async function downloadFile(imageUrl, destPath) {
@@ -69,11 +80,7 @@ async function downloadFile(imageUrl, destPath) {
 async function resolveVolumeId(series) {
   if (series.comic_vine_id) return { id: series.comic_vine_id, candidates: [] };
 
-  const normalized = normalizeTitle(series.title);
-  const searches = [series.title];
-  if (normalized.toLowerCase() !== series.title.toLowerCase()) searches.push(normalized);
-
-  for (const searchTitle of searches) {
+  for (const searchTitle of searchVariants(series.title)) {
     const data = await cvGet('volumes', {
       filter: `name:${searchTitle}`,
       field_list: 'id,name,start_year,count_of_issues,publisher',
