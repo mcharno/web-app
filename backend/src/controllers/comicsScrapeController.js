@@ -24,8 +24,10 @@ async function cvGet(endpoint, params = {}) {
   const base = new URLSearchParams({ format: 'json', api_key: apiKey });
   const extras = [];
   for (const [k, v] of Object.entries(params)) {
-    if (k === 'filter') {
-      extras.push(`filter=${encodeURIComponent(String(v)).replace(/%3A/gi, ':')}`);
+    if (k === 'filter' || k === 'field_list') {
+      // CV uses literal colons and commas as separators — don't let URLSearchParams
+      // encode them as %3A / %2C
+      extras.push(`${k}=${encodeURIComponent(String(v)).replace(/%3A/gi, ':').replace(/%2C/gi, ',')}`);
     } else {
       base.set(k, String(v));
     }
@@ -150,15 +152,16 @@ async function scrapeOneSeries(series) {
     const now = new Date();
 
     try {
-      const data = await cvGet('issues', {
+      // Step 1: find the issue ID via list endpoint (credits not available here)
+      const listData = await cvGet('issues', {
         filter: `volume:${volumeId},issue_number:${issueNum}`,
-        field_list: 'id,issue_number,name,image,person_credits,cover_date,description,deck,character_credits,location_credits,story_arc_credits,team_credits,object_credits',
+        field_list: 'id,issue_number,name,image,cover_date,description,deck',
         limit: 1,
       });
       await sleep(CV_DELAY);
 
-      const cvIssue = data.results?.[0];
-      if (!cvIssue) {
+      const cvIssueStub = listData.results?.[0];
+      if (!cvIssueStub) {
         await pool.query(
           `UPDATE comic_issues SET scrape_attempted_at = $2 WHERE id = $1`,
           [issue.id, now]
@@ -166,6 +169,14 @@ async function scrapeOneSeries(series) {
         log.push(`#${issueNum}: not found on Comic Vine`);
         continue;
       }
+
+      // Step 2: fetch full credits from individual issue detail endpoint
+      // (person_credits, character_credits etc. are only on the detail resource)
+      const detailData = await cvGet(`issue/4000-${cvIssueStub.id}`, {
+        field_list: 'id,person_credits,character_credits,location_credits,story_arc_credits,team_credits,object_credits',
+      });
+      await sleep(CV_DELAY);
+      const cvIssue = { ...cvIssueStub, ...detailData.results };
 
       // Extract credits — writer = any writer role; artist = penciler, inker,
       // colorist, letterer, cover artist, or general artist
