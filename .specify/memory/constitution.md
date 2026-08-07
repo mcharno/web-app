@@ -1,6 +1,6 @@
 # web-app Constitution
 
-> This constitution **extends** the [infra-k8s primary constitution](../../infra-k8s/.specify/memory/constitution.md). All principles defined there — GitOps, sealed secrets, network policies, resource constraints, security defaults, clean code, documentation, and changelog — apply here in full. This document adds what is specific to this repo.
+> This constitution **extends** the [infra-k8s primary constitution](https://github.com/mcharno/infra-k8s/blob/main/.specify/memory/constitution.md). All principles defined there — GitOps, sealed secrets, network policies, resource constraints, security defaults, clean code, documentation, and changelog — apply here in full. This document adds what is specific to this repo.
 
 ## I. This Is a Personal Portfolio with a Defined Scope
 
@@ -30,12 +30,10 @@ The backend serves content from `backend/content/` — JSON and Markdown files o
 
 ## IV. Tests Must Gate Deploys
 
-Tests exist but are not currently enforced in CI — the build and push workflows run without a test step. This is the most significant quality gap.
+Tests gate both CI workflows. No Docker image is built or pushed unless the test job passes.
 
-- No Docker image may be built or pushed unless tests pass first. This is a hard rule.
-- Coverage thresholds apply to both packages:
-  - Frontend (Vitest): 75% across branches, functions, lines, statements — already configured in `vitest.config.js`.
-  - Backend (Jest): 75% across all metrics — not yet configured; must be added.
+- Backend (Jest): 75% coverage threshold configured in `backend/jest.config.json`. Several large controllers (rom, comics, berbatis) are explicitly excluded pending their own specs.
+- Frontend (Vitest): 75% threshold configured in `frontend/vitest.config.js` against an explicit include list of tested files. New files must be added to this list only when their tests are written.
 - `continue-on-error` must never appear on test steps.
 - Every new route (backend) and every new page/component (frontend) must have a test covering at minimum the happy path and a missing-parameter error case.
 

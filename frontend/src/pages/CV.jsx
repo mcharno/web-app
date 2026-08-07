@@ -12,9 +12,11 @@ const CV = () => {
             <p>Software engineer with extensive experience bridging technical innovation
                and domain expertise. Background spans enterprise software development at global
                scale, digital archaeology, semantic web technologies, and data preservation.
-               Proven track record of delivering innovative solutions in both commercial
-               and academic research environments. Passionate about open data, digital
-               preservation, and building tools that make complex data accessible.</p>
+               A serial platform builder — founded and grew three enterprise platforms from
+               inception (CI/CD, Business Rules Engine, and Robotic Process Automation), each
+               now used organization-wide. Proven track record of delivering innovative solutions
+               in both commercial and academic research environments. Passionate about open data,
+               digital preservation, and building tools that make complex data accessible.</p>
           </div>
         </section>
 
@@ -23,7 +25,7 @@ const CV = () => {
 
           <div className="cv-item">
             <h4>Languages</h4>
-            <p>Proficient in: Java, JavaScript/ES6, HTML, CSS, SQL, XSLT, Bash, CFML, Groovy, SPARQL</p>
+            <p>Proficient in: Java, JavaScript/ES6, TypeScript, HTML, CSS, SQL, XSLT, Bash, CFML, Groovy, SPARQL</p>
           </div>
 
           <div className="cv-item">
@@ -31,7 +33,7 @@ const CV = () => {
             <ul>
               <li><strong>AWS:</strong> Lambda, ECS Fargate, EKS, S3, DynamoDB, SNS/SQS, Secrets Manager, API Gateway, Route 53, IAM, CloudFront, CloudWatch</li>
               <li><strong>Systems/Platforms:</strong> Kubernetes, Docker, Apache, Tomcat, Glassfish, Cloud Foundry, Heroku, Akamai, ColdFusion</li>
-              <li><strong>Infrastructure as Code:</strong> Terraform</li>
+              <li><strong>Infrastructure as Code:</strong> Terraform, Ansible</li>
             </ul>
           </div>
 
@@ -47,8 +49,8 @@ const CV = () => {
             <h4>Build, Testing & CI/CD</h4>
             <ul>
               <li><strong>Build Tools:</strong> Maven, Gradle, Ant/Ivy, Grunt, Bower</li>
-              <li><strong>CI/CD:</strong> Jenkins, Go CD, CircleCI, TeamCity, Hudson</li>
-              <li><strong>Testing:</strong> JUnit, Mockito, Jasmine, Karma, Enzyme, Cucumber, WireMock, JMeter, Gatling, Jest</li>
+              <li><strong>CI/CD:</strong> Jenkins, GitHub Actions, Go CD, CircleCI, TeamCity, Hudson</li>
+              <li><strong>Testing:</strong> JUnit, Mockito, Jasmine, Karma, Enzyme, Cucumber, WireMock, JMeter, Gatling, Jest, Vitest</li>
             </ul>
           </div>
 
@@ -65,6 +67,7 @@ const CV = () => {
               <li>Digital Preservation &amp; Archiving</li>
               <li>Metadata Standards &amp; Controlled Vocabularies</li>
               <li>Observability (Prometheus, Jaeger, ELK, Grafana)</li>
+              <li>Business Process Automation &amp; RPA (Automation Anywhere, Pega, SMARTS, n8n)</li>
             </ul>
           </div>
         </section>
@@ -74,18 +77,28 @@ const CV = () => {
 
           <div className="cv-item">
             <h4>Nike</h4>
-            <p className="cv-meta">Senior Software Engineer | August 2018 – Present</p>
+            <p className="cv-meta">Lead Software Engineer | August 2018 – Present</p>
             <p className="cv-location">Portland, Oregon, USA</p>
             <p>Building back-end services for the Enterprise Platforms group within Global Technology,
                supporting all aspects of the business within its digital offensive. Working in an agile
                environment with full ownership over products and processes. All backend service API
-               interactions secured using Okta/OAuth.</p>
+               interactions secured using Okta/OAuth. Founded and grew three platforms from inception,
+               each now used organization-wide.</p>
             <ul>
-              <li><strong>Business Rules Engine:</strong> Led a small team building a serverless abstraction layer between apps/services and a SaaS Rules Engine, covering architecture planning, development, and customer engagement. Created proof of concepts for diverse business domains and performance tested the platform — shaving ~450ms (90%) of request latency.
+              <li><strong>CI/CD Pipeline Platform:</strong> Co-created Nike's organization-wide Jenkins shared library from scratch and maintained it over 7+ years, growing composable pipeline types for EC2 blue-green, ECS, Lambda, Terraform, CloudFormation, and Kubernetes deployments used by teams across the company.
+                <br/><em>Technologies: Groovy, Jenkins, AWS (EC2, ECS, Lambda, CloudFormation), Terraform, Packer, Docker</em>
+              </li>
+              <li><strong>Business Rules Engine:</strong> Founded and owned the platform end-to-end — architecture, APIs, shared libraries, documentation, runbooks, SLAs, and DR planning — integrating a SaaS decision engine as a serverless abstraction layer between apps/services. Performance tested the platform, shaving ~450ms (90%) of request latency, and maintained 100% planned uptime across a multi-region deployment.
                 <br/><em>Technologies: AWS (ECS Fargate, Lambda, DynamoDB, SQS, Secrets Manager, API Gateway, Route 53, CloudWatch), Node.js, Go, Jest, Terraform, Jenkins, Gatling</em>
               </li>
               <li><strong>Asset Management System:</strong> Built a bespoke asset management system over existing AWS services. Leveraged Kubernetes to orchestrate microservices and implemented the core observability module providing custom metrics and distributed tracing.
                 <br/><em>Technologies: Kubernetes, AWS (EKS, DynamoDB, S3, SQS/SNS, CloudFront), Node.js, React, Jest, Terraform, Jenkins, Prometheus, Jaeger</em>
+              </li>
+              <li><strong>Robotic Process Automation Platform:</strong> Founded and built the RPA platform from zero — infrastructure, shared libraries, bot deployment CI/CD, monitoring/alerting, and automated user provisioning (ServiceNow → Okta → Automation Anywhere) at global scale, cutting onboarding time from days to minutes.
+                <br/><em>Technologies: Node.js, TypeScript, Automation Anywhere (A360), AWS (Lambda, SQS, DynamoDB), Terraform, Ansible</em>
+              </li>
+              <li><strong>Platform Consolidation (BizAuto):</strong> Led the unification of the BRE, RPA, and Pega platforms into a single organization — built 11 shared libraries eliminating code duplication, standardized CI/CD across 37+ repositories, and led NPE and AWS Graviton migrations.
+                <br/><em>Technologies: TypeScript, AWS (Lambda, SQS, DynamoDB, CloudWatch, Graviton), GitHub Actions, Vitest, Terraform</em>
               </li>
             </ul>
           </div>
@@ -235,6 +248,7 @@ const CV = () => {
           <h3>Awards &amp; Recognition</h3>
           <div className="cv-item">
             <ul>
+              <li><strong>Nike Maxim Peer Recognition</strong> — 24 recognitions from managers, directors, and peers across engineering and business partner organizations (2021–2026).</li>
               <li><strong>Digital Trading Superstar</strong> — Sky (October 2016). Recognised by colleagues for above-and-beyond contributions to the tribe.</li>
               <li><strong>Best Archaeological Innovation</strong> — British Archaeological Awards (2012). For work and contributions to the association of DOIs with ADS Grey Literature.</li>
               <li><strong>Best Archaeological Innovation</strong> — British Archaeological Awards (2008).</li>

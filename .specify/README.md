@@ -36,10 +36,12 @@ All infra-k8s principles apply here. Read that first if you are new to the proje
 
 **Small changes** (a content file edit, a translation string) don't need a full spec.
 
-## Recommended first spec
+## Active specs
 
-Tests exist but are not enforced in CI — Docker images are built and pushed without running tests first. That is the most important pending work:
+| Spec | Status |
+|------|--------|
+| [001-ci-test-gate](specs/001-ci-test-gate/) | Complete — CI gate live, coverage thresholds enforced |
 
-```
-.specify/specs/001-ci-test-gate/
-```
+## Next spec
+
+The CI gate follow-up lists untested controllers (rom, comics, berbatis) and frontend pages/components as excluded from coverage. Each controller group is a candidate for its own spec when that work is prioritised.

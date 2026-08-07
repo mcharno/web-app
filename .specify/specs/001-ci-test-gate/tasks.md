@@ -12,8 +12,8 @@
 - [x] Add `needs: test` to the `build-and-push` job in `build-backend.yml`
 - [x] Add `test` job to `.github/workflows/build-frontend.yml`
 - [x] Add `needs: test` to the `build-and-push` job in `build-frontend.yml`
-- [ ] Commit and push; confirm both workflows succeed on GitHub Actions
-- [ ] Verify gate works: confirm a broken test on a branch blocks the Docker push
+- [x] Commit and push; confirm both workflows succeed on GitHub Actions
+- [x] Verify gate works: confirm a broken test on a branch blocks the Docker push
 
 ## Follow-up: untested code requiring its own specs
 
