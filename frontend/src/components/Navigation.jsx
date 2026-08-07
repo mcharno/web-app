@@ -6,8 +6,7 @@ const Navigation = () => {
   const { t } = useTranslation();
   const location = useLocation();
 
-  // Check if we're on a cricket-related page
-  const isArchivesActive = location.pathname === '/archives' || location.pathname.startsWith('/cricket');
+  const isArchivesActive = location.pathname.startsWith('/archives');
 
   return (
     <nav className="navigation">

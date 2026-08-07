@@ -8,8 +8,8 @@ const Archives = () => {
       title: 'The Tin Pot 20/20 League',
       subtitle: 'University of York Inter-Departmental Cricket',
       description: 'Evening cricket for university staff and postgraduates (1997-2012)',
-      link: '/cricket',
-      icon: '/cricket/ball_small.gif',
+      link: '/archives/cricket',
+      icon: '/archives/cricket/ball_small.gif',
       details: 'Browse through fifteen seasons of fixtures, results, league tables, and match reports from the beloved University of York Inter-Departmental Cricket League.'
     },
     {

@@ -15,7 +15,7 @@ const CricketFrame = () => {
         ← Back to Archives
       </button>
       <iframe
-        src={`/cricket/${page}`}
+        src={`/archives/cricket/${page}`}
         className="cricket-iframe"
         title="Cricket Page"
       />
