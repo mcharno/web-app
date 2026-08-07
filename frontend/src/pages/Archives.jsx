@@ -53,11 +53,10 @@ const Archives = () => {
       id: 'fw-trumper',
       title: 'F.W. Trumper',
       subtitle: 'The Beau Ideal of Batsmen',
-      description: 'A tribute to cricket\'s golden age',
-      link: '#',
+      description: 'Match reports from the chronicler of Alcohology CC',
+      link: '/archives/trumper',
       icon: null,
-      details: 'Coming soon: A dedicated page celebrating Victor Trumper, one of cricket\'s greatest and most stylish batsmen.',
-      comingSoon: true
+      details: 'The collected letters of F.W. Trumper, venerable and unreliable chronicler of Alcohology CC in the Tin Pot 20/20 League. Read and search five missives of Corinthian heroics, hallucinatory mishaps, and the occasional victory.'
     }
   ];
 

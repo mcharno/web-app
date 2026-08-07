@@ -15,6 +15,7 @@ import CricketFrame from './pages/CricketFrame';
 import RomLibrary from './pages/RomLibrary';
 import BerbatisArchive from './pages/BerbatisArchive';
 import ComicBooks from './pages/ComicBooks';
+import Trumper from './pages/Trumper';
 import './App.css';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
             <Route path="archives/comics" element={<ComicBooks />} />
             <Route path="archives/cricket" element={<Cricket />} />
             <Route path="archives/cricket/:page" element={<CricketFrame />} />
+            <Route path="archives/trumper" element={<Trumper />} />
             <Route path="cv" element={<CV />} />
           </Route>
         </Routes>
