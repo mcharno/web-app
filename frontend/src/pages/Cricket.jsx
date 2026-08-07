@@ -28,7 +28,7 @@ const Cricket = () => {
       </button>
       <div className="cricket-header">
         <img
-          src="/cricket/ball_small.gif"
+          src="/archives/cricket/ball_small.gif"
           alt="Cricket ball"
           className="cricket-ball-left"
         />
@@ -42,7 +42,7 @@ const Cricket = () => {
           </p>
         </div>
         <img
-          src="/cricket/ball_small.gif"
+          src="/archives/cricket/ball_small.gif"
           alt="Cricket ball"
           className="cricket-ball-right"
         />
@@ -71,12 +71,12 @@ const Cricket = () => {
                 <h4>{season.label} Season</h4>
                 <ul>
                   <li>
-                    <Link to={`/cricket/results${season.year.slice(-2)}.html`}>
+                    <Link to={`/archives/cricket/results${season.year.slice(-2)}.html`}>
                       Fixtures & Results
                     </Link>
                   </li>
                   <li>
-                    <Link to={`/cricket/league${season.year.slice(-2)}.html`}>
+                    <Link to={`/archives/cricket/league${season.year.slice(-2)}.html`}>
                       League Table
                     </Link>
                   </li>
@@ -90,32 +90,32 @@ const Cricket = () => {
           <h3>League Information</h3>
           <ul className="cricket-info-links">
             <li>
-              <Link to="/cricket/history.html">
+              <Link to="/archives/cricket/history.html">
                 League History
               </Link>
             </li>
             <li>
-              <Link to="/cricket/leaguehist.html">
+              <Link to="/archives/cricket/leaguehist.html">
                 Champions 1983-2010
               </Link>
             </li>
             <li>
-              <Link to="/cricket/records.html">
+              <Link to="/archives/cricket/records.html">
                 League Records
               </Link>
             </li>
             <li>
-              <Link to="/cricket/rules.html">
+              <Link to="/archives/cricket/rules.html">
                 League Rules
               </Link>
             </li>
             <li>
-              <Link to="/cricket/ump.html">
+              <Link to="/archives/cricket/ump.html">
                 Notes for Umpires
               </Link>
             </li>
             <li>
-              <Link to="/cricket/letters.html">
+              <Link to="/archives/cricket/letters.html">
                 Letters to Organizers
               </Link>
             </li>
