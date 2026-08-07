@@ -1,0 +1,165 @@
+.trumper-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.trumper-page .back-to-archives {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  transition: all 0.2s ease;
+}
+
+.trumper-page .back-to-archives:hover {
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.trumper-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.trumper-header h1 {
+  font-size: 2.4rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.trumper-header h2 {
+  font-size: 1.2rem;
+  color: var(--accent-primary);
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+
+.trumper-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.trumper-search {
+  margin-bottom: 2rem;
+}
+
+.trumper-search input {
+  width: 100%;
+  padding: 0.85rem 1.1rem;
+  font-size: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.trumper-search input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.search-status {
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+}
+
+.trumper-letters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.trumper-letter {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem 2rem;
+}
+
+.letter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.letter-titles h3 {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.letter-subtitle {
+  font-size: 0.95rem;
+  color: var(--accent-primary);
+  font-style: italic;
+}
+
+.letter-meta {
+  flex-shrink: 0;
+}
+
+.match-count {
+  font-size: 0.8rem;
+  color: var(--bg-primary);
+  background: var(--accent-primary);
+  padding: 0.25rem 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.expand-indicator {
+  font-size: 1.5rem;
+  color: var(--text-tertiary);
+  line-height: 1;
+}
+
+.letter-summary {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.letter-body {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.25rem;
+}
+
+.letter-body p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 1.1rem;
+}
+
+.letter-body p:last-child {
+  margin-bottom: 0;
+}
+
+.trumper-letter mark {
+  background: var(--accent-glow);
+  color: var(--accent-primary);
+  padding: 0 2px;
+}
+
+@media (max-width: 600px) {
+  .trumper-page {
+    padding: 1rem;
+  }
+
+  .trumper-letter {
+    padding: 1.25rem;
+  }
+}
