@@ -10,16 +10,20 @@ const CricketFrame = () => {
   };
 
   return (
-    <div className="cricket-frame-container">
-      <button className="back-button" onClick={handleBack}>
-        ← Back to Archives
-      </button>
-      <iframe
-        src={`/archives/cricket/${page}`}
-        className="cricket-iframe"
-        title="Cricket Page"
-      />
-    </div>
+    <>
+      <div className="cricket-toolbar">
+        <button className="back-to-archives" onClick={handleBack}>
+          ← Back to Archives
+        </button>
+      </div>
+      <div className="cricket-frame-container">
+        <iframe
+          src={`/archives/cricket/${page}`}
+          className="cricket-iframe"
+          title="Cricket Page"
+        />
+      </div>
+    </>
   );
 };
 
