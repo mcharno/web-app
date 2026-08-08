@@ -40,6 +40,15 @@ const Archives = () => {
       details: 'Browse the personal comic book collection spanning Marvel, Image, DC, and more. Filter by publisher, search by title, and view the issues owned for each series.'
     },
     {
+      id: 'fw-trumper',
+      title: 'F.W. Trumper',
+      subtitle: 'The Beau Ideal of Batsmen',
+      description: 'Match reports from the chronicler of Alcohology CC',
+      link: '/archives/trumper',
+      icon: null,
+      details: 'The collected letters of F.W. Trumper, venerable and unreliable chronicler of Alcohology CC in the Tin Pot 20/20 League. Read and search five missives of Corinthian heroics, hallucinatory mishaps, and the occasional victory.'
+    },
+    {
       id: 'web-1-0',
       title: 'Web 1.0',
       subtitle: 'The Early Days of the Internet',
@@ -48,15 +57,6 @@ const Archives = () => {
       icon: null,
       details: 'Coming soon: Preserved pages and memories from the early internet era, when websites were simpler and personal homepages ruled.',
       comingSoon: true
-    },
-    {
-      id: 'fw-trumper',
-      title: 'F.W. Trumper',
-      subtitle: 'The Beau Ideal of Batsmen',
-      description: 'Match reports from the chronicler of Alcohology CC',
-      link: '/archives/trumper',
-      icon: null,
-      details: 'The collected letters of F.W. Trumper, venerable and unreliable chronicler of Alcohology CC in the Tin Pot 20/20 League. Read and search five missives of Corinthian heroics, hallucinatory mishaps, and the occasional victory.'
     }
   ];
 
