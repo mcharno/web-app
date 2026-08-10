@@ -148,6 +148,52 @@
   margin-bottom: 0;
 }
 
+/* Illuminated initial on the opening paragraph, in the manner of a
+   rubricated manuscript capital: vermilion ink with a gold-leaf edge. */
+.letter-body p.illuminated::first-letter {
+  font-family: 'IM Fell English', 'Times New Roman', serif;
+  float: left;
+  font-size: 4.2em;
+  line-height: 0.82;
+  padding: 0.06em 0.1em 0 0;
+  margin: 0.03em 0.4rem 0 0;
+  color: var(--accent-hover);
+  text-shadow: 0.045em 0.045em 0 var(--accent-glow);
+}
+
+.letter-body p.illuminated::first-line {
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+}
+
+/* Manuscript line ornaments */
+.letter-ornament {
+  display: flex;
+  justify-content: center;
+  color: var(--text-tertiary);
+}
+
+.letter-ornament svg {
+  height: auto;
+}
+
+.letter-headpiece {
+  margin-bottom: 1.5rem;
+}
+
+.letter-headpiece svg {
+  width: 100%;
+  max-width: 400px;
+}
+
+.letter-colophon {
+  margin-top: 1.75rem;
+}
+
+.letter-colophon svg {
+  width: 160px;
+}
+
 .trumper-letter mark {
   background: var(--accent-glow);
   color: var(--accent-primary);
