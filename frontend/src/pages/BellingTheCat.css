@@ -112,8 +112,7 @@
   font-weight: 500;
 }
 
-.tutorial-goals,
-.target-audience {
+.quick-links {
   padding: 2rem;
   background: var(--bg-secondary);
   border-left: 4px solid var(--accent-primary);
@@ -121,33 +120,52 @@
   box-shadow: 0 4px 12px var(--shadow);
 }
 
-.tutorial-goals h3,
-.target-audience h3 {
+.quick-links h3 {
   font-size: 1.5rem;
   color: var(--accent-primary);
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
-.tutorial-goals ul {
+.quick-links ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  columns: 2;
+  column-gap: 2rem;
 }
 
-.tutorial-goals li {
-  padding-left: 2rem;
-  margin-bottom: 0.75rem;
+.quick-links li {
+  padding-left: 1.5rem;
+  margin-bottom: 0.6rem;
   position: relative;
-  color: var(--text-secondary);
-  line-height: 1.6;
+  break-inside: avoid;
 }
 
-.tutorial-goals li::before {
+.quick-links li::before {
   content: "→";
   position: absolute;
   left: 0;
   color: var(--accent-primary);
   font-weight: bold;
+}
+
+.quick-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  line-height: 1.5;
+  transition: color 0.2s ease;
+}
+
+.quick-links a:hover {
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .quick-links ul {
+    columns: 1;
+  }
 }
 
 .tutorial-section h2 {
@@ -213,6 +231,17 @@
   font-weight: 600;
 }
 
+.module-content h5 {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin: 1.5rem 0 0.75rem 0;
+  font-weight: 600;
+}
+
+.module {
+  scroll-margin-top: 1.5rem;
+}
+
 .module-content ul,
 .module-content ol {
   color: var(--text-secondary);
@@ -263,6 +292,57 @@
   color: #ff8c00;
   display: block;
   margin-bottom: 0.5rem;
+}
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+}
+
+.doc-table th,
+.doc-table td {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.doc-table th {
+  color: var(--accent-primary);
+  font-weight: 600;
+  background: rgba(228, 236, 24, 0.05);
+}
+
+.doc-table tr:last-child td {
+  border-bottom: none;
+}
+
+.doc-table--wide td:first-child {
+  white-space: nowrap;
+  color: var(--accent-primary);
+}
+
+.doc-figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.doc-figure img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.doc-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  font-style: italic;
 }
 
 .project-links {
