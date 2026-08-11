@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trumperLetters } from '../data/trumperLetters';
+import { Headpiece, Colophon } from '../components/TrumperOrnaments';
 import './Trumper.css';
 
 const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -82,6 +83,9 @@ const Trumper = () => {
       <div className="trumper-letters">
         {results.map(({ letter, matches }) => {
           const expanded = searching || expandedIds.has(letter.id);
+          // First substantive paragraph gets the illuminated initial;
+          // skips short salutations like "Chaps," so they keep normal size.
+          const dropCapIndex = letter.paragraphs.findIndex(p => p.length >= 80);
           return (
             <article key={letter.id} className="trumper-letter">
               <header
@@ -112,9 +116,13 @@ const Trumper = () => {
               )}
               {expanded && (
                 <div className="letter-body">
+                  <Headpiece />
                   {letter.paragraphs.map((para, i) => (
-                    <p key={i}>{highlight(para, searching ? term : '')}</p>
+                    <p key={i} className={i === dropCapIndex ? 'illuminated' : undefined}>
+                      {highlight(para, searching ? term : '')}
+                    </p>
                   ))}
+                  <Colophon />
                 </div>
               )}
             </article>
