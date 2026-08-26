@@ -84,6 +84,7 @@ export const berbatisAPI = USE_MOCK_API ? mockApi.berbatis : {
 export const comicsAPI = {
   // Groups
   getGroups:    (params = {}) => api.get('/comics/groups',        { params }),
+  getGroup:     (id)          => api.get(`/comics/groups/${id}`),
   createGroup:  (data)        => api.post('/comics/groups',        data),
   updateGroup:  (id, data)    => api.patch(`/comics/groups/${id}`, data),
   deleteGroup:  (id)          => api.delete(`/comics/groups/${id}`),
@@ -95,6 +96,9 @@ export const comicsAPI = {
   create:       (data)        => api.post('/comics',        data),
   update:       (id, data)    => api.patch(`/comics/${id}`, data),
   remove:       (id)          => api.delete(`/comics/${id}`),
+
+  // Universal search (groups + series + issues in one query)
+  search:       (params = {}) => api.get('/comics/search', { params }),
 
   // Issues
   searchIssues: (params = {}) => api.get('/comics/issues',          { params }),
