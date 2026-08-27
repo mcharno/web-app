@@ -35,6 +35,7 @@ function App() {
             <Route path="archives/roms" element={<RomLibrary />} />
             <Route path="archives/berbatis" element={<BerbatisArchive />} />
             <Route path="archives/comics" element={<ComicBooks />} />
+            <Route path="archives/comics/:groupId" element={<ComicBooks />} />
             <Route path="archives/cricket" element={<Cricket />} />
             <Route path="archives/cricket/:page" element={<CricketFrame />} />
             <Route path="archives/trumper" element={<Trumper />} />

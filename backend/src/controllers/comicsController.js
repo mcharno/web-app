@@ -86,6 +86,20 @@ export async function initSchema() {
     ALTER TABLE comic_issues ADD COLUMN IF NOT EXISTS objects JSONB NOT NULL DEFAULT '[]';
     CREATE INDEX IF NOT EXISTS idx_comic_issues_teams   ON comic_issues USING GIN(teams);
     CREATE INDEX IF NOT EXISTS idx_comic_issues_objects ON comic_issues USING GIN(objects);
+
+    -- CV volume resolution bookkeeping: when auto-resolution fails, the top
+    -- candidates are stored for manual review and the attempt is timestamped
+    -- so the scheduled scrape stops retrying known failures.
+    ALTER TABLE comic_series ADD COLUMN IF NOT EXISTS cv_candidates           JSONB;
+    ALTER TABLE comic_series ADD COLUMN IF NOT EXISTS cv_resolve_attempted_at TIMESTAMPTZ;
+
+    -- Group header image scraping: runner-up candidates kept for overrides.
+    ALTER TABLE comic_groups ADD COLUMN IF NOT EXISTS header_candidates JSONB;
+
+    -- Optional wide "hero" art for the group detail banner, distinct from the
+    -- close-up cover_image used for tiles/search — falls back to cover_image
+    -- when unset.
+    ALTER TABLE comic_groups ADD COLUMN IF NOT EXISTS hero_image TEXT;
   `);
   console.log('[comics] schema ready');
 }
@@ -156,6 +170,49 @@ export async function getGroups(req, res) {
   }
 }
 
+// GET /comics/groups/:id — one group with its series (issue number arrays)
+export async function getGroupById(req, res) {
+  try {
+    const { rows } = await pool.query(`
+      SELECT
+        g.id, g.name, g.description, g.cover_image,
+        COALESCE(g.hero_image, g.cover_image) AS hero_image,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id',            s.id,
+              'title',         s.title,
+              'publisher',     s.publisher,
+              'volume',        s.volume,
+              'comic_vine_id', s.comic_vine_id,
+              'cover_image',   s.cover_image,
+              'writers',       s.writers,
+              'artists',       s.artists,
+              'issues', (
+                SELECT COALESCE(json_agg(
+                  i.issue_number ORDER BY
+                    CASE WHEN i.issue_number ~ '^[0-9]+$' THEN i.issue_number::integer END NULLS LAST,
+                    i.issue_number
+                ), '[]'::json)
+                FROM comic_issues i WHERE i.series_id = s.id
+              )
+            ) ORDER BY s.publisher NULLS LAST, s.title
+          ) FILTER (WHERE s.id IS NOT NULL),
+          '[]'::json
+        ) AS series
+      FROM comic_groups g
+      LEFT JOIN comic_series s ON s.group_id = g.id
+      WHERE g.id = $1
+      GROUP BY g.id
+    `, [req.params.id]);
+
+    if (!rows.length) throw new NotFoundError(`Group "${req.params.id}" not found`);
+    res.json(rows[0]);
+  } catch (err) {
+    handleError(err, res);
+  }
+}
+
 // POST /comics/groups
 export async function createGroup(req, res) {
   try {
@@ -176,17 +233,21 @@ export async function createGroup(req, res) {
 }
 
 // PATCH /comics/groups/:id
+// hero_image here expects an already-hosted path (e.g. re-applying one this
+// API previously downloaded). To set it from an arbitrary remote URL, use
+// POST /comics/groups/:id/scrape-hero — self-hosts it first.
 export async function updateGroup(req, res) {
   try {
-    const { name, description, cover_image } = req.body;
+    const { name, description, cover_image, hero_image } = req.body;
     const { rows, rowCount } = await pool.query(
       `UPDATE comic_groups SET
         name        = COALESCE($2, name),
         description = COALESCE($3, description),
         cover_image = COALESCE($4, cover_image),
+        hero_image  = COALESCE($5, hero_image),
         updated_at  = NOW()
        WHERE id = $1 RETURNING *`,
-      [req.params.id, name ?? null, description ?? null, cover_image ?? null]
+      [req.params.id, name ?? null, description ?? null, cover_image ?? null, hero_image ?? null]
     );
     if (!rowCount) throw new NotFoundError(`Group "${req.params.id}" not found`);
     res.json(rows[0]);
@@ -389,6 +450,48 @@ export async function deleteComic(req, res) {
   }
 }
 
+// GET /comics/unresolved
+// Series with no Comic Vine volume id, with any parked candidates from the
+// last failed auto-resolution — the CLI uses this for manual fixes.
+export async function getUnresolvedSeries(req, res) {
+  try {
+    const { rows } = await pool.query(`
+      SELECT s.id, s.title, s.publisher, s.volume, s.group_id,
+        s.cv_candidates, s.cv_resolve_attempted_at,
+        (SELECT COUNT(*) FROM comic_issues i WHERE i.series_id = s.id) AS issue_count
+      FROM comic_series s
+      WHERE s.comic_vine_id IS NULL
+      ORDER BY s.cv_resolve_attempted_at DESC NULLS LAST, s.title
+    `);
+    res.json({ series: rows, total: rows.length });
+  } catch (err) {
+    handleError(err, res);
+  }
+}
+
+// GET /comics/stats — collection + scrape progress totals (used by the CLI)
+export async function getStats(req, res) {
+  try {
+    const { rows: [stats] } = await pool.query(`
+      SELECT
+        (SELECT COUNT(*) FROM comic_groups)                                   AS groups,
+        (SELECT COUNT(*) FROM comic_groups WHERE cover_image IS NOT NULL)     AS groups_with_header,
+        (SELECT COUNT(*) FROM comic_series)                                   AS series,
+        (SELECT COUNT(*) FROM comic_series WHERE comic_vine_id IS NOT NULL)   AS series_resolved,
+        (SELECT COUNT(*) FROM comic_series
+          WHERE comic_vine_id IS NULL AND cv_resolve_attempted_at IS NOT NULL) AS series_parked,
+        (SELECT COUNT(*) FROM comic_issues)                                   AS issues,
+        (SELECT COUNT(*) FROM comic_issues WHERE scrape_attempted_at IS NOT NULL) AS issues_attempted,
+        (SELECT COUNT(*) FROM comic_issues WHERE cover_image IS NOT NULL)     AS issues_with_cover
+    `);
+    res.json(Object.fromEntries(
+      Object.entries(stats).map(([k, v]) => [k, parseInt(v, 10)])
+    ));
+  } catch (err) {
+    handleError(err, res);
+  }
+}
+
 // GET /comics/publishers
 export async function getPublishers(req, res) {
   try {
@@ -403,6 +506,19 @@ export async function getPublishers(req, res) {
 }
 
 // ── Issues ────────────────────────────────────────────────────────────────────
+
+// Free-text match across an issue's name, description, and all JSONB tag arrays.
+// $n is the placeholder index of the ILIKE pattern.
+function issueFreeTextCondition(n) {
+  return `
+    i.name ILIKE $${n} OR i.description ILIKE $${n}
+    OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.characters) e WHERE e ILIKE $${n})
+    OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.locations)  e WHERE e ILIKE $${n})
+    OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.story_arcs) e WHERE e ILIKE $${n})
+    OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.teams)      e WHERE e ILIKE $${n})
+    OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.objects)    e WHERE e ILIKE $${n})
+  `;
+}
 
 // GET /comics/issues?q=&characters=&locations=&story_arcs=&series_id=&page=&limit=
 // q does a free-text ILIKE across name, description, and all three JSONB array fields.
@@ -424,12 +540,7 @@ export async function searchIssues(req, res) {
     if (series_id) { conditions.push(`i.series_id = $${p++}`); params.push(series_id); }
 
     if (q) {
-      conditions.push(`(
-        i.name ILIKE $${p} OR i.description ILIKE $${p}
-        OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.characters) e WHERE e ILIKE $${p})
-        OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.locations)  e WHERE e ILIKE $${p})
-        OR EXISTS (SELECT 1 FROM jsonb_array_elements_text(i.story_arcs) e WHERE e ILIKE $${p})
-      )`);
+      conditions.push(`(${issueFreeTextCondition(p)})`);
       params.push(`%${q}%`);
       p++;
     }
@@ -515,6 +626,71 @@ export async function deleteIssue(req, res) {
     const { rowCount } = await pool.query(`DELETE FROM comic_issues WHERE id = $1`, [id]);
     if (!rowCount) throw new NotFoundError(`Issue ${id} not found`);
     res.status(204).end();
+  } catch (err) {
+    handleError(err, res);
+  }
+}
+
+// ── Universal search ──────────────────────────────────────────────────────────
+
+// GET /comics/search?q=&limit=
+// One query, three sections: matching groups, series, and issues.
+// Issues are matched on name/description and all tag arrays (characters,
+// locations, story arcs, teams, objects).
+export async function universalSearch(req, res) {
+  try {
+    const q = (req.query.q || '').trim();
+    if (!q) return res.json({ query: q, groups: [], series: [], issues: [] });
+
+    const limit = Math.min(50, Math.max(1, parseInt(req.query.limit, 10) || 30));
+    const pattern = `%${q}%`;
+
+    const [groups, series, issues] = await Promise.all([
+      pool.query(`
+        SELECT g.id, g.name, g.description, g.cover_image,
+          (SELECT COUNT(*) FROM comic_series s WHERE s.group_id = g.id) AS series_count,
+          (SELECT COUNT(*) FROM comic_issues i
+             JOIN comic_series s ON s.id = i.series_id
+           WHERE s.group_id = g.id) AS issue_count
+        FROM comic_groups g
+        WHERE g.name ILIKE $1
+        ORDER BY g.name
+        LIMIT $2
+      `, [pattern, limit]),
+
+      pool.query(`
+        SELECT s.id, s.title, s.publisher, s.volume, s.group_id, s.cover_image,
+          g.name AS group_name,
+          (SELECT COUNT(*) FROM comic_issues i WHERE i.series_id = s.id) AS issue_count
+        FROM comic_series s
+        LEFT JOIN comic_groups g ON g.id = s.group_id
+        WHERE s.title ILIKE $1 OR s.publisher ILIKE $1
+        ORDER BY s.title
+        LIMIT $2
+      `, [pattern, limit]),
+
+      pool.query(`
+        SELECT i.*,
+          s.title     AS series_title,
+          s.publisher AS series_publisher,
+          s.volume    AS series_volume,
+          s.group_id  AS series_group_id
+        FROM comic_issues i
+        JOIN comic_series s ON s.id = i.series_id
+        WHERE ${issueFreeTextCondition(1)}
+        ORDER BY s.title,
+          CASE WHEN i.issue_number ~ '^[0-9]+$' THEN i.issue_number::integer END NULLS LAST,
+          i.issue_number
+        LIMIT $2
+      `, [pattern, limit]),
+    ]);
+
+    res.json({
+      query:  q,
+      groups: groups.rows,
+      series: series.rows,
+      issues: issues.rows,
+    });
   } catch (err) {
     handleError(err, res);
   }

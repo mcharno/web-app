@@ -12,6 +12,8 @@
     "test:watch": "concurrently \"yarn workspace charno-backend test:watch\" \"yarn workspace frontend test:watch\"",
     "build": "yarn workspace frontend build",
     "install:all": "yarn install",
+    "comic-admin": "node scripts/comic-admin.js",
+    "test:scripts": "node --test scripts/comic-admin.test.js",
     "validate-gallery": "node scripts/validate-gallery.js",
     "upload-photos": "bash scripts/upload-photos.sh"
   },
