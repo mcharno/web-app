@@ -9,17 +9,8 @@
  *   export CHARNO_API_KEY=...            # backend API key (required for writes)
  *   export CHARNO_API_URL=...            # optional, default https://charno.net/api
  *
- * Commands:
- *   node scripts/comic-admin.js status                     collection + scrape progress
- *   node scripts/comic-admin.js add                        add a series (interactive, CV-matched)
- *   node scripts/comic-admin.js add-issues <series-id>     append issues to a series
- *   node scripts/comic-admin.js unresolved                 fix series that failed CV matching
- *   node scripts/comic-admin.js headers [--force]          scrape group header images
- *   node scripts/comic-admin.js headers <group-id>         re-scrape one group's header
- *   node scripts/comic-admin.js set-header <group-id> <image-url>   manual override
- *   node scripts/comic-admin.js set-hero <group-id> <image-url>     wide banner art for the
- *                                                                   detail-page hero (optional —
- *                                                                   falls back to the header image)
+ * Commands: run `node scripts/comic-admin.js help` (or `--help` / `-h`, or no
+ * args at all) for the full command reference with params and examples.
  */
 
 import readline from 'node:readline/promises';
@@ -287,6 +278,109 @@ async function cmdSetHero(groupId, imageUrl) {
   console.log(`✓ ${groupId} hero set → ${result.hero_image}`);
 }
 
+// Each entry: [command line shown in the usage table, one-line summary].
+// Kept in display order so cmdHelp() and the top-level usage line stay in sync.
+const COMMANDS = [
+  ['status',                           'Collection + scrape progress totals'],
+  ['add',                              'Add a new series (interactive, Comic Vine-matched)'],
+  ['add-issues <series-id>',           'Append issues to an existing series'],
+  ['unresolved',                       'Resolve series that failed automatic Comic Vine matching'],
+  ['headers [--force]',                'Bulk-scrape header images for groups missing one (or all, with --force)'],
+  ['headers <group-id>',               "Re-scrape one group's header image"],
+  ['set-header <group-id> <url>',      "Manually set a group's header image from any URL"],
+  ['set-hero <group-id> <url>',        'Set a distinct wide hero banner image for a group'],
+  ['help',                             'Show this message'],
+];
+
+function cmdHelp() {
+  console.log(`
+comic-admin — maintain the charno.net comic archive without a deployment
+
+Talks only to the live write API (never the database directly), so it
+works from any machine that can reach ${API_URL.replace(/\/api$/, '')} and has the API key.
+
+SETUP
+  export CHARNO_API_KEY=...     backend API key — required for anything that
+                                 writes (add, add-issues, unresolved, headers,
+                                 set-header, set-hero). Read-only "status"
+                                 works without it.
+  export CHARNO_API_URL=...     optional, default https://charno.net/api
+
+USAGE
+  cadmin <command> [args]
+
+COMMANDS
+${COMMANDS.map(([c, desc]) => `  ${c.padEnd(32)}${desc}`).join('\n')}
+
+DETAILS
+
+  status
+    Groups with/without a header image, series resolved/parked-for-review/
+    never-attempted, issues scrape-attempted/with-cover.
+      cadmin status
+
+  add
+    Prompts for a title, searches Comic Vine live and lets you pick the
+    match (or skip and create it unresolved), prompts for publisher/volume,
+    lets you pick or create a group, then prompts for the issues you own —
+    accepts ranges and named issues, e.g. "1-5, 12, Annual 1". Creates the
+    series and immediately scrapes covers/metadata for those issues.
+      cadmin add
+
+  add-issues <series-id>
+    Appends more issues to a series that already exists (only adds new
+    numbers — existing ones are untouched) and scrapes just the new ones.
+    <series-id> is the slug id (e.g. "ghost-rider"), findable via
+    GET /api/comics?search=<title> or GET /api/comics/groups.
+      cadmin add-issues ghost-rider
+      # then when prompted: 51-55, Annual 2
+
+  unresolved
+    Walks through every series that failed automatic Comic Vine matching.
+    For each one, shows candidate volumes (stored from the last attempt, or
+    freshly searched if none were stored) scored by title/publisher/issue-
+    count match. At each prompt you can:
+      1-N        pick that numbered candidate
+      <cv-id>    enter a Comic Vine volume id directly (e.g. 5444)
+      r          re-search with a different query
+      s / Enter  skip this series for now
+    Picking or entering an id resolves the series and scrapes its issues.
+      cadmin unresolved
+
+  headers [--force]
+    Bulk-scrapes header images (Comic Vine character/team/volume art,
+    preferring title-free close-ups) for every group missing one. Add
+    --force to redo every group, including ones that already have one.
+      cadmin headers
+      cadmin headers --force
+
+  headers <group-id>
+    Re-scrapes the header image for just one group.
+      cadmin headers ghost-rider
+
+  set-header <group-id> <url>
+    Manually overrides a group's header image from any image URL —
+    downloads and self-hosts it (never hotlinks the original). Use this
+    when the auto-scrape picked the wrong art or found nothing.
+      cadmin set-header headlight-comics https://comicvine.gamespot.com/a/uploads/original/123.jpg
+
+  set-hero <group-id> <url>
+    Sets a distinct wide "hero" banner image for a group's detail-page
+    banner, separate from its header thumbnail (falls back to the header
+    image if never set). Same download-and-host behavior as set-header.
+      cadmin set-hero ghost-rider https://example.com/wide-banner.jpg
+
+NOTES
+  - Bulk operations (headers, and the scheduled scrape-unscraped job) can
+    keep running past a minute server-side — Comic Vine is rate-limited to
+    about 1 request/second. If a command seems to hang or times out, it's
+    usually still working; check progress with \`cadmin status\`.
+  - Series/group ids are slugs, not titles ("Ghost Rider" → "ghost-rider").
+    If you're not sure of one, search first:
+    GET ${API_URL}/comics?search=<title>
+`);
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -300,10 +394,16 @@ async function main() {
       case 'headers':    await cmdHeaders(args[0]); break;
       case 'set-header': await cmdSetHeader(args[0], args[1]); break;
       case 'set-hero':   await cmdSetHero(args[0], args[1]); break;
+      case 'help':
+      case '--help':
+      case '-h':
+      case undefined:
+        cmdHelp();
+        break;
       default:
-        console.log('Usage: node scripts/comic-admin.js <status|add|add-issues|unresolved|headers|set-header|set-hero>');
-        console.log('See the header of this file for details.');
-        process.exitCode = cmd ? 1 : 0;
+        console.log(`Unknown command: "${cmd}"\n`);
+        cmdHelp();
+        process.exitCode = 1;
     }
   } catch (err) {
     fail(err.message);
