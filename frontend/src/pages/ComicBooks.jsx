@@ -42,6 +42,38 @@ function matchedFields(issue, q) {
 const issueCountOfGroup = (group) =>
   (group.series || []).reduce((sum, s) => sum + (s.issues?.length || 0), 0);
 
+// "series" is already invariant singular/plural; only "issue(s)" needs it.
+const issueLabel = (n) => `${n} issue${n === 1 ? '' : 's'}`;
+
+/**
+ * Split a group's series into page sections by real (non-blank) publisher.
+ *
+ * Most groups have one publisher (or a mix of one real publisher plus some
+ * blanks) — those render as a single section, unchanged from before. A group
+ * whose series span two or more distinct real publishers (e.g. a licensed
+ * property published by different companies) gets one section per publisher
+ * instead, each with its own hero image and series table; any series with no
+ * publisher recorded are bucketed into a trailing "Other" section (publisher:
+ * null) so nothing is silently dropped.
+ */
+export function groupSeriesByPublisher(series) {
+  const list = series || [];
+  const realPublishers = [...new Set(list.map(s => s.publisher).filter(Boolean))];
+
+  if (realPublishers.length < 2) {
+    return { isMulti: false, sections: [{ publisher: null, series: list }] };
+  }
+
+  const sections = [...realPublishers].sort().map(publisher => ({
+    publisher,
+    series: list.filter(s => s.publisher === publisher),
+  }));
+  const unpublished = list.filter(s => !s.publisher);
+  if (unpublished.length) sections.push({ publisher: null, series: unpublished });
+
+  return { isMulti: true, sections };
+}
+
 // ── Shared sub-components ─────────────────────────────────────────────────────
 
 function GroupCover({ group, className }) {
@@ -55,9 +87,13 @@ function GroupCover({ group, className }) {
   );
 }
 
-// Publisher-grouped series table (used on the group detail page)
-function SeriesTable({ series, onOpenSeries, onOpenIssue }) {
+// Publisher-grouped series table (used on the group detail page). Set
+// showPublisherColumn={false} when the caller has already split series by
+// publisher (see groupSeriesByPublisher) — the column would just repeat one
+// value in that case.
+function SeriesTable({ series, showPublisherColumn = true, onOpenSeries, onOpenIssue }) {
   const publisherGroups = useMemo(() => {
+    if (!showPublisherColumn) return [{ publisher: '', series: series || [] }];
     const pubMap = new Map();
     for (const comic of (series || [])) {
       const pub = comic.publisher || '';
@@ -65,7 +101,7 @@ function SeriesTable({ series, onOpenSeries, onOpenIssue }) {
       pubMap.get(pub).push(comic);
     }
     return [...pubMap.keys()].sort().map(pub => ({ publisher: pub, series: pubMap.get(pub) }));
-  }, [series]);
+  }, [series, showPublisherColumn]);
 
   if (!series?.length) {
     return <span className="group-no-series">No series recorded</span>;
@@ -75,7 +111,7 @@ function SeriesTable({ series, onOpenSeries, onOpenIssue }) {
     <table className="series-table">
       <thead>
         <tr>
-          <th className="col-series-publisher">Publisher</th>
+          {showPublisherColumn && <th className="col-series-publisher">Publisher</th>}
           <th className="col-series-title">Title</th>
           <th className="col-series-issues">Issues</th>
         </tr>
@@ -85,9 +121,9 @@ function SeriesTable({ series, onOpenSeries, onOpenIssue }) {
           pubSeries.map((comic, idx) => (
             <tr
               key={comic.id}
-              className={`series-row${idx === 0 && pgIdx > 0 ? ' pub-group-start' : ''}`}
+              className={`series-row${showPublisherColumn && idx === 0 && pgIdx > 0 ? ' pub-group-start' : ''}`}
             >
-              {idx === 0 && (
+              {showPublisherColumn && idx === 0 && (
                 <td className="col-series-publisher" rowSpan={pubSeries.length}>
                   <span className="publisher-label">{publisher || '—'}</span>
                 </td>
@@ -264,7 +300,7 @@ const ComicBooks = () => {
                   <div className="search-group-info">
                     <span className="search-group-name">{g.name}</span>
                     <span className="search-group-counts">
-                      {g.series_count} series · {g.issue_count} issues
+                      {g.series_count} series · {issueLabel(g.issue_count)}
                     </span>
                   </div>
                 </Link>
@@ -358,41 +394,60 @@ const ComicBooks = () => {
           <div className="comics-empty">Group not found.</div>
         ) : !group ? (
           <div className="loading-state">Loading…</div>
-        ) : (
-          <>
-            <div className="group-banner">
-              {(group.hero_image || group.cover_image) ? (
-                <img
-                  className="group-banner-hero"
-                  src={group.hero_image || group.cover_image}
-                  alt=""
-                  aria-hidden="true"
-                />
-              ) : (
-                <div className="group-banner-hero group-banner-hero-placeholder">
-                  <span>{group.name.charAt(0)}</span>
-                </div>
-              )}
-              <div className="group-banner-scrim" />
-              <div className="group-banner-info">
-                <h2 className="group-banner-name">{group.name}</h2>
-                <p className="group-banner-counts">
-                  {group.series.length} series · {issueCountOfGroup(group)} issues
-                </p>
+        ) : (() => {
+          const { isMulti, sections } = groupSeriesByPublisher(group.series);
+          return (
+            <>
+              <div className="group-header">
+                <h2 className="group-header-name">{group.name}</h2>
+                {!isMulti && (
+                  <p className="group-header-counts">
+                    {group.series.length} series · {issueLabel(issueCountOfGroup(group))}
+                  </p>
+                )}
                 {group.description && (
-                  <p className="group-banner-desc">{stripHtml(group.description)}</p>
+                  <p className="group-header-desc">{stripHtml(group.description)}</p>
                 )}
               </div>
-            </div>
-            <div className="group-detail-table">
-              <SeriesTable
-                series={group.series}
-                onOpenSeries={openSeries}
-                onOpenIssue={openIssueFromTable}
-              />
-            </div>
-          </>
-        )}
+
+              {sections.map(section => {
+                const heroSrc = (section.publisher && group.publisher_heroes?.[section.publisher])
+                  || group.hero_image;
+                const sectionIssues = section.series.reduce((sum, s) => sum + (s.issues?.length || 0), 0);
+
+                return (
+                  <section key={section.publisher || '_all'} className="pub-section">
+                    {isMulti && (
+                      <h3 className="pub-section-title">{section.publisher || 'Other'}</h3>
+                    )}
+                    <div className="group-hero">
+                      {heroSrc ? (
+                        <img className="group-hero-img" src={heroSrc} alt="" aria-hidden="true" />
+                      ) : (
+                        <div className="group-hero-img group-hero-placeholder">
+                          <span>{(section.publisher || group.name).charAt(0)}</span>
+                        </div>
+                      )}
+                    </div>
+                    {isMulti && (
+                      <p className="pub-section-counts">
+                        {section.series.length} series · {issueLabel(sectionIssues)}
+                      </p>
+                    )}
+                    <div className="group-detail-table">
+                      <SeriesTable
+                        series={section.series}
+                        showPublisherColumn={!isMulti}
+                        onOpenSeries={openSeries}
+                        onOpenIssue={openIssueFromTable}
+                      />
+                    </div>
+                  </section>
+                );
+              })}
+            </>
+          );
+        })()}
 
         {renderModals(modal, closeModal, openIssueFromSeries, backToSeries)}
       </div>
@@ -445,7 +500,7 @@ const ComicBooks = () => {
                 <div className="group-tile-plate">
                   <span className="group-tile-name">{g.name}</span>
                   <span className="group-tile-counts">
-                    {(g.series || []).length} series · {issueCountOfGroup(g)} issues
+                    {(g.series || []).length} series · {issueLabel(issueCountOfGroup(g))}
                   </span>
                 </div>
               </Link>

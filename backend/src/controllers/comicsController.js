@@ -100,6 +100,13 @@ export async function initSchema() {
     -- close-up cover_image used for tiles/search — falls back to cover_image
     -- when unset.
     ALTER TABLE comic_groups ADD COLUMN IF NOT EXISTS hero_image TEXT;
+
+    -- Per-publisher hero art, for groups whose series span more than one
+    -- real publisher (e.g. a licensed property published by different
+    -- companies) — maps publisher string -> hero image path. hero_image
+    -- above remains the group-wide fallback for any publisher without an
+    -- entry here.
+    ALTER TABLE comic_groups ADD COLUMN IF NOT EXISTS publisher_heroes JSONB NOT NULL DEFAULT '{}';
   `);
   console.log('[comics] schema ready');
 }
@@ -177,6 +184,7 @@ export async function getGroupById(req, res) {
       SELECT
         g.id, g.name, g.description, g.cover_image,
         COALESCE(g.hero_image, g.cover_image) AS hero_image,
+        g.publisher_heroes,
         COALESCE(
           json_agg(
             json_build_object(
