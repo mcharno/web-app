@@ -173,18 +173,61 @@
   color: var(--text-secondary);
 }
 
-/* ── Group detail (full-bleed hero banner + series table) ────────────────── */
+/* ── Group detail ──────────────────────────────────────────────────────────
+   Plain page header (name/counts/description) followed by one or more
+   sections, each a hero image + its series table. Most groups have exactly
+   one section; a group whose series span multiple real publishers gets one
+   section per publisher (see groupSeriesByPublisher in ComicBooks.jsx). */
 
-.group-banner {
+.group-header { margin-bottom: 1.75rem; }
+
+.group-header-name {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 0.5rem;
+}
+
+.group-header-counts {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem;
+}
+
+.group-header-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 70ch;
+}
+
+.pub-section { margin-bottom: 2.25rem; }
+.pub-section:last-child { margin-bottom: 0; }
+
+.pub-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Hero: pure image, no overlay — unlike the header thumbnail, this can (and
+   ideally does) include title/logo art, since it's shown much larger */
+.group-hero {
   position: relative;
-  height: 320px;
-  margin-bottom: 1.5rem;
+  height: 380px;
+  margin-bottom: 1rem;
   overflow: hidden;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
 }
 
-.group-banner-hero {
+.group-hero-img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -193,64 +236,23 @@
   object-position: top center;
 }
 
-.group-banner-hero-placeholder {
+.group-hero-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.group-banner-hero-placeholder span {
+.group-hero-placeholder span {
   font-size: 6rem;
   font-weight: 700;
   color: var(--accent-primary);
   opacity: 0.3;
 }
 
-/* Whole-image gradient for general contrast, heaviest where the info panel sits */
-.group-banner-scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.15) 45%, transparent 75%);
-}
-
-/* Floating info plate — its own opaque background so text stays legible
-   regardless of what's behind it in the hero image */
-.group-banner-info {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  min-width: 0;
-  padding: 1rem 1.5rem 1.1rem;
-  background: var(--bg-primary);
-  background: color-mix(in srgb, var(--bg-primary) 82%, transparent);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border-top: 1px solid var(--border-color);
-}
-
-.group-banner-name {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0 0 0.4rem;
-  border-bottom: 2px solid var(--accent-primary);
-  padding-bottom: 0.4rem;
-  display: inline-block;
-}
-
-.group-banner-counts {
-  font-size: 0.9rem;
+.pub-section-counts {
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  margin: 0 0 0.6rem;
-}
-
-.group-banner-desc {
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin: 0;
-  max-width: 60ch;
+  margin: 0 0 0.75rem;
 }
 
 .group-detail-table {
@@ -901,7 +903,7 @@
     gap: 1rem;
   }
 
-  .group-banner { height: 260px; }
+  .group-hero { height: 280px; }
 }
 
 @media (max-width: 640px) {
@@ -910,10 +912,8 @@
     gap: 0.75rem;
   }
 
-  .group-banner { height: 200px; }
-  .group-banner-info { padding: 0.85rem 1rem 0.9rem; }
-  .group-banner-name { font-size: 1.4rem; }
-  .group-banner-desc { display: none; } /* too little room over a short hero on mobile */
+  .group-hero { height: 200px; }
+  .group-header-name { font-size: 1.5rem; }
 
   .col-series-publisher { display: none; }
 

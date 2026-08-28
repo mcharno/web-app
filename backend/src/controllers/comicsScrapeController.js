@@ -415,21 +415,41 @@ async function saveGroupHeader(groupId, imageUrl, candidates = null) {
   return coverPath;
 }
 
+function slugifyPublisher(publisher) {
+  return publisher.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 // Download an image to the groups dir and persist it as the group's hero
 // banner art (distinct from the header/cover thumbnail). When unset, the API
 // falls back to cover_image, so this is only needed when a wider/different
 // piece of art is wanted for the full-bleed detail-page banner.
-async function saveGroupHero(groupId, imageUrl) {
+//
+// With a `publisher`, the image is stored in publisher_heroes[publisher]
+// instead of the group-wide hero_image — for groups whose series span more
+// than one real publisher, where each publisher's section on the detail page
+// gets its own hero art.
+async function saveGroupHero(groupId, imageUrl, publisher = null) {
   const rawExt = (imageUrl.split('.').pop()?.split('?')[0] || 'jpg').toLowerCase();
   const ext    = ['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(rawExt) ? rawExt : 'jpg';
-  const dest   = path.join(COMICS_IMAGES_DIR, 'groups', `${groupId}-hero.${ext}`);
+  const suffix = publisher ? `-hero-${slugifyPublisher(publisher)}` : '-hero';
+  const dest   = path.join(COMICS_IMAGES_DIR, 'groups', `${groupId}${suffix}.${ext}`);
   await downloadFile(imageUrl, dest);
-  const heroPath = `/images/comics/groups/${groupId}-hero.${ext}?v=${Date.now()}`;
+  const heroPath = `/images/comics/groups/${groupId}${suffix}.${ext}?v=${Date.now()}`;
 
-  await pool.query(
-    `UPDATE comic_groups SET hero_image = $2, updated_at = NOW() WHERE id = $1`,
-    [groupId, heroPath]
-  );
+  if (publisher) {
+    await pool.query(
+      `UPDATE comic_groups SET
+        publisher_heroes = jsonb_set(publisher_heroes, ARRAY[$2]::text[], to_jsonb($3::text), true),
+        updated_at        = NOW()
+       WHERE id = $1`,
+      [groupId, publisher, heroPath]
+    );
+  } else {
+    await pool.query(
+      `UPDATE comic_groups SET hero_image = $2, updated_at = NOW() WHERE id = $1`,
+      [groupId, heroPath]
+    );
+  }
   return heroPath;
 }
 
@@ -578,11 +598,15 @@ export async function scrapeGroupHeader(req, res) {
 }
 
 // POST /comics/groups/:id/scrape-hero
-// Body { image_url } (required) — downloads and self-hosts a wide banner
-// image for the detail-page hero, distinct from the header/cover thumbnail.
-// There's no auto-scrape source for this (Comic Vine doesn't distinguish
-// "wide" art) — it's manual-only, used when the default (falling back to
-// cover_image) isn't wide/clean enough for a full-bleed banner.
+// Body { image_url } (required), { publisher } (optional) — downloads and
+// self-hosts a wide banner image for the detail-page hero, distinct from the
+// header/cover thumbnail. With `publisher`, sets that publisher's entry in
+// publisher_heroes instead of the group-wide hero_image — for groups whose
+// series span more than one real publisher, each gets its own section (and
+// hero) on the detail page. There's no auto-scrape source for this (Comic
+// Vine doesn't distinguish "wide" art) — it's manual-only, used when the
+// default (falling back to cover_image) isn't wide/clean enough for a
+// full-bleed banner.
 export async function scrapeGroupHero(req, res) {
   try {
     if (!req.body?.image_url) {
@@ -591,8 +615,11 @@ export async function scrapeGroupHero(req, res) {
     const { rowCount } = await pool.query(`SELECT 1 FROM comic_groups WHERE id = $1`, [req.params.id]);
     if (!rowCount) return res.status(404).json({ error: `Group "${req.params.id}" not found` });
 
-    const heroPath = await saveGroupHero(req.params.id, String(req.body.image_url));
-    res.json({ ok: true, hero_image: heroPath });
+    const publisher = req.body.publisher ? String(req.body.publisher) : null;
+    const heroPath = await saveGroupHero(req.params.id, String(req.body.image_url), publisher);
+    res.json(publisher
+      ? { ok: true, publisher, hero_image: heroPath }
+      : { ok: true, hero_image: heroPath });
   } catch (err) {
     handleError(err, res);
   }

@@ -272,10 +272,13 @@ async function cmdSetHeader(groupId, imageUrl) {
   console.log(`✓ ${groupId} header set → ${result.cover_image}`);
 }
 
-async function cmdSetHero(groupId, imageUrl) {
-  if (!groupId || !imageUrl) fail('Usage: comic-admin.js set-hero <group-id> <image-url>');
-  const result = await apiPost(`/comics/groups/${groupId}/scrape-hero`, { image_url: imageUrl });
-  console.log(`✓ ${groupId} hero set → ${result.hero_image}`);
+async function cmdSetHero(groupId, imageUrl, publisher) {
+  if (!groupId || !imageUrl) fail('Usage: comic-admin.js set-hero <group-id> <image-url> [publisher]');
+  const result = await apiPost(`/comics/groups/${groupId}/scrape-hero`,
+    publisher ? { image_url: imageUrl, publisher } : { image_url: imageUrl });
+  console.log(publisher
+    ? `✓ ${groupId} hero set for ${publisher} → ${result.hero_image}`
+    : `✓ ${groupId} hero set → ${result.hero_image}`);
 }
 
 // Each entry: [command line shown in the usage table, one-line summary].
@@ -288,7 +291,7 @@ const COMMANDS = [
   ['headers [--force]',                'Bulk-scrape header images for groups missing one (or all, with --force)'],
   ['headers <group-id>',               "Re-scrape one group's header image"],
   ['set-header <group-id> <url>',      "Manually set a group's header image from any URL"],
-  ['set-hero <group-id> <url>',        'Set a distinct wide hero banner image for a group'],
+  ['set-hero <group-id> <url> [publisher]', 'Set a wide hero banner image for a group (or one publisher within it)'],
   ['help',                             'Show this message'],
 ];
 
@@ -364,11 +367,20 @@ DETAILS
     when the auto-scrape picked the wrong art or found nothing.
       cadmin set-header headlight-comics https://comicvine.gamespot.com/a/uploads/original/123.jpg
 
-  set-hero <group-id> <url>
-    Sets a distinct wide "hero" banner image for a group's detail-page
-    banner, separate from its header thumbnail (falls back to the header
-    image if never set). Same download-and-host behavior as set-header.
+  set-hero <group-id> <url> [publisher]
+    Sets a wide "hero" banner image for a group's detail page, separate
+    from its header thumbnail — unlike the header, the hero can (and for a
+    good result, should) include the title/logo art, since it's shown much
+    larger. Falls back to the header image if never set. Same
+    download-and-host behavior as set-header.
       cadmin set-hero ghost-rider https://example.com/wide-banner.jpg
+
+    With a publisher name, sets that publisher's hero specifically. Use
+    this for a group whose series span more than one real publisher — the
+    detail page splits into one section per publisher, each with its own
+    hero and series table.
+      cadmin set-hero 90s-video-games https://example.com/street-fighter.jpg Malibu
+      cadmin set-hero 90s-video-games https://example.com/mortal-kombat.jpg Midway
 
 NOTES
   - Bulk operations (headers, and the scheduled scrape-unscraped job) can
@@ -393,7 +405,7 @@ async function main() {
       case 'unresolved': await cmdUnresolved(); break;
       case 'headers':    await cmdHeaders(args[0]); break;
       case 'set-header': await cmdSetHeader(args[0], args[1]); break;
-      case 'set-hero':   await cmdSetHero(args[0], args[1]); break;
+      case 'set-hero':   await cmdSetHero(args[0], args[1], args[2]); break;
       case 'help':
       case '--help':
       case '-h':
