@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { comicsAPI } from '../services/api';
 import './ComicBooks.css';
@@ -87,81 +87,79 @@ function GroupCover({ group, className }) {
   );
 }
 
-// Publisher-grouped series table (used on the group detail page). Set
-// showPublisherColumn={false} when the caller has already split series by
-// publisher (see groupSeriesByPublisher) — the column would just repeat one
-// value in that case.
-function SeriesTable({ series, showPublisherColumn = true, onOpenSeries, onOpenIssue }) {
-  const publisherGroups = useMemo(() => {
-    if (!showPublisherColumn) return [{ publisher: '', series: series || [] }];
-    const pubMap = new Map();
-    for (const comic of (series || [])) {
-      const pub = comic.publisher || '';
-      if (!pubMap.has(pub)) pubMap.set(pub, []);
-      pubMap.get(pub).push(comic);
-    }
-    return [...pubMap.keys()].sort().map(pub => ({ publisher: pub, series: pubMap.get(pub) }));
-  }, [series, showPublisherColumn]);
-
+// Vertical issue list for the group detail page: one row per owned issue —
+// cover thumbnail, issue number + name, and cover date — with each series'
+// title spanning down over its own rows. Clicking a row opens the full issue
+// detail modal (writers, characters, description, etc. — fetched on demand
+// by onOpenIssue).
+function IssueList({ series, onOpenIssue }) {
   if (!series?.length) {
     return <span className="group-no-series">No series recorded</span>;
   }
 
   return (
-    <table className="series-table">
+    <table className="issues-table">
       <thead>
         <tr>
-          {showPublisherColumn && <th className="col-series-publisher">Publisher</th>}
-          <th className="col-series-title">Title</th>
-          <th className="col-series-issues">Issues</th>
+          <th className="col-issue-title">Title</th>
+          <th className="col-issue-cover">Cover</th>
+          <th className="col-issue-info">Issue</th>
+          <th className="col-issue-date">Date</th>
         </tr>
       </thead>
       <tbody>
-        {publisherGroups.flatMap(({ publisher, series: pubSeries }, pgIdx) =>
-          pubSeries.map((comic, idx) => (
-            <tr
-              key={comic.id}
-              className={`series-row${showPublisherColumn && idx === 0 && pgIdx > 0 ? ' pub-group-start' : ''}`}
-            >
-              {showPublisherColumn && idx === 0 && (
-                <td className="col-series-publisher" rowSpan={pubSeries.length}>
-                  <span className="publisher-label">{publisher || '—'}</span>
+        {series.flatMap((comic, sIdx) => {
+          const issues = comic.issues || [];
+          const titleCell = (
+            <td className="col-issue-title" rowSpan={Math.max(issues.length, 1)}>
+              <span className="series-title-label">{comic.title}</span>
+              {comic.volume && <span className="series-volume"> Vol. {comic.volume}</span>}
+            </td>
+          );
+
+          if (!issues.length) {
+            return (
+              <tr key={comic.id} className={`issue-row${sIdx > 0 ? ' series-group-start' : ''}`}>
+                {titleCell}
+                <td className="col-issue-cover" colSpan={3}>
+                  <span className="group-no-series">No issues recorded</span>
                 </td>
-              )}
-              <td className="col-series-title">
-                <button
-                  className="series-title-btn"
-                  onClick={() => onOpenSeries(comic.id)}
-                  disabled={!comic.issues?.length}
-                >
-                  {comic.title}
-                </button>
-                {comic.volume && (
-                  <span className="series-volume"> Vol. {comic.volume}</span>
-                )}
+              </tr>
+            );
+          }
+
+          return issues.map((issue, idx) => (
+            <tr
+              key={issue.id}
+              className={`issue-row issue-row-clickable${idx === 0 && sIdx > 0 ? ' series-group-start' : ''}`}
+              onClick={() => onOpenIssue(comic.id, issue.issue_number)}
+              tabIndex={0}
+              role="button"
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onOpenIssue(comic.id, issue.issue_number);
+                }
+              }}
+            >
+              {idx === 0 && titleCell}
+              <td className="col-issue-cover">
+                <div className="issue-list-cover">
+                  {issue.cover_image
+                    ? <img src={issue.cover_image} alt={`#${issue.issue_number}`} loading="lazy" />
+                    : <span className="issue-list-placeholder">#{issue.issue_number}</span>
+                  }
+                </div>
               </td>
-              <td className="col-series-issues">
-                {comic.issues?.length > 0 ? (
-                  <span className="issue-nums">
-                    {comic.issues.map((issueNum, i) => (
-                      <span key={issueNum} className="issue-num-wrap">
-                        {i > 0 && <span className="issue-sep">, </span>}
-                        <button
-                          className="issue-num-btn"
-                          onClick={() => onOpenIssue(comic.id, issueNum)}
-                        >
-                          {issueNum}
-                        </button>
-                      </span>
-                    ))}
-                  </span>
-                ) : (
-                  <span className="data-empty">—</span>
-                )}
+              <td className="col-issue-info">
+                #{issue.issue_number}{issue.name ? ` — ${issue.name}` : ''}
+              </td>
+              <td className="col-issue-date">
+                <span className="issue-list-date">{formatCoverDate(issue.cover_date) || '—'}</span>
               </td>
             </tr>
-          ))
-        )}
+          ));
+        })}
       </tbody>
     </table>
   );
@@ -435,10 +433,8 @@ const ComicBooks = () => {
                       </p>
                     )}
                     <div className="group-detail-table">
-                      <SeriesTable
+                      <IssueList
                         series={section.series}
-                        showPublisherColumn={!isMulti}
-                        onOpenSeries={openSeries}
                         onOpenIssue={openIssueFromTable}
                       />
                     </div>

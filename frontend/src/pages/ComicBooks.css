@@ -268,15 +268,19 @@
   font-size: 0.875rem;
 }
 
-/* ── Series table ────────────────────────────────────────────────────────── */
+/* ── Issue list (group detail) ───────────────────────────────────────────────
+   One row per owned issue; each series' title spans down over its own rows
+   (same rowSpan technique the old publisher column used). Cover/date cells
+   reuse .issue-list-cover / .issue-list-placeholder / .issue-list-date,
+   shared with the series/issue modals, for visual consistency. */
 
-.series-table {
+.issues-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
 }
 
-.series-table thead th {
+.issues-table thead th {
   text-align: left;
   padding: 0.5rem 0.85rem;
   color: var(--text-secondary);
@@ -289,68 +293,41 @@
   white-space: nowrap;
 }
 
-.series-row {
-  border-bottom: 1px solid var(--border-color);
-}
+.issue-row { border-bottom: 1px solid var(--border-color); }
+.issue-row:last-child { border-bottom: none; }
 
-.series-row:last-child { border-bottom: none; }
-
-.series-row td {
+.issue-row td {
   padding: 0.55rem 0.85rem;
-  vertical-align: top;
+  vertical-align: middle;
   line-height: 1.5;
 }
 
-.col-series-publisher { width: 130px; min-width: 90px; }
-.col-series-title { min-width: 140px; }
-.col-series-issues { min-width: 90px; text-align: right; }
-
-.series-table thead th.col-series-issues { text-align: right; }
-
-.col-series-publisher {
-  vertical-align: middle;
-  border-right: 1px solid var(--border-color);
-  padding: 0.55rem 0.7rem !important;
-  background: var(--bg-secondary);
+.issue-row-clickable {
+  cursor: pointer;
+  transition: background 0.12s ease;
 }
 
-.publisher-label {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  font-weight: 500;
-  text-align: center;
-  word-break: break-word;
+.issue-row-clickable:hover { background: var(--bg-secondary); }
+
+.issue-row-clickable:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: -2px;
 }
 
-/* Thicker top border between publisher groups */
-.series-row.pub-group-start td {
+/* Thicker top border between series groups */
+.issue-row.series-group-start td {
   border-top: 2px solid var(--border-color);
 }
 
-.series-title-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  color: var(--text-primary);
+.col-issue-title {
+  width: 200px;
+  min-width: 140px;
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.series-title-label {
   font-weight: 500;
-  font-size: inherit;
-  cursor: pointer;
-  text-align: left;
-  transition: color 0.15s ease;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 2px;
-}
-
-.series-title-btn:hover {
-  color: var(--accent-primary);
-  text-decoration-color: var(--accent-primary);
-}
-
-.series-title-btn:disabled {
-  cursor: default;
-  text-decoration: none;
   color: var(--text-primary);
 }
 
@@ -359,45 +336,17 @@
   font-size: 0.8rem;
 }
 
-/* Issue numbers in table cell */
-.issue-nums {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.1rem 0;
-  line-height: 1.6;
+.col-issue-cover {
+  width: 72px;
+  padding: 0 !important;
 }
 
-.issue-num-wrap {
-  display: inline;
-}
+.col-issue-info { min-width: 160px; color: var(--text-primary); }
 
-.issue-sep {
+.col-issue-date {
+  width: 110px;
+  white-space: nowrap;
   color: var(--text-secondary);
-}
-
-.issue-num-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  color: var(--accent-primary);
-  font-family: monospace;
-  font-size: 0.82rem;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-  text-decoration: underline;
-  text-decoration-color: transparent;
-  text-underline-offset: 2px;
-}
-
-.issue-num-btn:hover {
-  opacity: 0.75;
-  text-decoration-color: var(--accent-primary);
-}
-
-.data-empty {
-  color: var(--text-secondary);
-  opacity: 0.35;
 }
 
 /* ── Universal search results ────────────────────────────────────────────── */
@@ -915,7 +864,8 @@
   .group-hero { height: 200px; }
   .group-header-name { font-size: 1.5rem; }
 
-  .col-series-publisher { display: none; }
+  .col-issue-date { display: none; }
+  .col-issue-title { width: 110px; min-width: 90px; font-size: 0.8rem; }
 
   .issue-detail-body { flex-direction: column; gap: 1rem; padding: 1rem; }
   .issue-detail-cover,

@@ -177,7 +177,11 @@ export async function getGroups(req, res) {
   }
 }
 
-// GET /comics/groups/:id — one group with its series (issue number arrays)
+// GET /comics/groups/:id — one group with its series, each carrying enough
+// per-issue detail (cover, name, date) to render a full issue list directly
+// on the group detail page without a per-series round trip. Full metadata
+// (writers, characters, description, etc.) still requires GET /comics/:id —
+// the group detail page's issue modal fetches that on click.
 export async function getGroupById(req, res) {
   try {
     const { rows } = await pool.query(`
@@ -198,7 +202,13 @@ export async function getGroupById(req, res) {
               'artists',       s.artists,
               'issues', (
                 SELECT COALESCE(json_agg(
-                  i.issue_number ORDER BY
+                  json_build_object(
+                    'id',           i.id,
+                    'issue_number', i.issue_number,
+                    'name',         i.name,
+                    'cover_date',   i.cover_date,
+                    'cover_image',  i.cover_image
+                  ) ORDER BY
                     CASE WHEN i.issue_number ~ '^[0-9]+$' THEN i.issue_number::integer END NULLS LAST,
                     i.issue_number
                 ), '[]'::json)
