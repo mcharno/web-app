@@ -20,6 +20,18 @@ function stripHtml(html) {
     .trim();
 }
 
+// A short excerpt of an issue's description for the group detail list: HTML
+// stripped, cut to roughly a few sentences' worth of characters, truncated at
+// a whole word (never mid-word) with an ellipsis appended when it's cut.
+export function truncateDescription(html, maxChars = 200) {
+  const text = stripHtml(html);
+  if (!text) return null;
+  if (text.length <= maxChars) return text;
+  const cut = text.slice(0, maxChars);
+  const lastSpace = cut.lastIndexOf(' ');
+  return `${(lastSpace > 0 ? cut.slice(0, lastSpace) : cut).trim()}…`;
+}
+
 // Which metadata fields of an issue matched the query — shown as a hint chip
 // on universal search results ("matched character: Venom").
 function matchedFields(issue, q) {
@@ -102,9 +114,9 @@ function IssueList({ series, onOpenIssue }) {
       <thead>
         <tr>
           <th className="col-issue-title">Title</th>
-          <th className="col-issue-cover">Cover</th>
-          <th className="col-issue-info">Issue</th>
+          <th className="col-issue-header" colSpan={2}>Issue</th>
           <th className="col-issue-date">Date</th>
+          <th className="col-issue-desc">Description</th>
         </tr>
       </thead>
       <tbody>
@@ -121,44 +133,50 @@ function IssueList({ series, onOpenIssue }) {
             return (
               <tr key={comic.id} className={`issue-row${sIdx > 0 ? ' series-group-start' : ''}`}>
                 {titleCell}
-                <td className="col-issue-cover" colSpan={3}>
+                <td className="col-issue-cover" colSpan={4}>
                   <span className="group-no-series">No issues recorded</span>
                 </td>
               </tr>
             );
           }
 
-          return issues.map((issue, idx) => (
-            <tr
-              key={issue.id}
-              className={`issue-row issue-row-clickable${idx === 0 && sIdx > 0 ? ' series-group-start' : ''}`}
-              onClick={() => onOpenIssue(comic.id, issue.issue_number)}
-              tabIndex={0}
-              role="button"
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  onOpenIssue(comic.id, issue.issue_number);
-                }
-              }}
-            >
-              {idx === 0 && titleCell}
-              <td className="col-issue-cover">
-                <div className="issue-list-cover">
-                  {issue.cover_image
-                    ? <img src={issue.cover_image} alt={`#${issue.issue_number}`} loading="lazy" />
-                    : <span className="issue-list-placeholder">#{issue.issue_number}</span>
+          return issues.map((issue, idx) => {
+            const excerpt = truncateDescription(issue.description);
+            return (
+              <tr
+                key={issue.id}
+                className={`issue-row issue-row-clickable${idx === 0 && sIdx > 0 ? ' series-group-start' : ''}`}
+                onClick={() => onOpenIssue(comic.id, issue.issue_number)}
+                tabIndex={0}
+                role="button"
+                onKeyDown={e => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onOpenIssue(comic.id, issue.issue_number);
                   }
-                </div>
-              </td>
-              <td className="col-issue-info">
-                #{issue.issue_number}{issue.name ? ` — ${issue.name}` : ''}
-              </td>
-              <td className="col-issue-date">
-                <span className="issue-list-date">{formatCoverDate(issue.cover_date) || '—'}</span>
-              </td>
-            </tr>
-          ));
+                }}
+              >
+                {idx === 0 && titleCell}
+                <td className="col-issue-cover">
+                  <div className="issue-list-cover">
+                    {issue.cover_image
+                      ? <img src={issue.cover_image} alt={`#${issue.issue_number}`} loading="lazy" />
+                      : <span className="issue-list-placeholder">#{issue.issue_number}</span>
+                    }
+                  </div>
+                </td>
+                <td className="col-issue-info">
+                  #{issue.issue_number}{issue.name ? ` — ${issue.name}` : ''}
+                </td>
+                <td className="col-issue-date">
+                  <span className="issue-list-date">{formatCoverDate(issue.cover_date) || '—'}</span>
+                </td>
+                <td className="col-issue-desc">
+                  {excerpt && <span className="issue-desc-text">{excerpt}</span>}
+                </td>
+              </tr>
+            );
+          });
         })}
       </tbody>
     </table>
