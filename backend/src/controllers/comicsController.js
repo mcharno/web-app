@@ -178,10 +178,11 @@ export async function getGroups(req, res) {
 }
 
 // GET /comics/groups/:id — one group with its series, each carrying enough
-// per-issue detail (cover, name, date) to render a full issue list directly
-// on the group detail page without a per-series round trip. Full metadata
-// (writers, characters, description, etc.) still requires GET /comics/:id —
-// the group detail page's issue modal fetches that on click.
+// per-issue detail (cover, name, date, description) to render a full issue
+// list directly on the group detail page without a per-series round trip.
+// Everything else (writers, characters, locations, story arcs, etc.) still
+// requires GET /comics/:id — the group detail page's issue modal fetches
+// that on click.
 export async function getGroupById(req, res) {
   try {
     const { rows } = await pool.query(`
@@ -207,7 +208,8 @@ export async function getGroupById(req, res) {
                     'issue_number', i.issue_number,
                     'name',         i.name,
                     'cover_date',   i.cover_date,
-                    'cover_image',  i.cover_image
+                    'cover_image',  i.cover_image,
+                    'description',  i.description
                   ) ORDER BY
                     CASE WHEN i.issue_number ~ '^[0-9]+$' THEN i.issue_number::integer END NULLS LAST,
                     i.issue_number

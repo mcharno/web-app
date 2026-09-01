@@ -336,6 +336,11 @@
   font-size: 0.8rem;
 }
 
+/* Header label for the merged Cover+Issue-info span — left-aligned (the
+   default for .issues-table thead th) so "Issue" sits over the cover image,
+   the left side of the span, rather than centered across both columns. */
+.col-issue-header { white-space: nowrap; }
+
 .col-issue-cover {
   width: 72px;
   padding: 0 !important;
@@ -347,6 +352,24 @@
   width: 110px;
   white-space: nowrap;
   color: var(--text-secondary);
+}
+
+.col-issue-desc {
+  min-width: 200px;
+  max-width: 380px;
+  color: var(--text-secondary);
+}
+
+/* Clamped to 3 lines so a long description never dominates the row; the
+   character truncation in truncateDescription() is the primary limit, this
+   is a layout safety net for narrower columns/longer words. */
+.issue-desc-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 /* ── Universal search results ────────────────────────────────────────────── */
@@ -865,6 +888,7 @@
   .group-header-name { font-size: 1.5rem; }
 
   .col-issue-date { display: none; }
+  .col-issue-desc { display: none; }
   .col-issue-title { width: 110px; min-width: 90px; font-size: 0.8rem; }
 
   .issue-detail-body { flex-direction: column; gap: 1rem; padding: 1rem; }
