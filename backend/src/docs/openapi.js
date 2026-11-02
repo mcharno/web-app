@@ -103,6 +103,8 @@ const spec = {
           screenshots: { type: 'array', items: { type: 'string' } },
           tags:        { type: 'array', items: { type: 'string' } },
           hidden:      { type: 'boolean' },
+          box_art_hidden:     { type: 'boolean', description: 'box_art_url is returned as null unless include_hidden_art=true.' },
+          screenshots_hidden: { type: 'boolean', description: 'screenshots is returned empty unless include_hidden_art=true.' },
         },
       },
     },
@@ -498,6 +500,7 @@ const spec = {
           { name: 'console', in: 'query', schema: { type: 'string' }, description: 'Filter by console.' },
           { name: 'search',  in: 'query', schema: { type: 'string' }, description: 'Search by title.' },
           { name: 'tags',    in: 'query', schema: { type: 'array', items: { type: 'string' } }, description: 'Filter by tags (repeated param: tags=A&tags=B).' },
+          { name: 'include_hidden_art', in: 'query', schema: { type: 'boolean' }, description: 'Return art flagged box_art_hidden or screenshots_hidden instead of omitting it.' },
         ],
         responses: { 200: { description: 'Array of ROM entries.' } },
       },
@@ -508,6 +511,7 @@ const spec = {
         summary: 'Get a ROM by ID',
         parameters: [
           { name: 'id', in: 'path', required: true, schema: { type: 'integer' } },
+          { name: 'include_hidden_art', in: 'query', schema: { type: 'boolean' }, description: 'Return art flagged box_art_hidden or screenshots_hidden instead of omitting it.' },
         ],
         responses: {
           200: { description: 'ROM object.', content: { 'application/json': { schema: { '$ref': '#/components/schemas/Rom' } } } },
@@ -531,7 +535,7 @@ const spec = {
       patch: {
         tags: ['ROMs'],
         summary: 'Update ROM metadata (partial)',
-        description: 'Accepts any combination of: title, description, year, box_art_url, screenshots, tags, display_order, hidden.',
+        description: 'Accepts any combination of: title, description, year, box_art_url, screenshots, tags, display_order, hidden, box_art_hidden, screenshots_hidden.',
         security: [{ bearerAuth: [] }],
         parameters: [
           { name: 'id', in: 'path', required: true, schema: { type: 'integer' } },

@@ -14,6 +14,7 @@ import romRoutes from './routes/romRoutes.js';
 import berbatisRoutes from './routes/berbatisRoutes.js';
 import comicsRoutes from './routes/comicsRoutes.js';
 import { initSchema as initComicsSchema } from './controllers/comicsController.js';
+import { initSchema as initRomsSchema } from './controllers/romController.js';
 import docsRoutes from './routes/docsRoutes.js';
 import { metricsMiddleware, metricsHandler } from './middleware/metrics.js';
 import { requireApiKey } from './middleware/auth.js';
@@ -98,6 +99,7 @@ app.use((err, req, res, next) => {
 });
 
 initComicsSchema().catch(err => console.error('[comics] schema init failed:', err));
+initRomsSchema().catch(err => console.error('[roms] schema init failed:', err));
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);

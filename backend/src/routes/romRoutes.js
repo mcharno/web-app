@@ -30,10 +30,10 @@ router.post('/merge-by-title', romController.mergeByTitle);
 // Optional query param: ?console=genesis
 router.post('/split-mismerged', romController.splitMismerged);
 
-// List all games (query: console, search, tags)
+// List all games (query: console, search, tags, include_hidden_art)
 router.get('/', romController.listGames);
 
-// Get single game by id
+// Get single game by id (query: include_hidden_art)
 router.get('/:id', romController.getGameById);
 
 // Update game metadata
@@ -54,7 +54,7 @@ router.post('/:id/debug-scrape', romController.debugScrapeGame);
 // Auto-scrape via IGDB (Twitch OAuth, instant access)
 router.post('/:id/auto-scrape-igdb', romController.igdbScrapeGame);
 
-// Partial update (any combination of: title, description, year, box_art_url, screenshots, tags, display_order, hidden)
+// Partial update (any combination of: title, description, year, box_art_url, screenshots, tags, display_order, hidden, box_art_hidden, screenshots_hidden)
 router.patch('/:id', romController.patchGame);
 
 export default router;
