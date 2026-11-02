@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import pool from '../config/database.js';
+import { applyArtVisibility } from '../utils/romImageFilter.js';
 
 const ROMS_DIR = process.env.ROMS_DIR || null;
 const ROM_IMAGES_DIR = process.env.ROM_IMAGES_DIR || null;
@@ -38,9 +39,38 @@ function titleKey(raw) {
   return key || raw.replace(/\.[^/.]+$/, '');          // fallback: filename without ext
 }
 
+// Additive migration. The flags are seeded only when the columns are first
+// created, so a game unhidden later via PATCH stays unhidden across restarts.
+export async function initSchema() {
+  await pool.query(`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'rom_games' AND column_name = 'box_art_hidden'
+      ) THEN
+        ALTER TABLE rom_games
+          ADD COLUMN box_art_hidden     BOOLEAN NOT NULL DEFAULT false,
+          ADD COLUMN screenshots_hidden BOOLEAN NOT NULL DEFAULT false;
+
+        UPDATE rom_games SET box_art_hidden = true
+        WHERE console = 'arcade' AND title_key IN (
+          'FANTASIA', 'FANTSIA2', 'GALSPNBL', 'GUMBO', 'HOTPINBL', 'MISSW96', 'ZEROZONE'
+        );
+
+        UPDATE rom_games SET screenshots_hidden = true
+        WHERE console = 'arcade' AND title_key IN (
+          'FANTSIA2', 'FANTSY95', 'GALPANIC', 'GUMBO', 'HOTPINBL', 'ZEROZONE'
+        );
+      END IF;
+    END $$;
+  `);
+  console.log('[roms] schema ready');
+}
+
 export const listGames = async (req, res) => {
   try {
-    const { console: consoleName, search, tags, no_art, exclude_console, sort, page = 1, limit = 60 } = req.query;
+    const { console: consoleName, search, tags, no_art, exclude_console, include_hidden_art, sort, page = 1, limit = 60 } = req.query;
 
     const pageNum = Math.max(1, parseInt(page) || 1);
     const limitNum = Math.min(1000, Math.max(1, parseInt(limit) || 60));
@@ -99,7 +129,7 @@ export const listGames = async (req, res) => {
       : (SORT_OPTIONS[sort] || 'display_order ASC, title ASC NULLS LAST');
 
     const dataResult = await pool.query(
-      `SELECT id, title_key, filenames, console, title, year, box_art_url, tags
+      `SELECT id, title_key, filenames, console, title, year, box_art_url, tags, box_art_hidden, screenshots_hidden
        FROM rom_games ${where}
        ORDER BY ${orderBy}
        LIMIT $${paramIndex} OFFSET $${paramIndex + 1}`,
@@ -107,7 +137,7 @@ export const listGames = async (req, res) => {
     );
 
     res.json({
-      games: dataResult.rows,
+      games: dataResult.rows.map(game => applyArtVisibility(game, include_hidden_art === 'true')),
       total,
       page: pageNum,
       limit: limitNum,
@@ -156,7 +186,7 @@ export const getGameById = async (req, res) => {
       return res.status(404).json({ error: 'Game not found' });
     }
 
-    res.json(result.rows[0]);
+    res.json(applyArtVisibility(result.rows[0], req.query.include_hidden_art === 'true'));
   } catch (error) {
     console.error('Error fetching ROM game:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -772,8 +802,12 @@ export const mergeGames = async (req, res) => {
     const allFilenames = [...new Set(rows.flatMap(r => Array.isArray(r.filenames) ? r.filenames : []))].sort();
 
     const updated = await pool.query(
-      `UPDATE rom_games SET filenames = $1::jsonb WHERE id = $2 RETURNING *`,
-      [JSON.stringify(allFilenames), winner.id]
+      `UPDATE rom_games SET
+         filenames = $1::jsonb,
+         box_art_hidden = (SELECT bool_or(box_art_hidden) FROM rom_games WHERE id = ANY($3)),
+         screenshots_hidden = (SELECT bool_or(screenshots_hidden) FROM rom_games WHERE id = ANY($3))
+       WHERE id = $2 RETURNING *`,
+      [JSON.stringify(allFilenames), winner.id, ids]
     );
 
     const loserIds = rows.map(r => r.id).filter(id => id !== winner.id);
@@ -838,8 +872,12 @@ export const mergeByTitle = async (req, res) => {
 
       // Write merged filenames onto the winner
       await pool.query(
-        `UPDATE rom_games SET filenames = $1::jsonb WHERE id = $2`,
-        [JSON.stringify(allFilenames), winnerId]
+        `UPDATE rom_games SET
+           filenames = $1::jsonb,
+           box_art_hidden = (SELECT bool_or(box_art_hidden) FROM rom_games WHERE id = ANY($3)),
+           screenshots_hidden = (SELECT bool_or(screenshots_hidden) FROM rom_games WHERE id = ANY($3))
+         WHERE id = $2`,
+        [JSON.stringify(allFilenames), winnerId, ids]
       );
 
       // Delete the losers
@@ -887,11 +925,11 @@ export const splitGame = async (req, res) => {
       const key = titleKey(filename);
       try {
         const result = await pool.query(
-          `INSERT INTO rom_games (console, title_key, filenames, available)
-           VALUES ($1, $2, $3::jsonb, $4)
+          `INSERT INTO rom_games (console, title_key, filenames, available, box_art_hidden, screenshots_hidden)
+           VALUES ($1, $2, $3::jsonb, $4, $5, $6)
            ON CONFLICT (console, title_key) DO NOTHING
            RETURNING id, console, title_key, filenames`,
-          [game.console, key, JSON.stringify([filename]), game.available]
+          [game.console, key, JSON.stringify([filename]), game.available, game.box_art_hidden, game.screenshots_hidden]
         );
         if (result.rows.length > 0) {
           created.push(result.rows[0]);
@@ -981,11 +1019,13 @@ export const splitMismerged = async (req, res) => {
           const result = await pool.query(
             `INSERT INTO rom_games
                (console, title_key, filenames, title, description, year,
-                box_art_url, screenshots, tags, available)
-             VALUES ($1, $2, $3::jsonb, $4, $5, $6, $7, $8::jsonb, $9::jsonb, $10)
+                box_art_url, screenshots, tags, available, box_art_hidden, screenshots_hidden)
+             VALUES ($1, $2, $3::jsonb, $4, $5, $6, $7, $8::jsonb, $9::jsonb, $10, $11, $12)
              ON CONFLICT (console, title_key) DO UPDATE SET
                filenames    = EXCLUDED.filenames,
-               available    = EXCLUDED.available
+               available    = EXCLUDED.available,
+               box_art_hidden     = rom_games.box_art_hidden OR EXCLUDED.box_art_hidden,
+               screenshots_hidden = rom_games.screenshots_hidden OR EXCLUDED.screenshots_hidden
              RETURNING id, console, title_key, filenames`,
             [
               game.console, key, JSON.stringify(fnames),
@@ -994,6 +1034,8 @@ export const splitMismerged = async (req, res) => {
               JSON.stringify(game.screenshots ?? []),
               JSON.stringify(game.tags ?? []),
               game.available,
+              game.box_art_hidden,
+              game.screenshots_hidden,
             ]
           );
           created.push(result.rows[0]);
@@ -1178,7 +1220,7 @@ export const debugScrapeGame = async (req, res) => {
   }
 };
 
-const PATCH_ALLOWED = new Set(['title', 'description', 'year', 'box_art_url', 'screenshots', 'tags', 'display_order', 'hidden']);
+const PATCH_ALLOWED = new Set(['title', 'description', 'year', 'box_art_url', 'screenshots', 'tags', 'display_order', 'hidden', 'box_art_hidden', 'screenshots_hidden']);
 const JSONB_FIELDS = new Set(['screenshots', 'tags']);
 
 export const patchGame = async (req, res) => {

@@ -108,6 +108,8 @@ CREATE TABLE IF NOT EXISTS rom_games (
   tags                JSONB         NOT NULL DEFAULT '[]',
   available           BOOLEAN       NOT NULL DEFAULT true,
   hidden              BOOLEAN       NOT NULL DEFAULT false,
+  box_art_hidden      BOOLEAN       NOT NULL DEFAULT false,
+  screenshots_hidden  BOOLEAN       NOT NULL DEFAULT false,
   display_order       INTEGER       NOT NULL DEFAULT 0,
   scrape_attempted_at TIMESTAMP WITH TIME ZONE,
   created_at          TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
