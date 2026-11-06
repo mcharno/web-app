@@ -9,11 +9,10 @@ metadata:
     # that does not exist in this namespace, so nginx served its fake
     # certificate for the host.
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare-prod
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
   - hosts:
     - charno.local.charn.io

@@ -6,10 +6,10 @@ metadata:
     app: web
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-cloudflare-prod
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
   - hosts:
     - charno.net
