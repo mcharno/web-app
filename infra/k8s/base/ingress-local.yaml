@@ -5,6 +5,10 @@ metadata:
   labels:
     app: web
   annotations:
+    # Own certificate: this Ingress referenced a charn-io-wildcard-tls secret
+    # that does not exist in this namespace, so nginx served its fake
+    # certificate for the host.
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
@@ -13,7 +17,7 @@ spec:
   tls:
   - hosts:
     - charno.local.charn.io
-    secretName: charn-io-wildcard-tls
+    secretName: charno-local-tls
   rules:
   - host: charno.local.charn.io
     http:
