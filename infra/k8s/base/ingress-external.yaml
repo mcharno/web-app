@@ -13,60 +13,11 @@ spec:
   tls:
   - hosts:
     - charno.net
-    - www.charno.net
     secretName: charno-net-wildcard-tls
   rules:
-  # Main domain
+  # Main domain. www.charno.net is a 301 to this host done at the Cloudflare
+  # edge (Redirect Rule), so it never reaches the cluster and has no route here.
   - host: charno.net
-    http:
-      paths:
-      # Backend API routes
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: charno-backend
-            port:
-              number: 3080
-      # Backend-served static assets (photos, ROM box art/screenshots)
-      - path: /images/photos
-        pathType: Prefix
-        backend:
-          service:
-            name: charno-backend
-            port:
-              number: 3080
-      - path: /images/roms
-        pathType: Prefix
-        backend:
-          service:
-            name: charno-backend
-            port:
-              number: 3080
-      - path: /images/berbatis
-        pathType: Prefix
-        backend:
-          service:
-            name: charno-backend
-            port:
-              number: 3080
-      - path: /images/comics
-        pathType: Prefix
-        backend:
-          service:
-            name: charno-backend
-            port:
-              number: 3080
-      # Frontend routes (catch-all)
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: charno-frontend
-            port:
-              number: 3000
-  # WWW subdomain
-  - host: www.charno.net
     http:
       paths:
       # Backend API routes

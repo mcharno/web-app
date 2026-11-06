@@ -45,7 +45,7 @@ web-app/
 
 | Environment | URL |
 |-------------|-----|
-| External | charno.net, www.charno.net |
+| External | charno.net (www.charno.net 301-redirects to it at the Cloudflare edge) |
 | Cluster backend | ClusterIP :3000 |
 | Cluster frontend | ClusterIP :80 (nginx) |
 
