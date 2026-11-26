@@ -132,3 +132,9 @@ footer p {
     gap: 1rem;
   }
 }
+
+/* The open mobile menu lives inside the header, so lift the whole header above
+   page content that sets its own z-index */
+.main-layout > header:has(.navigation.open) {
+  z-index: 2000;
+}
