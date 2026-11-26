@@ -20,15 +20,14 @@ jobs:
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run linter
-        run: yarn workspace backend lint || echo "Linter not configured, skipping..."
+        run: yarn workspace charno-backend lint || echo "Linter not configured, skipping..."
         continue-on-error: true
 
       - name: Run tests
-        run: yarn workspace backend test:ci
-        continue-on-error: true
+        run: yarn workspace charno-backend test:ci
 
   frontend-ci:
     name: Frontend Tests
@@ -45,7 +44,7 @@ jobs:
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Run linter
         run: yarn workspace frontend lint || echo "Linter not configured, skipping..."
@@ -53,7 +52,6 @@ jobs:
 
       - name: Run tests
         run: yarn workspace frontend test:ci
-        continue-on-error: true
 
       - name: Build
         run: yarn workspace frontend build
