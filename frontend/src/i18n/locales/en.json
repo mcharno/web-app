@@ -6,7 +6,9 @@
     "photos": "photos",
     "blog": "blog",
     "docs": "docs",
-    "cv": "cv"
+    "cv": "cv",
+    "open": "open menu",
+    "close": "close menu"
   },
   "home": {
     "title": "This is the new home of charno.net",
